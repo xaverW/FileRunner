@@ -232,7 +232,7 @@ public class GuiFileRunner extends AnchorPane {
             }
             File dir2 = new File(txtDir2.getText());
             if (!dir2.exists()) {
-                MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis1 existiert nicht!");
+                MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis2 existiert nicht!");
             } else {
                 progData.worker.readDir(dir2, fileDataList2, 1, true);
             }
