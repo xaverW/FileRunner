@@ -17,35 +17,32 @@
 
 package de.p2tools.fileRunner.controller.data.fileData;
 
-import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigString;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class FileDataProps {
 
     public static final String TAG = "FileData";
 
-    private String file = "";
+    private int nr = 0;
+    private String fileName = "";
     private String hash = "";
 
     public String getTag() {
         return TAG;
     }
 
-    public ArrayList<Config> getConfigsArr() {
-        return new ArrayList<>(Arrays.asList(
-                new ConfigString("file", "", file),
-                new ConfigString("hash", "", hash)));
+    public int getNr() {
+        return nr;
     }
 
-    public String getFile() {
-        return file;
+    public void setNr(int nr) {
+        this.nr = nr;
     }
 
-    public void setFile(String file) {
-        this.file = file;
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getHash() {

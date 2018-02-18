@@ -38,6 +38,7 @@ public class ProgQuitt {
 
     private void writeTabSettings() {
         // Tabelleneinstellungen merken
+        progData.guiFileRunner.saveTable();
     }
 
     /**

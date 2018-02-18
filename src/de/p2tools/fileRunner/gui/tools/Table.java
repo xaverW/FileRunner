@@ -24,8 +24,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 public class Table {
-    public static enum TABLE {
-        CHANGE_THUMB
+    public enum TABLE {
+        FILELIST1, FILELIST2
     }
 
     private static final String SORT_ASCENDING = "ASCENDING";
@@ -51,12 +51,20 @@ public class Table {
     private void initConf(TABLE eTable) {
         switch (eTable) {
 
-            case CHANGE_THUMB:
-                confWidth = ProgConfig.CHANGE_THUMB_GUI_TABLE_WIDTH;
-                confSort = ProgConfig.CHANGE_THUMB_GUI_TABLE_SORT;
-                confUpDown = ProgConfig.CHANGE_THUMB_GUI_TABLE_UPDOWN;
-                confVis = ProgConfig.CHANGE_THUMB_GUI_TABLE_VIS;
-                confOrder = ProgConfig.CHANGE_THUMB_GUI_TABLE_ORDER;
+            case FILELIST1:
+                confWidth = ProgConfig.GUI_FILERUNNER_TABLE1_WIDTH;
+                confSort = ProgConfig.GUI_FILERUNNER_TABLE1_SORT;
+                confUpDown = ProgConfig.GUI_FILERUNNER_TABLE1_UPDOWN;
+                confVis = ProgConfig.GUI_FILERUNNER_TABLE1_VIS;
+                confOrder = ProgConfig.GUI_FILERUNNER_TABLE1_ORDER;
+                break;
+
+            case FILELIST2:
+                confWidth = ProgConfig.GUI_FILERUNNER_TABLE2_WIDTH;
+                confSort = ProgConfig.GUI_FILERUNNER_TABLE2_SORT;
+                confUpDown = ProgConfig.GUI_FILERUNNER_TABLE2_UPDOWN;
+                confVis = ProgConfig.GUI_FILERUNNER_TABLE2_VIS;
+                confOrder = ProgConfig.GUI_FILERUNNER_TABLE2_ORDER;
                 break;
 
         }
@@ -64,8 +72,9 @@ public class Table {
 
     private void initColumn(TABLE eTable, TableView<Data> table) {
         switch (eTable) {
-            case CHANGE_THUMB:
-//                tArray = new TableChangeThumb().initDownloadColumn(table);
+            case FILELIST1:
+            case FILELIST2:
+                tArray = new TableFileList().initFileRunnerColumn(table);
                 break;
 
         }
@@ -140,8 +149,9 @@ public class Table {
         maxSpalten = ta.getColumns().size();
         switch (eTable) {
 
-            case CHANGE_THUMB:
-                resetChangeThumb();
+            case FILELIST1:
+            case FILELIST2:
+                resetGuiFileRunner();
                 break;
 
         }
@@ -274,7 +284,7 @@ public class Table {
         return arr;
     }
 
-    private void resetChangeThumb() {
+    private void resetGuiFileRunner() {
         String[] visArray = new String[maxSpalten];
         String set = "";
 

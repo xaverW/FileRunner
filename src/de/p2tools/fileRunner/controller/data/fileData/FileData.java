@@ -20,7 +20,7 @@ package de.p2tools.fileRunner.controller.data.fileData;
 public class FileData extends FileDataProps {
 
     public FileData(String file, String hash) {
-        setFile(file);
+        setFileName(file);
         setHash(hash);
     }
 }

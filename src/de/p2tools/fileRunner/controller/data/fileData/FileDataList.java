@@ -17,8 +17,31 @@
 
 package de.p2tools.fileRunner.controller.data.fileData;
 
-import java.util.LinkedList;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 
-public class FileDataList extends LinkedList<FileData> {
+import java.util.ArrayList;
 
+public class FileDataList extends SimpleListProperty<FileData> {
+    private int nr = 1;
+
+    public FileDataList() {
+        super(FXCollections.observableArrayList());
+    }
+
+    public void clear() {
+        nr = 1;
+        super.clear();
+    }
+
+    public synchronized boolean add(FileData fileData) {
+        fileData.setNr(nr++);
+        return super.add(fileData);
+    }
+
+
+    public synchronized boolean addAll(ArrayList<FileData> d) {
+        d.forEach(fileData -> fileData.setNr(nr++));
+        return super.addAll(d);
+    }
 }

@@ -180,7 +180,7 @@ public class GetHash {
                 while (it.hasNext()) {
                     fileData = it.next();
                     out.write(fileData.getHash() + " " +
-                            "*" + fileData.getFile() + "\n");
+                            "*" + fileData.getFileName() + "\n");
                 }
                 out.flush();
             } catch (Exception ex) {
@@ -297,6 +297,7 @@ public class GetHash {
             File ret = null;
             if (file != null) {
                 listeFile.add(file);
+                System.out.println(file.getAbsolutePath());
                 ++max;
             } else {
                 ret = listeFile.poll();

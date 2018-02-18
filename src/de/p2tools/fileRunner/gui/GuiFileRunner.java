@@ -21,6 +21,7 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.gui.dialog.MTAlert;
+import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.tools.DirFileChooser;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -68,6 +69,9 @@ public class GuiFileRunner extends AnchorPane {
     private final Button btnRead1 = new Button("Verzeichnis lesen");
     private final Button btnRead2 = new Button("Verzeichnis lesen");
 
+    private final FileDataList fileDataList1 = new FileDataList();
+    private final FileDataList fileDataList2 = new FileDataList();
+
     private final ProgData progData;
 
     public GuiFileRunner() {
@@ -89,6 +93,7 @@ public class GuiFileRunner extends AnchorPane {
         scrollPane2.setContent(table2);
 
         initCont();
+        initTable();
         addListener();
         initData();
     }
@@ -196,23 +201,41 @@ public class GuiFileRunner extends AnchorPane {
         ProgConfig.GUI_FILERUNNER_WRITE_HASH2.getStringProperty().bind(txtWriteHash2.textProperty());
     }
 
+    public void saveTable() {
+        new Table().saveTable(table1, Table.TABLE.FILELIST1);
+        new Table().saveTable(table2, Table.TABLE.FILELIST2);
+    }
+
+    private void initTable() {
+        new Table().setTable(table1, Table.TABLE.FILELIST1);
+        new Table().setTable(table2, Table.TABLE.FILELIST2);
+
+        table1.setItems(fileDataList1);
+        table2.setItems(fileDataList2);
+    }
 
     private void addListener() {
         btnRead1.setOnAction(e -> {
             if (txtDir1.getText().isEmpty()) {
                 return;
             }
-
-            FileDataList fileDataList = new FileDataList();
             File dir1 = new File(txtDir1.getText());
-
             if (!dir1.exists()) {
                 MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis1 existiert nicht!");
             } else {
-                progData.worker.readDir(dir1, fileDataList, 1, true);
+                progData.worker.readDir(dir1, fileDataList1, 1, true);
             }
         });
         btnRead2.setOnAction(e -> {
+            if (txtDir2.getText().isEmpty()) {
+                return;
+            }
+            File dir2 = new File(txtDir2.getText());
+            if (!dir2.exists()) {
+                MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis1 existiert nicht!");
+            } else {
+                progData.worker.readDir(dir2, fileDataList2, 1, true);
+            }
         });
     }
 

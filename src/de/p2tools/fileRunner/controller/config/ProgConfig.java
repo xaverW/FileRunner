@@ -31,12 +31,18 @@ public class ProgConfig extends PConfig {
     // Fenstereinstellungen
     public static PConfigs SYSTEM_GROESSE_GUI = addNewKey("Groesse-Gui", "1000:900");
 
-    // GuiChangeThumb
-    public static PConfigs CHANGE_THUMB_GUI_TABLE_WIDTH = addNewKey("change-thumb-gui-table-width");
-    public static PConfigs CHANGE_THUMB_GUI_TABLE_SORT = addNewKey("change-thumb-gui-table-sort");
-    public static PConfigs CHANGE_THUMB_GUI_TABLE_UPDOWN = addNewKey("change-thumb-gui-table-upDown");
-    public static PConfigs CHANGE_THUMB_GUI_TABLE_VIS = addNewKey("change-thumb-gui-table-vis");
-    public static PConfigs CHANGE_THUMB_GUI_TABLE_ORDER = addNewKey("change-thumb-gui-table-order");
+    // GuiFileRunner
+    public static PConfigs GUI_FILERUNNER_TABLE1_WIDTH = addNewKey("gui-filerunner-table1-width");
+    public static PConfigs GUI_FILERUNNER_TABLE1_SORT = addNewKey("gui-filerunner-table1-sort");
+    public static PConfigs GUI_FILERUNNER_TABLE1_UPDOWN = addNewKey("gui-filerunner-table1-upDown");
+    public static PConfigs GUI_FILERUNNER_TABLE1_VIS = addNewKey("gui-filerunner-table1-vis");
+    public static PConfigs GUI_FILERUNNER_TABLE1_ORDER = addNewKey("gui-filerunner-table1-order");
+
+    public static PConfigs GUI_FILERUNNER_TABLE2_WIDTH = addNewKey("gui-filerunner-table2-width");
+    public static PConfigs GUI_FILERUNNER_TABLE2_SORT = addNewKey("gui-filerunner-table2-sort");
+    public static PConfigs GUI_FILERUNNER_TABLE2_UPDOWN = addNewKey("gui-filerunner-table2-upDown");
+    public static PConfigs GUI_FILERUNNER_TABLE2_VIS = addNewKey("gui-filerunner-table2-vis");
+    public static PConfigs GUI_FILERUNNER_TABLE2_ORDER = addNewKey("gui-filerunner-table2-order");
 
     public static PConfigs GUI_FILERUNNER_DIR1 = addNewKey("gui-filerunner-dir1");
     public static PConfigs GUI_FILERUNNER_DIR2 = addNewKey("gui-filerunner-dir2");
