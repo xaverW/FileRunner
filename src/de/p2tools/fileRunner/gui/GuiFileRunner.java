@@ -16,15 +16,22 @@
 
 package de.p2tools.fileRunner.gui;
 
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
+import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
+import de.p2tools.fileRunner.gui.dialog.MTAlert;
+import de.p2tools.p2Lib.tools.DirFileChooser;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+
+import java.io.File;
 
 public class GuiFileRunner extends AnchorPane {
 
@@ -45,12 +52,21 @@ public class GuiFileRunner extends AnchorPane {
     private final TextField txtWriteHash1 = new TextField("");
     private final TextField txtWriteHash2 = new TextField("");
 
+    private final RadioButton rb1Dir = new RadioButton("");
+    private final RadioButton rb1Hash = new RadioButton("");
+
+    private final RadioButton rb2Dir = new RadioButton("");
+    private final RadioButton rb2Hash = new RadioButton("");
+
     private final Button btnDir1 = new Button("");
     private final Button btnDir2 = new Button("");
     private final Button btnhash1 = new Button("");
     private final Button btnhash2 = new Button("");
     private final Button btnWriteHash1 = new Button();
     private final Button btnWriteHash2 = new Button();
+
+    private final Button btnRead1 = new Button("Verzeichnis lesen");
+    private final Button btnRead2 = new Button("Verzeichnis lesen");
 
     private final ProgData progData;
 
@@ -73,13 +89,21 @@ public class GuiFileRunner extends AnchorPane {
         scrollPane2.setContent(table2);
 
         initCont();
-
+        addListener();
+        initData();
     }
 
     public void isShown() {
     }
 
     private void initCont() {
+        ToggleGroup tg = new ToggleGroup();
+        rb1Dir.setSelected(true);
+        rb2Dir.setSelected(true);
+        tg.getToggles().addAll(rb1Dir, rb1Hash);
+        tg = new ToggleGroup();
+        tg.getToggles().addAll(rb2Dir, rb2Hash);
+
         btnDir1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnDir2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnhash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
@@ -87,19 +111,34 @@ public class GuiFileRunner extends AnchorPane {
         btnWriteHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnWriteHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
 
+        btnDir1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtDir1));
+        btnDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtDir2));
+        btnhash1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtHash1));
+        btnhash1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtHash2));
+        btnWriteHash1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
+        btnWriteHash2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
+
         HBox hBoxDir1 = new HBox(10);
-        hBoxDir1.getChildren().addAll(txtDir1, btnDir1);
+        hBoxDir1.getChildren().addAll(rb1Dir, txtDir1, btnDir1);
         HBox hBoxDir2 = new HBox(10);
-        hBoxDir2.getChildren().addAll(txtDir2, btnDir2);
+        hBoxDir2.getChildren().addAll(rb2Dir, txtDir2, btnDir2);
+
         HBox hBoxDir1Hash = new HBox(10);
-        hBoxDir1Hash.getChildren().addAll(txtHash1, btnhash1);
+        hBoxDir1Hash.getChildren().addAll(rb1Hash, txtHash1, btnhash1);
         HBox hBoxDir2Hash = new HBox(10);
-        hBoxDir2Hash.getChildren().addAll(txtHash2, btnhash2);
+        hBoxDir2Hash.getChildren().addAll(rb2Hash, txtHash2, btnhash2);
 
         HBox hBoxWriteHash1 = new HBox(10);
         hBoxWriteHash1.getChildren().addAll(txtWriteHash1, btnWriteHash1);
         HBox hBoxWriteHash2 = new HBox(10);
         hBoxWriteHash2.getChildren().addAll(txtWriteHash2, btnWriteHash2);
+
+        HBox hBoxRead1 = new HBox(10);
+        hBoxRead1.getChildren().addAll(btnRead1);
+        HBox hBoxRead2 = new HBox(10);
+        hBoxRead2.getChildren().addAll(btnRead2);
+        hBoxRead1.setAlignment(Pos.CENTER_RIGHT);
+        hBoxRead2.setAlignment(Pos.CENTER_RIGHT);
 
         txtDir1.setMaxWidth(Double.MAX_VALUE);
         txtDir2.setMaxWidth(Double.MAX_VALUE);
@@ -122,15 +161,60 @@ public class GuiFileRunner extends AnchorPane {
         VBox.setVgrow(scrollPane2, Priority.ALWAYS);
 
         vBox1.getChildren().addAll(new Label("Verzeichnis 1"), hBoxDir1,
-                new Label("Hashdatei"), hBoxDir1Hash, scrollPane1,
+                new Label("Hashdatei"), hBoxDir1Hash,
+                hBoxRead1,
+                scrollPane1,
                 new Label("Hashdatei schreiben"), hBoxWriteHash1);
 
         vBox2.getChildren().addAll(new Label("Verzeichnis 2"), hBoxDir2,
-                new Label("Hashdatei"), hBoxDir2Hash, scrollPane2,
+                new Label("Hashdatei"), hBoxDir2Hash,
+                hBoxRead2,
+                scrollPane2,
                 new Label("Hashdatei schreiben"), hBoxWriteHash2);
 
         splitPane.setOrientation(Orientation.HORIZONTAL);
         splitPane.getItems().addAll(vBox1, vBox2);
     }
+
+    private void initData() {
+        txtDir1.setText(ProgConfig.GUI_FILERUNNER_DIR1.get());
+        ProgConfig.GUI_FILERUNNER_DIR1.getStringProperty().bind(txtDir1.textProperty());
+
+        txtDir2.setText(ProgConfig.GUI_FILERUNNER_DIR2.get());
+        ProgConfig.GUI_FILERUNNER_DIR2.getStringProperty().bind(txtDir2.textProperty());
+
+        txtHash1.setText(ProgConfig.GUI_FILERUNNER_HASH1.get());
+        ProgConfig.GUI_FILERUNNER_HASH1.getStringProperty().bind(txtHash1.textProperty());
+
+        txtHash2.setText(ProgConfig.GUI_FILERUNNER_HASH2.get());
+        ProgConfig.GUI_FILERUNNER_HASH2.getStringProperty().bind(txtHash2.textProperty());
+
+        txtWriteHash1.setText(ProgConfig.GUI_FILERUNNER_WRITE_HASH1.get());
+        ProgConfig.GUI_FILERUNNER_WRITE_HASH1.getStringProperty().bind(txtWriteHash1.textProperty());
+
+        txtWriteHash2.setText(ProgConfig.GUI_FILERUNNER_WRITE_HASH2.get());
+        ProgConfig.GUI_FILERUNNER_WRITE_HASH2.getStringProperty().bind(txtWriteHash2.textProperty());
+    }
+
+
+    private void addListener() {
+        btnRead1.setOnAction(e -> {
+            if (txtDir1.getText().isEmpty()) {
+                return;
+            }
+
+            FileDataList fileDataList = new FileDataList();
+            File dir1 = new File(txtDir1.getText());
+
+            if (!dir1.exists()) {
+                MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis1 existiert nicht!");
+            } else {
+                progData.worker.readDir(dir1, fileDataList, 1, true);
+            }
+        });
+        btnRead2.setOnAction(e -> {
+        });
+    }
+
 
 }

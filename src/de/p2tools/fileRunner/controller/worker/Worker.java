@@ -20,26 +20,26 @@ package de.p2tools.fileRunner.controller.worker;
 import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.mosaikData.MosaikData;
-import de.p2tools.fileRunner.controller.worker.genMosaik.GenMosaik;
+import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import javax.swing.event.EventListenerList;
+import java.io.File;
 
 public class Worker {
     private final ProgData progData;
 
-    private final GenMosaik genMosaik;
+    private final GetHash getHash;
 
     private EventListenerList listeners = new EventListenerList();
     private BooleanProperty working = new SimpleBooleanProperty(false);
 
     public Worker(ProgData progData) {
         this.progData = progData;
-        genMosaik = new GenMosaik(progData);
+        getHash = new GetHash(progData);
 
-        genMosaik.addAdListener(new RunListener() {
+        getHash.addAdListener(new RunListener() {
             @Override
             public void ping(RunEvent runEvent) {
                 notifyEvent(runEvent);
@@ -63,12 +63,12 @@ public class Worker {
     }
 
     public void setStop() {
-        genMosaik.setStop();
+        getHash.setStop();
     }
 
-    public void createMosaik(MosaikData mosaikData) {
+    public void readDir(File dir, FileDataList fileDataList, int sumThreads, boolean recursiv) {
+        getHash.hashLesen(dir, fileDataList, sumThreads, recursiv);
     }
-
 
     private void notifyEvent(RunEvent runEvent) {
         working.setValue(!runEvent.nixLos());

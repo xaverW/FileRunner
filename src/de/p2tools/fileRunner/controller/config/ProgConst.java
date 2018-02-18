@@ -35,5 +35,6 @@ public class ProgConst {
     public static final String DIR_SEPARATOR = "<>";
 
     public static final String XML_START = "FileRunner";
+    public static final String HASH = "SHA1";
 
 }
