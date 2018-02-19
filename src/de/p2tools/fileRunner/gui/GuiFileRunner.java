@@ -72,9 +72,10 @@ public class GuiFileRunner extends AnchorPane {
     private final FileDataList fileDataList1 = new FileDataList();
     private final FileDataList fileDataList2 = new FileDataList();
 
-    private final Button btnSame = new Button("=");
-    private final Button btnOnly1 = new Button("<");
-    private final Button btnOnly2 = new Button(">");
+    private final Button btnAll = new Button("");
+    private final Button btnSame = new Button("");
+    private final Button btnOnly1 = new Button("");
+    private final Button btnOnly2 = new Button("");
 
     double orgX, orgDiv0, orgDiv1, orgSize;
     private final ProgData progData;
@@ -182,11 +183,17 @@ public class GuiFileRunner extends AnchorPane {
                 scrollPane2,
                 new Label("Hashdatei schreiben"), hBoxWriteHash2);
 
-        vBoxBtn.getChildren().addAll(btnSame, btnOnly1, btnOnly2);
-        vBoxBtn.setStyle("-fx-border-color: red;");
-        vBoxBtn.setMaxWidth(btnSame.getPrefWidth());
-        SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
+        vBoxBtn.setStyle("-fx-border-color: blue;");
+        vBoxBtn.setAlignment(Pos.CENTER);
+        vBoxBtn.setPadding(new Insets(10));
 
+        btnAll.setGraphic(new Icons().ICON_BUTTON_GUI_ALL);
+        btnSame.setGraphic(new Icons().ICON_BUTTON_GUI_SAME);
+        btnOnly1.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_1);
+        btnOnly2.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_2);
+        vBoxBtn.getChildren().addAll(btnAll, btnSame, btnOnly1, btnOnly2);
+
+        SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
         splitPane.getItems().addAll(vBox1, vBoxBtn, vBox2);
 
         vBoxBtn.setOnMousePressed(e -> {
@@ -195,6 +202,7 @@ public class GuiFileRunner extends AnchorPane {
             orgDiv1 = splitPane.getDividers().get(1).getPosition();
             orgSize = splitPane.getWidth();
         });
+
         vBoxBtn.setOnMouseDragged(e -> {
             double offsetX = e.getSceneX() - orgX;
             double move = offsetX / orgSize;

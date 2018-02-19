@@ -6,6 +6,9 @@
     -style-border-color-lbl: royalblue;
     -style-border-color-tab: cornflowerblue;
 }
+.split-pane > .split-pane-divider {
+    -fx-padding: 0 0 0 0;
+}
 .tab .tab-label {
     -fx-text-alignment: center;
     -fx-alignment: center ;
