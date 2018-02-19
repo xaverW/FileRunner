@@ -24,7 +24,6 @@ import de.p2tools.fileRunner.gui.dialog.MTAlert;
 import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.tools.DirFileChooser;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -40,6 +39,7 @@ public class GuiFileRunner extends AnchorPane {
 
     private final VBox vBox1 = new VBox(10);
     private final VBox vBox2 = new VBox(10);
+    private final VBox vBoxBtn = new VBox(10);
 
     private final ScrollPane scrollPane1 = new ScrollPane();
     private final ScrollPane scrollPane2 = new ScrollPane();
@@ -72,6 +72,11 @@ public class GuiFileRunner extends AnchorPane {
     private final FileDataList fileDataList1 = new FileDataList();
     private final FileDataList fileDataList2 = new FileDataList();
 
+    private final Button btnSame = new Button("=");
+    private final Button btnOnly1 = new Button("<");
+    private final Button btnOnly2 = new Button(">");
+
+    double orgX, orgDiv0, orgDiv1, orgSize;
     private final ProgData progData;
 
     public GuiFileRunner() {
@@ -177,9 +182,32 @@ public class GuiFileRunner extends AnchorPane {
                 scrollPane2,
                 new Label("Hashdatei schreiben"), hBoxWriteHash2);
 
-        splitPane.setOrientation(Orientation.HORIZONTAL);
-        splitPane.getItems().addAll(vBox1, vBox2);
+        vBoxBtn.getChildren().addAll(btnSame, btnOnly1, btnOnly2);
+        vBoxBtn.setStyle("-fx-border-color: red;");
+        vBoxBtn.setMaxWidth(btnSame.getPrefWidth());
+        SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
+
+        splitPane.getItems().addAll(vBox1, vBoxBtn, vBox2);
+
+        vBoxBtn.setOnMousePressed(e -> {
+            orgX = e.getSceneX();
+            orgDiv0 = splitPane.getDividers().get(0).getPosition();
+            orgDiv1 = splitPane.getDividers().get(1).getPosition();
+            orgSize = splitPane.getWidth();
+        });
+        vBoxBtn.setOnMouseDragged(e -> {
+            double offsetX = e.getSceneX() - orgX;
+            double move = offsetX / orgSize;
+
+            double ddiv0 = orgDiv0 + move;
+            double ddiv1 = orgDiv1 + move;
+
+            splitPane.getDividers().get(0).setPosition(ddiv0);
+            splitPane.getDividers().get(1).setPosition(ddiv1);
+
+        });
     }
+
 
     private void initData() {
         txtDir1.setText(ProgConfig.GUI_FILERUNNER_DIR1.get());
