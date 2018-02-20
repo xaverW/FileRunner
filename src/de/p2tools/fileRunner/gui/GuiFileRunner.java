@@ -19,7 +19,7 @@ package de.p2tools.fileRunner.gui;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
-import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
+import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
 import de.p2tools.fileRunner.gui.dialog.MTAlert;
 import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.tools.DirFileChooser;
@@ -30,6 +30,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 
 import java.io.File;
 
@@ -46,7 +47,7 @@ public class GuiFileRunner extends AnchorPane {
     private final TableView table1 = new TableView();
     private final TableView table2 = new TableView();
 
-    private final TextField txtDir1 = new TextField("");
+    private final ComboBox<ProjectData> cbDir1 = new ComboBox<>();
     private final TextField txtDir2 = new TextField("");
     private final TextField txtHash1 = new TextField("");
     private final TextField txtHash2 = new TextField("");
@@ -69,20 +70,18 @@ public class GuiFileRunner extends AnchorPane {
     private final Button btnRead1 = new Button("Verzeichnis lesen");
     private final Button btnRead2 = new Button("Verzeichnis lesen");
 
-    private final FileDataList fileDataList1 = new FileDataList();
-    private final FileDataList fileDataList2 = new FileDataList();
-
     private final Button btnAll = new Button("");
     private final Button btnSame = new Button("");
     private final Button btnOnly1 = new Button("");
     private final Button btnOnly2 = new Button("");
 
     double orgX, orgDiv0, orgDiv1, orgSize;
+
+    private ProjectData projectData = null;
     private final ProgData progData;
 
     public GuiFileRunner() {
         progData = ProgData.getInstance();
-
 
         AnchorPane.setLeftAnchor(splitPane, 0.0);
         AnchorPane.setBottomAnchor(splitPane, 0.0);
@@ -100,8 +99,9 @@ public class GuiFileRunner extends AnchorPane {
 
         initCont();
         initTable();
-        addListener();
         initData();
+        addListener();
+        selectProjectData();
     }
 
     public void isShown() {
@@ -122,7 +122,12 @@ public class GuiFileRunner extends AnchorPane {
         btnWriteHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnWriteHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
 
-        btnDir1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtDir1));
+        btnDir1.setOnAction(event -> {
+            String srcDir1 = DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, projectData.getSrcDir1());
+            ProjectData pd = getProjectData(srcDir1);
+            cbDir1.getSelectionModel().select(pd);
+        });
+
         btnDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtDir2));
         btnhash1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtHash1));
         btnhash1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtHash2));
@@ -130,7 +135,7 @@ public class GuiFileRunner extends AnchorPane {
         btnWriteHash2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
 
         HBox hBoxDir1 = new HBox(10);
-        hBoxDir1.getChildren().addAll(rb1Dir, txtDir1, btnDir1);
+        hBoxDir1.getChildren().addAll(rb1Dir, cbDir1, btnDir1);
         HBox hBoxDir2 = new HBox(10);
         hBoxDir2.getChildren().addAll(rb2Dir, txtDir2, btnDir2);
 
@@ -151,14 +156,14 @@ public class GuiFileRunner extends AnchorPane {
         hBoxRead1.setAlignment(Pos.CENTER_RIGHT);
         hBoxRead2.setAlignment(Pos.CENTER_RIGHT);
 
-        txtDir1.setMaxWidth(Double.MAX_VALUE);
+        cbDir1.setMaxWidth(Double.MAX_VALUE);
         txtDir2.setMaxWidth(Double.MAX_VALUE);
         txtHash1.setMaxWidth(Double.MAX_VALUE);
         txtHash2.setMaxWidth(Double.MAX_VALUE);
         txtWriteHash1.setMaxWidth(Double.MAX_VALUE);
         txtWriteHash2.setMaxWidth(Double.MAX_VALUE);
 
-        HBox.setHgrow(txtDir1, Priority.ALWAYS);
+        HBox.setHgrow(cbDir1, Priority.ALWAYS);
         HBox.setHgrow(txtDir2, Priority.ALWAYS);
         HBox.setHgrow(txtHash1, Priority.ALWAYS);
         HBox.setHgrow(txtHash2, Priority.ALWAYS);
@@ -188,9 +193,13 @@ public class GuiFileRunner extends AnchorPane {
         vBoxBtn.setPadding(new Insets(10));
 
         btnAll.setGraphic(new Icons().ICON_BUTTON_GUI_ALL);
+        btnAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
         btnSame.setGraphic(new Icons().ICON_BUTTON_GUI_SAME);
+        btnSame.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen sind."));
         btnOnly1.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_1);
+        btnOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in der Liste 1 sind."));
         btnOnly2.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_2);
+        btnOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 sind."));
         vBoxBtn.getChildren().addAll(btnAll, btnSame, btnOnly1, btnOnly2);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
@@ -216,63 +225,130 @@ public class GuiFileRunner extends AnchorPane {
         });
     }
 
+    private void initTable() {
+        new Table().setTable(table1, Table.TABLE.FILELIST1);
+        new Table().setTable(table2, Table.TABLE.FILELIST2);
+
+        table1.setItems(progData.fileDataList1.getSortedFileData());
+        table2.setItems(progData.fileDataList2.getSortedFileData());
+    }
 
     private void initData() {
-        txtDir1.setText(ProgConfig.GUI_FILERUNNER_DIR1.get());
-        ProgConfig.GUI_FILERUNNER_DIR1.getStringProperty().bind(txtDir1.textProperty());
+        cbDir1.setItems(progData.projectDataList);
+        try {
+            String srcDir1 = ProgConfig.GUI_FILERUNNER_DIR1.get();
+            ProjectData projectData = getProjectData(srcDir1);
+            cbDir1.getSelectionModel().select(projectData);
+        } catch (Exception ex) {
+            cbDir1.getSelectionModel().selectFirst();
+        }
 
-        txtDir2.setText(ProgConfig.GUI_FILERUNNER_DIR2.get());
-        ProgConfig.GUI_FILERUNNER_DIR2.getStringProperty().bind(txtDir2.textProperty());
+        final StringConverter<ProjectData> converter = new StringConverter<ProjectData>() {
+            @Override
+            public String toString(ProjectData pd) {
+                return pd == null ? "" : pd.getSrcDir1();
+            }
 
-        txtHash1.setText(ProgConfig.GUI_FILERUNNER_HASH1.get());
-        ProgConfig.GUI_FILERUNNER_HASH1.getStringProperty().bind(txtHash1.textProperty());
+            @Override
+            public ProjectData fromString(String id) {
+                final int i = cbDir1.getSelectionModel().getSelectedIndex();
+                return progData.projectDataList.get(i);
+            }
+        };
 
-        txtHash2.setText(ProgConfig.GUI_FILERUNNER_HASH2.get());
-        ProgConfig.GUI_FILERUNNER_HASH2.getStringProperty().bind(txtHash2.textProperty());
+        cbDir1.setConverter(converter);
+    }
 
-        txtWriteHash1.setText(ProgConfig.GUI_FILERUNNER_WRITE_HASH1.get());
-        ProgConfig.GUI_FILERUNNER_WRITE_HASH1.getStringProperty().bind(txtWriteHash1.textProperty());
+    private void addListener() {
+        cbDir1.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+                selectProjectData()
+        );
 
-        txtWriteHash2.setText(ProgConfig.GUI_FILERUNNER_WRITE_HASH2.get());
-        ProgConfig.GUI_FILERUNNER_WRITE_HASH2.getStringProperty().bind(txtWriteHash2.textProperty());
+        btnRead1.setOnAction(e -> {
+            if (projectData.getSrcDir1().isEmpty()) {
+                return;
+            }
+            File dir = new File(projectData.getSrcDir1());
+            if (!dir.exists()) {
+                MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis1 existiert nicht!");
+            } else {
+                progData.worker.readDir(dir, progData.fileDataList1, 1, true);
+            }
+        });
+        btnRead2.setOnAction(e -> {
+            if (projectData.getSrcDir1().isEmpty()) {
+                return;
+            }
+            File dir = new File(projectData.getSrcDir2());
+            if (!dir.exists()) {
+                MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis2 existiert nicht!");
+            } else {
+                progData.worker.readDir(dir, progData.fileDataList2, 1, true);
+            }
+        });
+
+        btnAll.setOnAction(e -> {
+        });
+        btnSame.setOnAction(e -> {
+        });
+        btnOnly1.setOnAction(e -> {
+        });
+        btnOnly2.setOnAction(e -> {
+        });
+    }
+
+    private void selectProjectData() {
+        unBindProjectDate();
+
+        projectData = cbDir1.getSelectionModel().getSelectedItem();
+        if (projectData == null) {
+            projectData = new ProjectData();
+            progData.projectDataList.add(projectData);
+        }
+
+        ProgConfig.GUI_FILERUNNER_DIR1.setValue(projectData.getSrcDir1());
+        bindProjectDate();
+    }
+
+    private ProjectData getProjectData(String srcDir1) {
+        ProjectData pd;
+        if (srcDir1.trim().isEmpty() && !progData.projectDataList.isEmpty()) {
+            pd = progData.projectDataList.get(0);
+        } else {
+            pd = progData.projectDataList.getProjectDate(srcDir1);
+        }
+
+        if (pd == null) {
+            pd = new ProjectData(srcDir1, projectData);
+            progData.projectDataList.add(pd);
+        }
+
+        return pd;
+    }
+
+    private void bindProjectDate() {
+        if (projectData != null) {
+            txtDir2.textProperty().bindBidirectional(projectData.srcDir2Property());
+            txtHash1.textProperty().bindBidirectional(projectData.srcHash1Property());
+            txtHash2.textProperty().bindBidirectional(projectData.srcHash2Property());
+            txtWriteHash1.textProperty().bindBidirectional(projectData.writeHash1Property());
+            txtWriteHash2.textProperty().bindBidirectional(projectData.writeHash2Property());
+        }
+    }
+
+    private void unBindProjectDate() {
+        if (projectData != null) {
+            txtDir2.textProperty().unbindBidirectional(projectData.srcDir2Property());
+            txtHash1.textProperty().unbindBidirectional(projectData.srcHash1Property());
+            txtHash2.textProperty().unbindBidirectional(projectData.srcHash2Property());
+            txtWriteHash1.textProperty().unbindBidirectional(projectData.writeHash1Property());
+            txtWriteHash2.textProperty().unbindBidirectional(projectData.writeHash2Property());
+        }
     }
 
     public void saveTable() {
         new Table().saveTable(table1, Table.TABLE.FILELIST1);
         new Table().saveTable(table2, Table.TABLE.FILELIST2);
-    }
-
-    private void initTable() {
-        new Table().setTable(table1, Table.TABLE.FILELIST1);
-        new Table().setTable(table2, Table.TABLE.FILELIST2);
-
-        table1.setItems(fileDataList1);
-        table2.setItems(fileDataList2);
-    }
-
-    private void addListener() {
-        btnRead1.setOnAction(e -> {
-            if (txtDir1.getText().isEmpty()) {
-                return;
-            }
-            File dir1 = new File(txtDir1.getText());
-            if (!dir1.exists()) {
-                MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis1 existiert nicht!");
-            } else {
-                progData.worker.readDir(dir1, fileDataList1, 1, true);
-            }
-        });
-        btnRead2.setOnAction(e -> {
-            if (txtDir2.getText().isEmpty()) {
-                return;
-            }
-            File dir2 = new File(txtDir2.getText());
-            if (!dir2.exists()) {
-                MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis2 existiert nicht!");
-            } else {
-                progData.worker.readDir(dir2, fileDataList2, 1, true);
-            }
-        });
     }
 
 

@@ -80,6 +80,7 @@ public class ConfigFile {
 
     public boolean readConfigFile(ArrayList<ConfigsList> configsList,
                                   ArrayList<ConfigsData> configsData) {
+        //todo wenn eins null
         if (new LoadConfigFile(configFile, configsList, configsData).readConfiguration()) {
             SysMsg.sysMsg("Config geladen");
             return true;

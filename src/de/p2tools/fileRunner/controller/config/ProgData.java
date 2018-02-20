@@ -18,6 +18,8 @@
 package de.p2tools.fileRunner.controller.config;
 
 import de.p2tools.fileRunner.FileRunnerController;
+import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
+import de.p2tools.fileRunner.controller.data.projectData.ProjectDataList;
 import de.p2tools.fileRunner.controller.worker.Worker;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
 import de.p2tools.fileRunner.gui.GuiMosaik;
@@ -38,9 +40,12 @@ public class ProgData {
     // Infos
     public static String configDir; // Verzeichnis zum Speichern der Programmeinstellungen
 
+    public FileDataList fileDataList1;
+    public FileDataList fileDataList2;
+
     // zentrale Klassen
     public Worker worker = null;
-
+    public ProjectDataList projectDataList = null;
 
     // Gui
     public Stage primaryStage = null;
@@ -51,6 +56,10 @@ public class ProgData {
 
 
     private ProgData() {
+        projectDataList = new ProjectDataList();
+
+        fileDataList1 = new FileDataList();
+        fileDataList2 = new FileDataList();
         worker = new Worker(this);
 
         Timeline timeline = new Timeline(new KeyFrame(
@@ -61,6 +70,7 @@ public class ProgData {
         timeline.setDelay(Duration.seconds(5));
         timeline.play();
     }
+
 
     public static final ProgData getInstance(String dir) {
         configDir = dir;

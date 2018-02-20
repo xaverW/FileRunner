@@ -45,11 +45,6 @@ public class ProgConfig extends PConfig {
     public static PConfigs GUI_FILERUNNER_TABLE2_ORDER = addNewKey("gui-filerunner-table2-order");
 
     public static PConfigs GUI_FILERUNNER_DIR1 = addNewKey("gui-filerunner-dir1");
-    public static PConfigs GUI_FILERUNNER_DIR2 = addNewKey("gui-filerunner-dir2");
-    public static PConfigs GUI_FILERUNNER_HASH1 = addNewKey("gui-filerunner-hash1");
-    public static PConfigs GUI_FILERUNNER_HASH2 = addNewKey("gui-filerunner-hash2");
-    public static PConfigs GUI_FILERUNNER_WRITE_HASH1 = addNewKey("gui-filerunner-write-hash1");
-    public static PConfigs GUI_FILERUNNER_WRITE_HASH2 = addNewKey("gui-filerunner-write-hash2");
 
 
     public static ConfigsData getConfigsData() {

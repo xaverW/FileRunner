@@ -19,14 +19,25 @@ package de.p2tools.fileRunner.controller.data.fileData;
 
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 
 import java.util.ArrayList;
 
 public class FileDataList extends SimpleListProperty<FileData> {
     private int nr = 1;
 
+    private final FilteredList<FileData> filteredFileDate;
+    private final SortedList<FileData> sortedFileData;
+
     public FileDataList() {
         super(FXCollections.observableArrayList());
+        filteredFileDate = new FilteredList<>(this, p -> true);
+        sortedFileData = new SortedList<>(filteredFileDate);
+    }
+
+    public SortedList<FileData> getSortedFileData() {
+        return sortedFileData;
     }
 
     public void clear() {
