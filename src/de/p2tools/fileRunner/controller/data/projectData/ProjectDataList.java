@@ -16,13 +16,13 @@
 
 package de.p2tools.fileRunner.controller.data.projectData;
 
+import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.p2Lib.configFile.ConfigsList;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +53,7 @@ public class ProjectDataList extends SimpleListProperty<ProjectData> implements 
 
     public void addNewItem(Object obj) {
         if (obj.getClass().equals(ProjectData.class)) {
-            add((ProjectData) obj);
+            addFirst((ProjectData) obj);
         }
     }
 
@@ -70,36 +70,41 @@ public class ProjectDataList extends SimpleListProperty<ProjectData> implements 
     }
 
 
-    public synchronized boolean add(ProjectData projectData) {
-        boolean ret = super.add(projectData);
-        sort();
+    public synchronized void addFirst(ProjectData projectData) {
+        checkMax();
+        super.add(0, projectData);
         setListChanged();
-        return ret;
     }
 
 
     public synchronized boolean addAll(ArrayList<ProjectData> projectData) {
+        checkMax();
         boolean ret = super.addAll(projectData);
-        sort();
         setListChanged();
         return ret;
     }
 
     public ProjectData getProjectDate(String srcDir1) {
-        ProjectData projectData;
-
-        projectData = this.stream().filter(data -> data.getSrcDir1().equals(srcDir1.trim())).findFirst().orElse(null);
-        return projectData;
-    }
-
-    public ObservableList<String> getListDirs() {
-        ObservableList<String> list = FXCollections.observableArrayList();
-        this.stream().forEach(projectData -> list.add(projectData.getSrcDir1()));
-        return list;
+        return this.stream().filter(data -> data.getSrcDir1().equals(srcDir1.trim())).findFirst().orElse(null);
     }
 
     public void sort() {
         Collections.sort(this);
     }
 
+    int counter;
+
+    private void checkMax() {
+        System.out.println("ProjectDataList: " + this.size());
+        counter = 0;
+        this.removeIf(projectData -> {
+            ++counter;
+            if (counter > ProgConst.MAX_PROJECT_DATA) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        System.out.println("ProjectDataList: " + this.size());
+    }
 }

@@ -18,7 +18,6 @@
 package de.p2tools.fileRunner.controller.data.projectData;
 
 public class ProjectData extends ProjectDataProps {
-    private int nr = 1;
 
     public ProjectData() {
     }

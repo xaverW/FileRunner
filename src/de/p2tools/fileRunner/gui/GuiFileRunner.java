@@ -241,6 +241,7 @@ public class GuiFileRunner extends AnchorPane {
             cbDir1.getSelectionModel().select(projectData);
         } catch (Exception ex) {
             cbDir1.getSelectionModel().selectFirst();
+            System.out.println("Fehler!!!!!!!");
         }
 
         final StringConverter<ProjectData> converter = new StringConverter<ProjectData>() {
@@ -303,27 +304,11 @@ public class GuiFileRunner extends AnchorPane {
         projectData = cbDir1.getSelectionModel().getSelectedItem();
         if (projectData == null) {
             projectData = new ProjectData();
-            progData.projectDataList.add(projectData);
+            progData.projectDataList.addFirst(projectData);
         }
 
         ProgConfig.GUI_FILERUNNER_DIR1.setValue(projectData.getSrcDir1());
         bindProjectDate();
-    }
-
-    private ProjectData getProjectData(String srcDir1) {
-        ProjectData pd;
-        if (srcDir1.trim().isEmpty() && !progData.projectDataList.isEmpty()) {
-            pd = progData.projectDataList.get(0);
-        } else {
-            pd = progData.projectDataList.getProjectDate(srcDir1);
-        }
-
-        if (pd == null) {
-            pd = new ProjectData(srcDir1, projectData);
-            progData.projectDataList.add(pd);
-        }
-
-        return pd;
     }
 
     private void bindProjectDate() {
@@ -344,6 +329,22 @@ public class GuiFileRunner extends AnchorPane {
             txtWriteHash1.textProperty().unbindBidirectional(projectData.writeHash1Property());
             txtWriteHash2.textProperty().unbindBidirectional(projectData.writeHash2Property());
         }
+    }
+
+    private ProjectData getProjectData(String srcDir1) {
+        ProjectData pd;
+        if (srcDir1.trim().isEmpty() && !progData.projectDataList.isEmpty()) {
+            pd = progData.projectDataList.get(0);
+        } else {
+            pd = progData.projectDataList.getProjectDate(srcDir1);
+        }
+
+        if (pd == null) {
+            pd = new ProjectData(srcDir1, projectData);
+            progData.projectDataList.addFirst(pd);
+        }
+
+        return pd;
     }
 
     public void saveTable() {

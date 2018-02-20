@@ -37,4 +37,6 @@ public class ProgConst {
     public static final String XML_START = "FileRunner";
     public static final String HASH = "SHA1";
 
+    public static final int MAX_PROJECT_DATA = 3;
+
 }

@@ -19,7 +19,10 @@ package de.p2tools.fileRunner.controller.data.projectData;
 
 import de.p2tools.fileRunner.controller.data.Data;
 import de.p2tools.p2Lib.configFile.config.Config;
+import de.p2tools.p2Lib.configFile.config.ConfigIntProp;
 import de.p2tools.p2Lib.configFile.config.ConfigStringProp;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -29,6 +32,7 @@ import java.util.Arrays;
 public class ProjectDataProps extends Data<ProjectData> {
     public static final String TAG = "ProjectData";
 
+    private final IntegerProperty lastUsed = new SimpleIntegerProperty(0);
     private final StringProperty srcDir1 = new SimpleStringProperty("");
     private final StringProperty srcDir2 = new SimpleStringProperty("");
 
@@ -45,6 +49,7 @@ public class ProjectDataProps extends Data<ProjectData> {
 
     public ArrayList<Config> getConfigsArr() {
         return new ArrayList<>(Arrays.asList(
+                new ConfigIntProp("last-used", 0, lastUsed),
                 new ConfigStringProp("src-dir-1", "", srcDir1),
                 new ConfigStringProp("src-dir-2", "", srcDir2),
                 new ConfigStringProp("src-hash-1", "", srcHash1),
@@ -52,6 +57,18 @@ public class ProjectDataProps extends Data<ProjectData> {
                 new ConfigStringProp("write-hash-1", "", writeHash1),
                 new ConfigStringProp("write-hash-2", "", writeHash2)
         ));
+    }
+
+    public int getLastUsed() {
+        return lastUsed.get();
+    }
+
+    public IntegerProperty lastUsedProperty() {
+        return lastUsed;
+    }
+
+    public void setLastUsed(int lastUsed) {
+        this.lastUsed.set(lastUsed);
     }
 
     public String getSrcDir1() {
