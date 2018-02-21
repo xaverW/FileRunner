@@ -46,10 +46,10 @@ public class FileDataList extends SimpleListProperty<FileData> {
         super.clear();
     }
 
-    public synchronized void addHashString(String file, Datum fileDate, String hash) {
+    public synchronized boolean addHashString(String file, Datum fileDate, String hash) {
         FileData fileData = new FileData(file, fileDate, hash);
         fileData.setNr(nr++);
-        add(fileData);
+        return super.add(fileData);
     }
 
     public synchronized boolean add(FileData fileData) {

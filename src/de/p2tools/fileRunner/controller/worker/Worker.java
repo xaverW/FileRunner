@@ -21,7 +21,9 @@ import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.worker.GetHash.GetHash;
+import de.p2tools.fileRunner.controller.worker.GetHash.CreateDirHash;
+import de.p2tools.fileRunner.controller.worker.GetHash.HashTools;
+import de.p2tools.fileRunner.controller.worker.GetHash.ReadHashFile;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -31,16 +33,24 @@ import java.io.File;
 public class Worker {
     private final ProgData progData;
 
-    private final GetHash getHash;
+    private final CreateDirHash createDirHash;
+    private final ReadHashFile readHashFile;
 
     private EventListenerList listeners = new EventListenerList();
     private BooleanProperty working = new SimpleBooleanProperty(false);
 
     public Worker(ProgData progData) {
         this.progData = progData;
-        getHash = new GetHash(progData);
+        createDirHash = new CreateDirHash(progData);
+        readHashFile = new ReadHashFile();
 
-        getHash.addAdListener(new RunListener() {
+        createDirHash.addAdListener(new RunListener() {
+            @Override
+            public void ping(RunEvent runEvent) {
+                notifyEvent(runEvent);
+            }
+        });
+        readHashFile.addAdListener(new RunListener() {
             @Override
             public void ping(RunEvent runEvent) {
                 notifyEvent(runEvent);
@@ -64,15 +74,20 @@ public class Worker {
     }
 
     public void setStop() {
-        getHash.setStop();
+        createDirHash.setStop();
+        readHashFile.setStop();
     }
 
-    public void readDir(File dir, FileDataList fileDataList, int sumThreads, boolean recursiv) {
-        getHash.hashLesen(dir, fileDataList, sumThreads, recursiv);
+    public void readDirHash(File dir, FileDataList fileDataList, int sumThreads, boolean recursiv) {
+        createDirHash.hashLesen(dir, fileDataList, sumThreads, recursiv);
     }
 
-    public void writeHash(FileDataList fileDataList, File destFile) {
-        getHash.hashSchreiben(fileDataList, destFile);
+    public void readHashFile(File file, FileDataList fileDataList) {
+        readHashFile.readFile(file, fileDataList);
+    }
+
+    public void writeHash(File destFile, FileDataList fileDataList) {
+        HashTools.schreiben(destFile, fileDataList);
     }
 
     private void notifyEvent(RunEvent runEvent) {

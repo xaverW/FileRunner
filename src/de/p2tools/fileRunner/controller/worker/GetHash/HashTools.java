@@ -119,7 +119,7 @@ public class HashTools {
         } else if (zeile.contains("  ")) {
             fil = zeile.substring(zeile.indexOf("  ") + 2);
         }
-        return new Datum();
+        return new Datum(0);
     }
 
     public static byte[] get(String pwd) throws IOException, GeneralSecurityException {

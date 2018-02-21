@@ -133,10 +133,10 @@ public class GuiFileRunner extends AnchorPane {
         });
 
         btnDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtDir2));
-        btnhash1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtHash1));
-        btnhash1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtHash2));
-        btnDirWriteHash1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
-        btnDirWriteHash2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
+        btnhash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash1));
+        btnhash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash2));
+        btnDirWriteHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
+        btnDirWriteHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
 
         HBox hBoxDir1 = new HBox(10);
         hBoxDir1.getChildren().addAll(rb1Dir, cbDir1, btnDir1);
@@ -278,25 +278,17 @@ public class GuiFileRunner extends AnchorPane {
         );
 
         btnRead1.setOnAction(e -> {
-            if (projectData.getSrcDir1().isEmpty()) {
-                return;
-            }
-            File dir = new File(projectData.getSrcDir1());
-            if (!dir.exists()) {
-                MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis1 existiert nicht!");
+            if (rb1Dir.isSelected()) {
+                readDirHash(true);
             } else {
-                progData.worker.readDir(dir, progData.fileDataList1, 1, true);
+                readHashFile(true);
             }
         });
         btnRead2.setOnAction(e -> {
-            if (projectData.getSrcDir1().isEmpty()) {
-                return;
-            }
-            File dir = new File(projectData.getSrcDir2());
-            if (!dir.exists()) {
-                MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis2 existiert nicht!");
+            if (rb1Dir.isSelected()) {
+                readDirHash(false);
             } else {
-                progData.worker.readDir(dir, progData.fileDataList2, 1, true);
+                readHashFile(false);
             }
         });
 
@@ -370,6 +362,38 @@ public class GuiFileRunner extends AnchorPane {
         new Table().saveTable(table2, Table.TABLE.FILELIST2);
     }
 
+    private void readDirHash(boolean dir1) {
+        String hashDir = dir1 ? projectData.getSrcDir1() : projectData.getSrcDir2();
+        FileDataList fileDataList = dir1 ? progData.fileDataList1 : progData.fileDataList2;
+
+        if (hashDir.isEmpty()) {
+            return;
+        }
+        File dir = new File(hashDir);
+        if (!dir.exists()) {
+            MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis1 existiert nicht!");
+        } else {
+            progData.worker.readDirHash(dir, fileDataList, 1, true);
+        }
+    }
+
+    private void readHashFile(boolean hashFile1) {
+        String hashFile = hashFile1 ? projectData.getSrcHash1() : projectData.getSrcHash2();
+        FileDataList fileDataList = hashFile1 ? progData.fileDataList1 : progData.fileDataList2;
+
+        if (hashFile.isEmpty()) {
+            return;
+        }
+
+        File file = new File(hashFile);
+        if (!file.exists()) {
+            MTAlert.showErrorAlert("Hashdatei einlesen", "Die Hashdatei existiert nicht!");
+        } else {
+            progData.worker.readHashFile(file, fileDataList);
+        }
+
+    }
+
     private void writeHashFile(boolean hash1) {
         File file;
         String str;
@@ -392,7 +416,7 @@ public class GuiFileRunner extends AnchorPane {
             if (btn.equals(PAlert.BUTTON.NO)) {
                 return;
             }
-            progData.worker.writeHash(fileDataList, file);
         }
+        progData.worker.writeHash(file, fileDataList);
     }
 }
