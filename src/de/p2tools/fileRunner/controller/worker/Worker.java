@@ -70,6 +70,10 @@ public class Worker {
         getHash.hashLesen(dir, fileDataList, sumThreads, recursiv);
     }
 
+    public void writeHash(FileDataList fileDataList, File destFile) {
+        getHash.hashSchreiben(fileDataList, destFile);
+    }
+
     private void notifyEvent(RunEvent runEvent) {
         working.setValue(!runEvent.nixLos());
 

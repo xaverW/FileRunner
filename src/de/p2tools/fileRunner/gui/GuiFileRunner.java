@@ -19,10 +19,12 @@ package de.p2tools.fileRunner.gui;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
+import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
 import de.p2tools.fileRunner.gui.dialog.MTAlert;
 import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.tools.DirFileChooser;
+import de.p2tools.p2Lib.tools.PAlert;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -64,8 +66,10 @@ public class GuiFileRunner extends AnchorPane {
     private final Button btnDir2 = new Button("");
     private final Button btnhash1 = new Button("");
     private final Button btnhash2 = new Button("");
-    private final Button btnWriteHash1 = new Button();
-    private final Button btnWriteHash2 = new Button();
+    private final Button btnDirWriteHash1 = new Button();
+    private final Button btnDirWriteHash2 = new Button();
+    private final Button btnWriteHash1 = new Button("Liste in Datei schreiben");
+    private final Button btnWriteHash2 = new Button("Liste in Datei schreiben");
 
     private final Button btnRead1 = new Button("Verzeichnis lesen");
     private final Button btnRead2 = new Button("Verzeichnis lesen");
@@ -119,8 +123,8 @@ public class GuiFileRunner extends AnchorPane {
         btnDir2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnhash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnhash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnWriteHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnWriteHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnDirWriteHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnDirWriteHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
 
         btnDir1.setOnAction(event -> {
             String srcDir1 = DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, projectData.getSrcDir1());
@@ -131,8 +135,8 @@ public class GuiFileRunner extends AnchorPane {
         btnDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtDir2));
         btnhash1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtHash1));
         btnhash1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtHash2));
-        btnWriteHash1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
-        btnWriteHash2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
+        btnDirWriteHash1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
+        btnDirWriteHash2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
 
         HBox hBoxDir1 = new HBox(10);
         hBoxDir1.getChildren().addAll(rb1Dir, cbDir1, btnDir1);
@@ -145,9 +149,10 @@ public class GuiFileRunner extends AnchorPane {
         hBoxDir2Hash.getChildren().addAll(rb2Hash, txtHash2, btnhash2);
 
         HBox hBoxWriteHash1 = new HBox(10);
-        hBoxWriteHash1.getChildren().addAll(txtWriteHash1, btnWriteHash1);
+        hBoxWriteHash1.getChildren().addAll(txtWriteHash1, btnDirWriteHash1);
+
         HBox hBoxWriteHash2 = new HBox(10);
-        hBoxWriteHash2.getChildren().addAll(txtWriteHash2, btnWriteHash2);
+        hBoxWriteHash2.getChildren().addAll(txtWriteHash2, btnDirWriteHash2);
 
         HBox hBoxRead1 = new HBox(10);
         hBoxRead1.getChildren().addAll(btnRead1);
@@ -155,6 +160,13 @@ public class GuiFileRunner extends AnchorPane {
         hBoxRead2.getChildren().addAll(btnRead2);
         hBoxRead1.setAlignment(Pos.CENTER_RIGHT);
         hBoxRead2.setAlignment(Pos.CENTER_RIGHT);
+
+        HBox hBoxWrite1 = new HBox(10);
+        hBoxWrite1.getChildren().add(btnWriteHash1);
+        HBox hBoxWrite2 = new HBox(10);
+        hBoxWrite2.getChildren().add(btnWriteHash2);
+        hBoxWrite1.setAlignment(Pos.CENTER_RIGHT);
+        hBoxWrite2.setAlignment(Pos.CENTER_RIGHT);
 
         cbDir1.setMaxWidth(Double.MAX_VALUE);
         txtDir2.setMaxWidth(Double.MAX_VALUE);
@@ -180,13 +192,13 @@ public class GuiFileRunner extends AnchorPane {
                 new Label("Hashdatei"), hBoxDir1Hash,
                 hBoxRead1,
                 scrollPane1,
-                new Label("Hashdatei schreiben"), hBoxWriteHash1);
+                new Label("Hashdatei schreiben"), hBoxWriteHash1, hBoxWrite1);
 
         vBox2.getChildren().addAll(new Label("Verzeichnis 2"), hBoxDir2,
                 new Label("Hashdatei"), hBoxDir2Hash,
                 hBoxRead2,
                 scrollPane2,
-                new Label("Hashdatei schreiben"), hBoxWriteHash2);
+                new Label("Hashdatei schreiben"), hBoxWriteHash2, hBoxWrite2);
 
         vBoxBtn.setStyle("-fx-border-color: blue;");
         vBoxBtn.setAlignment(Pos.CENTER);
@@ -296,6 +308,12 @@ public class GuiFileRunner extends AnchorPane {
         });
         btnOnly2.setOnAction(e -> {
         });
+        btnWriteHash1.setOnAction(e -> {
+            writeHashFile(true);
+        });
+        btnWriteHash2.setOnAction(event -> {
+            writeHashFile(false);
+        });
     }
 
     private void selectProjectData() {
@@ -352,5 +370,29 @@ public class GuiFileRunner extends AnchorPane {
         new Table().saveTable(table2, Table.TABLE.FILELIST2);
     }
 
+    private void writeHashFile(boolean hash1) {
+        File file;
+        String str;
+        FileDataList fileDataList;
+        if (hash1) {
+            str = txtWriteHash1.getText().trim();
+            fileDataList = progData.fileDataList1;
+        } else {
+            str = txtWriteHash2.getText().trim();
+            fileDataList = progData.fileDataList2;
+        }
 
+        if (str.isEmpty()) {
+            return;
+        }
+        file = new File(str);
+        if (file.exists()) {
+            PAlert.BUTTON btn = MTAlert.showAlert_yes_no("Datei existiert bereits!", "Überschreiben",
+                    "Hashdatei existiert bereits, überschreiben?");
+            if (btn.equals(PAlert.BUTTON.NO)) {
+                return;
+            }
+            progData.worker.writeHash(fileDataList, file);
+        }
+    }
 }

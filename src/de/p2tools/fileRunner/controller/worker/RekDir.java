@@ -29,9 +29,6 @@ public class RekDir {
     private boolean stop = false;
     private boolean rekur = false;
     private ProgData progData;
-    ////////////////////////////
-    // public
-    ////////////////////////////
 
     public RekDir(ProgData progData) {
         this.progData = progData;
@@ -49,9 +46,6 @@ public class RekDir {
 
     void tuwas(File file) {
     }
-    ////////////////////
-    // private
-    ////////////////////
 
     private int runDir(File dir) {
         int r = 0;

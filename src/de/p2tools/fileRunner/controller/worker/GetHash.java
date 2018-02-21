@@ -22,6 +22,7 @@ import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
+import de.p2tools.p2Lib.tools.Datum;
 import de.p2tools.p2Lib.tools.Log;
 
 import javax.swing.event.EventListenerList;
@@ -43,14 +44,11 @@ public class GetHash {
     private int threads = 0;
     private int anzThread = 1;
     private boolean rekursiv = true;
-    private int laufer = 0;
+    private int runThreads = 0;
 
     public GetHash(ProgData progData) {
         this.progData = progData;
     }
-    ///////////////////////
-    // public
-    ////////////////////////
 
     /**
      * @param listener
@@ -63,22 +61,6 @@ public class GetHash {
         stop = true;
     }
 
-    public void hashLesen(File dir1, FileDataList listeDiff1,
-                          File dir2, File hash2, FileDataList listeDiff2,
-                          int aanzThread, boolean rrekursiv) {
-        anzThread = aanzThread;
-        rekursiv = rrekursiv;
-        max = 0;
-        progress = 0;
-        stop = false;
-        HashErstellen hashErstellen1, hashErstellen2;
-        hashErstellen1 = new HashErstellen(dir1, null, listeDiff1);
-        hashErstellen2 = new HashErstellen(dir2, hash2, listeDiff2);
-        laufer = 2;
-        new Thread(hashErstellen1).start();
-        new Thread(hashErstellen2).start();
-    }
-
     public void hashLesen(File dir1, FileDataList fileDataList,
                           int anzThread, boolean rekursiv) {
         this.anzThread = anzThread;
@@ -87,23 +69,20 @@ public class GetHash {
         progress = 0;
         stop = false;
         HashErstellen hashErstellen1 = new HashErstellen(dir1, null, fileDataList);
-        laufer = 1;
+        runThreads = 1;
         new Thread(hashErstellen1).start();
     }
 
-    public void hashSchreiben(FileDataList fileDataList, File hash) {
+    public void hashSchreiben(FileDataList fileDataList, File fileHash) {
         max = 0;
         progress = 0;
         stop = false;
         HashErstellen hashErstellen;
-        hashErstellen = new HashErstellen(null, hash, fileDataList);
-        laufer = 1;
+        hashErstellen = new HashErstellen(null, fileHash, fileDataList);
+        runThreads = 1;
         hashErstellen.schreiben();
     }
 
-    //////////////////////////
-    // private
-    //////////////////////////
     private class HashErstellen implements Runnable {
 
         private File dir = null, hash = null;
@@ -159,8 +138,8 @@ public class GetHash {
             } else {
 //                JOptionPane.showMessageDialog(null, "Ok (" + progress + " Dateien)", "Info", JOptionPane.INFORMATION_MESSAGE);
             }
-            --laufer;
-            if (laufer == 0) {
+            --runThreads;
+            if (runThreads == 0) {
                 max = 0;
                 progress = 0;
                 notifyEvent();
@@ -221,7 +200,7 @@ public class GetHash {
         }
 
         private void hash(String zeile) {
-            addHashString(Helper.getFile(zeile), Helper.getHash(zeile));
+            addHashString(Helper.getFile(zeile), Helper.getDate(zeile), Helper.getHash(zeile));
         }
 
         private String changeZeile(String zeile) {
@@ -254,11 +233,11 @@ public class GetHash {
                 --threads;
             }
 
-            private String hash(File fil, File di) {
+            private String hash(File file, File di) {
                 String ret = "";
                 try {
                     md = MessageDigest.getInstance(MD5);
-                    srcStream = new DigestInputStream(new FileInputStream(fil), md);
+                    srcStream = new DigestInputStream(new FileInputStream(file), md);
                     while (!stop && srcStream.read(buffer) != -1) {
                     }
                     hash = md.digest();
@@ -269,7 +248,8 @@ public class GetHash {
                     ret = h.toString();
                     if (di != null) {
                         //dir == null -> nur hash prüfen
-                        String strFile = fil.getAbsolutePath();
+                        String strFile = file.getAbsolutePath();
+                        Datum fileDate = new Datum(file.lastModified());
                         if (di.isDirectory()) {
                             strFile = strFile.substring(di.getAbsolutePath().length());
                         } else if (di.isFile()) {
@@ -278,10 +258,10 @@ public class GetHash {
                         if (strFile.startsWith(File.separator)) {
                             strFile = strFile.substring(1);
                         }
-                        addHashString(strFile, h.toString());
+                        addHashString(strFile, fileDate, h.toString());
                     }
                 } catch (Exception ex) {
-                    Log.errorLog(963210472, ex, "Fehler! " + fil.getAbsolutePath());
+                    Log.errorLog(963210472, ex, "Fehler! " + file.getAbsolutePath());
                 } finally {
                     try {
                         srcStream.close();
@@ -305,8 +285,8 @@ public class GetHash {
             return ret;
         }
 
-        private synchronized void addHashString(String file, String hash) {
-            fileDataList.add(new FileData(file, hash));
+        private synchronized void addHashString(String file, Datum fileDate, String hash) {
+            fileDataList.add(new FileData(file, fileDate, hash));
         }
 
     }

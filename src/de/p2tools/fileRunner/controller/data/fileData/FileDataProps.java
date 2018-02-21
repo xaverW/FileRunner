@@ -17,12 +17,15 @@
 
 package de.p2tools.fileRunner.controller.data.fileData;
 
+import de.p2tools.p2Lib.tools.Datum;
+
 public class FileDataProps {
 
     public static final String TAG = "FileData";
 
     private int nr = 0;
     private String fileName = "";
+    private Datum fileDate = null;
     private String hash = "";
 
     public String getTag() {
@@ -43,6 +46,14 @@ public class FileDataProps {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public Datum getFileDate() {
+        return fileDate;
+    }
+
+    public void setFileDate(Datum fileDate) {
+        this.fileDate = fileDate;
     }
 
     public String getHash() {

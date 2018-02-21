@@ -18,6 +18,7 @@
 package de.p2tools.fileRunner.controller.worker;
 
 import de.p2tools.fileRunner.controller.config.ProgConst;
+import de.p2tools.p2Lib.tools.Datum;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -48,6 +49,17 @@ public class Helper {
             fil = zeile.substring(zeile.indexOf("  ") + 2);
         }
         return fil;
+    }
+
+    public static Datum getDate(String zeile) {
+        //todo
+        String fil = "";
+        if (zeile.contains("*")) {
+            fil = zeile.substring(zeile.indexOf("*") + 1);
+        } else if (zeile.contains("  ")) {
+            fil = zeile.substring(zeile.indexOf("  ") + 2);
+        }
+        return new Datum();
     }
 
     public static byte[] get(String pwd) throws IOException, GeneralSecurityException {
