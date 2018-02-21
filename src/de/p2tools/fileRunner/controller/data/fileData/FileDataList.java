@@ -17,6 +17,7 @@
 
 package de.p2tools.fileRunner.controller.data.fileData;
 
+import de.p2tools.p2Lib.tools.Datum;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
@@ -43,6 +44,12 @@ public class FileDataList extends SimpleListProperty<FileData> {
     public void clear() {
         nr = 1;
         super.clear();
+    }
+
+    public synchronized void addHashString(String file, Datum fileDate, String hash) {
+        FileData fileData = new FileData(file, fileDate, hash);
+        fileData.setNr(nr++);
+        add(fileData);
     }
 
     public synchronized boolean add(FileData fileData) {
