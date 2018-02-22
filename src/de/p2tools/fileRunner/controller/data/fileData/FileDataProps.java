@@ -29,6 +29,8 @@ public class FileDataProps {
     private PDate fileDate = null;
     private FileSize fileSize = null;
     private String hash = "";
+    private boolean diff = false;
+    private boolean only = false;
 
     public String getTag() {
         return TAG;
@@ -72,5 +74,21 @@ public class FileDataProps {
 
     public void setHash(String hash) {
         this.hash = hash;
+    }
+
+    public boolean isDiff() {
+        return diff;
+    }
+
+    public void setDiff(boolean diff) {
+        this.diff = diff;
+    }
+
+    public boolean isOnly() {
+        return only;
+    }
+
+    public void setOnly(boolean only) {
+        this.only = only;
     }
 }

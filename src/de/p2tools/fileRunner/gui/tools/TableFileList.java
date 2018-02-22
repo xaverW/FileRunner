@@ -18,6 +18,7 @@
 package de.p2tools.fileRunner.gui.tools;
 
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
+import de.p2tools.p2Lib.tools.CheckBoxCell;
 import de.p2tools.p2Lib.tools.FileSize;
 import de.p2tools.p2Lib.tools.PDate;
 import javafx.scene.control.*;
@@ -42,19 +43,27 @@ public class TableFileList {
         final TableColumn<FileData, Integer> nrColumn = new TableColumn<>("Nr");
         nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
 
-        final TableColumn<FileData, String> fileaNameColumn = new TableColumn<>("Datei");
-        fileaNameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName"));
+        final TableColumn<FileData, String> fileNameColumn = new TableColumn<>("Datei");
+        fileNameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName"));
 
-        final TableColumn<FileSize, String> fileaSizeColumn = new TableColumn<>("Größe");
-        fileaSizeColumn.setCellValueFactory(new PropertyValueFactory<>("fileSize"));
+        final TableColumn<FileSize, String> fileSizeColumn = new TableColumn<>("Größe");
+        fileSizeColumn.setCellValueFactory(new PropertyValueFactory<>("fileSize"));
 
-        final TableColumn<FileData, PDate> fileaDateColumn = new TableColumn<>("Geändert");
-        fileaDateColumn.setCellValueFactory(new PropertyValueFactory<>("fileDate"));
+        final TableColumn<FileData, PDate> fileDateColumn = new TableColumn<>("Geändert");
+        fileDateColumn.setCellValueFactory(new PropertyValueFactory<>("fileDate"));
+
+        final TableColumn<FileData, Boolean> diff = new TableColumn<>("Diff");
+        diff.setCellValueFactory(new PropertyValueFactory<>("diff"));
+        diff.setCellFactory(new CheckBoxCell().cellFactoryBool);
+
+        final TableColumn<FileData, Boolean> only = new TableColumn<>("Only");
+        only.setCellValueFactory(new PropertyValueFactory<>("only"));
+        only.setCellFactory(new CheckBoxCell().cellFactoryBool);
 
         nrColumn.setMaxWidth(1f * Integer.MAX_VALUE * 10);
-        fileaNameColumn.setMaxWidth(1f * Integer.MAX_VALUE * 50);
-        fileaSizeColumn.setMaxWidth(1f * Integer.MAX_VALUE * 15);
-        fileaDateColumn.setMaxWidth(1f * Integer.MAX_VALUE * 25);
+        fileNameColumn.setMaxWidth(1f * Integer.MAX_VALUE * 50);
+        fileSizeColumn.setMaxWidth(1f * Integer.MAX_VALUE * 10);
+        fileDateColumn.setMaxWidth(1f * Integer.MAX_VALUE * 20);
 
         tableView.setOnMousePressed(m -> {
             if (m.getButton().equals(MouseButton.SECONDARY)) {
@@ -63,7 +72,7 @@ public class TableFileList {
         });
 
         return new TableColumn[]{
-                nrColumn, fileaNameColumn, fileaSizeColumn, fileaDateColumn
+                nrColumn, fileNameColumn, fileSizeColumn, fileDateColumn, diff, only
         };
 
     }

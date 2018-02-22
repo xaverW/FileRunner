@@ -284,6 +284,7 @@ public class GuiFileRunner extends AnchorPane {
         });
 
         btnShowAll.setOnAction(e -> {
+
         });
         btnShowSame.setOnAction(e -> {
         });

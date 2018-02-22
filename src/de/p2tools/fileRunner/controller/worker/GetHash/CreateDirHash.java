@@ -22,6 +22,7 @@ import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
+import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.p2Lib.tools.FileSize;
 import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.PDate;
@@ -115,6 +116,8 @@ public class CreateDirHash {
 
             if (stop) {
                 fileDataList.clear();
+            } else {
+                new CompareFileList().compareList(progData.fileDataList1, progData.fileDataList2);
             }
             --runThreads;
             if (runThreads == 0) {

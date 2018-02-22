@@ -42,7 +42,7 @@ public class Worker {
     public Worker(ProgData progData) {
         this.progData = progData;
         createDirHash = new CreateDirHash(progData);
-        readHashFile = new ReadHashFile();
+        readHashFile = new ReadHashFile(progData);
 
         createDirHash.addAdListener(new RunListener() {
             @Override

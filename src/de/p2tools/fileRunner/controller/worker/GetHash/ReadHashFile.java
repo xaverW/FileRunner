@@ -19,8 +19,10 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
+import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
+import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.p2Lib.tools.Log;
 
 import javax.swing.event.EventListenerList;
@@ -35,6 +37,12 @@ public class ReadHashFile {
 
     private boolean stop = false;
     private EventListenerList listeners = new EventListenerList();
+
+    private final ProgData progData;
+
+    public ReadHashFile(ProgData progData) {
+        this.progData = progData;
+    }
 
     public void addAdListener(RunListener listener) {
         listeners.add(RunListener.class, listener);
@@ -73,6 +81,11 @@ public class ReadHashFile {
             //Liste aus Hashdatei laden
             notifyEvent(1, 0, "");
             laden();
+            if (stop) {
+                fileDataList.clear();
+            } else {
+                new CompareFileList().compareList(progData.fileDataList1, progData.fileDataList2);
+            }
             notifyEvent(0, 0, "");
         }
 
