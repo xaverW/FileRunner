@@ -51,11 +51,11 @@ public class CompareFileList {
         // erst mal alle auf diff/only setzen
         fileDataList1.stream().forEach(fd -> {
             fd.setOnly(true);
-            fd.setDiff(true);
+            fd.setDiff(false);
         });
         fileDataList2.stream().forEach(fd -> {
             fd.setOnly(true);
-            fd.setDiff(true);
+            fd.setDiff(false);
         });
 
         // und jetzt gleiche suchen
@@ -70,9 +70,9 @@ public class CompareFileList {
             if (fd2 != null) {
                 fd1.setOnly(false);
                 fd2.setOnly(false);
-                if (fd1.getHash().equals(fd2.getHash())) {
-                    fd1.setDiff(false);
-                    fd2.setDiff(false);
+                if (!fd1.getHash().equals(fd2.getHash())) {
+                    fd1.setDiff(true);
+                    fd2.setDiff(true);
                 }
             }
 

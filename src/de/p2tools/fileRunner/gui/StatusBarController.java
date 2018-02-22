@@ -171,8 +171,8 @@ public class StatusBarController extends AnchorPane {
     }
 
     private void setFileRunner() {
-        int table1 = progData.fileDataList1.size();
-        int table2 = progData.fileDataList2.size();
+        int table1 = progData.fileDataList1.getFilteredFileData().size();
+        int table2 = progData.fileDataList2.getFilteredFileData().size();
 
         String textLeft = table1 == 0 ? "" : table1 + " Dateien";
         lblLeft.setText(textLeft);

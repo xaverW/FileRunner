@@ -25,6 +25,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class FileDataList extends SimpleListProperty<FileData> {
     private int nr = 1;
@@ -38,8 +39,29 @@ public class FileDataList extends SimpleListProperty<FileData> {
         sortedFileData = new SortedList<>(filteredFileDate);
     }
 
+    public FilteredList<FileData> getFilteredFileData() {
+        return filteredFileDate;
+    }
+
     public SortedList<FileData> getSortedFileData() {
         return sortedFileData;
+    }
+
+    public synchronized void clearPred() {
+        filteredFileDate.setPredicate(p -> true);
+    }
+
+    public synchronized void setPred(boolean pred) {
+        filteredFileDate.setPredicate(p -> pred);
+    }
+
+    public void setPred(boolean diff, boolean only) {
+        Predicate<FileData> predicate = film -> true;
+
+        predicate = predicate.and(f -> diff == f.isDiff());
+        predicate = predicate.and(f -> only == f.isOnly());
+
+        filteredFileDate.setPredicate(predicate);
     }
 
     public void clear() {
@@ -63,4 +85,6 @@ public class FileDataList extends SimpleListProperty<FileData> {
         d.forEach(fileData -> fileData.setNr(nr++));
         return super.addAll(d);
     }
+
+
 }

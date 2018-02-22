@@ -30,6 +30,7 @@ public class Icons {
 
     public final ImageView ICON_BUTTON_GUI_ALL = GetIcon.getImageView("button-gui-all.png", 24, 24);
     public final ImageView ICON_BUTTON_GUI_SAME = GetIcon.getImageView("button-gui-same.png", 24, 24);
+    public final ImageView ICON_BUTTON_GUI_DIFF = GetIcon.getImageView("button-gui-diff.png", 24, 24);
     public final ImageView ICON_BUTTON_GUI_ONLY_1 = GetIcon.getImageView("button-gui-only-1.png", 24, 24);
     public final ImageView ICON_BUTTON_GUI_ONLY_2 = GetIcon.getImageView("button-gui-only-2.png", 24, 24);
 

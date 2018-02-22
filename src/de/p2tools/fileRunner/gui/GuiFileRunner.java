@@ -16,6 +16,8 @@
 
 package de.p2tools.fileRunner.gui;
 
+import de.p2tools.fileRunner.controller.RunEvent;
+import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
@@ -69,6 +71,7 @@ public class GuiFileRunner extends AnchorPane {
 
     private final Button btnShowAll = new Button("");
     private final Button btnShowSame = new Button("");
+    private final Button btnShowDiff = new Button("");
     private final Button btnShowOnly1 = new Button("");
     private final Button btnShowOnly2 = new Button("");
 
@@ -186,12 +189,14 @@ public class GuiFileRunner extends AnchorPane {
         btnShowAll.setGraphic(new Icons().ICON_BUTTON_GUI_ALL);
         btnShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
         btnShowSame.setGraphic(new Icons().ICON_BUTTON_GUI_SAME);
-        btnShowSame.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen sind."));
+        btnShowSame.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen sind und gleich sind."));
+        btnShowDiff.setGraphic(new Icons().ICON_BUTTON_GUI_DIFF);
+        btnShowDiff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen sind und sich unterscheiden."));
         btnShowOnly1.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_1);
         btnShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in der Liste 1 sind."));
         btnShowOnly2.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_2);
         btnShowOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 sind."));
-        vBoxBtn.getChildren().addAll(btnShowAll, btnShowSame, btnShowOnly1, btnShowOnly2);
+        vBoxBtn.getChildren().addAll(btnShowAll, btnShowSame, btnShowDiff, btnShowOnly1, btnShowOnly2);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
         splitPane.getItems().addAll(vBox1, vBoxBtn, vBox2);
@@ -255,6 +260,16 @@ public class GuiFileRunner extends AnchorPane {
     }
 
     private void addListener() {
+        progData.worker.addAdListener(new RunListener() {
+            @Override
+            public void ping(RunEvent runEvent) {
+                if (runEvent.nixLos()) {
+                    System.out.println("Table refresh");
+                    table1.refresh();
+                    table2.refresh();
+                }
+            }
+        });
         cbDir1.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
                 selectProjectData()
         );
@@ -284,13 +299,24 @@ public class GuiFileRunner extends AnchorPane {
         });
 
         btnShowAll.setOnAction(e -> {
-
+            progData.fileDataList1.clearPred();
+            progData.fileDataList2.clearPred();
         });
         btnShowSame.setOnAction(e -> {
+            progData.fileDataList1.setPred(false, false);
+            progData.fileDataList2.setPred(false, false);
+        });
+        btnShowDiff.setOnAction(e -> {
+            progData.fileDataList1.setPred(true, false);
+            progData.fileDataList2.setPred(true, false);
         });
         btnShowOnly1.setOnAction(e -> {
+            progData.fileDataList1.setPred(false, true);
+            progData.fileDataList2.setPred(false);
         });
         btnShowOnly2.setOnAction(e -> {
+            progData.fileDataList1.setPred(false);
+            progData.fileDataList2.setPred(false, true);
         });
     }
 
