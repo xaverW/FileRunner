@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @SuppressWarnings("serial")
-public class Datum extends Date {
+public class PDate extends Date {
     private final static SimpleDateFormat dateFormatter1 = new SimpleDateFormat("dd.MM.yyyy");
     private final static SimpleDateFormat dateFormatter2 = new SimpleDateFormat("yyyy.MM.dd");
 
@@ -33,11 +33,11 @@ public class Datum extends Date {
     public static final FastDateFormat FORMATTER_ddMMyyyyHHmmss = FastDateFormat.getInstance("dd.MM.yyyyHH:mm:ss");
 
 
-    public Datum() {
+    public PDate() {
         super();
     }
 
-    public Datum(long l) {
+    public PDate(long l) {
         super(l);
     }
 
@@ -81,7 +81,7 @@ public class Datum extends Date {
      * @return Differenz in Sekunden.
      */
     public int diffInSekunden() {
-        final int ret = new Long((this.getTime() - new Datum().getTime()) / (1000)).intValue();
+        final int ret = new Long((this.getTime() - new PDate().getTime()) / (1000)).intValue();
         return Math.abs(ret);
     }
 

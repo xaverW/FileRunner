@@ -22,8 +22,8 @@ import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.p2Lib.tools.Datum;
 import de.p2tools.p2Lib.tools.Log;
+import de.p2tools.p2Lib.tools.PDate;
 
 import javax.swing.event.EventListenerList;
 import java.io.File;
@@ -173,7 +173,7 @@ public class CreateDirHash {
                     if (di != null) {
                         //dir == null -> nur hash prüfen
                         String strFile = file.getAbsolutePath();
-                        Datum fileDate = new Datum(file.lastModified());
+                        PDate fileDate = new PDate(file.lastModified());
                         if (di.isDirectory()) {
                             strFile = strFile.substring(di.getAbsolutePath().length());
                         } else if (di.isFile()) {

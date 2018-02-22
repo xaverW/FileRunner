@@ -17,7 +17,7 @@
 
 package de.p2tools.fileRunner.controller.data.fileData;
 
-import de.p2tools.p2Lib.tools.Datum;
+import de.p2tools.p2Lib.tools.PDate;
 
 public class FileDataProps {
 
@@ -25,7 +25,7 @@ public class FileDataProps {
 
     private int nr = 0;
     private String fileName = "";
-    private Datum fileDate = null;
+    private PDate fileDate = null;
     private String hash = "";
 
     public String getTag() {
@@ -48,11 +48,11 @@ public class FileDataProps {
         this.fileName = fileName;
     }
 
-    public Datum getFileDate() {
+    public PDate getFileDate() {
         return fileDate;
     }
 
-    public void setFileDate(Datum fileDate) {
+    public void setFileDate(PDate fileDate) {
         this.fileDate = fileDate;
     }
 

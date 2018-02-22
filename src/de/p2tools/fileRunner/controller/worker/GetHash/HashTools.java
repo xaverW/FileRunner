@@ -20,8 +20,8 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.p2Lib.tools.Datum;
 import de.p2tools.p2Lib.tools.Log;
+import de.p2tools.p2Lib.tools.PDate;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -111,7 +111,7 @@ public class HashTools {
         return fil;
     }
 
-    public static Datum getDate(String zeile) {
+    public static PDate getDate(String zeile) {
         //todo
         String fil = "";
         if (zeile.contains("*")) {
@@ -119,7 +119,7 @@ public class HashTools {
         } else if (zeile.contains("  ")) {
             fil = zeile.substring(zeile.indexOf("  ") + 2);
         }
-        return new Datum(0);
+        return new PDate(0);
     }
 
     public static byte[] get(String pwd) throws IOException, GeneralSecurityException {
