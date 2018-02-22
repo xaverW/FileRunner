@@ -35,8 +35,8 @@ import org.controlsfx.control.MaskerPane;
 
 public class FileRunnerController extends StackPane {
 
-    Button btnStart = new Button("Start");
-    Button btnMosaik = new Button("Mosaik\n" + "erstellen");
+    Button btnStart = new Button("Dateien");
+    Button btnMosaik = new Button("Blacklist");
     Button btnPrev = new Button("");
     Button btnNext = new Button("");
 
@@ -135,30 +135,10 @@ public class FileRunnerController extends StackPane {
             this.getChildren().addAll(borderPane, maskerPane);
 
             selPanelStart();
-            addStartGuiBinding();
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-    }
-
-    private void addStartGuiBinding() {
-//        btnStart.disableProperty().bind(progData.guiFileRunner.allOkProperty().not());
-//        btnMosaik.disableProperty().bind(progData.guiFileRunner.allOkProperty().not());
-//
-//        if (!progData.guiFileRunner.isAllOk()) {
-//            btnNext.setDisable(true);
-//            btnPrev.setDisable(true);
-//        }
-//
-//        progData.guiFileRunner.allOkProperty().addListener(l -> {
-//            if (!progData.guiFileRunner.isAllOk()) {
-//                btnNext.setDisable(true);
-//                btnPrev.setDisable(true);
-//            } else {
-//                selPanelStart();
-//            }
-//        });
     }
 
     private void setPrev() {

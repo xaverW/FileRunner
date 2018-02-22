@@ -123,10 +123,10 @@ public class GuiFileRunner extends AnchorPane {
         gridPane1.add(cbDir1, 1, 1);
         gridPane1.add(btnSetDir1, 2, 1);
 
-        gridPane1.add(new Label("Hashdatei"), 1, 2);
-        gridPane1.add(btnReadHash1, 0, 3);
-        gridPane1.add(txtHash1, 1, 3);
-        gridPane1.add(btnSetHash1, 2, 3);
+        gridPane1.add(new Label("Hashdatei"), 1, 3);
+        gridPane1.add(btnReadHash1, 0, 4);
+        gridPane1.add(txtHash1, 1, 4);
+        gridPane1.add(btnSetHash1, 2, 4);
 
 
         GridPane gridPane2 = new GridPane();
@@ -137,10 +137,10 @@ public class GuiFileRunner extends AnchorPane {
         gridPane2.add(txtDir2, 1, 1);
         gridPane2.add(btnSetDir2, 2, 1);
 
-        gridPane2.add(new Label("Hashdatei"), 1, 2);
-        gridPane2.add(btnReadHash2, 0, 3);
-        gridPane2.add(txtHash2, 1, 3);
-        gridPane2.add(btnSetHash2, 2, 3);
+        gridPane2.add(new Label("Hashdatei"), 1, 3);
+        gridPane2.add(btnReadHash2, 0, 4);
+        gridPane2.add(txtHash2, 1, 4);
+        gridPane2.add(btnSetHash2, 2, 4);
 
 
         HBox hBoxWriteHash1 = new HBox(10);
