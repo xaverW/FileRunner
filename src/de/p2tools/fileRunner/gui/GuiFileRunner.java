@@ -384,6 +384,8 @@ public class GuiFileRunner extends AnchorPane {
         } else {
             progData.worker.readDirHash(dir, fileDataList, 1, true);
         }
+        progData.fileDataList1.clearPred();
+        progData.fileDataList2.clearPred();
     }
 
     private void readHashFile(String hashFile, FileDataList fileDataList) {
@@ -397,7 +399,8 @@ public class GuiFileRunner extends AnchorPane {
         } else {
             progData.worker.readHashFile(file, fileDataList);
         }
-
+        progData.fileDataList1.clearPred();
+        progData.fileDataList2.clearPred();
     }
 
     private void writeHashFile(boolean hash1) {
