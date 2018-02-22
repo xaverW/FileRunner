@@ -17,13 +17,15 @@
 
 package de.p2tools.fileRunner.controller.data.fileData;
 
+import de.p2tools.p2Lib.tools.FileSize;
 import de.p2tools.p2Lib.tools.PDate;
 
 public class FileData extends FileDataProps {
 
-    public FileData(String file, PDate date, String hash) {
+    public FileData(String file, PDate date, FileSize fileSize, String hash) {
         setFileName(file);
         setFileDate(date);
+        setFileSize(fileSize);
         setHash(hash);
     }
 }

@@ -46,6 +46,7 @@ public class ReadHashFile {
 
     public void readFile(File fileHash, FileDataList fileDataList) {
         stop = false;
+        fileDataList.clear();
         HashFileRead hashFileRead = new HashFileRead(fileHash, fileDataList);
         new Thread(hashFileRead).start();
     }
@@ -72,7 +73,7 @@ public class ReadHashFile {
             //Liste aus Hashdatei laden
             notifyEvent(1, 0, "");
             laden();
-            notifyEvent(1, 1, "");
+            notifyEvent(0, 0, "");
         }
 
         private void laden() {

@@ -22,6 +22,7 @@ import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
+import de.p2tools.p2Lib.tools.FileSize;
 import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.PDate;
 
@@ -65,6 +66,7 @@ public class CreateDirHash {
         max = 0;
         progress = 0;
         stop = false;
+        fileDataList.clear();
         HashErstellen hashErstellen = new HashErstellen(file, fileDataList);
         runThreads = 1;
         new Thread(hashErstellen).start();
@@ -84,7 +86,6 @@ public class CreateDirHash {
         private File dir1;
         private FileDataList fileDataList;
         private LinkedList<File> listeFile = new LinkedList<>();
-        //List<File> listeFile = Collections.synchronizedList(new ArrayList<File>());
 
         public HashErstellen(File dir1, FileDataList fileDataList) {
             this.dir1 = dir1;
@@ -92,8 +93,6 @@ public class CreateDirHash {
         }
 
         public synchronized void run() {
-            listeFile.clear();
-
             // Dateien auflisten
             runDir();
             notifyEvent();
@@ -174,6 +173,7 @@ public class CreateDirHash {
                         //dir == null -> nur hash prüfen
                         String strFile = file.getAbsolutePath();
                         PDate fileDate = new PDate(file.lastModified());
+                        FileSize fileSize = new FileSize(file.length());
                         if (di.isDirectory()) {
                             strFile = strFile.substring(di.getAbsolutePath().length());
                         } else if (di.isFile()) {
@@ -182,7 +182,7 @@ public class CreateDirHash {
                         if (strFile.startsWith(File.separator)) {
                             strFile = strFile.substring(1);
                         }
-                        fileDataList.addHashString(strFile, fileDate, ret);
+                        fileDataList.addHashString(strFile, fileDate, fileSize, ret);
                     }
                 } catch (Exception ex) {
                     Log.errorLog(963210472, ex, "Fehler! " + file.getAbsolutePath());

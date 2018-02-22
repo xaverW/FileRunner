@@ -18,6 +18,7 @@
 package de.p2tools.fileRunner.gui.tools;
 
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
+import de.p2tools.p2Lib.tools.FileSize;
 import de.p2tools.p2Lib.tools.PDate;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,12 +45,16 @@ public class TableFileList {
         final TableColumn<FileData, String> fileaNameColumn = new TableColumn<>("Datei");
         fileaNameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName"));
 
-        final TableColumn<FileData, PDate> fileaDateColumn = new TableColumn<>("LastMod");
+        final TableColumn<FileSize, String> fileaSizeColumn = new TableColumn<>("Größe");
+        fileaSizeColumn.setCellValueFactory(new PropertyValueFactory<>("fileSize"));
+
+        final TableColumn<FileData, PDate> fileaDateColumn = new TableColumn<>("Geändert");
         fileaDateColumn.setCellValueFactory(new PropertyValueFactory<>("fileDate"));
 
         nrColumn.setMaxWidth(1f * Integer.MAX_VALUE * 10);
         fileaNameColumn.setMaxWidth(1f * Integer.MAX_VALUE * 50);
-        fileaDateColumn.setMaxWidth(1f * Integer.MAX_VALUE * 30);
+        fileaSizeColumn.setMaxWidth(1f * Integer.MAX_VALUE * 15);
+        fileaDateColumn.setMaxWidth(1f * Integer.MAX_VALUE * 25);
 
         tableView.setOnMousePressed(m -> {
             if (m.getButton().equals(MouseButton.SECONDARY)) {
@@ -58,7 +63,7 @@ public class TableFileList {
         });
 
         return new TableColumn[]{
-                nrColumn, fileaNameColumn, fileaDateColumn
+                nrColumn, fileaNameColumn, fileaSizeColumn, fileaDateColumn
         };
 
     }

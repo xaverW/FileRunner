@@ -20,6 +20,7 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
+import de.p2tools.p2Lib.tools.FileSize;
 import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.PDate;
 
@@ -74,7 +75,7 @@ public class HashTools {
 
     public static FileData getFileData(String line) {
         line = HashTools.changeLine(line);
-        FileData fileData = new FileData(getFile(line), getDate(line), getHash(line));
+        FileData fileData = new FileData(getFile(line), getDate(line), getFileSize(line), getHash(line));
         return fileData;
     }
 
@@ -120,6 +121,11 @@ public class HashTools {
             fil = zeile.substring(zeile.indexOf("  ") + 2);
         }
         return new PDate(0);
+    }
+
+    public static FileSize getFileSize(String zeile) {
+        //todo
+        return new FileSize("");
     }
 
     public static byte[] get(String pwd) throws IOException, GeneralSecurityException {

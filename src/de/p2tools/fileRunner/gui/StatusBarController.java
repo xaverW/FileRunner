@@ -49,7 +49,7 @@ public class StatusBarController extends AnchorPane {
 
 
     public enum StatusbarIndex {
-        NONE, Start, Thumb, Mosaik, Wallpaper
+        NONE, FILE_RUNNER
     }
 
     private StatusbarIndex statusbarIndex = StatusbarIndex.NONE;
@@ -155,13 +155,8 @@ public class StatusBarController extends AnchorPane {
 
         textPane.toFront();
         switch (statusbarIndex) {
-            case Start:
-                setTextNone();
-                break;
-            case Thumb:
-            case Mosaik:
-            case Wallpaper:
-                setInfoMosaik();
+            case FILE_RUNNER:
+                setFileRunner();
                 break;
             case NONE:
             default:
@@ -175,19 +170,15 @@ public class StatusBarController extends AnchorPane {
         lblRight.setText("");
     }
 
-    private void setInfoMosaik() {
-//        if (progData.selectedProjectData == null) {
-//            lblLeft.setText("");
-//            lblRight.setText("");
-//            return;
-//        }
-//
-//        String textLinks = "Miniaturbilder: " + (progData.selectedProjectData.getThumbCollection() != null ?
-//                progData.selectedProjectData.getName() : "");
-//        lblLeft.setText(textLinks);
-//        String strText = progData.selectedProjectData.getThumbCollection() != null ?
-//                progData.selectedProjectData.getThumbCollection().getThumbList().size() + " Miniaturbilder" : "";
-//        lblRight.setText(strText);
+    private void setFileRunner() {
+        int table1 = progData.fileDataList1.size();
+        int table2 = progData.fileDataList2.size();
+
+        String textLeft = table1 == 0 ? "" : table1 + " Dateien";
+        lblLeft.setText(textLeft);
+
+        String textRight = table2 == 0 ? "" : table2 + " Dateien";
+        lblRight.setText(textRight);
     }
 
 }

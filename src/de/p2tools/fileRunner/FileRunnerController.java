@@ -192,7 +192,7 @@ public class FileRunnerController extends StackPane {
 
         progData.guiFileRunner.toFront();
         progData.guiFileRunner.isShown();
-        statusBarController.setStatusbarIndex(StatusBarController.StatusbarIndex.Start);
+        statusBarController.setStatusbarIndex(StatusBarController.StatusbarIndex.FILE_RUNNER);
     }
 
     private void selPanelMosaik() {
@@ -210,7 +210,7 @@ public class FileRunnerController extends StackPane {
 
         progData.guiMosaik.toFront();
         progData.guiMosaik.isShown();
-        statusBarController.setStatusbarIndex(StatusBarController.StatusbarIndex.Mosaik);
+        statusBarController.setStatusbarIndex(StatusBarController.StatusbarIndex.NONE);
     }
 
     public void setMasker() {

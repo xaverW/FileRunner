@@ -28,10 +28,7 @@ import de.p2tools.p2Lib.tools.PAlert;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.util.StringConverter;
 
 import java.io.File;
@@ -56,28 +53,24 @@ public class GuiFileRunner extends AnchorPane {
     private final TextField txtWriteHash1 = new TextField("");
     private final TextField txtWriteHash2 = new TextField("");
 
-    private final RadioButton rb1Dir = new RadioButton("");
-    private final RadioButton rb1Hash = new RadioButton("");
+    private final Button btnSetDir1 = new Button("");
+    private final Button btnSetDir2 = new Button("");
+    private final Button btnSetHash1 = new Button("");
+    private final Button btnSetHash2 = new Button("");
+    private final Button btnSetWriteHash1 = new Button();
+    private final Button btnSetWriteHash2 = new Button();
 
-    private final RadioButton rb2Dir = new RadioButton("");
-    private final RadioButton rb2Hash = new RadioButton("");
-
-    private final Button btnDir1 = new Button("");
-    private final Button btnDir2 = new Button("");
-    private final Button btnhash1 = new Button("");
-    private final Button btnhash2 = new Button("");
-    private final Button btnDirWriteHash1 = new Button();
-    private final Button btnDirWriteHash2 = new Button();
+    private final Button btnReadDir1 = new Button("Lesen");
+    private final Button btnReadHash1 = new Button("Lesen");
+    private final Button btnReadDir2 = new Button("Lesen");
+    private final Button btnReadHash2 = new Button("Lesen");
     private final Button btnWriteHash1 = new Button("Liste in Datei schreiben");
     private final Button btnWriteHash2 = new Button("Liste in Datei schreiben");
 
-    private final Button btnRead1 = new Button("Verzeichnis lesen");
-    private final Button btnRead2 = new Button("Verzeichnis lesen");
-
-    private final Button btnAll = new Button("");
-    private final Button btnSame = new Button("");
-    private final Button btnOnly1 = new Button("");
-    private final Button btnOnly2 = new Button("");
+    private final Button btnShowAll = new Button("");
+    private final Button btnShowSame = new Button("");
+    private final Button btnShowOnly1 = new Button("");
+    private final Button btnShowOnly2 = new Button("");
 
     double orgX, orgDiv0, orgDiv1, orgSize;
 
@@ -112,60 +105,51 @@ public class GuiFileRunner extends AnchorPane {
     }
 
     private void initCont() {
-        ToggleGroup tg = new ToggleGroup();
-        rb1Dir.setSelected(true);
-        rb2Dir.setSelected(true);
-        tg.getToggles().addAll(rb1Dir, rb1Hash);
-        tg = new ToggleGroup();
-        tg.getToggles().addAll(rb2Dir, rb2Hash);
+        btnSetDir1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnSetDir2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnSetHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnSetHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnSetWriteHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnSetWriteHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
 
-        btnDir1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnDir2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnhash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnhash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnDirWriteHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnDirWriteHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        GridPane gridPane1 = new GridPane();
+        gridPane1.setHgap(10);
+        gridPane1.setVgap(10);
+        gridPane1.add(new Label("Verzeichnis 1"), 1, 0);
+        gridPane1.add(btnReadDir1, 0, 1);
+        gridPane1.add(cbDir1, 1, 1);
+        gridPane1.add(btnSetDir1, 2, 1);
 
-        btnDir1.setOnAction(event -> {
-            String srcDir1 = DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, projectData.getSrcDir1());
-            ProjectData pd = getProjectData(srcDir1);
-            cbDir1.getSelectionModel().select(pd);
-        });
+        gridPane1.add(new Label("Hashdatei"), 1, 2);
+        gridPane1.add(btnReadHash1, 0, 3);
+        gridPane1.add(txtHash1, 1, 3);
+        gridPane1.add(btnSetHash1, 2, 3);
 
-        btnDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtDir2));
-        btnhash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash1));
-        btnhash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash2));
-        btnDirWriteHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
-        btnDirWriteHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
 
-        HBox hBoxDir1 = new HBox(10);
-        hBoxDir1.getChildren().addAll(rb1Dir, cbDir1, btnDir1);
-        HBox hBoxDir2 = new HBox(10);
-        hBoxDir2.getChildren().addAll(rb2Dir, txtDir2, btnDir2);
+        GridPane gridPane2 = new GridPane();
+        gridPane2.setHgap(10);
+        gridPane2.setVgap(10);
+        gridPane2.add(new Label("Verzeichnis 2"), 1, 0);
+        gridPane2.add(btnReadDir2, 0, 1);
+        gridPane2.add(txtDir2, 1, 1);
+        gridPane2.add(btnSetDir2, 2, 1);
 
-        HBox hBoxDir1Hash = new HBox(10);
-        hBoxDir1Hash.getChildren().addAll(rb1Hash, txtHash1, btnhash1);
-        HBox hBoxDir2Hash = new HBox(10);
-        hBoxDir2Hash.getChildren().addAll(rb2Hash, txtHash2, btnhash2);
+        gridPane2.add(new Label("Hashdatei"), 1, 2);
+        gridPane2.add(btnReadHash2, 0, 3);
+        gridPane2.add(txtHash2, 1, 3);
+        gridPane2.add(btnSetHash2, 2, 3);
+
 
         HBox hBoxWriteHash1 = new HBox(10);
-        hBoxWriteHash1.getChildren().addAll(txtWriteHash1, btnDirWriteHash1);
-
-        HBox hBoxWriteHash2 = new HBox(10);
-        hBoxWriteHash2.getChildren().addAll(txtWriteHash2, btnDirWriteHash2);
-
-        HBox hBoxRead1 = new HBox(10);
-        hBoxRead1.getChildren().addAll(btnRead1);
-        HBox hBoxRead2 = new HBox(10);
-        hBoxRead2.getChildren().addAll(btnRead2);
-        hBoxRead1.setAlignment(Pos.CENTER_RIGHT);
-        hBoxRead2.setAlignment(Pos.CENTER_RIGHT);
-
+        hBoxWriteHash1.getChildren().addAll(txtWriteHash1, btnSetWriteHash1);
         HBox hBoxWrite1 = new HBox(10);
         hBoxWrite1.getChildren().add(btnWriteHash1);
+        hBoxWrite1.setAlignment(Pos.CENTER_RIGHT);
+
+        HBox hBoxWriteHash2 = new HBox(10);
+        hBoxWriteHash2.getChildren().addAll(txtWriteHash2, btnSetWriteHash2);
         HBox hBoxWrite2 = new HBox(10);
         hBoxWrite2.getChildren().add(btnWriteHash2);
-        hBoxWrite1.setAlignment(Pos.CENTER_RIGHT);
         hBoxWrite2.setAlignment(Pos.CENTER_RIGHT);
 
         cbDir1.setMaxWidth(Double.MAX_VALUE);
@@ -175,44 +159,39 @@ public class GuiFileRunner extends AnchorPane {
         txtWriteHash1.setMaxWidth(Double.MAX_VALUE);
         txtWriteHash2.setMaxWidth(Double.MAX_VALUE);
 
-        HBox.setHgrow(cbDir1, Priority.ALWAYS);
-        HBox.setHgrow(txtDir2, Priority.ALWAYS);
-        HBox.setHgrow(txtHash1, Priority.ALWAYS);
-        HBox.setHgrow(txtHash2, Priority.ALWAYS);
+
+        GridPane.setHgrow(cbDir1, Priority.ALWAYS);
+        GridPane.setHgrow(txtDir2, Priority.ALWAYS);
+        GridPane.setHgrow(txtHash1, Priority.ALWAYS);
+        GridPane.setHgrow(txtHash2, Priority.ALWAYS);
         HBox.setHgrow(txtWriteHash1, Priority.ALWAYS);
         HBox.setHgrow(txtWriteHash2, Priority.ALWAYS);
-
-        vBox1.setPadding(new Insets(10));
-        vBox2.setPadding(new Insets(10));
 
         VBox.setVgrow(scrollPane1, Priority.ALWAYS);
         VBox.setVgrow(scrollPane2, Priority.ALWAYS);
 
-        vBox1.getChildren().addAll(new Label("Verzeichnis 1"), hBoxDir1,
-                new Label("Hashdatei"), hBoxDir1Hash,
-                hBoxRead1,
-                scrollPane1,
+
+        vBox1.setPadding(new Insets(10));
+        vBox1.getChildren().addAll(gridPane1, scrollPane1,
                 new Label("Hashdatei schreiben"), hBoxWriteHash1, hBoxWrite1);
 
-        vBox2.getChildren().addAll(new Label("Verzeichnis 2"), hBoxDir2,
-                new Label("Hashdatei"), hBoxDir2Hash,
-                hBoxRead2,
-                scrollPane2,
+        vBox2.setPadding(new Insets(10));
+        vBox2.getChildren().addAll(gridPane2, scrollPane2,
                 new Label("Hashdatei schreiben"), hBoxWriteHash2, hBoxWrite2);
 
         vBoxBtn.setStyle("-fx-border-color: blue;");
         vBoxBtn.setAlignment(Pos.CENTER);
         vBoxBtn.setPadding(new Insets(10));
 
-        btnAll.setGraphic(new Icons().ICON_BUTTON_GUI_ALL);
-        btnAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
-        btnSame.setGraphic(new Icons().ICON_BUTTON_GUI_SAME);
-        btnSame.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen sind."));
-        btnOnly1.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_1);
-        btnOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in der Liste 1 sind."));
-        btnOnly2.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_2);
-        btnOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 sind."));
-        vBoxBtn.getChildren().addAll(btnAll, btnSame, btnOnly1, btnOnly2);
+        btnShowAll.setGraphic(new Icons().ICON_BUTTON_GUI_ALL);
+        btnShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
+        btnShowSame.setGraphic(new Icons().ICON_BUTTON_GUI_SAME);
+        btnShowSame.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen sind."));
+        btnShowOnly1.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_1);
+        btnShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in der Liste 1 sind."));
+        btnShowOnly2.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_2);
+        btnShowOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 sind."));
+        vBoxBtn.getChildren().addAll(btnShowAll, btnShowSame, btnShowOnly1, btnShowOnly2);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
         splitPane.getItems().addAll(vBox1, vBoxBtn, vBox2);
@@ -243,6 +222,9 @@ public class GuiFileRunner extends AnchorPane {
 
         table1.setItems(progData.fileDataList1.getSortedFileData());
         table2.setItems(progData.fileDataList2.getSortedFileData());
+
+        progData.fileDataList1.getSortedFileData().comparatorProperty().bind(table1.comparatorProperty());
+        progData.fileDataList2.getSortedFileData().comparatorProperty().bind(table2.comparatorProperty());
     }
 
     private void initData() {
@@ -277,34 +259,37 @@ public class GuiFileRunner extends AnchorPane {
                 selectProjectData()
         );
 
-        btnRead1.setOnAction(e -> {
-            if (rb1Dir.isSelected()) {
-                readDirHash(true);
-            } else {
-                readHashFile(true);
-            }
+        btnSetDir1.setOnAction(event -> {
+            String srcDir1 = DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, projectData.getSrcDir1());
+            ProjectData pd = getProjectData(srcDir1);
+            cbDir1.getSelectionModel().select(pd);
         });
-        btnRead2.setOnAction(e -> {
-            if (rb1Dir.isSelected()) {
-                readDirHash(false);
-            } else {
-                readHashFile(false);
-            }
-        });
+        btnSetDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtDir2));
+        btnSetHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash1));
+        btnSetHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash2));
+        btnSetWriteHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
+        btnSetWriteHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
 
-        btnAll.setOnAction(e -> {
-        });
-        btnSame.setOnAction(e -> {
-        });
-        btnOnly1.setOnAction(e -> {
-        });
-        btnOnly2.setOnAction(e -> {
-        });
+
+        btnReadDir1.setOnAction(a -> readDirHash(projectData.getSrcDir1(), progData.fileDataList1));
+        btnReadHash1.setOnAction(a -> readHashFile(projectData.getSrcHash1(), progData.fileDataList1));
+        btnReadDir2.setOnAction(a -> readDirHash(projectData.getSrcDir2(), progData.fileDataList2));
+        btnReadHash2.setOnAction(a -> readHashFile(projectData.getSrcHash2(), progData.fileDataList2));
+
         btnWriteHash1.setOnAction(e -> {
             writeHashFile(true);
         });
         btnWriteHash2.setOnAction(event -> {
             writeHashFile(false);
+        });
+
+        btnShowAll.setOnAction(e -> {
+        });
+        btnShowSame.setOnAction(e -> {
+        });
+        btnShowOnly1.setOnAction(e -> {
+        });
+        btnShowOnly2.setOnAction(e -> {
         });
     }
 
@@ -362,10 +347,7 @@ public class GuiFileRunner extends AnchorPane {
         new Table().saveTable(table2, Table.TABLE.FILELIST2);
     }
 
-    private void readDirHash(boolean dir1) {
-        String hashDir = dir1 ? projectData.getSrcDir1() : projectData.getSrcDir2();
-        FileDataList fileDataList = dir1 ? progData.fileDataList1 : progData.fileDataList2;
-
+    private void readDirHash(String hashDir, FileDataList fileDataList) {
         if (hashDir.isEmpty()) {
             return;
         }
@@ -377,10 +359,7 @@ public class GuiFileRunner extends AnchorPane {
         }
     }
 
-    private void readHashFile(boolean hashFile1) {
-        String hashFile = hashFile1 ? projectData.getSrcHash1() : projectData.getSrcHash2();
-        FileDataList fileDataList = hashFile1 ? progData.fileDataList1 : progData.fileDataList2;
-
+    private void readHashFile(String hashFile, FileDataList fileDataList) {
         if (hashFile.isEmpty()) {
             return;
         }
