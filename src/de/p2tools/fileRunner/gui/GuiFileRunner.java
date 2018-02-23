@@ -72,11 +72,11 @@ public class GuiFileRunner extends AnchorPane {
     private final Button btnWriteHash1 = new Button("Liste in Datei schreiben");
     private final Button btnWriteHash2 = new Button("Liste in Datei schreiben");
 
-    private final Button btnShowAll = new Button("");
-    private final Button btnShowSame = new Button("");
-    private final Button btnShowDiff = new Button("");
-    private final Button btnShowOnly1 = new Button("");
-    private final Button btnShowOnly2 = new Button("");
+    private final ToggleButton btnShowAll = new ToggleButton("");
+    private final ToggleButton btnShowSame = new ToggleButton("");
+    private final ToggleButton btnShowDiff = new ToggleButton("");
+    private final ToggleButton btnShowOnly1 = new ToggleButton("");
+    private final ToggleButton btnShowOnly2 = new ToggleButton("");
 
     private final TabPane tabPane1 = new TabPane();
     private final Tab tabDir1 = new Tab("Ordner");
@@ -263,6 +263,9 @@ public class GuiFileRunner extends AnchorPane {
         vBoxBtn.setAlignment(Pos.CENTER);
         vBoxBtn.setPadding(new Insets(10));
 
+        ToggleGroup tg = new ToggleGroup();
+        tg.getToggles().addAll(btnShowAll, btnShowSame, btnShowDiff, btnShowOnly1, btnShowOnly2);
+        btnShowAll.setSelected(true);
         btnShowAll.setGraphic(new Icons().ICON_BUTTON_GUI_ALL);
         btnShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
         btnShowSame.setGraphic(new Icons().ICON_BUTTON_GUI_SAME);
@@ -369,10 +372,22 @@ public class GuiFileRunner extends AnchorPane {
         btnSetWriteHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
 
 
-        btnReadDir1.setOnAction(a -> readDirHash(projectData.getSrcDir1(), projectData.getSearch1(), progData.fileDataList1));
-        btnReadHash1.setOnAction(a -> readHashFile(projectData.getSrcHash1(), projectData.getSearch1(), progData.fileDataList1));
-        btnReadDir2.setOnAction(a -> readDirHash(projectData.getSrcDir2(), projectData.getSearch2(), progData.fileDataList2));
-        btnReadHash2.setOnAction(a -> readHashFile(projectData.getSrcHash2(), projectData.getSearch2(), progData.fileDataList2));
+        btnReadDir1.setOnAction(a -> {
+            readDirHash(projectData.getSrcDir1(), projectData.getSearch1(), progData.fileDataList1);
+            selectAll();
+        });
+        btnReadHash1.setOnAction(a -> {
+            readHashFile(projectData.getSrcHash1(), projectData.getSearch1(), progData.fileDataList1);
+            selectAll();
+        });
+        btnReadDir2.setOnAction(a -> {
+            readDirHash(projectData.getSrcDir2(), projectData.getSearch2(), progData.fileDataList2);
+            selectAll();
+        });
+        btnReadHash2.setOnAction(a -> {
+            readHashFile(projectData.getSrcHash2(), projectData.getSearch2(), progData.fileDataList2);
+            selectAll();
+        });
 
         btnWriteHash1.setOnAction(e -> {
             writeHashFile(true);
@@ -427,9 +442,7 @@ public class GuiFileRunner extends AnchorPane {
             progData.fileDataList2.setPred(fileDataFilter2);
         });
         txtSearch1.textProperty().addListener((observable, oldValue, newValue) -> {
-            fileDataFilter1.setAll(true);
-            fileDataFilter1.setName(txtSearch1.getText());
-            progData.fileDataList1.setPred(fileDataFilter1);
+            selectAll();
             if (txtSearch1.getText().isEmpty()) {
                 tabFilter1.setStyle("-fx-font-weight: normal;");
             } else {
@@ -437,15 +450,25 @@ public class GuiFileRunner extends AnchorPane {
             }
         });
         txtSearch2.textProperty().addListener((observable, oldValue, newValue) -> {
-            fileDataFilter2.setAll(true);
-            fileDataFilter2.setName(txtSearch2.getText());
-            progData.fileDataList2.setPred(fileDataFilter2);
+            selectAll();
             if (txtSearch2.getText().isEmpty()) {
                 tabFilter2.setStyle("-fx-font-weight: normal;");
             } else {
                 tabFilter2.setStyle("-fx-font-weight: bold;");
             }
         });
+    }
+
+    private void selectAll() {
+        fileDataFilter1.setAll(true);
+        fileDataFilter1.setName(txtSearch1.getText());
+        progData.fileDataList1.setPred(fileDataFilter1);
+
+        fileDataFilter2.setAll(true);
+        fileDataFilter2.setName(txtSearch2.getText());
+        progData.fileDataList2.setPred(fileDataFilter2);
+
+        btnShowAll.setSelected(true);
     }
 
     private void selectProjectData() {
