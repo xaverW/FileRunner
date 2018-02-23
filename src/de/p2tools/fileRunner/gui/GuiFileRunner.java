@@ -21,6 +21,7 @@ import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
+import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
 import de.p2tools.fileRunner.gui.dialog.MTAlert;
@@ -54,6 +55,8 @@ public class GuiFileRunner extends AnchorPane {
     private final TextField txtHash2 = new TextField("");
     private final TextField txtWriteHash1 = new TextField("");
     private final TextField txtWriteHash2 = new TextField("");
+    private final TextField txtSearch1 = new TextField();
+    private final TextField txtSearch2 = new TextField();
 
     private final Button btnSetDir1 = new Button("");
     private final Button btnSetDir2 = new Button("");
@@ -79,6 +82,8 @@ public class GuiFileRunner extends AnchorPane {
 
     private ProjectData projectData = null;
     private final ProgData progData;
+    private final FileDataFilter fileDataFilter1 = new FileDataFilter();
+    private final FileDataFilter fileDataFilter2 = new FileDataFilter();
 
     public GuiFileRunner() {
         progData = ProgData.getInstance();
@@ -115,34 +120,104 @@ public class GuiFileRunner extends AnchorPane {
         btnSetWriteHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnSetWriteHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
 
-        GridPane gridPane1 = new GridPane();
-        gridPane1.setHgap(10);
-        gridPane1.setVgap(10);
-        gridPane1.add(new Label("Verzeichnis 1"), 1, 0);
-        gridPane1.add(btnReadDir1, 0, 1);
-        gridPane1.add(cbDir1, 1, 1);
-        gridPane1.add(btnSetDir1, 2, 1);
 
-        gridPane1.add(new Label("Hashdatei"), 1, 3);
-        gridPane1.add(btnReadHash1, 0, 4);
-        gridPane1.add(txtHash1, 1, 4);
-        gridPane1.add(btnSetHash1, 2, 4);
+        // dir1
+        VBox vBoxDir1 = new VBox(10);
+        vBoxDir1.setPadding(new Insets(10));
+
+        Label lblDir1 = new Label("Verzeichnis 1");
+        lblDir1.setMaxWidth(Double.MAX_VALUE);
+        HBox hBoxDirText = new HBox(10);
+        HBox.setHgrow(lblDir1, Priority.ALWAYS);
+        hBoxDirText.getChildren().addAll(lblDir1);
+
+        // hash1
+        HBox hBoxDir1 = new HBox(10);
+        HBox.setHgrow(cbDir1, Priority.ALWAYS);
+        hBoxDir1.getChildren().addAll(cbDir1, btnSetDir1, btnReadDir1);
+
+        vBoxDir1.getChildren().addAll(hBoxDirText, hBoxDir1);
+
+        VBox vBoxFile1 = new VBox(10);
+        vBoxFile1.setPadding(new Insets(10));
+        HBox hBoxFile1 = new HBox(10);
+        HBox.setHgrow(txtHash1, Priority.ALWAYS);
+        hBoxFile1.getChildren().addAll(txtHash1, btnSetHash1, btnReadHash1);
+        vBoxFile1.getChildren().addAll(new Label("Hashdatei"), hBoxFile1);
+
+        // filter1
+        HBox hBoxSearch1 = new HBox(10);
+        hBoxSearch1.setPadding(new Insets(10));
+        hBoxSearch1.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(txtSearch1, Priority.ALWAYS);
+        hBoxSearch1.getChildren().addAll(new Label("Dateien suchen"), txtSearch1);
+
+        // Tabpane1
+        TabPane tabPane1 = new TabPane();
+        Tab tabDir1 = new Tab("Ordner");
+        tabDir1.setClosable(false);
+        tabDir1.setContent(vBoxDir1);
+
+        Tab tabFile1 = new Tab("Hashdatei");
+        tabFile1.setClosable(false);
+        tabFile1.setContent(vBoxFile1);
+
+        Tab tabFilter1 = new Tab("Suchen");
+        tabFilter1.setClosable(false);
+        tabFilter1.setContent(hBoxSearch1);
+
+        tabPane1.getTabs().addAll(tabDir1, tabFile1, tabFilter1);
 
 
-        GridPane gridPane2 = new GridPane();
-        gridPane2.setHgap(10);
-        gridPane2.setVgap(10);
-        gridPane2.add(new Label("Verzeichnis 2"), 1, 0);
-        gridPane2.add(btnReadDir2, 0, 1);
-        gridPane2.add(txtDir2, 1, 1);
-        gridPane2.add(btnSetDir2, 2, 1);
+        // dir1
+        VBox vBoxDir2 = new VBox(10);
+        vBoxDir2.setPadding(new Insets(10));
 
-        gridPane2.add(new Label("Hashdatei"), 1, 3);
-        gridPane2.add(btnReadHash2, 0, 4);
-        gridPane2.add(txtHash2, 1, 4);
-        gridPane2.add(btnSetHash2, 2, 4);
+        Label lblDir2 = new Label("Verzeichnis 1");
+        lblDir2.setMaxWidth(Double.MAX_VALUE);
+        HBox hBoxDirText2 = new HBox(10);
+        HBox.setHgrow(lblDir2, Priority.ALWAYS);
+        hBoxDirText2.getChildren().addAll(lblDir2);
 
+        // hash1
+        HBox hBoxDir2 = new HBox(10);
+        HBox.setHgrow(txtDir2, Priority.ALWAYS);
+        hBoxDir2.getChildren().addAll(txtDir2, btnSetDir2, btnReadDir2);
 
+        vBoxDir2.getChildren().addAll(hBoxDirText2, hBoxDir2);
+
+        VBox vBoxFile2 = new VBox(10);
+        vBoxFile2.setPadding(new Insets(10));
+        HBox hBoxFile2 = new HBox(10);
+        HBox.setHgrow(txtHash2, Priority.ALWAYS);
+        hBoxFile2.getChildren().addAll(txtHash2, btnSetHash2, btnReadHash2);
+        vBoxFile2.getChildren().addAll(new Label("Hashdatei"), hBoxFile2);
+
+        // filter1
+        HBox hBoxSearch2 = new HBox(10);
+        hBoxSearch2.setPadding(new Insets(10));
+        hBoxSearch1.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(txtSearch1, Priority.ALWAYS);
+        hBoxSearch2.setPadding(new Insets(10));
+        hBoxSearch2.getChildren().addAll(new Label("Dateien suchen"), txtSearch2);
+
+        // Tabpane1
+        TabPane tabPane2 = new TabPane();
+        Tab tabDir2 = new Tab("Ordner");
+        tabDir2.setClosable(false);
+        tabDir2.setContent(vBoxDir2);
+
+        Tab tabFile2 = new Tab("Hashdatei");
+        tabFile2.setClosable(false);
+        tabFile2.setContent(vBoxFile2);
+
+        Tab tabFilter2 = new Tab("Suchen");
+        tabFilter2.setClosable(false);
+        tabFilter2.setContent(hBoxSearch2);
+
+        tabPane2.getTabs().addAll(tabDir2, tabFile2, tabFilter2);
+
+        // write hash
         HBox hBoxWriteHash1 = new HBox(10);
         hBoxWriteHash1.getChildren().addAll(txtWriteHash1, btnSetWriteHash1);
         HBox hBoxWrite1 = new HBox(10);
@@ -175,11 +250,11 @@ public class GuiFileRunner extends AnchorPane {
 
 
         vBox1.setPadding(new Insets(10));
-        vBox1.getChildren().addAll(gridPane1, scrollPane1,
+        vBox1.getChildren().addAll(tabPane1, scrollPane1,
                 new Label("Hashdatei schreiben"), hBoxWriteHash1, hBoxWrite1);
 
         vBox2.setPadding(new Insets(10));
-        vBox2.getChildren().addAll(gridPane2, scrollPane2,
+        vBox2.getChildren().addAll(tabPane2, scrollPane2,
                 new Label("Hashdatei schreiben"), hBoxWriteHash2, hBoxWrite2);
 
         vBoxBtn.setStyle("-fx-border-color: blue;");
@@ -227,6 +302,12 @@ public class GuiFileRunner extends AnchorPane {
 
         table1.setItems(progData.fileDataList1.getSortedFileData());
         table2.setItems(progData.fileDataList2.getSortedFileData());
+
+        fileDataFilter1.setName(txtSearch1.getText());
+        progData.fileDataList1.setPred(fileDataFilter1);
+
+        fileDataFilter2.setName(txtSearch2.getText());
+        progData.fileDataList2.setPred(fileDataFilter2);
 
         progData.fileDataList1.getSortedFileData().comparatorProperty().bind(table1.comparatorProperty());
         progData.fileDataList2.getSortedFileData().comparatorProperty().bind(table2.comparatorProperty());
@@ -286,10 +367,10 @@ public class GuiFileRunner extends AnchorPane {
         btnSetWriteHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
 
 
-        btnReadDir1.setOnAction(a -> readDirHash(projectData.getSrcDir1(), progData.fileDataList1));
-        btnReadHash1.setOnAction(a -> readHashFile(projectData.getSrcHash1(), progData.fileDataList1));
-        btnReadDir2.setOnAction(a -> readDirHash(projectData.getSrcDir2(), progData.fileDataList2));
-        btnReadHash2.setOnAction(a -> readHashFile(projectData.getSrcHash2(), progData.fileDataList2));
+        btnReadDir1.setOnAction(a -> readDirHash(projectData.getSrcDir1(), projectData.getSearch1(), progData.fileDataList1));
+        btnReadHash1.setOnAction(a -> readHashFile(projectData.getSrcHash1(), projectData.getSearch1(), progData.fileDataList1));
+        btnReadDir2.setOnAction(a -> readDirHash(projectData.getSrcDir2(), projectData.getSearch2(), progData.fileDataList2));
+        btnReadHash2.setOnAction(a -> readHashFile(projectData.getSrcHash2(), projectData.getSearch2(), progData.fileDataList2));
 
         btnWriteHash1.setOnAction(e -> {
             writeHashFile(true);
@@ -299,25 +380,58 @@ public class GuiFileRunner extends AnchorPane {
         });
 
         btnShowAll.setOnAction(e -> {
-            progData.fileDataList1.clearPred();
-            progData.fileDataList2.clearPred();
+            fileDataFilter1.setAll(true);
+            progData.fileDataList1.setPred(fileDataFilter1);
+
+            fileDataFilter2.setAll(true);
+            progData.fileDataList2.setPred(fileDataFilter2);
         });
         btnShowSame.setOnAction(e -> {
-            progData.fileDataList1.setPred(false, false);
-            progData.fileDataList2.setPred(false, false);
+            fileDataFilter1.setAll(false);
+            fileDataFilter1.setDiff(false);
+            fileDataFilter1.setOnly(false);
+            progData.fileDataList1.setPred(fileDataFilter1);
+
+            fileDataFilter2.setAll(false);
+            fileDataFilter2.setDiff(false);
+            fileDataFilter2.setOnly(false);
+            progData.fileDataList2.setPred(fileDataFilter2);
         });
         btnShowDiff.setOnAction(e -> {
-            progData.fileDataList1.setPred(true, false);
-            progData.fileDataList2.setPred(true, false);
+            fileDataFilter1.setAll(false);
+            fileDataFilter1.setDiff(true);
+            fileDataFilter1.setOnly(false);
+            progData.fileDataList1.setPred(fileDataFilter1);
+
+            fileDataFilter2.setAll(false);
+            fileDataFilter2.setDiff(true);
+            fileDataFilter2.setOnly(false);
+            progData.fileDataList2.setPred(fileDataFilter2);
         });
         btnShowOnly1.setOnAction(e -> {
-            progData.fileDataList1.setPred(false, true);
+            fileDataFilter1.setAll(false);
+            fileDataFilter1.setDiff(false);
+            fileDataFilter1.setOnly(true);
+            progData.fileDataList1.setPred(fileDataFilter1);
+
             progData.fileDataList2.setPred(false);
         });
         btnShowOnly2.setOnAction(e -> {
             progData.fileDataList1.setPred(false);
-            progData.fileDataList2.setPred(false, true);
+
+            fileDataFilter2.setAll(false);
+            fileDataFilter2.setDiff(false);
+            fileDataFilter2.setOnly(true);
+            progData.fileDataList2.setPred(fileDataFilter2);
         });
+        txtSearch1.textProperty().addListener((observable, oldValue, newValue) -> {
+            fileDataFilter1.setAll(true);
+            fileDataFilter1.setName(txtSearch1.getText());
+            System.out.println("SearchText");
+            progData.fileDataList1.setPred(fileDataFilter1);
+//            table1.refresh();
+        });
+
     }
 
     private void selectProjectData() {
@@ -338,6 +452,10 @@ public class GuiFileRunner extends AnchorPane {
             txtDir2.textProperty().bindBidirectional(projectData.srcDir2Property());
             txtHash1.textProperty().bindBidirectional(projectData.srcHash1Property());
             txtHash2.textProperty().bindBidirectional(projectData.srcHash2Property());
+
+            txtSearch1.textProperty().bindBidirectional(projectData.search1Property());
+            txtSearch2.textProperty().bindBidirectional(projectData.search2Property());
+
             txtWriteHash1.textProperty().bindBidirectional(projectData.writeHash1Property());
             txtWriteHash2.textProperty().bindBidirectional(projectData.writeHash2Property());
         }
@@ -348,6 +466,10 @@ public class GuiFileRunner extends AnchorPane {
             txtDir2.textProperty().unbindBidirectional(projectData.srcDir2Property());
             txtHash1.textProperty().unbindBidirectional(projectData.srcHash1Property());
             txtHash2.textProperty().unbindBidirectional(projectData.srcHash2Property());
+
+            txtSearch1.textProperty().unbindBidirectional(projectData.search1Property());
+            txtSearch1.textProperty().unbindBidirectional(projectData.search2Property());
+
             txtWriteHash1.textProperty().unbindBidirectional(projectData.writeHash1Property());
             txtWriteHash2.textProperty().unbindBidirectional(projectData.writeHash2Property());
         }
@@ -374,7 +496,7 @@ public class GuiFileRunner extends AnchorPane {
         new Table().saveTable(table2, Table.TABLE.FILELIST2);
     }
 
-    private void readDirHash(String hashDir, FileDataList fileDataList) {
+    private void readDirHash(String hashDir, String search, FileDataList fileDataList) {
         if (hashDir.isEmpty()) {
             return;
         }
@@ -382,13 +504,15 @@ public class GuiFileRunner extends AnchorPane {
         if (!dir.exists()) {
             MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis1 existiert nicht!");
         } else {
-            progData.worker.readDirHash(dir, fileDataList, 1, true);
+            progData.worker.readDirHash(dir, search, fileDataList, 1, true);
         }
-        progData.fileDataList1.clearPred();
-        progData.fileDataList2.clearPred();
+        fileDataFilter1.setAll(true);
+        progData.fileDataList1.setPred(fileDataFilter1);
+        fileDataFilter2.setAll(true);
+        progData.fileDataList2.setPred(fileDataFilter2);
     }
 
-    private void readHashFile(String hashFile, FileDataList fileDataList) {
+    private void readHashFile(String hashFile, String search, FileDataList fileDataList) {
         if (hashFile.isEmpty()) {
             return;
         }
@@ -397,10 +521,12 @@ public class GuiFileRunner extends AnchorPane {
         if (!file.exists()) {
             MTAlert.showErrorAlert("Hashdatei einlesen", "Die Hashdatei existiert nicht!");
         } else {
-            progData.worker.readHashFile(file, fileDataList);
+            progData.worker.readHashFile(file, search, fileDataList);
         }
-        progData.fileDataList1.clearPred();
-        progData.fileDataList2.clearPred();
+        fileDataFilter1.setAll(true);
+        progData.fileDataList1.setPred(fileDataFilter1);
+        fileDataFilter2.setAll(true);
+        progData.fileDataList2.setPred(fileDataFilter2);
     }
 
     private void writeHashFile(boolean hash1) {

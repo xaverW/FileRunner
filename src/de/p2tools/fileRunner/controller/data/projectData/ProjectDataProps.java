@@ -35,6 +35,9 @@ public class ProjectDataProps extends Data<ProjectData> {
     private final StringProperty srcHash1 = new SimpleStringProperty("");
     private final StringProperty srcHash2 = new SimpleStringProperty("");
 
+    private final StringProperty search1 = new SimpleStringProperty("");
+    private final StringProperty search2 = new SimpleStringProperty("");
+
     private final StringProperty writeHash1 = new SimpleStringProperty("");
     private final StringProperty writeHash2 = new SimpleStringProperty("");
 
@@ -49,6 +52,8 @@ public class ProjectDataProps extends Data<ProjectData> {
                 new ConfigStringProp("src-dir-2", "", srcDir2),
                 new ConfigStringProp("src-hash-1", "", srcHash1),
                 new ConfigStringProp("src-hash-2", "", srcHash2),
+                new ConfigStringProp("search-1", "", search1),
+                new ConfigStringProp("search-2", "", search2),
                 new ConfigStringProp("write-hash-1", "", writeHash1),
                 new ConfigStringProp("write-hash-2", "", writeHash2)
         ));
@@ -100,6 +105,30 @@ public class ProjectDataProps extends Data<ProjectData> {
 
     public void setSrcHash2(String srcHash2) {
         this.srcHash2.set(srcHash2);
+    }
+
+    public String getSearch1() {
+        return search1.get();
+    }
+
+    public StringProperty search1Property() {
+        return search1;
+    }
+
+    public void setSearch1(String search1) {
+        this.search1.set(search1);
+    }
+
+    public String getSearch2() {
+        return search2.get();
+    }
+
+    public StringProperty search2Property() {
+        return search2;
+    }
+
+    public void setSearch2(String search2) {
+        this.search2.set(search2);
     }
 
     public String getWriteHash1() {

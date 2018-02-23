@@ -35,8 +35,8 @@ import org.controlsfx.control.MaskerPane;
 
 public class FileRunnerController extends StackPane {
 
-    Button btnStart = new Button("Dateien");
-    Button btnMosaik = new Button("Blacklist");
+    Button btnStart = new Button("Ordner");
+    Button btnMosaik = new Button("Dateien");
     Button btnPrev = new Button("");
     Button btnNext = new Button("");
 

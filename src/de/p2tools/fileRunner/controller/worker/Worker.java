@@ -78,12 +78,12 @@ public class Worker {
         readHashFile.setStop();
     }
 
-    public void readDirHash(File dir, FileDataList fileDataList, int sumThreads, boolean recursiv) {
-        createDirHash.hashLesen(dir, fileDataList, sumThreads, recursiv);
+    public void readDirHash(File dir, String search, FileDataList fileDataList, int sumThreads, boolean recursiv) {
+        createDirHash.hashLesen(dir, search, fileDataList, sumThreads, recursiv);
     }
 
-    public void readHashFile(File file, FileDataList fileDataList) {
-        readHashFile.readFile(file, fileDataList);
+    public void readHashFile(File file, String search, FileDataList fileDataList) {
+        readHashFile.readFile(file, search, fileDataList);
     }
 
     public void writeHash(File destFile, FileDataList fileDataList) {

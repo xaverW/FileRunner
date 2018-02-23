@@ -51,18 +51,32 @@ public class FileDataList extends SimpleListProperty<FileData> {
         filteredFileDate.setPredicate(p -> true);
     }
 
+    public synchronized void setPred(FileDataFilter fileDataFilter) {
+        Predicate<FileData> predicate = film -> true;
+
+        if (!fileDataFilter.isAll()) {
+            predicate = predicate.and(f -> fileDataFilter.isDiff() == f.isDiff());
+            predicate = predicate.and(f -> fileDataFilter.isOnly() == f.isOnly());
+        }
+        if (!fileDataFilter.getName().trim().isEmpty()) {
+            predicate = predicate.and(f -> f.getFileName().toLowerCase().contains(fileDataFilter.getName().toLowerCase()));
+        }
+
+        filteredFileDate.setPredicate(predicate);
+    }
+
     public synchronized void setPred(boolean pred) {
         filteredFileDate.setPredicate(p -> pred);
     }
 
-    public void setPred(boolean diff, boolean only) {
-        Predicate<FileData> predicate = film -> true;
-
-        predicate = predicate.and(f -> diff == f.isDiff());
-        predicate = predicate.and(f -> only == f.isOnly());
-
-        filteredFileDate.setPredicate(predicate);
-    }
+//    public void setPred(boolean diff, boolean only) {
+//        Predicate<FileData> predicate = film -> true;
+//
+//        predicate = predicate.and(f -> diff == f.isDiff());
+//        predicate = predicate.and(f -> only == f.isOnly());
+//
+//        filteredFileDate.setPredicate(predicate);
+//    }
 
     public void clear() {
         nr = 1;
