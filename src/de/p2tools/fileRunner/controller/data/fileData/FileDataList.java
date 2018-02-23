@@ -69,15 +69,6 @@ public class FileDataList extends SimpleListProperty<FileData> {
         filteredFileDate.setPredicate(p -> pred);
     }
 
-//    public void setPred(boolean diff, boolean only) {
-//        Predicate<FileData> predicate = film -> true;
-//
-//        predicate = predicate.and(f -> diff == f.isDiff());
-//        predicate = predicate.and(f -> only == f.isOnly());
-//
-//        filteredFileDate.setPredicate(predicate);
-//    }
-
     public void clear() {
         nr = 1;
         super.clear();

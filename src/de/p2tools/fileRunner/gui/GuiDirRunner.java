@@ -24,10 +24,10 @@ import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
-import de.p2tools.fileRunner.gui.dialog.MTAlert;
 import de.p2tools.fileRunner.gui.tools.Table;
-import de.p2tools.p2Lib.tools.DirFileChooser;
-import de.p2tools.p2Lib.tools.PAlert;
+import de.p2tools.p2Lib.dialog.DirFileChooser;
+import de.p2tools.p2Lib.dialog.PAlert;
+import de.p2tools.p2Lib.dialog.PAlertFileChosser;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -88,7 +88,7 @@ public class GuiDirRunner extends AnchorPane {
     private final Tab tabFile2 = new Tab("Hashdatei");
     private final Tab tabFilter2 = new Tab("Suchen");
 
-    double orgX, orgDiv0, orgDiv1, orgSize;
+    private double orgX, orgDiv0, orgDiv1, orgSize;
 
     private ProjectData projectData = null;
     private final ProgData progData;
@@ -373,28 +373,24 @@ public class GuiDirRunner extends AnchorPane {
 
 
         btnReadDir1.setOnAction(a -> {
-            readDirHash(projectData.getSrcDir1(), projectData.getSearch1(), progData.fileDataList1);
+            readDirHash(projectData.getSrcDir1(), progData.fileDataList1);
             selectAll();
         });
         btnReadHash1.setOnAction(a -> {
-            readHashFile(projectData.getSrcHash1(), projectData.getSearch1(), progData.fileDataList1);
+            readHashFile(projectData.getSrcHash1(), progData.fileDataList1);
             selectAll();
         });
         btnReadDir2.setOnAction(a -> {
-            readDirHash(projectData.getSrcDir2(), projectData.getSearch2(), progData.fileDataList2);
+            readDirHash(projectData.getSrcDir2(), progData.fileDataList2);
             selectAll();
         });
         btnReadHash2.setOnAction(a -> {
-            readHashFile(projectData.getSrcHash2(), projectData.getSearch2(), progData.fileDataList2);
+            readHashFile(projectData.getSrcHash2(), progData.fileDataList2);
             selectAll();
         });
 
-        btnWriteHash1.setOnAction(e -> {
-            writeHashFile(true);
-        });
-        btnWriteHash2.setOnAction(event -> {
-            writeHashFile(false);
-        });
+        btnWriteHash1.setOnAction(e -> writeHashFile(true));
+        btnWriteHash2.setOnAction(event -> writeHashFile(false));
 
         btnShowAll.setOnAction(e -> {
             fileDataFilter1.setAll(true);
@@ -533,15 +529,15 @@ public class GuiDirRunner extends AnchorPane {
         new Table().saveTable(table2, Table.TABLE.FILELIST2);
     }
 
-    private void readDirHash(String hashDir, String search, FileDataList fileDataList) {
+    private void readDirHash(String hashDir, FileDataList fileDataList) {
         if (hashDir.isEmpty()) {
             return;
         }
         File dir = new File(hashDir);
         if (!dir.exists()) {
-            MTAlert.showErrorAlert("Verzeichnis einlesen", "Verzeichnis1 existiert nicht!");
+            PAlertFileChosser.showErrorAlert("Verzeichnis einlesen", "Verzeichnis1 existiert nicht!");
         } else {
-            progData.worker.readDirHash(dir, search, fileDataList, 1, true);
+            progData.worker.readDirHash(dir, fileDataList, 1, true);
         }
         fileDataFilter1.setAll(true);
         progData.fileDataList1.setPred(fileDataFilter1);
@@ -549,16 +545,16 @@ public class GuiDirRunner extends AnchorPane {
         progData.fileDataList2.setPred(fileDataFilter2);
     }
 
-    private void readHashFile(String hashFile, String search, FileDataList fileDataList) {
+    private void readHashFile(String hashFile, FileDataList fileDataList) {
         if (hashFile.isEmpty()) {
             return;
         }
 
         File file = new File(hashFile);
         if (!file.exists()) {
-            MTAlert.showErrorAlert("Hashdatei einlesen", "Die Hashdatei existiert nicht!");
+            PAlertFileChosser.showErrorAlert("Hashdatei einlesen", "Die Hashdatei existiert nicht!");
         } else {
-            progData.worker.readHashFile(file, search, fileDataList);
+            progData.worker.readHashFile(file, fileDataList);
         }
         fileDataFilter1.setAll(true);
         progData.fileDataList1.setPred(fileDataFilter1);
@@ -583,7 +579,7 @@ public class GuiDirRunner extends AnchorPane {
         }
         file = new File(str);
         if (file.exists()) {
-            PAlert.BUTTON btn = MTAlert.showAlert_yes_no("Datei existiert bereits!", "Überschreiben",
+            PAlert.BUTTON btn = PAlertFileChosser.showAlert_yes_no("Datei existiert bereits!", "Überschreiben",
                     "Hashdatei existiert bereits, überschreiben?");
             if (btn.equals(PAlert.BUTTON.NO)) {
                 return;

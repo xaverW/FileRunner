@@ -52,10 +52,10 @@ public class ReadHashFile {
         stop = true;
     }
 
-    public void readFile(File fileHash, String search, FileDataList fileDataList) {
+    public void readFile(File fileHash, FileDataList fileDataList) {
         stop = false;
         fileDataList.clear();
-        HashFileRead hashFileRead = new HashFileRead(fileHash, search, fileDataList);
+        HashFileRead hashFileRead = new HashFileRead(fileHash, fileDataList);
         new Thread(hashFileRead).start();
     }
 
@@ -73,7 +73,7 @@ public class ReadHashFile {
         private String search;
         private FileDataList fileDataList;
 
-        public HashFileRead(File hashFile, String search, FileDataList fileDataList) {
+        public HashFileRead(File hashFile, FileDataList fileDataList) {
             this.hashFile = hashFile;
             this.search = search;
             this.fileDataList = fileDataList;
@@ -99,8 +99,7 @@ public class ReadHashFile {
                 String zeile;
                 while (!stop && (zeile = in.readLine()) != null) {
                     try {
-                        FileData fileData = HashTools.getFileData(zeile);
-//                        if (fileData.getFileName().contains(search))
+                        final FileData fileData = HashTools.getFileData(zeile);
                         tmp.add(fileData);
                     } catch (Exception ex) {
                         Log.errorLog(704125890, ex, new String[]{"Kann die Zeile in der Hashdatei nicht verarbeiten:", zeile});

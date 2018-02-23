@@ -20,6 +20,7 @@ import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.config.ProgInfos;
 import de.p2tools.fileRunner.gui.tools.MTOpen;
+import de.p2tools.p2Lib.dialog.MTDialogExtra;
 import de.p2tools.p2Lib.tools.Functions;
 import de.p2tools.p2Lib.tools.Log;
 import javafx.geometry.Insets;
@@ -121,11 +122,6 @@ public class AboutDialogController extends MTDialogExtra {
         text.setFill(GRAY);
         gridPane.add(text, 0, ++row);
         gridPane.add(hyperlink, 1, row);
-
-
-//        text = new Text("\n\nProgrammpfad");
-//        text.setFont(Font.font(null, FontWeight.BOLD, 15));
-//        gridPane.add(text, 0, ++row, 2, 1);
 
         text = new Text("Einstellungen:");
         text.setFont(new Font(15));

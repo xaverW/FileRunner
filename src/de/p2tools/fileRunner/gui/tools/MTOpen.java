@@ -17,7 +17,7 @@
 package de.p2tools.fileRunner.gui.tools;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.fileRunner.gui.dialog.MTAlert;
+import de.p2tools.p2Lib.dialog.PAlertFileChosser;
 import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.PConfigs;
 import javafx.application.Platform;
@@ -82,7 +82,7 @@ public class MTOpen {
         filmFile = new File(datei);
 
         if (!filmFile.exists()) {
-            new MTAlert().showErrorAlert("Fehler", "Kein Film", "Film existiert noch nicht!");
+            new PAlertFileChosser().showErrorAlert("Fehler", "Kein Film", "Film existiert noch nicht!");
             return;
         }
 
@@ -186,7 +186,7 @@ public class MTOpen {
 
 
         try {
-            programm = new MTAlert().showAlertFileCooser(title, header, cont, false);
+            programm = new PAlertFileChosser().showAlertFileCooser(title, header, cont, false);
             if (!programm.isEmpty()) {
                 final String[] cmd = {programm, directory};
                 Runtime.getRuntime().exec(cmd);
@@ -205,7 +205,7 @@ public class MTOpen {
 
         if (!ok) {
             conf.setValue("");
-            new MTAlert().showErrorAlert("Fehler", "", "Kann das Programm nicht öffnen!");
+            new PAlertFileChosser().showErrorAlert("Fehler", "", "Kann das Programm nicht öffnen!");
         }
     }
 

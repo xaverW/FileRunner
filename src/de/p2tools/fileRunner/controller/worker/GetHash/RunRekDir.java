@@ -17,7 +17,7 @@
 
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
-import de.p2tools.fileRunner.gui.dialog.MTAlert;
+import de.p2tools.p2Lib.dialog.PAlertFileChosser;
 import de.p2tools.p2Lib.tools.Log;
 import javafx.application.Platform;
 
@@ -56,7 +56,7 @@ public class RunRekDir {
                     if (!altert) {
                         altert = true;
                         Platform.runLater(() ->
-                                MTAlert.showErrorAlert("Dateien lesen", "Kann Dateien des Ordners \"" + path + "\" nicht lesen", "Fehler!"));
+                                PAlertFileChosser.showErrorAlert("Dateien lesen", "Kann Dateien des Ordners \"" + path + "\" nicht lesen", "Fehler!"));
                     }
                 } else {
                     for (int i = 0; i < list.length; i++) {

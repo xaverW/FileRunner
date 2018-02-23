@@ -172,7 +172,7 @@ public class FileRunnerController extends StackPane {
 
         progData.guiDirRunner.toFront();
         progData.guiDirRunner.isShown();
-        statusBarController.setStatusbarIndex(StatusBarController.StatusbarIndex.FILE_RUNNER);
+        statusBarController.setStatusbarIndex(StatusBarController.StatusbarIndex.DIR_RUNNER);
     }
 
     private void selPanelFileRunner() {

@@ -32,8 +32,6 @@ public class ProgConst {
     public static final String VERZEICHNIS_PROGRAMM_ICONS = "Icons/Programm"; // Unterverzeichnis im Programmverzeichnis
     public static final String VERZEICHNIS_EINSTELLUNGEN = ".fileRunner"; // im Homeverzeichnis
 
-    public static final String DIR_SEPARATOR = "<>";
-
     public static final String XML_START = "FileRunner";
     public static final String HASH = "SHA1";
     public final static String MD5 = "MD5";

@@ -16,7 +16,8 @@
 
 package de.p2tools.p2Lib.tools;
 
-import de.p2tools.fileRunner.gui.dialog.MTAlert;
+import de.p2tools.p2Lib.dialog.PAlert;
+import de.p2tools.p2Lib.dialog.PAlertFileChosser;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
@@ -295,11 +296,11 @@ public class FileUtils {
         try {
             File file = new File(strFile);
             if (!file.exists()) {
-                new MTAlert().showErrorAlert("Datei löschen", "", "Die Datei existiert nicht!");
+                new PAlertFileChosser().showErrorAlert("Datei löschen", "", "Die Datei existiert nicht!");
                 return false;
             }
 
-            if (new MTAlert().showAlert("Datei Löschen?", "", "Die Datei löschen:\n\n" + strFile)) {
+            if (new PAlertFileChosser().showAlert("Datei Löschen?", "", "Die Datei löschen:\n\n" + strFile)) {
 
                 // und jetzt die Datei löschen
                 SysMsg.sysMsg(new String[]{"Datei löschen: ", file.getAbsolutePath()});
@@ -310,7 +311,7 @@ public class FileUtils {
             }
         } catch (Exception ex) {
             ret = false;
-            new MTAlert().showErrorAlert("Datei löschen",
+            new PAlertFileChosser().showErrorAlert("Datei löschen",
                     "Konnte die Datei nicht löschen!", "Fehler beim löschen von:\n\n" +
                             strFile);
             Log.errorLog(912036547, "Fehler beim löschen: " + strFile);
@@ -323,7 +324,7 @@ public class FileUtils {
         try {
             File file = new File(strFile);
             if (!file.exists()) {
-                new MTAlert().showErrorAlert("Datei löschen", "", "Die Datei existiert nicht!");
+                new PAlertFileChosser().showErrorAlert("Datei löschen", "", "Die Datei existiert nicht!");
                 return false;
             }
 
@@ -336,7 +337,7 @@ public class FileUtils {
 
         } catch (Exception ex) {
             ret = false;
-            new MTAlert().showErrorAlert("Datei löschen",
+            new PAlertFileChosser().showErrorAlert("Datei löschen",
                     "Konnte die Datei nicht löschen!", "Fehler beim löschen von:\n\n" +
                             strFile);
             Log.errorLog(912036547, "Fehler beim löschen: " + strFile);

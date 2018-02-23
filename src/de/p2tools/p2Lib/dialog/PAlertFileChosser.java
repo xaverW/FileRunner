@@ -14,12 +14,10 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.fileRunner.gui.dialog;
+package de.p2tools.p2Lib.dialog;
 
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
-import de.p2tools.p2Lib.tools.DirFileChooser;
-import de.p2tools.p2Lib.tools.PAlert;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -30,7 +28,7 @@ import javafx.scene.layout.Region;
 
 import java.util.Optional;
 
-public class MTAlert extends PAlert {
+public class PAlertFileChosser extends PAlert {
 
     public static String showAlertFileCooser(String title, String header, String content, boolean dir) {
         return showAlertFileCooser(title, header, content, dir, true, "");

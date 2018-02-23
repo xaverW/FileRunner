@@ -14,7 +14,7 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.p2Lib.tools;
+package de.p2tools.p2Lib.dialog;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;

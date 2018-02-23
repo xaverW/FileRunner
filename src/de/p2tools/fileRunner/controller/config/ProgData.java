@@ -44,8 +44,8 @@ public class ProgData {
     public FileDataList fileDataList2;
 
     // zentrale Klassen
-    public Worker worker = null;
-    public ProjectDataList projectDataList = null;
+    public Worker worker;
+    public ProjectDataList projectDataList;
 
     // Gui
     public Stage primaryStage = null;

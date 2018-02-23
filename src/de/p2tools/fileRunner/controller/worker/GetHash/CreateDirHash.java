@@ -61,14 +61,14 @@ public class CreateDirHash {
         stop = true;
     }
 
-    public void hashLesen(File file, String search, FileDataList fileDataList, int anzThread, boolean rekursiv) {
+    public void hashLesen(File file, FileDataList fileDataList, int anzThread, boolean rekursiv) {
         this.anzThread = anzThread;
         this.rekursiv = rekursiv;
         max = 0;
         progress = 0;
         stop = false;
         fileDataList.clear();
-        HashErstellen hashErstellen = new HashErstellen(file, search, fileDataList);
+        HashErstellen hashErstellen = new HashErstellen(file, fileDataList);
         runThreads = 1;
         new Thread(hashErstellen).start();
     }
@@ -88,7 +88,7 @@ public class CreateDirHash {
         private FileDataList fileDataList;
         private LinkedList<File> listeFile = new LinkedList<>();
 
-        public HashErstellen(File dir1, String search, FileDataList fileDataList) {
+        public HashErstellen(File dir1, FileDataList fileDataList) {
             this.dir1 = dir1;
             this.fileDataList = fileDataList;
         }

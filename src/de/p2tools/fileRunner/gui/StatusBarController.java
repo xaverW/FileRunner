@@ -49,7 +49,7 @@ public class StatusBarController extends AnchorPane {
 
 
     public enum StatusbarIndex {
-        NONE, FILE_RUNNER
+        NONE, DIR_RUNNER, FILE_RUNNER
     }
 
     private StatusbarIndex statusbarIndex = StatusbarIndex.NONE;
@@ -155,8 +155,11 @@ public class StatusBarController extends AnchorPane {
 
         textPane.toFront();
         switch (statusbarIndex) {
-            case FILE_RUNNER:
+            case DIR_RUNNER:
                 setFileRunner();
+                break;
+            case FILE_RUNNER:
+                setTextNone();
                 break;
             case NONE:
             default:
