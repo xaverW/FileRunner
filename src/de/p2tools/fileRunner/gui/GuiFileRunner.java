@@ -78,6 +78,16 @@ public class GuiFileRunner extends AnchorPane {
     private final Button btnShowOnly1 = new Button("");
     private final Button btnShowOnly2 = new Button("");
 
+    private final TabPane tabPane1 = new TabPane();
+    private final Tab tabDir1 = new Tab("Ordner");
+    private final Tab tabFile1 = new Tab("Hashdatei");
+    private final Tab tabFilter1 = new Tab("Suchen");
+
+    private final TabPane tabPane2 = new TabPane();
+    private final Tab tabDir2 = new Tab("Ordner");
+    private final Tab tabFile2 = new Tab("Hashdatei");
+    private final Tab tabFilter2 = new Tab("Suchen");
+
     double orgX, orgDiv0, orgDiv1, orgSize;
 
     private ProjectData projectData = null;
@@ -153,16 +163,12 @@ public class GuiFileRunner extends AnchorPane {
         hBoxSearch1.getChildren().addAll(new Label("Dateien suchen"), txtSearch1);
 
         // Tabpane1
-        TabPane tabPane1 = new TabPane();
-        Tab tabDir1 = new Tab("Ordner");
         tabDir1.setClosable(false);
         tabDir1.setContent(vBoxDir1);
 
-        Tab tabFile1 = new Tab("Hashdatei");
         tabFile1.setClosable(false);
         tabFile1.setContent(vBoxFile1);
 
-        Tab tabFilter1 = new Tab("Suchen");
         tabFilter1.setClosable(false);
         tabFilter1.setContent(hBoxSearch1);
 
@@ -196,22 +202,18 @@ public class GuiFileRunner extends AnchorPane {
         // filter1
         HBox hBoxSearch2 = new HBox(10);
         hBoxSearch2.setPadding(new Insets(10));
-        hBoxSearch1.setAlignment(Pos.CENTER_LEFT);
-        HBox.setHgrow(txtSearch1, Priority.ALWAYS);
+        hBoxSearch2.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(txtSearch2, Priority.ALWAYS);
         hBoxSearch2.setPadding(new Insets(10));
         hBoxSearch2.getChildren().addAll(new Label("Dateien suchen"), txtSearch2);
 
         // Tabpane1
-        TabPane tabPane2 = new TabPane();
-        Tab tabDir2 = new Tab("Ordner");
         tabDir2.setClosable(false);
         tabDir2.setContent(vBoxDir2);
 
-        Tab tabFile2 = new Tab("Hashdatei");
         tabFile2.setClosable(false);
         tabFile2.setContent(vBoxFile2);
 
-        Tab tabFilter2 = new Tab("Suchen");
         tabFilter2.setClosable(false);
         tabFilter2.setContent(hBoxSearch2);
 
@@ -427,11 +429,23 @@ public class GuiFileRunner extends AnchorPane {
         txtSearch1.textProperty().addListener((observable, oldValue, newValue) -> {
             fileDataFilter1.setAll(true);
             fileDataFilter1.setName(txtSearch1.getText());
-            System.out.println("SearchText");
             progData.fileDataList1.setPred(fileDataFilter1);
-//            table1.refresh();
+            if (txtSearch1.getText().isEmpty()) {
+                tabFilter1.setStyle("-fx-font-weight: normal;");
+            } else {
+                tabFilter1.setStyle("-fx-font-weight: bold;");
+            }
         });
-
+        txtSearch2.textProperty().addListener((observable, oldValue, newValue) -> {
+            fileDataFilter2.setAll(true);
+            fileDataFilter2.setName(txtSearch2.getText());
+            progData.fileDataList2.setPred(fileDataFilter2);
+            if (txtSearch2.getText().isEmpty()) {
+                tabFilter2.setStyle("-fx-font-weight: normal;");
+            } else {
+                tabFilter2.setStyle("-fx-font-weight: bold;");
+            }
+        });
     }
 
     private void selectProjectData() {
