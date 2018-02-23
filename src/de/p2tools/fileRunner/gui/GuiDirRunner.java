@@ -75,6 +75,7 @@ public class GuiDirRunner extends AnchorPane {
     private final ToggleButton btnShowAll = new ToggleButton("");
     private final ToggleButton btnShowSame = new ToggleButton("");
     private final ToggleButton btnShowDiff = new ToggleButton("");
+    private final ToggleButton btnShowDiffAll = new ToggleButton("");
     private final ToggleButton btnShowOnly1 = new ToggleButton("");
     private final ToggleButton btnShowOnly2 = new ToggleButton("");
 
@@ -145,7 +146,6 @@ public class GuiDirRunner extends AnchorPane {
         HBox hBoxDir1 = new HBox(10);
         HBox.setHgrow(cbDir1, Priority.ALWAYS);
         hBoxDir1.getChildren().addAll(cbDir1, btnSetDir1, btnReadDir1);
-
         vBoxDir1.getChildren().addAll(hBoxDirText, hBoxDir1);
 
         VBox vBoxFile1 = new VBox(10);
@@ -189,7 +189,6 @@ public class GuiDirRunner extends AnchorPane {
         HBox hBoxDir2 = new HBox(10);
         HBox.setHgrow(txtDir2, Priority.ALWAYS);
         hBoxDir2.getChildren().addAll(txtDir2, btnSetDir2, btnReadDir2);
-
         vBoxDir2.getChildren().addAll(hBoxDirText2, hBoxDir2);
 
         VBox vBoxFile2 = new VBox(10);
@@ -218,6 +217,14 @@ public class GuiDirRunner extends AnchorPane {
         tabFilter2.setContent(hBoxSearch2);
 
         tabPane2.getTabs().addAll(tabDir2, tabFile2, tabFilter2);
+
+        tabFile1.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            projectData.setTabFile1(!tabFile1.isSelected());
+        });
+        tabFile2.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            projectData.setTabFile2(!tabFile2.isSelected());
+        });
+
 
         // write hash
         HBox hBoxWriteHash1 = new HBox(10);
@@ -264,19 +271,21 @@ public class GuiDirRunner extends AnchorPane {
         vBoxBtn.setPadding(new Insets(10));
 
         ToggleGroup tg = new ToggleGroup();
-        tg.getToggles().addAll(btnShowAll, btnShowSame, btnShowDiff, btnShowOnly1, btnShowOnly2);
+        tg.getToggles().addAll(btnShowAll, btnShowSame, btnShowDiff, btnShowDiffAll, btnShowOnly1, btnShowOnly2);
         btnShowAll.setSelected(true);
         btnShowAll.setGraphic(new Icons().ICON_BUTTON_GUI_ALL);
         btnShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
         btnShowSame.setGraphic(new Icons().ICON_BUTTON_GUI_SAME);
         btnShowSame.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen sind und gleich sind."));
         btnShowDiff.setGraphic(new Icons().ICON_BUTTON_GUI_DIFF);
-        btnShowDiff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen sind und sich unterscheiden."));
+        btnShowDiff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind und sich unterscheiden."));
+        btnShowDiffAll.setGraphic(new Icons().ICON_BUTTON_GUI_DIFF_ALL);
+        btnShowDiffAll.setTooltip(new Tooltip("Alle Dateien suchen, die sich unterscheiden."));
         btnShowOnly1.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_1);
-        btnShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in der Liste 1 sind."));
+        btnShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 sind."));
         btnShowOnly2.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_2);
         btnShowOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 sind."));
-        vBoxBtn.getChildren().addAll(btnShowAll, btnShowSame, btnShowDiff, btnShowOnly1, btnShowOnly2);
+        vBoxBtn.getChildren().addAll(btnShowAll, btnShowSame, btnShowDiff, btnShowDiffAll, btnShowOnly1, btnShowOnly2);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
         splitPane.getItems().addAll(vBox1, vBoxBtn, vBox2);
@@ -308,10 +317,10 @@ public class GuiDirRunner extends AnchorPane {
         table1.setItems(progData.fileDataList1.getSortedFileData());
         table2.setItems(progData.fileDataList2.getSortedFileData());
 
-        fileDataFilter1.setName(txtSearch1.getText());
+        fileDataFilter1.setSearchStr(txtSearch1.getText());
         progData.fileDataList1.setPred(fileDataFilter1);
 
-        fileDataFilter2.setName(txtSearch2.getText());
+        fileDataFilter2.setSearchStr(txtSearch2.getText());
         progData.fileDataList2.setPred(fileDataFilter2);
 
         progData.fileDataList1.getSortedFileData().comparatorProperty().bind(table1.comparatorProperty());
@@ -374,71 +383,60 @@ public class GuiDirRunner extends AnchorPane {
 
         btnReadDir1.setOnAction(a -> {
             readDirHash(projectData.getSrcDir1(), progData.fileDataList1);
-            selectAll();
+            changeTextFilter();
         });
         btnReadHash1.setOnAction(a -> {
             readHashFile(projectData.getSrcHash1(), progData.fileDataList1);
-            selectAll();
+            changeTextFilter();
         });
         btnReadDir2.setOnAction(a -> {
             readDirHash(projectData.getSrcDir2(), progData.fileDataList2);
-            selectAll();
+            changeTextFilter();
         });
         btnReadHash2.setOnAction(a -> {
             readHashFile(projectData.getSrcHash2(), progData.fileDataList2);
-            selectAll();
+            changeTextFilter();
         });
 
         btnWriteHash1.setOnAction(e -> writeHashFile(true));
         btnWriteHash2.setOnAction(event -> writeHashFile(false));
 
         btnShowAll.setOnAction(e -> {
-            fileDataFilter1.setAll(true);
+            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
+            fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
             progData.fileDataList1.setPred(fileDataFilter1);
-
-            fileDataFilter2.setAll(true);
             progData.fileDataList2.setPred(fileDataFilter2);
         });
         btnShowSame.setOnAction(e -> {
-            fileDataFilter1.setAll(false);
-            fileDataFilter1.setDiff(false);
-            fileDataFilter1.setOnly(false);
+            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.SAME);
+            fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.SAME);
             progData.fileDataList1.setPred(fileDataFilter1);
-
-            fileDataFilter2.setAll(false);
-            fileDataFilter2.setDiff(false);
-            fileDataFilter2.setOnly(false);
             progData.fileDataList2.setPred(fileDataFilter2);
         });
         btnShowDiff.setOnAction(e -> {
-            fileDataFilter1.setAll(false);
-            fileDataFilter1.setDiff(true);
-            fileDataFilter1.setOnly(false);
+            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
+            fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
             progData.fileDataList1.setPred(fileDataFilter1);
-
-            fileDataFilter2.setAll(false);
-            fileDataFilter2.setDiff(true);
-            fileDataFilter2.setOnly(false);
+            progData.fileDataList2.setPred(fileDataFilter2);
+        });
+        btnShowDiffAll.setOnAction(e -> {
+            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_ALL);
+            fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_ALL);
+            progData.fileDataList1.setPred(fileDataFilter1);
             progData.fileDataList2.setPred(fileDataFilter2);
         });
         btnShowOnly1.setOnAction(e -> {
-            fileDataFilter1.setAll(false);
-            fileDataFilter1.setDiff(false);
-            fileDataFilter1.setOnly(true);
+            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
             progData.fileDataList1.setPred(fileDataFilter1);
-
             progData.fileDataList2.setPred(false);
         });
         btnShowOnly2.setOnAction(e -> {
             progData.fileDataList1.setPred(false);
-
-            fileDataFilter2.setAll(false);
-            fileDataFilter2.setDiff(false);
-            fileDataFilter2.setOnly(true);
+            fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
             progData.fileDataList2.setPred(fileDataFilter2);
         });
         txtSearch1.textProperty().addListener((observable, oldValue, newValue) -> {
-            selectAll();
+            changeTextFilter();
             if (txtSearch1.getText().isEmpty()) {
                 tabFilter1.setStyle("-fx-font-weight: normal;");
             } else {
@@ -446,7 +444,7 @@ public class GuiDirRunner extends AnchorPane {
             }
         });
         txtSearch2.textProperty().addListener((observable, oldValue, newValue) -> {
-            selectAll();
+            changeTextFilter();
             if (txtSearch2.getText().isEmpty()) {
                 tabFilter2.setStyle("-fx-font-weight: normal;");
             } else {
@@ -455,16 +453,23 @@ public class GuiDirRunner extends AnchorPane {
         });
     }
 
-    private void selectAll() {
-        fileDataFilter1.setAll(true);
-        fileDataFilter1.setName(txtSearch1.getText());
+    private void changeTextFilter() {
+        fileDataFilter1.setSearchStr(txtSearch1.getText());
+        fileDataFilter2.setSearchStr(txtSearch2.getText());
         progData.fileDataList1.setPred(fileDataFilter1);
-
-        fileDataFilter2.setAll(true);
-        fileDataFilter2.setName(txtSearch2.getText());
         progData.fileDataList2.setPred(fileDataFilter2);
+    }
 
+    private void clearFilter() {
         btnShowAll.setSelected(true);
+        fileDataFilter1.setSearchStr(txtSearch1.getText());
+        fileDataFilter2.setSearchStr(txtSearch2.getText());
+
+        fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
+        fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
+
+        progData.fileDataList1.setPred(fileDataFilter1);
+        progData.fileDataList2.setPred(fileDataFilter2);
     }
 
     private void selectProjectData() {
@@ -491,6 +496,7 @@ public class GuiDirRunner extends AnchorPane {
 
             txtWriteHash1.textProperty().bindBidirectional(projectData.writeHash1Property());
             txtWriteHash2.textProperty().bindBidirectional(projectData.writeHash2Property());
+            tabPane1.getSelectionModel().select(projectData.isTabFile1() ? tabDir1 : tabFile1);
         }
     }
 
@@ -539,10 +545,8 @@ public class GuiDirRunner extends AnchorPane {
         } else {
             progData.worker.readDirHash(dir, fileDataList, 1, true);
         }
-        fileDataFilter1.setAll(true);
-        progData.fileDataList1.setPred(fileDataFilter1);
-        fileDataFilter2.setAll(true);
-        progData.fileDataList2.setPred(fileDataFilter2);
+
+        clearFilter();
     }
 
     private void readHashFile(String hashFile, FileDataList fileDataList) {
@@ -556,10 +560,7 @@ public class GuiDirRunner extends AnchorPane {
         } else {
             progData.worker.readHashFile(file, fileDataList);
         }
-        fileDataFilter1.setAll(true);
-        progData.fileDataList1.setPred(fileDataFilter1);
-        fileDataFilter2.setAll(true);
-        progData.fileDataList2.setPred(fileDataFilter2);
+        clearFilter();
     }
 
     private void writeHashFile(boolean hash1) {

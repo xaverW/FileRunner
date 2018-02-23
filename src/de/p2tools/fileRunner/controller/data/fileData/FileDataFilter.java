@@ -18,40 +18,27 @@
 package de.p2tools.fileRunner.controller.data.fileData;
 
 public class FileDataFilter {
-    private boolean all = true;
-    private boolean diff = false;
-    private boolean only = false;
-    private String name = "";
 
-    public boolean isAll() {
-        return all;
+    public enum FILTER_TYPES {
+        ALL, SAME, DIFF, DIFF_ALL, ONLY
     }
 
-    public void setAll(boolean all) {
-        this.all = all;
+    private String searchStr = "";
+    private FILTER_TYPES filter_types = FILTER_TYPES.ALL;
+
+    public String getSearchStr() {
+        return searchStr;
     }
 
-    public boolean isDiff() {
-        return diff;
+    public void setSearchStr(String searchStr) {
+        this.searchStr = searchStr;
     }
 
-    public void setDiff(boolean diff) {
-        this.diff = diff;
+    public FILTER_TYPES getFilter_types() {
+        return filter_types;
     }
 
-    public boolean isOnly() {
-        return only;
-    }
-
-    public void setOnly(boolean only) {
-        this.only = only;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setFilter_types(FILTER_TYPES filter_types) {
+        this.filter_types = filter_types;
     }
 }

@@ -54,16 +54,74 @@ public class FileDataList extends SimpleListProperty<FileData> {
     public synchronized void setPred(FileDataFilter fileDataFilter) {
         Predicate<FileData> predicate = film -> true;
 
-        if (!fileDataFilter.isAll()) {
-            predicate = predicate.and(f -> fileDataFilter.isDiff() == f.isDiff());
-            predicate = predicate.and(f -> fileDataFilter.isOnly() == f.isOnly());
-        }
-        if (!fileDataFilter.getName().trim().isEmpty()) {
-            predicate = predicate.and(f -> f.getFileName().toLowerCase().contains(fileDataFilter.getName().toLowerCase()));
+        switch (fileDataFilter.getFilter_types()) {
+            case ALL:
+                break;
+            case SAME:
+                predicate = predicate.and(f -> !f.isDiff() && !f.isOnly());
+                break;
+            case DIFF:
+                predicate = predicate.and(f -> f.isDiff() && !f.isOnly());
+                break;
+            case DIFF_ALL:
+                predicate = predicate.and(f -> f.isDiff() || f.isOnly());
+                break;
+            case ONLY:
+                predicate = predicate.and(f -> f.isOnly());
+                break;
+            default:
         }
 
+
+        if (!fileDataFilter.getSearchStr().trim().isEmpty()) {
+            predicate = predicate.and(f -> f.getFileName().toLowerCase().contains(fileDataFilter.getSearchStr().toLowerCase()));
+        }
         filteredFileDate.setPredicate(predicate);
     }
+
+//    public synchronized void setPredSame(FileDataFilter fileDataFilter) {
+//        Predicate<FileData> predicate = film -> true;
+//        predicate = predicate.and(f -> !f.isDiff() && !f.isOnly());
+//
+//        if (!fileDataFilter.getName().trim().isEmpty()) {
+//            predicate = predicate.and(f -> f.getFileName().toLowerCase().contains(fileDataFilter.getName().toLowerCase()));
+//        }
+//
+//        filteredFileDate.setPredicate(predicate);
+//    }
+
+//    public synchronized void setPredDiff(FileDataFilter fileDataFilter) {
+//        Predicate<FileData> predicate = film -> true;
+//        predicate = predicate.and(f -> f.isDiff() && !f.isOnly());
+//
+//        if (!fileDataFilter.getName().trim().isEmpty()) {
+//            predicate = predicate.and(f -> f.getFileName().toLowerCase().contains(fileDataFilter.getName().toLowerCase()));
+//        }
+//
+//        filteredFileDate.setPredicate(predicate);
+//    }
+
+//    public synchronized void setPredDiffAll(FileDataFilter fileDataFilter) {
+//        Predicate<FileData> predicate = film -> true;
+//        predicate = predicate.and(f -> f.isDiff() || f.isOnly());
+//
+//        if (!fileDataFilter.getName().trim().isEmpty()) {
+//            predicate = predicate.and(f -> f.getFileName().toLowerCase().contains(fileDataFilter.getName().toLowerCase()));
+//        }
+//
+//        filteredFileDate.setPredicate(predicate);
+//    }
+
+//    public synchronized void setPredOnly(FileDataFilter fileDataFilter) {
+//        Predicate<FileData> predicate = film -> true;
+//        predicate = predicate.and(f -> f.isOnly());
+//
+//        if (!fileDataFilter.getName().trim().isEmpty()) {
+//            predicate = predicate.and(f -> f.getFileName().toLowerCase().contains(fileDataFilter.getName().toLowerCase()));
+//        }
+//
+//        filteredFileDate.setPredicate(predicate);
+//    }
 
     public synchronized void setPred(boolean pred) {
         filteredFileDate.setPredicate(p -> pred);

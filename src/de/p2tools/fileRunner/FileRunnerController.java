@@ -23,7 +23,6 @@ import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
 import de.p2tools.fileRunner.gui.StatusBarController;
 import de.p2tools.fileRunner.gui.dialog.AboutDialogController;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -31,7 +30,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.*;
-import org.controlsfx.control.MaskerPane;
 
 public class FileRunnerController extends StackPane {
 
@@ -44,7 +42,6 @@ public class FileRunnerController extends StackPane {
 
     BorderPane borderPane = new BorderPane();
     StackPane stackPaneCont = new StackPane();
-    private MaskerPane maskerPane = new MaskerPane();
     private StatusBarController statusBarController;
 
     private final ProgData progData;
@@ -102,11 +99,6 @@ public class FileRunnerController extends StackPane {
             statusBarController = new StatusBarController(progData);
 
 
-            // MaskerPane
-            maskerPane.setPadding(new Insets(3, 1, 1, 1));
-            StackPane.setAlignment(maskerPane, Pos.CENTER);
-            maskerPane.setVisible(false);
-
             // Button NEXT-PREV
             HBox hBoxPrev = new HBox();
             hBoxPrev.getChildren().addAll(btnPrev);
@@ -132,7 +124,7 @@ public class FileRunnerController extends StackPane {
             borderPane.setRight(hBoxNext);
 
             this.setPadding(new Insets(0));
-            this.getChildren().addAll(borderPane, maskerPane);
+            this.getChildren().addAll(borderPane);
 
             selPanelDirRunner();
 
@@ -158,9 +150,6 @@ public class FileRunnerController extends StackPane {
     }
 
     private void selPanelDirRunner() {
-        if (maskerPane.isVisible()) {
-            return;
-        }
         btnPrev.setDisable(true);
         btnNext.setDisable(false);
 
@@ -176,9 +165,6 @@ public class FileRunnerController extends StackPane {
     }
 
     private void selPanelFileRunner() {
-        if (maskerPane.isVisible()) {
-            return;
-        }
         btnPrev.setDisable(false);
         btnNext.setDisable(true);
 
@@ -192,14 +178,6 @@ public class FileRunnerController extends StackPane {
         progData.guiFileRunner.isShown();
         statusBarController.setStatusbarIndex(StatusBarController.StatusbarIndex.NONE);
     }
-
-    public void setMasker() {
-        maskerPane.setVisible(true);
-    }
-
-    public void resetMasker() {
-        Platform.runLater(() -> {
-            maskerPane.setVisible(false);
-        });
-    }
 }
+
+

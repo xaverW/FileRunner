@@ -19,7 +19,10 @@ package de.p2tools.fileRunner.controller.data.projectData;
 
 import de.p2tools.fileRunner.controller.data.Data;
 import de.p2tools.p2Lib.configFile.config.Config;
+import de.p2tools.p2Lib.configFile.config.ConfigBoolProp;
 import de.p2tools.p2Lib.configFile.config.ConfigStringProp;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -41,6 +44,9 @@ public class ProjectDataProps extends Data<ProjectData> {
     private final StringProperty writeHash1 = new SimpleStringProperty("");
     private final StringProperty writeHash2 = new SimpleStringProperty("");
 
+    private final BooleanProperty tabFile1 = new SimpleBooleanProperty(true);
+    private final BooleanProperty tabFile2 = new SimpleBooleanProperty(true);
+
 
     public String getTag() {
         return TAG;
@@ -55,7 +61,9 @@ public class ProjectDataProps extends Data<ProjectData> {
                 new ConfigStringProp("search-1", "", search1),
                 new ConfigStringProp("search-2", "", search2),
                 new ConfigStringProp("write-hash-1", "", writeHash1),
-                new ConfigStringProp("write-hash-2", "", writeHash2)
+                new ConfigStringProp("write-hash-2", "", writeHash2),
+                new ConfigBoolProp("tab-file-1", true, tabFile1),
+                new ConfigBoolProp("tab-file-2", true, tabFile2)
         ));
     }
 
@@ -153,6 +161,30 @@ public class ProjectDataProps extends Data<ProjectData> {
 
     public void setWriteHash2(String writeHash2) {
         this.writeHash2.set(writeHash2);
+    }
+
+    public boolean isTabFile1() {
+        return tabFile1.get();
+    }
+
+    public BooleanProperty tabFile1Property() {
+        return tabFile1;
+    }
+
+    public void setTabFile1(boolean tabFile1) {
+        this.tabFile1.set(tabFile1);
+    }
+
+    public boolean isTabFile2() {
+        return tabFile2.get();
+    }
+
+    public BooleanProperty tabFile2Property() {
+        return tabFile2;
+    }
+
+    public void setTabFile2(boolean tabFile2) {
+        this.tabFile2.set(tabFile2);
     }
 
     @Override
