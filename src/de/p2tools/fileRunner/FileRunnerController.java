@@ -1,6 +1,6 @@
 /*
- * MTPlayer Copyright (C) 2017 W. Xaver W.Xaver[at]googlemail.com
- * https://sourceforge.net/projects/mtplayer/
+ * P2tools Copyright (C) 2018 W. Xaver W.Xaver[at]googlemail.com
+ * https://www.p2tools.de/
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation, either version 3 of the
@@ -19,8 +19,8 @@ package de.p2tools.fileRunner;
 import de.p2tools.fileRunner.controller.ProgQuitt;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
+import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
-import de.p2tools.fileRunner.gui.GuiMosaik;
 import de.p2tools.fileRunner.gui.StatusBarController;
 import de.p2tools.fileRunner.gui.dialog.AboutDialogController;
 import javafx.application.Platform;
@@ -35,8 +35,8 @@ import org.controlsfx.control.MaskerPane;
 
 public class FileRunnerController extends StackPane {
 
-    Button btnStart = new Button("Ordner");
-    Button btnMosaik = new Button("Dateien");
+    Button btnDirRunner = new Button("Ordner");
+    Button btnFileRunner = new Button("Dateien");
     Button btnPrev = new Button("");
     Button btnNext = new Button("");
 
@@ -69,14 +69,14 @@ public class FileRunnerController extends StackPane {
             tilePane.setAlignment(Pos.CENTER);
             HBox.setHgrow(tilePane, Priority.ALWAYS);
 
-            tilePane.getChildren().addAll(btnStart, btnMosaik);
+            tilePane.getChildren().addAll(btnDirRunner, btnFileRunner);
             hBoxMenueButton.getChildren().addAll(tilePane, menuButton);
 
-            btnStart.setOnAction(e -> selPanelStart());
-            btnStart.setMaxWidth(Double.MAX_VALUE);
+            btnDirRunner.setOnAction(e -> selPanelDirRunner());
+            btnDirRunner.setMaxWidth(Double.MAX_VALUE);
 
-            btnMosaik.setOnAction(e -> selPanelMosaik());
-            btnMosaik.setMaxWidth(Double.MAX_VALUE);
+            btnFileRunner.setOnAction(e -> selPanelFileRunner());
+            btnFileRunner.setMaxWidth(Double.MAX_VALUE);
 
 
             // Menü
@@ -93,10 +93,10 @@ public class FileRunnerController extends StackPane {
 
 
             // Panes
+            progData.guiDirRunner = new GuiDirRunner();
             progData.guiFileRunner = new GuiFileRunner();
-            progData.guiMosaik = new GuiMosaik();
 
-            stackPaneCont.getChildren().addAll(progData.guiFileRunner, progData.guiMosaik);
+            stackPaneCont.getChildren().addAll(progData.guiDirRunner, progData.guiFileRunner);
 
             // Statusbar
             statusBarController = new StatusBarController(progData);
@@ -134,7 +134,7 @@ public class FileRunnerController extends StackPane {
             this.setPadding(new Insets(0));
             this.getChildren().addAll(borderPane, maskerPane);
 
-            selPanelStart();
+            selPanelDirRunner();
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -143,53 +143,53 @@ public class FileRunnerController extends StackPane {
 
     private void setPrev() {
         Node front = stackPaneCont.getChildren().get(stackPaneCont.getChildren().size() - 1);
-        if (front.equals(progData.guiFileRunner)) {
+        if (front.equals(progData.guiDirRunner)) {
 
-        } else if (front.equals(progData.guiMosaik)) {
-            selPanelStart();
+        } else if (front.equals(progData.guiFileRunner)) {
+            selPanelDirRunner();
         }
     }
 
     private void setNext() {
         Node front = stackPaneCont.getChildren().get(stackPaneCont.getChildren().size() - 1);
-        if (front.equals(progData.guiFileRunner)) {
-            selPanelMosaik();
+        if (front.equals(progData.guiDirRunner)) {
+            selPanelFileRunner();
         }
     }
 
-    private void selPanelStart() {
+    private void selPanelDirRunner() {
         if (maskerPane.isVisible()) {
             return;
         }
         btnPrev.setDisable(true);
         btnNext.setDisable(false);
 
-        btnStart.getStyleClass().clear();
-        btnMosaik.getStyleClass().clear();
+        btnDirRunner.getStyleClass().clear();
+        btnFileRunner.getStyleClass().clear();
 
-        btnStart.getStyleClass().add("btnTab-sel");
-        btnMosaik.getStyleClass().add("btnTab");
+        btnDirRunner.getStyleClass().add("btnTab-sel");
+        btnFileRunner.getStyleClass().add("btnTab");
 
-        progData.guiFileRunner.toFront();
-        progData.guiFileRunner.isShown();
+        progData.guiDirRunner.toFront();
+        progData.guiDirRunner.isShown();
         statusBarController.setStatusbarIndex(StatusBarController.StatusbarIndex.FILE_RUNNER);
     }
 
-    private void selPanelMosaik() {
+    private void selPanelFileRunner() {
         if (maskerPane.isVisible()) {
             return;
         }
         btnPrev.setDisable(false);
         btnNext.setDisable(true);
 
-        btnStart.getStyleClass().clear();
-        btnMosaik.getStyleClass().clear();
+        btnDirRunner.getStyleClass().clear();
+        btnFileRunner.getStyleClass().clear();
 
-        btnStart.getStyleClass().add("btnTab");
-        btnMosaik.getStyleClass().add("btnTab-sel");
+        btnDirRunner.getStyleClass().add("btnTab");
+        btnFileRunner.getStyleClass().add("btnTab-sel");
 
-        progData.guiMosaik.toFront();
-        progData.guiMosaik.isShown();
+        progData.guiFileRunner.toFront();
+        progData.guiFileRunner.isShown();
         statusBarController.setStatusbarIndex(StatusBarController.StatusbarIndex.NONE);
     }
 

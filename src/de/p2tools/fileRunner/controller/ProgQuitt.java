@@ -1,6 +1,6 @@
 /*
- * MTPlayer Copyright (C) 2017 W. Xaver W.Xaver[at]googlemail.com
- * https://sourceforge.net/projects/mtplayer/
+ * P2tools Copyright (C) 2018 W. Xaver W.Xaver[at]googlemail.com
+ * https://www.p2tools.de/
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation, either version 3 of the
@@ -38,11 +38,11 @@ public class ProgQuitt {
 
     private void writeTabSettings() {
         // Tabelleneinstellungen merken
-        progData.guiFileRunner.saveTable();
+        progData.guiDirRunner.saveTable();
     }
 
     /**
-     * Quit the MTPlayer application
+     * Quit the application
      *
      * @param showOptionTerminate show options dialog when downloads are running
      */

@@ -1,6 +1,6 @@
 /*
- * MTPlayer Copyright (C) 2018 W. Xaver W.Xaver[at]googlemail.com
- * http://zdfmediathk.sourceforge.net/
+ * P2tools Copyright (C) 2018 W. Xaver W.Xaver[at]googlemail.com
+ * https://www.p2tools.de/
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation, either version 3 of the
@@ -25,7 +25,6 @@ import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.util.Iterator;

@@ -1,6 +1,6 @@
 /*
- * MTPlayer Copyright (C) 2017 W. Xaver W.Xaver[at]googlemail.com
- * https://sourceforge.net/projects/mtplayer/
+ * P2tools Copyright (C) 2018 W. Xaver W.Xaver[at]googlemail.com
+ * https://www.p2tools.de/
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation, either version 3 of the
@@ -31,7 +31,7 @@ public class ProgConfig extends PConfig {
     // Fenstereinstellungen
     public static PConfigs SYSTEM_GROESSE_GUI = addNewKey("Groesse-Gui", "1000:900");
 
-    // GuiFileRunner
+    // GuiDirRunner
     public static PConfigs GUI_FILERUNNER_TABLE1_WIDTH = addNewKey("gui-filerunner-table1-width");
     public static PConfigs GUI_FILERUNNER_TABLE1_SORT = addNewKey("gui-filerunner-table1-sort");
     public static PConfigs GUI_FILERUNNER_TABLE1_UPDOWN = addNewKey("gui-filerunner-table1-upDown");

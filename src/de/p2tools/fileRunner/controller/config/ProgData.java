@@ -1,6 +1,6 @@
 /*
- * MTPlayer Copyright (C) 2017 W. Xaver W.Xaver[at]googlemail.com
- * https://sourceforge.net/projects/mtplayer/
+ * P2tools Copyright (C) 2018 W. Xaver W.Xaver[at]googlemail.com
+ * https://www.p2tools.de/
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation, either version 3 of the
@@ -21,8 +21,8 @@ import de.p2tools.fileRunner.FileRunnerController;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectDataList;
 import de.p2tools.fileRunner.controller.worker.Worker;
+import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
-import de.p2tools.fileRunner.gui.GuiMosaik;
 import de.p2tools.fileRunner.gui.tools.Listener;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -51,8 +51,8 @@ public class ProgData {
     public Stage primaryStage = null;
     public FileRunnerController fileRunnerController = null;
 
-    public GuiFileRunner guiFileRunner = null; // StartTab
-    public GuiMosaik guiMosaik = null; // MosaikTab
+    public GuiDirRunner guiDirRunner = null; // DirTab
+    public GuiFileRunner guiFileRunner = null; // FileTab
 
 
     private ProgData() {
