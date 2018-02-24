@@ -120,8 +120,8 @@ public class FileRunnerController extends StackPane {
             borderPane.setTop(hBoxMenueButton);
             borderPane.setCenter(stackPaneCont);
             borderPane.setBottom(statusBarController);
-            borderPane.setLeft(hBoxPrev);
-            borderPane.setRight(hBoxNext);
+//            borderPane.setLeft(hBoxPrev);
+//            borderPane.setRight(hBoxNext);
 
             this.setPadding(new Insets(0));
             this.getChildren().addAll(borderPane);

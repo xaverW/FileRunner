@@ -164,7 +164,7 @@ public class CreateDirHash {
             private String hash(File file, File di) {
                 String ret = "";
                 try {
-                    MessageDigest messageDigest = MessageDigest.getInstance(ProgConst.MD5);
+                    MessageDigest messageDigest = MessageDigest.getInstance(ProgConst.HASH_MD5);
                     srcStream = new DigestInputStream(new FileInputStream(file), messageDigest);
 
                     while (!stop && srcStream.read(buffer) > -1) {

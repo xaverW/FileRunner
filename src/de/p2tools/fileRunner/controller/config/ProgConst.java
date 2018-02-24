@@ -33,8 +33,10 @@ public class ProgConst {
     public static final String VERZEICHNIS_EINSTELLUNGEN = ".fileRunner"; // im Homeverzeichnis
 
     public static final String XML_START = "FileRunner";
-    public static final String HASH = "SHA1";
-    public final static String MD5 = "MD5";
+    public final static String HASH_SHA256 = "SHA-256";
+    public final static String HASH_SHA1 = "SHA-1";
+    public final static String HASH_MD5 = "MD5";
+
 
     public static final int MAX_PROJECT_DATA = 3;
 

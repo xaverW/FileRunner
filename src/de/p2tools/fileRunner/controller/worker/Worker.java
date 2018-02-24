@@ -22,10 +22,12 @@ import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.GetHash.CreateDirHash;
+import de.p2tools.fileRunner.controller.worker.GetHash.GetHash;
 import de.p2tools.fileRunner.controller.worker.GetHash.HashTools;
 import de.p2tools.fileRunner.controller.worker.GetHash.ReadHashFile;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.StringProperty;
 
 import javax.swing.event.EventListenerList;
 import java.io.File;
@@ -35,7 +37,7 @@ public class Worker {
 
     private final CreateDirHash createDirHash;
     private final ReadHashFile readHashFile;
-
+    private final GetHash getHash;
     private EventListenerList listeners = new EventListenerList();
     private BooleanProperty working = new SimpleBooleanProperty(false);
 
@@ -43,6 +45,7 @@ public class Worker {
         this.progData = progData;
         createDirHash = new CreateDirHash(progData);
         readHashFile = new ReadHashFile(progData);
+        getHash = new GetHash();
 
         createDirHash.addAdListener(new RunListener() {
             @Override
@@ -51,6 +54,12 @@ public class Worker {
             }
         });
         readHashFile.addAdListener(new RunListener() {
+            @Override
+            public void ping(RunEvent runEvent) {
+                notifyEvent(runEvent);
+            }
+        });
+        getHash.addAdListener(new RunListener() {
             @Override
             public void ping(RunEvent runEvent) {
                 notifyEvent(runEvent);
@@ -76,6 +85,7 @@ public class Worker {
     public void setStop() {
         createDirHash.setStop();
         readHashFile.setStop();
+        getHash.setStop();
     }
 
     public void readDirHash(File dir, FileDataList fileDataList, int sumThreads, boolean recursiv) {
@@ -88,6 +98,10 @@ public class Worker {
 
     public void writeHash(File destFile, FileDataList fileDataList) {
         HashTools.schreiben(destFile, fileDataList);
+    }
+
+    public void getHash(File file, StringProperty stringProperty) {
+        getHash.getHash(file, stringProperty);
     }
 
     private void notifyEvent(RunEvent runEvent) {

@@ -46,6 +46,13 @@ public class ProgConfig extends PConfig {
 
     public static PConfigs GUI_FILERUNNER_DIR1 = addNewKey("gui-filerunner-dir1");
 
+    public static PConfigs GUI_FILE_FILE1 = addNewKey("gui-file-file1");
+    public static PConfigs GUI_FILE_HASH1 = addNewKey("gui-file-hash1");
+    public static PConfigs GUI_FILE_FILE2 = addNewKey("gui-file-file2");
+    public static PConfigs GUI_FILE_HASH2 = addNewKey("gui-file-hash2");
+
+    public static PConfigs GUI_FILE_HASH = addNewKey("gui-file-hash");
+
 
     public static ConfigsData getConfigsData() {
         // sonst werden die Keys nich vorher angelegt :)

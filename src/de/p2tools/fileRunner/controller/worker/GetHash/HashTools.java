@@ -17,7 +17,6 @@
 
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
-import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.p2Lib.tools.FileSize;
@@ -28,8 +27,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.security.GeneralSecurityException;
-import java.security.MessageDigest;
 import java.util.Iterator;
 
 public class HashTools {
@@ -128,14 +125,15 @@ public class HashTools {
         return new FileSize("");
     }
 
-    public static byte[] get(String pwd) throws IOException, GeneralSecurityException {
-        MessageDigest md = MessageDigest.getInstance(ProgConst.HASH);
-        byte[] digest = md.digest(pwd.getBytes());
-        byte[] hKey = new byte[24];
-        System.arraycopy(digest, 0, hKey, 0, 8);
-        System.arraycopy(digest, 8, hKey, 8, 8);
-        // Erster und dritter Schlüssel sind bei TripleDES identisch
-        System.arraycopy(digest, 0, hKey, 16, 8);
-        return hKey;
-    }
+//    public static byte[] get(String pwd) throws IOException, GeneralSecurityException {
+//        final String HASH = "SHA1";
+//        MessageDigest md = MessageDigest.getInstance(HASH);
+//        byte[] digest = md.digest(pwd.getBytes());
+//        byte[] hKey = new byte[24];
+//        System.arraycopy(digest, 0, hKey, 0, 8);
+//        System.arraycopy(digest, 8, hKey, 8, 8);
+//        // Erster und dritter Schlüssel sind bei TripleDES identisch
+//        System.arraycopy(digest, 0, hKey, 16, 8);
+//        return hKey;
+//    }
 }

@@ -24,6 +24,7 @@ public class Icons {
 
     public final ImageView ICON_BUTTON_HELP = GetIcon.getImageView("button-help.png", 16, 16);
     public final ImageView ICON_BUTTON_FILE_OPEN = GetIcon.getImageView("button-file-open.png", 16, 16);
+    public final ImageView ICON_BUTTON_GEN_HASH = GetIcon.getImageView("button-gen-hash.png", 16, 16);
 
     public final ImageView ICON_BUTTON_GUI_NEXT = GetIcon.getImageView("button-gui-next_.png", 40, 100);
     public final ImageView ICON_BUTTON_GUI_PREV = GetIcon.getImageView("button-gui-prev_.png", 40, 100);

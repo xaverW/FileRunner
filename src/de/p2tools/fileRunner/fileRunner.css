@@ -71,7 +71,7 @@
                -fx-border-insets: 0, 15;
                -fx-border-width: 20 5, 10 3;
                -fx-padding: 20px;
-               }
+}
 
 
 /* damit leere Tabellenzeilen nicht angezeigt werden */
@@ -223,6 +223,20 @@
              linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 70%, white 100%),
              radial-gradient(center 80% -70%, radius 200%, #e6e6e6 35%, rgba(230,230,230,0) 40%);
  }
+
+.headerLabelVertikal {
+    -fx-rotate: -90;
+    -fx-padding: 5 10 5 10;
+    -fx-border-width: 1;
+    -fx-border-radius: 15;
+    -fx-border-insets: 0;
+    -fx-border-color: -style-border-color-lbl;
+    -fx-background-radius: 15;
+    -fx-background-insets: 0;
+      -fx-background-color: #5d5e8c,
+             linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 70%, white 100%),
+             radial-gradient(center 80% -70%, radius 200%, #e6e6e6 35%, rgba(230,230,230,0) 40%);
+}
 
 .pane-border {
     -fx-border-width: 1;

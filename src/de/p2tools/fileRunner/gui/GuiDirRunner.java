@@ -259,7 +259,7 @@ public class GuiDirRunner extends AnchorPane {
         vBox2.getChildren().addAll(tabPane2, scrollPane2,
                 new Label("Hashdatei schreiben"), hBoxWriteHash2, hBoxWrite2);
 
-        vBoxBtn.setStyle("-fx-border-color: blue;");
+        vBoxBtn.getStyleClass().add("pane-border");
         vBoxBtn.setAlignment(Pos.CENTER);
         vBoxBtn.setPadding(new Insets(10));
 
