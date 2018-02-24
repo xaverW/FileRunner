@@ -33,8 +33,8 @@ import javafx.scene.layout.*;
 
 public class FileRunnerController extends StackPane {
 
-    Button btnDirRunner = new Button("Ordner");
-    Button btnFileRunner = new Button("Dateien");
+    Button btnDirRunner = new Button("Ordner\nvergleichen");
+    Button btnFileRunner = new Button("Dateien\nvergleichen");
     Button btnPrev = new Button("");
     Button btnNext = new Button("");
 

@@ -104,6 +104,10 @@ public class Worker {
         getHash.getHash(file, stringProperty);
     }
 
+    public void save(File file, String fileHash, String hash) {
+        getHash.save(file, fileHash, hash);
+    }
+
     private void notifyEvent(RunEvent runEvent) {
         working.setValue(!runEvent.nixLos());
 

@@ -51,7 +51,8 @@ public class ProgConfig extends PConfig {
     public static PConfigs GUI_FILE_FILE2 = addNewKey("gui-file-file2");
     public static PConfigs GUI_FILE_HASH2 = addNewKey("gui-file-hash2");
 
-    public static PConfigs GUI_FILE_HASH = addNewKey("gui-file-hash");
+    public static PConfigs GUI_FILE_HASH = addNewKey("gui-file-hash", ProgConst.HASH_MD5);
+    public static PConfigs GUI_FILE_HASH_SUFF = addNewKey("gui-file-hash-suff", ProgConst.HASH_MD5_SUFFIX);
 
 
     public static ConfigsData getConfigsData() {

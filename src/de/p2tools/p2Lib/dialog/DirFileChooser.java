@@ -29,6 +29,34 @@ import java.nio.file.Paths;
 
 public class DirFileChooser {
 
+    public static String FileChooserSave(Stage stage, String initDirStr, String initFileStr) {
+        String ret = "";
+        File initDir;
+        final FileChooser fileChooser = new FileChooser();
+
+        if (initDirStr.isEmpty()) {
+            initDir = new File(System.getProperty("user.home"));
+        } else {
+            initDir = new File(initDirStr);
+        }
+        fileChooser.setInitialDirectory(initDir);
+
+        if (!initFileStr.isEmpty()) {
+            fileChooser.setInitialFileName(initFileStr);
+        }
+
+        File selectedFile = fileChooser.showSaveDialog(stage);
+        if (selectedFile != null) {
+            try {
+                ret = selectedFile.getAbsolutePath();
+            } catch (final Exception ex) {
+                Log.errorLog(912030654, ex);
+            }
+        }
+
+        return ret;
+    }
+
     public static void FileChooser(Stage stage, TextField txtFile) {
         final FileChooser fileChooser = new FileChooser();
 

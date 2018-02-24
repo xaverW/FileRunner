@@ -20,13 +20,11 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.p2Lib.tools.Log;
 import javafx.beans.property.StringProperty;
 
 import javax.swing.event.EventListenerList;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 
@@ -117,5 +115,25 @@ public class GetHash {
         return ret;
     }
 
+    public void save(File file, String fileHash, String hash) {
+        OutputStreamWriter out = null;
+        try {
+            if (file.exists()) {
+                file.delete();
+            }
+            file.createNewFile();
+            out = new OutputStreamWriter(new FileOutputStream(hash, true));
+            out.write(hash + " " + "*" + fileHash + "\n");
+            out.flush();
+        } catch (Exception ex) {
+            Log.errorLog(620120124, ex, "Fehler beim Schreiben der Hashdatei!");
+        } finally {
+            try {
+                out.close();
+            } catch (IOException ex) {
+                Log.errorLog(987410235, ex, "Fehler beim Schießen der Hashdatei!");
+            }
+        }
+    }
 }
 
