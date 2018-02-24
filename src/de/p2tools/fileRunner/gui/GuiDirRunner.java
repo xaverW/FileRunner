@@ -352,9 +352,9 @@ public class GuiDirRunner extends AnchorPane {
             @Override
             public void ping(RunEvent runEvent) {
                 if (runEvent.nixLos()) {
-                    System.out.println("Table refresh");
-                    table1.refresh();
-                    table2.refresh();
+//                    System.out.println("Table refresh");
+//                    table1.refresh();
+//                    table2.refresh();
                 }
             }
         });

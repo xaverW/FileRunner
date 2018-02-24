@@ -80,6 +80,7 @@ public class GuiFileRunner extends AnchorPane {
         cbxMd5.setSelected(true);
         initCont();
         initData();
+        setColor();
         addListener();
     }
 
@@ -183,6 +184,7 @@ public class GuiFileRunner extends AnchorPane {
         txtHash1.textProperty().bindBidirectional(ProgConfig.GUI_FILE_HASH1.getStringProperty());
         txtFile2.textProperty().bindBidirectional(ProgConfig.GUI_FILE_FILE2.getStringProperty());
         txtHash2.textProperty().bindBidirectional(ProgConfig.GUI_FILE_HASH2.getStringProperty());
+
         switch (ProgConfig.GUI_FILE_HASH.get()) {
             case ProgConst.HASH_MD5:
                 cbxMd5.setSelected(true);
@@ -195,14 +197,17 @@ public class GuiFileRunner extends AnchorPane {
                 break;
         }
         cbxMd5.setOnAction(a -> {
+            clearHash();
             ProgConfig.GUI_FILE_HASH.setValue(ProgConst.HASH_MD5);
             ProgConfig.GUI_FILE_HASH_SUFF.setValue(ProgConst.HASH_MD5_SUFFIX);
         });
         cbxSha1.setOnAction(a -> {
+            clearHash();
             ProgConfig.GUI_FILE_HASH.setValue(ProgConst.HASH_SHA1);
             ProgConfig.GUI_FILE_HASH_SUFF.setValue(ProgConst.HASH_SHA1_SUFFIX);
         });
         cbxSha256.setOnAction(a -> {
+            clearHash();
             ProgConfig.GUI_FILE_HASH.setValue(ProgConst.HASH_SHA256);
             ProgConfig.GUI_FILE_HASH_SUFF.setValue(ProgConst.HASH_SHA256_SUFFIX);
         });
@@ -211,10 +216,43 @@ public class GuiFileRunner extends AnchorPane {
         btnSaveHash1.disableProperty().bind(txtHash1.textProperty().isEmpty());
         btnSaveHash2.disableProperty().bind(txtFile2.textProperty().isEmpty());
         btnSaveHash2.disableProperty().bind(txtHash2.textProperty().isEmpty());
+
+    }
+
+    private void clearHash() {
+        txtHash1.clear();
+        txtHash2.clear();
+    }
+
+    private void setColor() {
+        if (!txtHash1.getText().isEmpty() && !txtHash2.getText().isEmpty() &&
+                txtHash1.getText().equals(txtHash2.getText())) {
+            txtHash1.getStyleClass().add("txtHash");
+            txtHash2.getStyleClass().add("txtHash");
+        } else {
+            txtHash1.getStyleClass().removeAll("txtHash");
+            txtHash2.getStyleClass().removeAll("txtHash");
+        }
     }
 
     private void addListener() {
+        txtFile1.textProperty().addListener((observable, oldValue, newValue) -> {
+            txtHash1.clear();
+        });
+        txtFile2.textProperty().addListener((observable, oldValue, newValue) -> {
+            txtHash2.clear();
+        });
+
+        txtHash1.textProperty().addListener((observable, oldValue, newValue) -> {
+            setColor();
+        });
+        txtHash2.textProperty().addListener((observable, oldValue, newValue) -> {
+            setColor();
+        });
+
+
         btnGenHash1.setOnAction(event -> {
+            txtHash1.clear();
             if (txtFile1.getText().trim().isEmpty()) {
                 PAlert.showErrorAlert("Hash erstellen", "Es ist keine Datei angegeben!");
                 return;
@@ -227,6 +265,7 @@ public class GuiFileRunner extends AnchorPane {
             progData.worker.getHash(file, txtHash1.textProperty());
         });
         btnGenHash2.setOnAction(event -> {
+            txtHash2.clear();
             if (txtFile2.getText().trim().isEmpty()) {
                 PAlert.showErrorAlert("Hash erstellen", "Es ist keine Datei angegeben!");
                 return;
@@ -240,12 +279,12 @@ public class GuiFileRunner extends AnchorPane {
         });
 
         btnGetFile1.setOnAction(a -> {
-            DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtFile1);
             txtHash1.clear();
+            DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtFile1);
         });
         btnGetFile2.setOnAction(a -> {
-            DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtFile2);
             txtHash2.clear();
+            DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtFile2);
         });
 
         btnSaveHash1.setOnAction(a -> {

@@ -260,3 +260,6 @@
 .checkbox-table:selected .mark {
     -fx-background-color: black;
 }
+.txtHash {
+    -fx-control-inner-background: lightgreen;
+}
