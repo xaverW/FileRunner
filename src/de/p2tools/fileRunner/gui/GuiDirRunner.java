@@ -218,13 +218,6 @@ public class GuiDirRunner extends AnchorPane {
 
         tabPane2.getTabs().addAll(tabDir2, tabFile2, tabFilter2);
 
-        tabFile1.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            projectData.setTabFile1(!tabFile1.isSelected());
-        });
-        tabFile2.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            projectData.setTabFile2(!tabFile2.isSelected());
-        });
-
 
         // write hash
         HBox hBoxWriteHash1 = new HBox(10);
@@ -496,7 +489,11 @@ public class GuiDirRunner extends AnchorPane {
 
             txtWriteHash1.textProperty().bindBidirectional(projectData.writeHash1Property());
             txtWriteHash2.textProperty().bindBidirectional(projectData.writeHash2Property());
-            tabPane1.getSelectionModel().select(projectData.isTabFile1() ? tabDir1 : tabFile1);
+
+            tabPane1.getSelectionModel().select(projectData.getSelTab1());
+            tabPane2.getSelectionModel().select(projectData.getSelTab2());
+            projectData.selTab1Property().bind(tabPane1.getSelectionModel().selectedIndexProperty());
+            projectData.selTab2Property().bind(tabPane2.getSelectionModel().selectedIndexProperty());
         }
     }
 
@@ -511,6 +508,9 @@ public class GuiDirRunner extends AnchorPane {
 
             txtWriteHash1.textProperty().unbindBidirectional(projectData.writeHash1Property());
             txtWriteHash2.textProperty().unbindBidirectional(projectData.writeHash2Property());
+
+            projectData.selTab1Property().unbind();
+            projectData.selTab2Property().unbind();
         }
     }
 

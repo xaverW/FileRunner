@@ -19,10 +19,10 @@ package de.p2tools.fileRunner.controller.data.projectData;
 
 import de.p2tools.fileRunner.controller.data.Data;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.config.ConfigBoolProp;
+import de.p2tools.p2Lib.configFile.config.ConfigIntProp;
 import de.p2tools.p2Lib.configFile.config.ConfigStringProp;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -44,8 +44,8 @@ public class ProjectDataProps extends Data<ProjectData> {
     private final StringProperty writeHash1 = new SimpleStringProperty("");
     private final StringProperty writeHash2 = new SimpleStringProperty("");
 
-    private final BooleanProperty tabFile1 = new SimpleBooleanProperty(true);
-    private final BooleanProperty tabFile2 = new SimpleBooleanProperty(true);
+    private final IntegerProperty selTab1 = new SimpleIntegerProperty(0);
+    private final IntegerProperty selTab2 = new SimpleIntegerProperty(0);
 
 
     public String getTag() {
@@ -62,8 +62,8 @@ public class ProjectDataProps extends Data<ProjectData> {
                 new ConfigStringProp("search-2", "", search2),
                 new ConfigStringProp("write-hash-1", "", writeHash1),
                 new ConfigStringProp("write-hash-2", "", writeHash2),
-                new ConfigBoolProp("tab-file-1", true, tabFile1),
-                new ConfigBoolProp("tab-file-2", true, tabFile2)
+                new ConfigIntProp("tab-file-1", 0, selTab1),
+                new ConfigIntProp("tab-file-2", 0, selTab2)
         ));
     }
 
@@ -163,28 +163,28 @@ public class ProjectDataProps extends Data<ProjectData> {
         this.writeHash2.set(writeHash2);
     }
 
-    public boolean isTabFile1() {
-        return tabFile1.get();
+    public int getSelTab1() {
+        return selTab1.get();
     }
 
-    public BooleanProperty tabFile1Property() {
-        return tabFile1;
+    public IntegerProperty selTab1Property() {
+        return selTab1;
     }
 
-    public void setTabFile1(boolean tabFile1) {
-        this.tabFile1.set(tabFile1);
+    public void setSelTab1(int selTab1) {
+        this.selTab1.set(selTab1);
     }
 
-    public boolean isTabFile2() {
-        return tabFile2.get();
+    public int getSelTab2() {
+        return selTab2.get();
     }
 
-    public BooleanProperty tabFile2Property() {
-        return tabFile2;
+    public IntegerProperty selTab2Property() {
+        return selTab2;
     }
 
-    public void setTabFile2(boolean tabFile2) {
-        this.tabFile2.set(tabFile2);
+    public void setSelTab2(int selTab2) {
+        this.selTab2.set(selTab2);
     }
 
     @Override
