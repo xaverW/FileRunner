@@ -27,6 +27,7 @@ import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.dialog.DirFileChooser;
 import de.p2tools.p2Lib.dialog.PAlert;
 import de.p2tools.p2Lib.dialog.PAlertFileChosser;
+import de.p2tools.p2Lib.dialog.PComboBox;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -47,10 +48,10 @@ public class GuiDirRunner extends AnchorPane {
     private final TableView table1 = new TableView();
     private final TableView table2 = new TableView();
 
-    private final ComboBox<String> cbDir1 = new ComboBox<>();
-    private final ComboBox<String> cbDir2 = new ComboBox<>();
-    private final TextField txtHash1 = new TextField("");
-    private final TextField txtHash2 = new TextField("");
+    private final PComboBox cbDir1 = new PComboBox();
+    private final PComboBox cbDir2 = new PComboBox();
+    private final PComboBox cbHash1 = new PComboBox();
+    private final PComboBox cbHash2 = new PComboBox();
     private final TextField txtWriteHash1 = new TextField("");
     private final TextField txtWriteHash2 = new TextField("");
     private final TextField txtSearch1 = new TextField();
@@ -148,8 +149,8 @@ public class GuiDirRunner extends AnchorPane {
         VBox vBoxFile1 = new VBox(10);
         vBoxFile1.setPadding(new Insets(10));
         HBox hBoxFile1 = new HBox(10);
-        HBox.setHgrow(txtHash1, Priority.ALWAYS);
-        hBoxFile1.getChildren().addAll(txtHash1, btnSetHash1, btnReadHash1);
+        HBox.setHgrow(cbHash1, Priority.ALWAYS);
+        hBoxFile1.getChildren().addAll(cbHash1, btnSetHash1, btnReadHash1);
         vBoxFile1.getChildren().addAll(new Label("Hashdatei"), hBoxFile1);
 
         // filter1
@@ -191,8 +192,8 @@ public class GuiDirRunner extends AnchorPane {
         VBox vBoxFile2 = new VBox(10);
         vBoxFile2.setPadding(new Insets(10));
         HBox hBoxFile2 = new HBox(10);
-        HBox.setHgrow(txtHash2, Priority.ALWAYS);
-        hBoxFile2.getChildren().addAll(txtHash2, btnSetHash2, btnReadHash2);
+        HBox.setHgrow(cbHash2, Priority.ALWAYS);
+        hBoxFile2.getChildren().addAll(cbHash2, btnSetHash2, btnReadHash2);
         vBoxFile2.getChildren().addAll(new Label("Hashdatei"), hBoxFile2);
 
         // filter1
@@ -231,16 +232,16 @@ public class GuiDirRunner extends AnchorPane {
 
         cbDir1.setMaxWidth(Double.MAX_VALUE);
         cbDir2.setMaxWidth(Double.MAX_VALUE);
-        txtHash1.setMaxWidth(Double.MAX_VALUE);
-        txtHash2.setMaxWidth(Double.MAX_VALUE);
+        cbHash1.setMaxWidth(Double.MAX_VALUE);
+        cbHash2.setMaxWidth(Double.MAX_VALUE);
         txtWriteHash1.setMaxWidth(Double.MAX_VALUE);
         txtWriteHash2.setMaxWidth(Double.MAX_VALUE);
 
 
         GridPane.setHgrow(cbDir1, Priority.ALWAYS);
         GridPane.setHgrow(cbDir2, Priority.ALWAYS);
-        GridPane.setHgrow(txtHash1, Priority.ALWAYS);
-        GridPane.setHgrow(txtHash2, Priority.ALWAYS);
+        GridPane.setHgrow(cbHash1, Priority.ALWAYS);
+        GridPane.setHgrow(cbHash2, Priority.ALWAYS);
         HBox.setHgrow(txtWriteHash1, Priority.ALWAYS);
         HBox.setHgrow(txtWriteHash2, Priority.ALWAYS);
 
@@ -320,20 +321,14 @@ public class GuiDirRunner extends AnchorPane {
     private void initProjectData() {
         projectData = progData.projectDataList.getFirst();
 
-        cbDir1.setItems(progData.projectDataList.getFirst().getSrcDirList());
-        cbDir2.setItems(progData.projectDataList.getFirst().getSrcDirList());
-
-        String srcDir = projectData.getSrcDir1();
-        if (!cbDir1.getItems().contains(srcDir)) {
-            cbDir1.getItems().add(srcDir);
-        }
-        cbDir1.getSelectionModel().select(srcDir);
-
-        srcDir = projectData.getSrcDir2();
-        if (!cbDir2.getItems().contains(srcDir)) {
-            cbDir2.getItems().add(srcDir);
-        }
-        cbDir2.getSelectionModel().select(srcDir);
+        cbDir1.init(progData.projectDataList.getFirst().getSrcDirList(),
+                projectData.getSrcDir1(), projectData.srcDir1Property());
+        cbDir2.init(progData.projectDataList.getFirst().getSrcDirList(),
+                projectData.getSrcDir2(), projectData.srcDir2Property());
+        cbHash1.init(progData.projectDataList.getFirst().getSrcHashList(),
+                projectData.getSrcHash1(), projectData.srcHash1Property());
+        cbHash2.init(progData.projectDataList.getFirst().getSrcHashList(),
+                projectData.getSrcHash2(), projectData.srcHash2Property());
 
         bindProjectDate();
     }
@@ -350,25 +345,12 @@ public class GuiDirRunner extends AnchorPane {
             }
         });
 
-        btnSetDir1.setOnAction(event -> {
-            String srcDir = DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, projectData.getSrcDir1());
-            if (!cbDir1.getItems().contains(srcDir)) {
-                cbDir1.getItems().add(srcDir);
-            }
-            cbDir1.getSelectionModel().select(srcDir);
-        });
-        btnSetDir2.setOnAction(event -> {
-            String srcDir = DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, projectData.getSrcDir2());
-            if (!cbDir2.getItems().contains(srcDir)) {
-                cbDir2.getItems().add(srcDir);
-            }
-            cbDir2.getSelectionModel().select(srcDir);
-        });
-        btnSetHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash1));
-        btnSetHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash2));
+        btnSetDir1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, cbDir1));
+        btnSetDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, cbDir2));
+        btnSetHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, cbHash1));
+        btnSetHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, cbHash2));
         btnSetWriteHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
         btnSetWriteHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
-
 
         btnReadDir1.setOnAction(a -> {
             readDirHash(projectData.getSrcDir1(), progData.fileDataList1);
@@ -463,12 +445,6 @@ public class GuiDirRunner extends AnchorPane {
 
     private void bindProjectDate() {
         if (projectData != null) {
-            projectData.srcDir1Property().bind(cbDir1.getSelectionModel().selectedItemProperty());
-            projectData.srcDir2Property().bind(cbDir2.getSelectionModel().selectedItemProperty());
-
-            txtHash1.textProperty().bindBidirectional(projectData.srcHash1Property());
-            txtHash2.textProperty().bindBidirectional(projectData.srcHash2Property());
-
             txtSearch1.textProperty().bindBidirectional(projectData.search1Property());
             txtSearch2.textProperty().bindBidirectional(projectData.search2Property());
 
@@ -486,9 +462,6 @@ public class GuiDirRunner extends AnchorPane {
         if (projectData != null) {
             projectData.srcDir1Property().unbind();
             projectData.srcDir2Property().unbind();
-
-            txtHash1.textProperty().unbindBidirectional(projectData.srcHash1Property());
-            txtHash2.textProperty().unbindBidirectional(projectData.srcHash2Property());
 
             txtSearch1.textProperty().unbindBidirectional(projectData.search1Property());
             txtSearch1.textProperty().unbindBidirectional(projectData.search2Property());

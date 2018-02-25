@@ -41,6 +41,7 @@ public class ProjectDataProps extends Data<ProjectData> {
 
     private final StringProperty srcHash1 = new SimpleStringProperty("");
     private final StringProperty srcHash2 = new SimpleStringProperty("");
+    private ObservableList<String> srcHashList = FXCollections.observableArrayList();
 
     private final StringProperty search1 = new SimpleStringProperty("");
     private final StringProperty search2 = new SimpleStringProperty("");
@@ -126,6 +127,14 @@ public class ProjectDataProps extends Data<ProjectData> {
 
     public void setSrcHash2(String srcHash2) {
         this.srcHash2.set(srcHash2);
+    }
+
+    public ObservableList<String> getSrcHashList() {
+        return srcHashList;
+    }
+
+    public void setSrcHashList(ObservableList<String> srcHashList) {
+        this.srcHashList = srcHashList;
     }
 
     public String getSearch1() {
