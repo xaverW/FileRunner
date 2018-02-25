@@ -50,7 +50,7 @@ public class GuiDirRunner extends AnchorPane {
     private final TableView table2 = new TableView();
 
     private final ComboBox<ProjectData> cbDir1 = new ComboBox<>();
-    private final TextField txtDir2 = new TextField("");
+    private final ComboBox<String> cbDir2 = new ComboBox<>();
     private final TextField txtHash1 = new TextField("");
     private final TextField txtHash2 = new TextField("");
     private final TextField txtWriteHash1 = new TextField("");
@@ -187,8 +187,8 @@ public class GuiDirRunner extends AnchorPane {
 
         // hash1
         HBox hBoxDir2 = new HBox(10);
-        HBox.setHgrow(txtDir2, Priority.ALWAYS);
-        hBoxDir2.getChildren().addAll(txtDir2, btnSetDir2, btnReadDir2);
+        HBox.setHgrow(cbDir2, Priority.ALWAYS);
+        hBoxDir2.getChildren().addAll(cbDir2, btnSetDir2, btnReadDir2);
         vBoxDir2.getChildren().addAll(hBoxDirText2, hBoxDir2);
 
         VBox vBoxFile2 = new VBox(10);
@@ -233,7 +233,7 @@ public class GuiDirRunner extends AnchorPane {
         hBoxWrite2.setAlignment(Pos.CENTER_RIGHT);
 
         cbDir1.setMaxWidth(Double.MAX_VALUE);
-        txtDir2.setMaxWidth(Double.MAX_VALUE);
+        cbDir2.setMaxWidth(Double.MAX_VALUE);
         txtHash1.setMaxWidth(Double.MAX_VALUE);
         txtHash2.setMaxWidth(Double.MAX_VALUE);
         txtWriteHash1.setMaxWidth(Double.MAX_VALUE);
@@ -241,7 +241,7 @@ public class GuiDirRunner extends AnchorPane {
 
 
         GridPane.setHgrow(cbDir1, Priority.ALWAYS);
-        GridPane.setHgrow(txtDir2, Priority.ALWAYS);
+        GridPane.setHgrow(cbDir2, Priority.ALWAYS);
         GridPane.setHgrow(txtHash1, Priority.ALWAYS);
         GridPane.setHgrow(txtHash2, Priority.ALWAYS);
         HBox.setHgrow(txtWriteHash1, Priority.ALWAYS);
@@ -367,7 +367,7 @@ public class GuiDirRunner extends AnchorPane {
             ProjectData pd = getProjectData(srcDir1);
             cbDir1.getSelectionModel().select(pd);
         });
-        btnSetDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtDir2));
+        btnSetDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, cbDir2));
         btnSetHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash1));
         btnSetHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash2));
         btnSetWriteHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
@@ -480,7 +480,7 @@ public class GuiDirRunner extends AnchorPane {
 
     private void bindProjectDate() {
         if (projectData != null) {
-            txtDir2.textProperty().bindBidirectional(projectData.srcDir2Property());
+            cbDir2.textProperty().bindBidirectional(projectData.srcDir2Property());
             txtHash1.textProperty().bindBidirectional(projectData.srcHash1Property());
             txtHash2.textProperty().bindBidirectional(projectData.srcHash2Property());
 
@@ -499,7 +499,7 @@ public class GuiDirRunner extends AnchorPane {
 
     private void unBindProjectDate() {
         if (projectData != null) {
-            txtDir2.textProperty().unbindBidirectional(projectData.srcDir2Property());
+            cbDir2.textProperty().unbindBidirectional(projectData.srcDir2Property());
             txtHash1.textProperty().unbindBidirectional(projectData.srcHash1Property());
             txtHash2.textProperty().unbindBidirectional(projectData.srcHash2Property());
 
