@@ -263,3 +263,7 @@
 .txtHash {
     -fx-control-inner-background: lightgreen;
 }
+
+.lblSize {
+    -fx-font-weight: bold;
+}

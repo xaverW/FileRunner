@@ -308,11 +308,7 @@ public class GuiDirRunner extends AnchorPane {
         table1.setItems(progData.fileDataList1.getSortedFileData());
         table2.setItems(progData.fileDataList2.getSortedFileData());
 
-        fileDataFilter1.setSearchStr(txtSearch1.getText());
-        progData.fileDataList1.setPred(fileDataFilter1);
-
-        fileDataFilter2.setSearchStr(txtSearch2.getText());
-        progData.fileDataList2.setPred(fileDataFilter2);
+        changeTextFilter();
 
         progData.fileDataList1.getSortedFileData().comparatorProperty().bind(table1.comparatorProperty());
         progData.fileDataList2.getSortedFileData().comparatorProperty().bind(table2.comparatorProperty());
@@ -483,11 +479,13 @@ public class GuiDirRunner extends AnchorPane {
         if (hashDir.isEmpty()) {
             return;
         }
+
         File dir = new File(hashDir);
         if (!dir.exists()) {
             PAlertFileChosser.showErrorAlert("Verzeichnis einlesen", "Verzeichnis1 existiert nicht!");
         } else {
             progData.worker.readDirHash(dir, fileDataList, 1, true);
+            fileDataList.setSourceDir(hashDir);
         }
 
         clearFilter();
@@ -503,7 +501,9 @@ public class GuiDirRunner extends AnchorPane {
             PAlertFileChosser.showErrorAlert("Hashdatei einlesen", "Die Hashdatei existiert nicht!");
         } else {
             progData.worker.readHashFile(file, fileDataList);
+            fileDataList.setSourceDir(hashFile);
         }
+
         clearFilter();
     }
 

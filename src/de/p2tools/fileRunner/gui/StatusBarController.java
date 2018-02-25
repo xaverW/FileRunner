@@ -43,6 +43,8 @@ public class StatusBarController extends AnchorPane {
 
     Label lblLeft = new Label();
     Label lblRight = new Label();
+    Label lblLeftCount = new Label();
+    Label lblRightCount = new Label();
 
     AnchorPane workerPane = new AnchorPane();
     AnchorPane textPane = new AnchorPane();
@@ -70,7 +72,10 @@ public class StatusBarController extends AnchorPane {
         HBox hBox = getHbox();
         lblLeft.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(lblLeft, Priority.ALWAYS);
-        hBox.getChildren().addAll(lblLeft, lblRight);
+        hBox.getChildren().addAll(lblLeftCount, lblLeft, lblRight, lblRightCount);
+        lblLeftCount.getStyleClass().add("lblSize");
+        lblRightCount.getStyleClass().add("lblSize");
+
         textPane.getChildren().add(hBox);
         textPane.setStyle("-fx-background-color: -fx-background ;");
 
@@ -174,14 +179,27 @@ public class StatusBarController extends AnchorPane {
     }
 
     private void setFileRunner() {
-        int table1 = progData.fileDataList1.getFilteredFileData().size();
-        int table2 = progData.fileDataList2.getFilteredFileData().size();
+        int tbl1Size = progData.fileDataList1.getFilteredFileData().size();
+        int tbl2Size = progData.fileDataList2.getFilteredFileData().size();
 
-        String textLeft = table1 == 0 ? "" : table1 + " Dateien";
-        lblLeft.setText(textLeft);
+        String src1 = progData.fileDataList1.getSourceDir();
+        String src2 = progData.fileDataList2.getSourceDir();
 
-        String textRight = table2 == 0 ? "" : table2 + " Dateien";
-        lblRight.setText(textRight);
+        if (tbl1Size <= 0) {
+            lblLeftCount.setText("[ ]");
+            lblLeft.setText(src1);
+        } else {
+            lblLeftCount.setText("[" + tbl1Size + "]");
+            lblLeft.setText(src1);
+        }
+
+        if (tbl2Size <= 0) {
+            lblRightCount.setText("[ ]");
+            lblRight.setText(src2);
+        } else {
+            lblRightCount.setText("[" + tbl2Size + "]");
+            lblRight.setText(src2);
+        }
     }
 
 }
