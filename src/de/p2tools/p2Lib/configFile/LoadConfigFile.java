@@ -20,6 +20,7 @@ package de.p2tools.p2Lib.configFile;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigConfigsData;
 import de.p2tools.p2Lib.configFile.config.ConfigConfigsList;
+import de.p2tools.p2Lib.configFile.config.ConfigList;
 import de.p2tools.p2Lib.tools.Duration;
 import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.SysMsg;
@@ -160,6 +161,9 @@ class LoadConfigFile implements AutoCloseable {
             ConfigsData cd = ((ConfigConfigsData) o).getActValue();
             return getConfigData(parser, cd);
 
+        } else if (o instanceof ConfigList) {
+            return getConfigList(parser, (ConfigList) o);
+
         } else if (o instanceof Config) {
             return getConfig(parser, (Config) o);
 
@@ -241,6 +245,17 @@ class LoadConfigFile implements AutoCloseable {
         }
 
         return ret;
+    }
+
+    private boolean getConfigList(XMLStreamReader parser, ConfigList config) {
+        try {
+            final String n = parser.getElementText();
+            config.setActValue(n);
+        } catch (XMLStreamException ex) {
+            return false;
+        }
+
+        return true;
     }
 
     private boolean getConfig(XMLStreamReader parser, Config config) {

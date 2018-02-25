@@ -17,63 +17,52 @@
 
 package de.p2tools.p2Lib.configFile.config;
 
-import javafx.beans.property.ObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * this is the class for one configuration
- * for example: the configsData for a USER(name,age,size)
- * then it has 3 Config: one for the "name", "age", "size"
- * a config can store the info in a STRING or a PROPERTY
+ * for example: the configsData for a ComboBox(the obserableList)
  */
 
-public abstract class Config {
+public abstract class ConfigList extends Config {
+    private final String key;
+    private final Object initValue;
+    private ObservableList<Object> actValue = FXCollections.observableArrayList();
 
-    final String key;
-    final Object initValue;
-    Object actValue;
-    ObjectProperty actValueProperty = null;
-
-    public Config() {
-        this.key = "";
-        initValue = "";
-        actValue = "";
-    }
-
-    public Config(String key) {
+    public ConfigList(String key) {
         this.key = key;
         initValue = "";
-        actValue = "";
     }
 
-    public Config(String key, Object initValue, Object actValue) {
+    public ConfigList(String key, ObservableList<Object> actValue) {
+        this.key = key;
+        initValue = "";
+        this.actValue = actValue;
+    }
+
+    public ConfigList(String key, Object initValue) {
         this.key = key;
         this.initValue = initValue;
-        this.actValue = actValue;
+        actValue.add(initValue);
     }
 
     public String getKey() {
         return key;
     }
 
-    public void setActValue(String act) {
-        actValue = act;
-    }
-
-    public Object getActValue() {
+    public ObservableList<Object> getList() {
         return actValue;
     }
 
-    public String getActValueString() {
-        return actValue.toString();
+    public void setActValue(Object actValue) {
+        this.actValue.add(actValue);
     }
 
-    public Object getActValueProperty() {
-        return actValueProperty;
+    public ObservableList<Object> getActValue() {
+        return actValue;
     }
 
-    public Object getInitValue() {
-        return initValue;
-    }
 }
 
 

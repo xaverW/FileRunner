@@ -20,47 +20,20 @@ package de.p2tools.p2Lib.configFile.config;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class ConfigStringList {
+public class ConfigStringList extends ConfigList {
+    private ObservableList<String> actValue = FXCollections.observableArrayList();
 
-    private String tag = "";
-    private String tag_str = "";
-
-    private Config[] configArr = new Config[]{};
-    public static ObservableList<String> list = FXCollections.observableArrayList();
-
-
-    public void setTagName(String tag) {
-        this.tag = tag;
-        this.tag_str = tag + "-str";
+    public ConfigStringList(String key, ObservableList<String> actValue) {
+        super(key);
+        this.actValue = actValue;
     }
 
-    public String getTagName() {
-        return tag;
+    public void setActValue(String actValue) {
+        this.actValue.add(actValue);
     }
 
-    public void setConfigArr(Config[] configArr) {
-        this.configArr = configArr;
-        list.clear();
-        for (Config str : configArr) {
-            list.add(str.getActValueString());
-        }
-    }
-
-    public ObservableList<String> getList() {
-        return list;
-    }
-
-    public Config[] getConfigArr() {
-        if (list.isEmpty()) {
-            return new Config[]{};
-        }
-        configArr = new Config[list.size()];
-        for (int i = 0; i < list.size(); ++i) {
-            String str = list.get(i);
-            ConfigString cs = new ConfigString(tag_str, str, str);
-            configArr[i] = cs;
-        }
-        return configArr;
+    public ObservableList getActValue() {
+        return actValue;
     }
 
 

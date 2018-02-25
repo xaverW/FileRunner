@@ -76,6 +76,15 @@ public class ProjectDataList extends SimpleListProperty<ProjectData> implements 
         setListChanged();
     }
 
+    public synchronized ProjectData getFirst() {
+        checkMax();
+        if (this.size() < 1) {
+            this.add(new ProjectData());
+            setListChanged();
+        }
+        return this.get(0);
+    }
+
 
     public synchronized boolean addAll(ArrayList<ProjectData> projectData) {
         checkMax();

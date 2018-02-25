@@ -179,7 +179,7 @@ public class GuiDirRunner extends AnchorPane {
         VBox vBoxDir2 = new VBox(10);
         vBoxDir2.setPadding(new Insets(10));
 
-        Label lblDir2 = new Label("Verzeichnis 1");
+        Label lblDir2 = new Label("Verzeichnis 2");
         lblDir2.setMaxWidth(Double.MAX_VALUE);
         HBox hBoxDirText2 = new HBox(10);
         HBox.setHgrow(lblDir2, Priority.ALWAYS);
@@ -345,6 +345,7 @@ public class GuiDirRunner extends AnchorPane {
         };
 
         cbDir1.setConverter(converter);
+        cbDir2.setItems(progData.projectDataList.getFirst().getSrcDirList());
     }
 
     private void addListener() {
@@ -367,7 +368,12 @@ public class GuiDirRunner extends AnchorPane {
             ProjectData pd = getProjectData(srcDir1);
             cbDir1.getSelectionModel().select(pd);
         });
-        btnSetDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, cbDir2));
+        btnSetDir2.setOnAction(event -> {
+            String srcDir2 = DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, projectData.getSrcDir2());
+            cbDir2.getItems().add(srcDir2);
+            cbDir2.getSelectionModel().select(srcDir2);
+        });
+//        btnSetDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, cbDir2));
         btnSetHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash1));
         btnSetHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash2));
         btnSetWriteHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
@@ -480,7 +486,7 @@ public class GuiDirRunner extends AnchorPane {
 
     private void bindProjectDate() {
         if (projectData != null) {
-            cbDir2.textProperty().bindBidirectional(projectData.srcDir2Property());
+//            cbDir2.textProperty().bindBidirectional(projectData.srcDir2Property());
             txtHash1.textProperty().bindBidirectional(projectData.srcHash1Property());
             txtHash2.textProperty().bindBidirectional(projectData.srcHash2Property());
 
@@ -499,7 +505,7 @@ public class GuiDirRunner extends AnchorPane {
 
     private void unBindProjectDate() {
         if (projectData != null) {
-            cbDir2.textProperty().unbindBidirectional(projectData.srcDir2Property());
+//            cbDir2.textProperty().unbindBidirectional(projectData.srcDir2Property());
             txtHash1.textProperty().unbindBidirectional(projectData.srcHash1Property());
             txtHash2.textProperty().unbindBidirectional(projectData.srcHash2Property());
 

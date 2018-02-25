@@ -21,8 +21,10 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigConfigsData;
 import de.p2tools.p2Lib.configFile.config.ConfigConfigsList;
+import de.p2tools.p2Lib.configFile.config.ConfigList;
 import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.SysMsg;
+import javafx.collections.ObservableList;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -124,6 +126,9 @@ class SaveConfigFile implements AutoCloseable {
         } else if (o instanceof ConfigConfigsData) {
             writeConfigConfigsData((ConfigConfigsData) o, tab);
 
+        } else if (o instanceof ConfigList) {
+            writeConfList((ConfigList) o, tab);
+
         } else if (o instanceof Config) {
             writeConf((Config) o, tab);
         } else {
@@ -187,6 +192,24 @@ class SaveConfigFile implements AutoCloseable {
     private void writeConfigConfigsData(ConfigConfigsData configConfigsData, int tab) throws XMLStreamException {
         ConfigsData configsData = configConfigsData.getActValue();
         writeConfigsData(configsData, tab);
+    }
+
+    private void writeConfList(ConfigList config, int tab) throws XMLStreamException {
+        System.out.println(config.getActValue().toString());
+        if (!config.getActValue().isEmpty()) {
+            for (int t = 0; t < tab; ++t) {
+                writer.writeCharacters("\t"); // Tab
+            }
+
+            ObservableList<Object> actValue = config.getActValue();
+            for (Object o : actValue) {
+                writer.writeStartElement(config.getKey());
+                writer.writeCharacters(o.toString());
+                writer.writeEndElement();
+                writer.writeCharacters("\n"); // neue Zeile
+            }
+
+        }
     }
 
     private void writeConf(Config config, int tab) throws XMLStreamException {

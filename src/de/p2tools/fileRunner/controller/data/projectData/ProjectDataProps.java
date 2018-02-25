@@ -20,11 +20,14 @@ package de.p2tools.fileRunner.controller.data.projectData;
 import de.p2tools.fileRunner.controller.data.Data;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigIntProp;
+import de.p2tools.p2Lib.configFile.config.ConfigStringList;
 import de.p2tools.p2Lib.configFile.config.ConfigStringProp;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +37,7 @@ public class ProjectDataProps extends Data<ProjectData> {
 
     private final StringProperty srcDir1 = new SimpleStringProperty("");
     private final StringProperty srcDir2 = new SimpleStringProperty("");
+    private ObservableList<String> srcDirList = FXCollections.observableArrayList();
 
     private final StringProperty srcHash1 = new SimpleStringProperty("");
     private final StringProperty srcHash2 = new SimpleStringProperty("");
@@ -56,6 +60,7 @@ public class ProjectDataProps extends Data<ProjectData> {
         return new ArrayList<>(Arrays.asList(
                 new ConfigStringProp("src-dir-1", "", srcDir1),
                 new ConfigStringProp("src-dir-2", "", srcDir2),
+                new ConfigStringList("src-dir-list", srcDirList),
                 new ConfigStringProp("src-hash-1", "", srcHash1),
                 new ConfigStringProp("src-hash-2", "", srcHash2),
                 new ConfigStringProp("search-1", "", search1),
@@ -89,6 +94,14 @@ public class ProjectDataProps extends Data<ProjectData> {
 
     public void setSrcDir2(String srcDir2) {
         this.srcDir2.set(srcDir2);
+    }
+
+    public ObservableList<String> getSrcDirList() {
+        return srcDirList;
+    }
+
+    public void setSrcDirList(ObservableList<String> srcDirList) {
+        this.srcDirList = srcDirList;
     }
 
     public String getSrcHash1() {
