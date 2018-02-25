@@ -92,7 +92,7 @@ class BackupConfigFile {
         }
     }
 
-    boolean loadBackup(ArrayList<ConfigsList> configsListArr, ArrayList<ConfigsData> configsDataArr) {
+    boolean loadBackup(ArrayList<ConfigsDataList> configsDataListArr, ArrayList<ConfigsData> configsDataArr) {
 
         boolean ret = false;
         final ArrayList<Path> path = new ArrayList<>();
@@ -122,7 +122,7 @@ class BackupConfigFile {
         for (final Path p : path) {
             // teils geladene Reste entfernen
             SysMsg.sysMsg(new String[]{"Versuch Backup zu laden:", p.toString()});
-            if (new LoadConfigFile(p, configsListArr, configsDataArr).readConfiguration()) {
+            if (new LoadConfigFile(p, configsDataListArr, configsDataArr).readConfiguration()) {
                 SysMsg.sysMsg(new String[]{"Backup hat geklappt:", p.toString()});
                 ret = true;
                 break;

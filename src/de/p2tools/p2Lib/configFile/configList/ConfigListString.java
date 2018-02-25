@@ -15,15 +15,14 @@
  */
 
 
-package de.p2tools.p2Lib.configFile.config;
+package de.p2tools.p2Lib.configFile.configList;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class ConfigStringList extends ConfigList {
-    private ObservableList<String> actValue = FXCollections.observableArrayList();
+public class ConfigListString extends ConfigList {
+    private ObservableList<String> actValue;
 
-    public ConfigStringList(String key, ObservableList<String> actValue) {
+    public ConfigListString(String key, ObservableList<String> actValue) {
         super(key);
         this.actValue = actValue;
     }

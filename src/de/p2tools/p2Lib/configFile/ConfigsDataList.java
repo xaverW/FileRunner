@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @param <E>
  */
-public interface ConfigsList<E extends ConfigsData> extends List<E> {
+public interface ConfigsDataList<E extends ConfigsData> extends List<E> {
 
     String getTag();
 

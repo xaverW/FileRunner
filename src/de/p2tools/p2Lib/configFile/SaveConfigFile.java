@@ -21,7 +21,7 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigConfigsData;
 import de.p2tools.p2Lib.configFile.config.ConfigConfigsList;
-import de.p2tools.p2Lib.configFile.config.ConfigList;
+import de.p2tools.p2Lib.configFile.configList.ConfigList;
 import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.SysMsg;
 import javafx.collections.ObservableList;
@@ -45,12 +45,12 @@ class SaveConfigFile implements AutoCloseable {
     private OutputStream os = null;
     private ProgData progData = null;
 
-    private final ArrayList<ConfigsList> configsList;
+    private final ArrayList<ConfigsDataList> configsDataList;
     private final ArrayList<ConfigsData> configsData;
 
-    SaveConfigFile(Path filePath, ArrayList<ConfigsList> configsList, ArrayList<ConfigsData> configsData) {
+    SaveConfigFile(Path filePath, ArrayList<ConfigsDataList> configsDataList, ArrayList<ConfigsData> configsData) {
         xmlFilePath = filePath;
-        this.configsList = configsList;
+        this.configsDataList = configsDataList;
         this.configsData = configsData;
     }
 
@@ -72,7 +72,7 @@ class SaveConfigFile implements AutoCloseable {
                 write(configsData, 0);
             }
 
-            for (ConfigsList cl : configsList) {
+            for (ConfigsDataList cl : configsDataList) {
                 writer.writeCharacters("\n");
                 writer.writeComment(cl.getComment());
                 write(cl, 0);
@@ -117,8 +117,8 @@ class SaveConfigFile implements AutoCloseable {
         if (o instanceof ConfigsData) {
             writeConfigsData((ConfigsData) o, tab);
 
-        } else if (o instanceof ConfigsList) {
-            writeConfigsList((ConfigsList) o, tab);
+        } else if (o instanceof ConfigsDataList) {
+            writeConfigsList((ConfigsDataList) o, tab);
 
         } else if (o instanceof ConfigConfigsList) {
             writeConfigConfigsList((ConfigConfigsList) o, tab);
@@ -160,9 +160,9 @@ class SaveConfigFile implements AutoCloseable {
     }
 
 
-    private void writeConfigsList(ConfigsList configsList, int tab) throws XMLStreamException {
+    private void writeConfigsList(ConfigsDataList configsDataList, int tab) throws XMLStreamException {
 
-        String xmlName = configsList.getTag();
+        String xmlName = configsDataList.getTag();
         writer.writeCharacters("\n"); // neue Zeile
 
         for (int t = 0; t < tab; ++t) {
@@ -172,7 +172,7 @@ class SaveConfigFile implements AutoCloseable {
         writer.writeCharacters("\n"); // neue Zeile
 
         ++tab;
-        for (Object configsData : configsList) {
+        for (Object configsData : configsDataList) {
             write(configsData, tab);
         }
         --tab;
@@ -185,7 +185,7 @@ class SaveConfigFile implements AutoCloseable {
     }
 
     private void writeConfigConfigsList(ConfigConfigsList configConfigsList, int tab) throws XMLStreamException {
-        ConfigsList<? extends ConfigsData> list = configConfigsList.getActValue();
+        ConfigsDataList<? extends ConfigsData> list = configConfigsList.getActValue();
         writeConfigsList(list, tab);
     }
 
@@ -197,12 +197,12 @@ class SaveConfigFile implements AutoCloseable {
     private void writeConfList(ConfigList config, int tab) throws XMLStreamException {
         System.out.println(config.getActValue().toString());
         if (!config.getActValue().isEmpty()) {
-            for (int t = 0; t < tab; ++t) {
-                writer.writeCharacters("\t"); // Tab
-            }
 
             ObservableList<Object> actValue = config.getActValue();
             for (Object o : actValue) {
+                for (int t = 0; t < tab; ++t) {
+                    writer.writeCharacters("\t"); // Tab
+                }
                 writer.writeStartElement(config.getKey());
                 writer.writeCharacters(o.toString());
                 writer.writeEndElement();

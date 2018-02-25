@@ -18,7 +18,7 @@
 package de.p2tools.p2Lib.configFile.config;
 
 import de.p2tools.p2Lib.configFile.ConfigsData;
-import de.p2tools.p2Lib.configFile.ConfigsList;
+import de.p2tools.p2Lib.configFile.ConfigsDataList;
 
 /**
  * its a pseudo CONFIG, it contains a
@@ -27,14 +27,14 @@ import de.p2tools.p2Lib.configFile.ConfigsList;
  */
 public class ConfigConfigsList extends Config {
 
-    private ConfigsList<? extends ConfigsData> actValue;
+    private ConfigsDataList<? extends ConfigsData> actValue;
 
-    public ConfigConfigsList(ConfigsList<? extends ConfigsData> configsList) {
-        super(configsList.getTag());
-        this.actValue = configsList;
+    public ConfigConfigsList(ConfigsDataList<? extends ConfigsData> configsDataList) {
+        super(configsDataList.getTag());
+        this.actValue = configsDataList;
     }
 
-    public ConfigsList<? extends ConfigsData> getActValue() {
+    public ConfigsDataList<? extends ConfigsData> getActValue() {
         return actValue;
     }
 

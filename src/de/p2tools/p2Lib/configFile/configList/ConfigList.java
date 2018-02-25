@@ -15,36 +15,28 @@
  */
 
 
-package de.p2tools.p2Lib.configFile.config;
+package de.p2tools.p2Lib.configFile.configList;
 
+import de.p2tools.p2Lib.configFile.config.Config;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
  * this is the class for one configuration
- * for example: the configsData for a ComboBox(the obserableList)
+ * for example: the configsData for a ComboBox(the ObservableList)
  */
 
 public abstract class ConfigList extends Config {
     private final String key;
-    private final Object initValue;
     private ObservableList<Object> actValue = FXCollections.observableArrayList();
 
     public ConfigList(String key) {
         this.key = key;
-        initValue = "";
     }
 
     public ConfigList(String key, ObservableList<Object> actValue) {
         this.key = key;
-        initValue = "";
         this.actValue = actValue;
-    }
-
-    public ConfigList(String key, Object initValue) {
-        this.key = key;
-        this.initValue = initValue;
-        actValue.add(initValue);
     }
 
     public String getKey() {

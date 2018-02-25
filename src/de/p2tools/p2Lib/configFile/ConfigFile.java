@@ -27,14 +27,14 @@ public class ConfigFile {
 
     private final Path configFile;
     private final ArrayList<ConfigsData> configsData;
-    private final ArrayList<ConfigsList> configsList;
+    private final ArrayList<ConfigsDataList> configsDataList;
 
     private int maxCopyBackupfile = MAX_COPY_BACKUPFILE;
 
 
     public ConfigFile(Path configFile) {
         this.configFile = configFile;
-        this.configsList = new ArrayList<>();
+        this.configsDataList = new ArrayList<>();
         this.configsData = new ArrayList<>();
     }
 
@@ -50,7 +50,7 @@ public class ConfigFile {
 //                return configs;
 //            }
 //        };
-//        configsList.add(configsData);
+//        configsDataList.add(configsData);
 //    }
 
     public int getMaxCopyBackupfile() {
@@ -61,8 +61,8 @@ public class ConfigFile {
         this.maxCopyBackupfile = maxCopyBackupfile;
     }
 
-    public void addConfigs(ConfigsList configsData) {
-        configsList.add(configsData);
+    public void addConfigs(ConfigsDataList configsData) {
+        configsDataList.add(configsData);
     }
 
     public void addConfigs(ConfigsData configsData) {
@@ -73,19 +73,19 @@ public class ConfigFile {
         boolean ret = false;
         new BackupConfigFile(maxCopyBackupfile, configFile).konfigCopy();
 
-        SaveConfigFile saveConfigFile = new SaveConfigFile(configFile, configsList, configsData);
+        SaveConfigFile saveConfigFile = new SaveConfigFile(configFile, configsDataList, configsData);
         saveConfigFile.write();
         return ret;
     }
 
-    public boolean readConfigFile(ArrayList<ConfigsList> configsList,
+    public boolean readConfigFile(ArrayList<ConfigsDataList> configsDataList,
                                   ArrayList<ConfigsData> configsData) {
         //todo wenn eins null
-        if (new LoadConfigFile(configFile, configsList, configsData).readConfiguration()) {
+        if (new LoadConfigFile(configFile, configsDataList, configsData).readConfiguration()) {
             SysMsg.sysMsg("Config geladen");
             return true;
 
-        } else if (new BackupConfigFile(maxCopyBackupfile, configFile).loadBackup(configsList, configsData)) {
+        } else if (new BackupConfigFile(maxCopyBackupfile, configFile).loadBackup(configsDataList, configsData)) {
             SysMsg.sysMsg("Config-Backup geladen");
             return true;
         }

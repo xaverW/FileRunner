@@ -18,7 +18,6 @@ package de.p2tools.fileRunner.gui;
 
 import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
-import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
@@ -32,7 +31,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.util.StringConverter;
 
 import java.io.File;
 
@@ -49,7 +47,7 @@ public class GuiDirRunner extends AnchorPane {
     private final TableView table1 = new TableView();
     private final TableView table2 = new TableView();
 
-    private final ComboBox<ProjectData> cbDir1 = new ComboBox<>();
+    private final ComboBox<String> cbDir1 = new ComboBox<>();
     private final ComboBox<String> cbDir2 = new ComboBox<>();
     private final TextField txtHash1 = new TextField("");
     private final TextField txtHash2 = new TextField("");
@@ -115,9 +113,8 @@ public class GuiDirRunner extends AnchorPane {
 
         initCont();
         initTable();
-        initData();
+        initProjectData();
         addListener();
-        selectProjectData();
     }
 
     public void isShown() {
@@ -320,32 +317,25 @@ public class GuiDirRunner extends AnchorPane {
         progData.fileDataList2.getSortedFileData().comparatorProperty().bind(table2.comparatorProperty());
     }
 
-    private void initData() {
-        cbDir1.setItems(progData.projectDataList);
-        try {
-            String srcDir1 = ProgConfig.GUI_FILERUNNER_DIR1.get();
-            ProjectData projectData = getProjectData(srcDir1);
-            cbDir1.getSelectionModel().select(projectData);
-        } catch (Exception ex) {
-            cbDir1.getSelectionModel().selectFirst();
-            System.out.println("Fehler!!!!!!!");
-        }
+    private void initProjectData() {
+        projectData = progData.projectDataList.getFirst();
 
-        final StringConverter<ProjectData> converter = new StringConverter<ProjectData>() {
-            @Override
-            public String toString(ProjectData pd) {
-                return pd == null ? "" : pd.getSrcDir1();
-            }
-
-            @Override
-            public ProjectData fromString(String id) {
-                final int i = cbDir1.getSelectionModel().getSelectedIndex();
-                return progData.projectDataList.get(i);
-            }
-        };
-
-        cbDir1.setConverter(converter);
+        cbDir1.setItems(progData.projectDataList.getFirst().getSrcDirList());
         cbDir2.setItems(progData.projectDataList.getFirst().getSrcDirList());
+
+        String srcDir = projectData.getSrcDir1();
+        if (!cbDir1.getItems().contains(srcDir)) {
+            cbDir1.getItems().add(srcDir);
+        }
+        cbDir1.getSelectionModel().select(srcDir);
+
+        srcDir = projectData.getSrcDir2();
+        if (!cbDir2.getItems().contains(srcDir)) {
+            cbDir2.getItems().add(srcDir);
+        }
+        cbDir2.getSelectionModel().select(srcDir);
+
+        bindProjectDate();
     }
 
     private void addListener() {
@@ -359,21 +349,21 @@ public class GuiDirRunner extends AnchorPane {
                 }
             }
         });
-        cbDir1.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-                selectProjectData()
-        );
 
         btnSetDir1.setOnAction(event -> {
-            String srcDir1 = DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, projectData.getSrcDir1());
-            ProjectData pd = getProjectData(srcDir1);
-            cbDir1.getSelectionModel().select(pd);
+            String srcDir = DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, projectData.getSrcDir1());
+            if (!cbDir1.getItems().contains(srcDir)) {
+                cbDir1.getItems().add(srcDir);
+            }
+            cbDir1.getSelectionModel().select(srcDir);
         });
         btnSetDir2.setOnAction(event -> {
-            String srcDir2 = DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, projectData.getSrcDir2());
-            cbDir2.getItems().add(srcDir2);
-            cbDir2.getSelectionModel().select(srcDir2);
+            String srcDir = DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, projectData.getSrcDir2());
+            if (!cbDir2.getItems().contains(srcDir)) {
+                cbDir2.getItems().add(srcDir);
+            }
+            cbDir2.getSelectionModel().select(srcDir);
         });
-//        btnSetDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, cbDir2));
         btnSetHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash1));
         btnSetHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtHash2));
         btnSetWriteHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
@@ -471,22 +461,11 @@ public class GuiDirRunner extends AnchorPane {
         progData.fileDataList2.setPred(fileDataFilter2);
     }
 
-    private void selectProjectData() {
-        unBindProjectDate();
-
-        projectData = cbDir1.getSelectionModel().getSelectedItem();
-        if (projectData == null) {
-            projectData = new ProjectData();
-            progData.projectDataList.addFirst(projectData);
-        }
-
-        ProgConfig.GUI_FILERUNNER_DIR1.setValue(projectData.getSrcDir1());
-        bindProjectDate();
-    }
-
     private void bindProjectDate() {
         if (projectData != null) {
-//            cbDir2.textProperty().bindBidirectional(projectData.srcDir2Property());
+            projectData.srcDir1Property().bind(cbDir1.getSelectionModel().selectedItemProperty());
+            projectData.srcDir2Property().bind(cbDir2.getSelectionModel().selectedItemProperty());
+
             txtHash1.textProperty().bindBidirectional(projectData.srcHash1Property());
             txtHash2.textProperty().bindBidirectional(projectData.srcHash2Property());
 
@@ -505,7 +484,9 @@ public class GuiDirRunner extends AnchorPane {
 
     private void unBindProjectDate() {
         if (projectData != null) {
-//            cbDir2.textProperty().unbindBidirectional(projectData.srcDir2Property());
+            projectData.srcDir1Property().unbind();
+            projectData.srcDir2Property().unbind();
+
             txtHash1.textProperty().unbindBidirectional(projectData.srcHash1Property());
             txtHash2.textProperty().unbindBidirectional(projectData.srcHash2Property());
 
@@ -518,22 +499,6 @@ public class GuiDirRunner extends AnchorPane {
             projectData.selTab1Property().unbind();
             projectData.selTab2Property().unbind();
         }
-    }
-
-    private ProjectData getProjectData(String srcDir1) {
-        ProjectData pd;
-        if (srcDir1.trim().isEmpty() && !progData.projectDataList.isEmpty()) {
-            pd = progData.projectDataList.get(0);
-        } else {
-            pd = progData.projectDataList.getProjectDate(srcDir1);
-        }
-
-        if (pd == null) {
-            pd = new ProjectData(srcDir1, projectData);
-            progData.projectDataList.addFirst(pd);
-        }
-
-        return pd;
     }
 
     public void saveTable() {

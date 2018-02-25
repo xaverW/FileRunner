@@ -20,7 +20,7 @@ package de.p2tools.p2Lib.configFile;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigConfigsData;
 import de.p2tools.p2Lib.configFile.config.ConfigConfigsList;
-import de.p2tools.p2Lib.configFile.config.ConfigList;
+import de.p2tools.p2Lib.configFile.configList.ConfigList;
 import de.p2tools.p2Lib.tools.Duration;
 import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.SysMsg;
@@ -41,12 +41,12 @@ class LoadConfigFile implements AutoCloseable {
     private XMLInputFactory inFactory;
     private final Path xmlFilePath;
 
-    private ArrayList<ConfigsList> configsListArr = null;
+    private ArrayList<ConfigsDataList> configsDataListArr = null;
     private ArrayList<ConfigsData> configsDataArr = null;
 
-    LoadConfigFile(Path filePath, ArrayList<ConfigsList> configsListArrayList, ArrayList<ConfigsData> configsDataArr) {
+    LoadConfigFile(Path filePath, ArrayList<ConfigsDataList> configsListArrayDataList, ArrayList<ConfigsData> configsDataArr) {
         this.xmlFilePath = filePath;
-        this.configsListArr = configsListArrayList;
+        this.configsDataListArr = configsListArrayDataList;
         this.configsDataArr = configsDataArr;
 
         inFactory = XMLInputFactory.newInstance();
@@ -87,8 +87,8 @@ class LoadConfigFile implements AutoCloseable {
                 if (get(parser, xmlElem)) {
                     continue nextTag;
                 }
-//                if (configsListArr != null) {
-//                    for (ConfigsList configsList : configsListArr) {
+//                if (configsDataListArr != null) {
+//                    for (ConfigsDataList configsList : configsDataListArr) {
 //                        if (configsList.getTag().equals(xmlElem)) {
 //                            getConf(parser, configsList);
 //                            continue nextTag;
@@ -125,10 +125,10 @@ class LoadConfigFile implements AutoCloseable {
     }
 
     private boolean get(XMLStreamReader parser, String xmlElem) {
-        if (configsListArr != null) {
-            for (ConfigsList configsList : configsListArr) {
-                if (configsList.getTag().equals(xmlElem)) {
-                    getConf(parser, configsList);
+        if (configsDataListArr != null) {
+            for (ConfigsDataList configsDataList : configsDataListArr) {
+                if (configsDataList.getTag().equals(xmlElem)) {
+                    getConf(parser, configsDataList);
                     return true;
                 }
             }
@@ -150,11 +150,11 @@ class LoadConfigFile implements AutoCloseable {
         if (o instanceof ConfigsData) {
             return getConfigData(parser, (ConfigsData) o);
 
-        } else if (o instanceof ConfigsList) {
-            return getConfigsList(parser, (ConfigsList) o);
+        } else if (o instanceof ConfigsDataList) {
+            return getConfigsList(parser, (ConfigsDataList) o);
 
         } else if (o instanceof ConfigConfigsList) {
-            ConfigsList<? extends ConfigsData> actValue = ((ConfigConfigsList) o).getActValue();
+            ConfigsDataList<? extends ConfigsData> actValue = ((ConfigConfigsList) o).getActValue();
             return getConfigsList(parser, actValue);
 
         } else if (o instanceof ConfigConfigsData) {
@@ -174,12 +174,12 @@ class LoadConfigFile implements AutoCloseable {
 
     }
 
-    private boolean getConfigsList(XMLStreamReader parser, ConfigsList configsList) {
+    private boolean getConfigsList(XMLStreamReader parser, ConfigsDataList configsDataList) {
         boolean ret = false;
-        final String configsListTagName = configsList.getTag();
+        final String configsListTagName = configsDataList.getTag();
 
         try {
-            ConfigsData configsData = configsList.getNewItem();
+            ConfigsData configsData = configsDataList.getNewItem();
             while (parser.hasNext()) {
                 final int event = parser.next();
 
@@ -198,8 +198,8 @@ class LoadConfigFile implements AutoCloseable {
 
                 if (getConf(parser, configsData)) {
                     ret = true;
-                    configsList.addNewItem(configsData);
-                    configsData = configsList.getNewItem();
+                    configsDataList.addNewItem(configsData);
+                    configsData = configsDataList.getNewItem();
                 }
 
             }
