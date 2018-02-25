@@ -64,6 +64,9 @@ public class GuiDirRunner extends AnchorPane {
     private final Button btnSetWriteHash1 = new Button();
     private final Button btnSetWriteHash2 = new Button();
 
+    private final Button btnGenName1 = new Button();
+    private final Button btnGenName2 = new Button();
+
     private final Button btnReadDir1 = new Button("Lesen");
     private final Button btnReadHash1 = new Button("Lesen");
     private final Button btnReadDir2 = new Button("Lesen");
@@ -126,6 +129,8 @@ public class GuiDirRunner extends AnchorPane {
         btnSetDir2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnSetHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnSetHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnGenName1.setGraphic(new Icons().ICON_BUTTON_GUI_GEN_NAME);
+        btnGenName2.setGraphic(new Icons().ICON_BUTTON_GUI_GEN_NAME);
         btnSetWriteHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnSetWriteHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
 
@@ -219,13 +224,13 @@ public class GuiDirRunner extends AnchorPane {
 
         // write hash
         HBox hBoxWriteHash1 = new HBox(10);
-        hBoxWriteHash1.getChildren().addAll(txtWriteHash1, btnSetWriteHash1);
+        hBoxWriteHash1.getChildren().addAll(btnGenName1, txtWriteHash1, btnSetWriteHash1);
         HBox hBoxWrite1 = new HBox(10);
         hBoxWrite1.getChildren().add(btnWriteHash1);
         hBoxWrite1.setAlignment(Pos.CENTER_RIGHT);
 
         HBox hBoxWriteHash2 = new HBox(10);
-        hBoxWriteHash2.getChildren().addAll(txtWriteHash2, btnSetWriteHash2);
+        hBoxWriteHash2.getChildren().addAll(btnGenName2, txtWriteHash2, btnSetWriteHash2);
         HBox hBoxWrite2 = new HBox(10);
         hBoxWrite2.getChildren().add(btnWriteHash2);
         hBoxWrite2.setAlignment(Pos.CENTER_RIGHT);
@@ -345,6 +350,10 @@ public class GuiDirRunner extends AnchorPane {
         btnSetDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, cbDir2));
         btnSetHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, cbHash1));
         btnSetHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, cbHash2));
+        btnGenName1.setOnAction(event -> {
+            String file = progData.fileDataList1.getSourceDir();
+            txtWriteHash1.setText(file + ".md5");
+        });
         btnSetWriteHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
         btnSetWriteHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
 

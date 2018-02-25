@@ -38,6 +38,7 @@ public class Icons {
 
 
     public final ImageView ICON_BUTTON_STOP = GetIcon.getImageView("button-stop.png", 16, 16);
+    public final ImageView ICON_BUTTON_GUI_GEN_NAME = GetIcon.getImageView("button-gen-name.png", 16, 16);
 
     public final ImageView FX_ICON_TOOLBAR_MENUE_TOP = GetIcon.getImageView("menue-top.png", 32, 18);
     public final ImageView FX_ICON_TOOLBAR_MENUE = GetIcon.getImageView("menue.png", 18, 15);
