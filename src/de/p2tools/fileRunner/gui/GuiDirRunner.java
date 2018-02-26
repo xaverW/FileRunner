@@ -123,6 +123,7 @@ public class GuiDirRunner extends AnchorPane {
         initCont();
         initTable();
         initProjectData();
+        setTabText();
         addListener();
     }
 
@@ -288,6 +289,8 @@ public class GuiDirRunner extends AnchorPane {
         btnShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 sind."));
         btnShowOnly2.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_2);
         btnShowOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 sind."));
+        btnReadDir1.setMinWidth(btnReadDir1.getPrefWidth());
+        btnReadDir2.setMinWidth(btnReadDir2.getPrefWidth());
         vBoxBtn.getChildren().addAll(btnShowAll, btnShowSame, btnShowDiff, btnShowDiffAll, btnShowOnly1, btnShowOnly2);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
@@ -452,24 +455,31 @@ public class GuiDirRunner extends AnchorPane {
         });
         txtSearch1.textProperty().addListener((observable, oldValue, newValue) -> {
             changeTextFilter();
-            if (txtSearch1.getText().isEmpty()) {
-                tabFilter1.setStyle("-fx-font-weight: normal;");
-            } else {
-                tabFilter1.setStyle("-fx-font-weight: bold;");
-            }
+            setTabText();
         });
         txtSearch2.textProperty().addListener((observable, oldValue, newValue) -> {
             changeTextFilter();
-            if (txtSearch2.getText().isEmpty()) {
-                tabFilter2.setStyle("-fx-font-weight: normal;");
-            } else {
-                tabFilter2.setStyle("-fx-font-weight: bold;");
-            }
+            setTabText();
         });
         btnClearFilter1.disableProperty().bind(txtSearch1.textProperty().isEmpty());
         btnClearFilter2.disableProperty().bind(txtSearch2.textProperty().isEmpty());
         btnClearFilter1.setOnAction(a -> txtSearch1.clear());
         btnClearFilter2.setOnAction(a -> txtSearch2.clear());
+        btnWriteHash1.disableProperty().bind(progData.fileDataList1.emptyProperty());
+        btnWriteHash2.disableProperty().bind(progData.fileDataList2.emptyProperty());
+    }
+
+    private void setTabText() {
+        if (txtSearch2.getText().isEmpty()) {
+            tabFilter2.setStyle("-fx-font-weight: normal; -fx-underline: false;");
+        } else {
+            tabFilter2.setStyle("-fx-font-weight: bold; -fx-underline: true;");
+        }
+        if (txtSearch1.getText().isEmpty()) {
+            tabFilter1.setStyle("-fx-font-weight: normal;");
+        } else {
+            tabFilter1.setStyle("-fx-font-weight: bold;");
+        }
     }
 
     public static final FastDateFormat FORMATTER_ddMMyyyy = FastDateFormat.getInstance("__yyyyMMdd");

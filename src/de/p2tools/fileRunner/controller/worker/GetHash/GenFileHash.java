@@ -34,7 +34,8 @@ public class GenFileHash {
     private EventListenerList listeners = new EventListenerList();
     private int max = 0;
     private int progress = 0;
-    private String fileHash = "";
+    private int thrads = 0;
+//    private String fileHash = "";
 
     public void addAdListener(RunListener listener) {
         listeners.add(RunListener.class, listener);
@@ -52,13 +53,18 @@ public class GenFileHash {
         }
     }
 
-    public String getFileHash() {
-        return fileHash;
-    }
+//    public String getFileHash() {
+//        return fileHash;
+//    }
 
     public void genHash(File file, StringProperty stringProperty) {
         stop = false;
-        fileHash = "";
+//        fileHash = "";
+
+        max = 100;
+        progress = 0;
+        thrads = 1;
+        notifyEvent();
 
         HashErstellen hashErstellen = new HashErstellen(file, stringProperty);
         Thread startenThread = new Thread(hashErstellen);
@@ -67,9 +73,32 @@ public class GenFileHash {
         startenThread.start();
     }
 
+    public void genHash(File file1, StringProperty stringProperty1, File file2, StringProperty stringProperty2) {
+        stop = false;
+//        fileHash = "";
+
+        max = 200;
+        progress = 0;
+        thrads = 2;
+        notifyEvent();
+
+        HashErstellen hashErstellen = new HashErstellen(file1, stringProperty1);
+        Thread startenThread = new Thread(hashErstellen);
+        startenThread.setName("HashErstellen-1");
+        startenThread.setDaemon(true);
+        startenThread.start();
+
+        hashErstellen = new HashErstellen(file2, stringProperty2);
+        startenThread = new Thread(hashErstellen);
+        startenThread.setName("HashErstellen-2");
+        startenThread.setDaemon(true);
+        startenThread.start();
+    }
+
     private class HashErstellen implements Runnable {
         private final File file;
         private final StringProperty stringProperty;
+        private String fileHash = "";
 
         public HashErstellen(File file, StringProperty stringProperty) {
             this.file = file;
@@ -87,9 +116,6 @@ public class GenFileHash {
                 long countBuffer = file.length() / BUFFER_MAX;
                 long msgBuff = countBuffer / 100;
                 long run = 0;
-                max = 100;
-                progress = 0;
-                notifyEvent();
 
                 MessageDigest md = MessageDigest.getInstance(ProgConfig.GUI_FILE_HASH.get());
                 srcStream = new DigestInputStream(new FileInputStream(file), md);
@@ -123,10 +149,13 @@ public class GenFileHash {
                 }
             }
 
-            max = 0;
-            progress = 0;
-            notifyEvent();
             Platform.runLater(() -> stringProperty.setValue(fileHash));
+            --thrads;
+            if (thrads <= 0) {
+                max = 0;
+                progress = 0;
+                notifyEvent();
+            }
         }
     }
 

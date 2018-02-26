@@ -42,17 +42,14 @@ public class FileHash {
     }
 
 
-    public static String hashString(String message, HASH_ALGORITHM algorithm)
-            throws HashException {
-
+    public static String hashString(String text, HASH_ALGORITHM algorithm) throws HashException {
         try {
-            MessageDigest digest = MessageDigest.getInstance(algorithm.toString());
-            byte[] hashedBytes = digest.digest(message.getBytes("UTF-8"));
+            MessageDigest md = MessageDigest.getInstance(algorithm.toString());
+            byte[] hashedBytes = md.digest(text.getBytes("UTF-8"));
 
-            return convertByteArrayToHexString(hashedBytes);
+            return convertToHexString(hashedBytes);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-            throw new HashException(
-                    "Could not generate hash from String", ex);
+            throw new HashException("Could not generate hash", ex);
         }
     }
 
@@ -60,38 +57,26 @@ public class FileHash {
         return hashFile(file, algorithm.toString());
     }
 
-    public static String generateMD5(File file) throws HashException {
-        return hashFile(file, HASH_ALGORITHM.HASH_MD5.toString());
-    }
-
-    public static String generateSHA1(File file) throws HashException {
-        return hashFile(file, "SHA-1");
-    }
-
-    public static String generateSHA256(File file) throws HashException {
-        return hashFile(file, "SHA-256");
-    }
-
-    private static String hashFile(File file, String algorithm) throws HashException {
+    private static String hashFile(File file, String hAlgo) throws HashException {
         try (FileInputStream inputStream = new FileInputStream(file)) {
-            MessageDigest digest = MessageDigest.getInstance(algorithm);
+            MessageDigest md = MessageDigest.getInstance(hAlgo);
 
             byte[] bytesBuffer = new byte[1024];
             int bytesRead = -1;
 
             while ((bytesRead = inputStream.read(bytesBuffer)) != -1) {
-                digest.update(bytesBuffer, 0, bytesRead);
+                md.update(bytesBuffer, 0, bytesRead);
             }
 
-            byte[] hashedBytes = digest.digest();
+            byte[] hashedBytes = md.digest();
 
-            return convertByteArrayToHexString(hashedBytes);
+            return convertToHexString(hashedBytes);
         } catch (NoSuchAlgorithmException | IOException ex) {
-            throw new HashException("Could not generate hash from file", ex);
+            throw new HashException("Could not generate hash", ex);
         }
     }
 
-    private static String convertByteArrayToHexString(byte[] arrayBytes) {
+    private static String convertToHexString(byte[] arrayBytes) {
         StringBuffer stringBuffer = new StringBuffer();
         for (int i = 0; i < arrayBytes.length; i++) {
             stringBuffer.append(Integer.toString((arrayBytes[i] & 0xff) + 0x100, 16)

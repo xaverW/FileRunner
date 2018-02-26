@@ -24,12 +24,10 @@ import de.p2tools.p2Lib.dialog.DirFileChooser;
 import de.p2tools.p2Lib.dialog.PAlert;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -50,14 +48,17 @@ public class GuiFileRunner extends AnchorPane {
     private final RadioButton cbxSha1 = new RadioButton("Sha-1");
     private final RadioButton cbxSha256 = new RadioButton("Sha-256");
 
-    private final Button btnGenHash1 = new Button("");
-    private final Button btnGenHash2 = new Button("");
-
     private final Button btnGetFile1 = new Button("");
     private final Button btnGetFile2 = new Button("");
 
+    private final Button btnGenHash1 = new Button("Hash erstellen");
+    private final Button btnGenHash2 = new Button("Hash erstellen");
+
     private final Button btnSaveHash1 = new Button("Hash speichern");
     private final Button btnSaveHash2 = new Button("Hash speichern");
+
+    private final Button btnCheckFile = new Button("Dateien vergleichen");
+
 
     private final ProgData progData;
 
@@ -88,8 +89,6 @@ public class GuiFileRunner extends AnchorPane {
     }
 
     private void initCont() {
-        btnGenHash1.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
-        btnGenHash2.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
         btnGetFile1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnGetFile2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
 
@@ -113,18 +112,13 @@ public class GuiFileRunner extends AnchorPane {
         GridPane.setValignment(lblDir1, VPos.CENTER);
         GridPane.setVgrow(lblDir2, Priority.ALWAYS);
         GridPane.setValignment(lblDir2, VPos.CENTER);
-        GridPane.setMargin(btnGetFile1, new Insets(10));
-        GridPane.setMargin(btnGetFile2, new Insets(10));
-        GridPane.setMargin(btnGenHash1, new Insets(10));
-
-        GridPane.setMargin(btnSaveHash1, new Insets(10));
-        GridPane.setMargin(btnSaveHash2, new Insets(10));
-        GridPane.setMargin(btnGenHash2, new Insets(10));
         GridPane.setHalignment(btnSaveHash1, HPos.RIGHT);
         GridPane.setHalignment(btnSaveHash2, HPos.RIGHT);
 
+        // Datei1
         int r = 0;
         GridPane gridPane1 = new GridPane();
+        gridPane1.setPadding(new Insets(10));
         gridPane1.getStyleClass().add("pane-border");
         gridPane1.setVgap(10);
         gridPane1.setHgap(10);
@@ -137,12 +131,17 @@ public class GuiFileRunner extends AnchorPane {
 
         gridPane1.add(new Label("Hash"), 1, ++r);
         gridPane1.add(txtHash1, 2, r);
-        gridPane1.add(btnGenHash1, 3, r);
-        gridPane1.add(btnSaveHash1, 2, ++r, 2, 1);
-        gridPane1.add(new Label(" "), 1, ++r);
 
+        HBox hBox = new HBox(10);
+        hBox.setAlignment(Pos.CENTER_RIGHT);
+        hBox.getChildren().addAll(btnSaveHash1, btnGenHash1);
+        gridPane1.add(hBox, 2, ++r);
+
+
+        // Datei2
         r = 0;
         GridPane gridPane2 = new GridPane();
+        gridPane2.setPadding(new Insets(10));
         gridPane2.getStyleClass().add("pane-border");
         gridPane2.setVgap(10);
         gridPane2.setHgap(10);
@@ -156,27 +155,32 @@ public class GuiFileRunner extends AnchorPane {
 
         gridPane2.add(new Label("Hash"), 1, ++r);
         gridPane2.add(txtHash2, 2, r);
-        gridPane2.add(btnGenHash2, 3, r);
-        gridPane2.add(btnSaveHash2, 2, ++r, 2, 1);
-        gridPane2.add(new Label(" "), 1, ++r);
 
+        hBox = new HBox(10);
+        hBox.setAlignment(Pos.CENTER_RIGHT);
+        hBox.getChildren().addAll(btnSaveHash2, btnGenHash2);
+        gridPane2.add(hBox, 2, ++r);
+
+        // Hash
         r = 0;
         GridPane gridPaneHash = new GridPane();
+        gridPaneHash.setPadding(new Insets(20));
         gridPaneHash.getStyleClass().add("pane-border");
-        gridPaneHash.setVgap(10);
-        gridPaneHash.setHgap(10);
+        gridPaneHash.setVgap(20);
+        gridPaneHash.setHgap(20);
 
-        gridPaneHash.add(lblHash, 0, r, 1, 5);
+        gridPaneHash.add(cbxMd5, 0, r);
+        gridPaneHash.add(cbxSha1, 1, r);
+        gridPaneHash.add(cbxSha256, 2, r);
 
-        gridPaneHash.add(new Label(" "), 1, r);
-        gridPaneHash.add(cbxMd5, 1, ++r);
-        gridPaneHash.add(cbxSha1, 1, ++r);
-        gridPaneHash.add(cbxSha256, 1, ++r);
-        gridPaneHash.add(new Label(" "), 1, ++r);
+        HBox hBoxCheck = new HBox(10);
+        hBoxCheck.setAlignment(Pos.CENTER_RIGHT);
+        hBoxCheck.getChildren().add(btnCheckFile);
+        GridPane.setHgrow(hBoxCheck, Priority.ALWAYS);
+        gridPaneHash.add(hBoxCheck, 3, r);
 
         vBoxCont.setPadding(new Insets(25));
         vBoxCont.getChildren().addAll(gridPane1, gridPane2, gridPaneHash);
-
     }
 
     private void initData() {
@@ -217,6 +221,9 @@ public class GuiFileRunner extends AnchorPane {
         btnSaveHash2.disableProperty().bind(txtFile2.textProperty().isEmpty());
         btnSaveHash2.disableProperty().bind(txtHash2.textProperty().isEmpty());
 
+        btnCheckFile.disableProperty().bind(txtFile1.textProperty().isEmpty().or(txtFile2.textProperty().isEmpty()));
+        btnGenHash1.disableProperty().bind(txtFile1.textProperty().isEmpty());
+        btnGenHash2.disableProperty().bind(txtFile2.textProperty().isEmpty());
     }
 
     private void clearHash() {
@@ -316,6 +323,29 @@ public class GuiFileRunner extends AnchorPane {
         });
         btnSaveHash2.setOnAction(a -> {
         });
-    }
 
+        btnCheckFile.setOnAction(a -> {
+            txtHash1.clear();
+            txtHash2.clear();
+            if (txtFile1.getText().trim().isEmpty()) {
+                PAlert.showErrorAlert("Hash erstellen", "Es ist keine Datei (1) angegeben!");
+                return;
+            }
+            if (txtFile2.getText().trim().isEmpty()) {
+                PAlert.showErrorAlert("Hash erstellen", "Es ist keine Datei (2) angegeben!");
+                return;
+            }
+            File file1 = new File(txtFile1.getText().trim());
+            if (!file1.exists()) {
+                PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei (1) existiert nicht!");
+                return;
+            }
+            File file2 = new File(txtFile2.getText().trim());
+            if (!file2.exists()) {
+                PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei (2) existiert nicht!");
+                return;
+            }
+            progData.worker.genFileHash(file1, txtHash1.textProperty(), file2, txtHash2.textProperty());
+        });
+    }
 }

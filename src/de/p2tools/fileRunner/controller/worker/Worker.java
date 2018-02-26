@@ -104,9 +104,13 @@ public class Worker {
         genFileHash.genHash(file, stringProperty);
     }
 
-    public String getFileHash() {
-        return genFileHash.getFileHash();
+    public void genFileHash(File file1, StringProperty stringProperty1, File file2, StringProperty stringProperty2) {
+        genFileHash.genHash(file1, stringProperty1, file2, stringProperty2);
     }
+
+//    public String getFileHash() {
+//        return genFileHash.getFileHash();
+//    }
 
     public void save(File file, String fileHash, String hash) {
         genFileHash.save(file, fileHash, hash);
