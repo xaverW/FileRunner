@@ -262,7 +262,7 @@ public class GuiFileRunner extends AnchorPane {
                 PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei existiert nicht!");
                 return;
             }
-            progData.worker.getHash(file, txtHash1.textProperty());
+            progData.worker.genFileHash(file, txtHash1.textProperty());
         });
         btnGenHash2.setOnAction(event -> {
             txtHash2.clear();
@@ -275,7 +275,7 @@ public class GuiFileRunner extends AnchorPane {
                 PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei existiert nicht!");
                 return;
             }
-            progData.worker.getHash(file, txtHash2.textProperty());
+            progData.worker.genFileHash(file, txtHash2.textProperty());
         });
 
         btnGetFile1.setOnAction(a -> {

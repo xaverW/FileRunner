@@ -107,7 +107,6 @@ public class StatusBarController extends AnchorPane {
         textPane.toFront();
 
         btnStop.setOnAction(e -> progData.worker.setStop());
-
         progData.worker.addAdListener(new RunListener() {
             @Override
             public void ping(RunEvent runEvent) {
@@ -176,6 +175,8 @@ public class StatusBarController extends AnchorPane {
     private void setTextNone() {
         lblLeft.setText("");
         lblRight.setText("");
+        lblRightCount.setText("");
+        lblLeftCount.setText("");
     }
 
     private void setFileRunner() {

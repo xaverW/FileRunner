@@ -29,6 +29,7 @@ public class Icons {
     public final ImageView ICON_BUTTON_GUI_NEXT = GetIcon.getImageView("button-gui-next_.png", 40, 100);
     public final ImageView ICON_BUTTON_GUI_PREV = GetIcon.getImageView("button-gui-prev_.png", 40, 100);
 
+    public final ImageView ICON_BUTTON_GUI_CLEAR = GetIcon.getImageView("button-gui-clear.png", 16, 16);
     public final ImageView ICON_BUTTON_GUI_ALL = GetIcon.getImageView("button-gui-all.png", 24, 24);
     public final ImageView ICON_BUTTON_GUI_SAME = GetIcon.getImageView("button-gui-same.png", 24, 24);
     public final ImageView ICON_BUTTON_GUI_DIFF = GetIcon.getImageView("button-gui-diff.png", 24, 24);

@@ -21,6 +21,7 @@ import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.p2Lib.tools.Log;
+import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 
 import javax.swing.event.EventListenerList;
@@ -28,11 +29,12 @@ import java.io.*;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 
-public class GetHash {
+public class GenFileHash {
     private boolean stop = false;
     private EventListenerList listeners = new EventListenerList();
     private int max = 0;
     private int progress = 0;
+    private String fileHash = "";
 
     public void addAdListener(RunListener listener) {
         listeners.add(RunListener.class, listener);
@@ -50,9 +52,19 @@ public class GetHash {
         }
     }
 
-    public void getHash(File file, StringProperty stringProperty) {
+    public String getFileHash() {
+        return fileHash;
+    }
+
+    public void genHash(File file, StringProperty stringProperty) {
+        stop = false;
+        fileHash = "";
+
         HashErstellen hashErstellen = new HashErstellen(file, stringProperty);
-        new Thread(hashErstellen).start();
+        Thread startenThread = new Thread(hashErstellen);
+        startenThread.setName("HashErstellen");
+        startenThread.setDaemon(true);
+        startenThread.start();
     }
 
     private class HashErstellen implements Runnable {
@@ -65,34 +77,43 @@ public class GetHash {
         }
 
         public synchronized void run() {
-            String ret = "";
             InputStream srcStream = null;
 
             try {
                 byte[] hash;
-                MessageDigest md;
-                md = MessageDigest.getInstance(ProgConfig.GUI_FILE_HASH.get());
-                final int BUFFER_MAX = 4096;
+                final int BUFFER_MAX = 1024;
                 byte[] buffer = new byte[BUFFER_MAX];
+
                 long countBuffer = file.length() / BUFFER_MAX;
-                max = (int) (countBuffer);
+                long msgBuff = countBuffer / 100;
+                long run = 0;
+                max = 100;
                 progress = 0;
                 notifyEvent();
 
+                MessageDigest md = MessageDigest.getInstance(ProgConfig.GUI_FILE_HASH.get());
                 srcStream = new DigestInputStream(new FileInputStream(file), md);
+
                 while (!stop && srcStream.read(buffer) != -1) {
-                    ++progress;
-                    notifyEvent();
+                    ++run;
+                    if (run > msgBuff) {
+                        run = 0;
+                        ++progress;
+                        notifyEvent();
+                    }
                 }
+
                 if (!stop) {
                     hash = md.digest();
                     StringBuffer h = new StringBuffer();
                     for (int i = 0; i < hash.length; ++i) {
                         h.append(toHexString(hash[i]));
                     }
-                    ret = h.toString();
+                    fileHash = h.toString();
                 }
             } catch (Exception ex) {
+                Log.errorLog(764512032, ex, "Hash konnte nicht erstellt werden.");
+                fileHash = "";
             } finally {
                 try {
                     if (srcStream != null) {
@@ -101,10 +122,11 @@ public class GetHash {
                 } catch (IOException ex) {
                 }
             }
+
             max = 0;
             progress = 0;
             notifyEvent();
-            stringProperty.set(ret);
+            Platform.runLater(() -> stringProperty.setValue(fileHash));
         }
     }
 

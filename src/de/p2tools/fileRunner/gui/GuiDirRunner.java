@@ -69,6 +69,9 @@ public class GuiDirRunner extends AnchorPane {
     private final Button btnGenName1 = new Button();
     private final Button btnGenName2 = new Button();
 
+    private final Button btnClearFilter1 = new Button();
+    private final Button btnClearFilter2 = new Button();
+
     private final Button btnReadDir1 = new Button("Lesen");
     private final Button btnReadHash1 = new Button("Lesen");
     private final Button btnReadDir2 = new Button("Lesen");
@@ -136,6 +139,8 @@ public class GuiDirRunner extends AnchorPane {
         btnSetWriteHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnSetWriteHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
 
+        btnClearFilter1.setGraphic(new Icons().ICON_BUTTON_GUI_CLEAR);
+        btnClearFilter2.setGraphic(new Icons().ICON_BUTTON_GUI_CLEAR);
 
         // dir1
         VBox vBoxDir1 = new VBox(10);
@@ -165,7 +170,7 @@ public class GuiDirRunner extends AnchorPane {
         hBoxSearch1.setPadding(new Insets(10));
         hBoxSearch1.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(txtSearch1, Priority.ALWAYS);
-        hBoxSearch1.getChildren().addAll(new Label("Dateien suchen"), txtSearch1);
+        hBoxSearch1.getChildren().addAll(new Label("Dateien suchen"), txtSearch1, btnClearFilter1);
 
         // Tabpane1
         tabDir1.setClosable(false);
@@ -209,7 +214,7 @@ public class GuiDirRunner extends AnchorPane {
         hBoxSearch2.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(txtSearch2, Priority.ALWAYS);
         hBoxSearch2.setPadding(new Insets(10));
-        hBoxSearch2.getChildren().addAll(new Label("Dateien suchen"), txtSearch2);
+        hBoxSearch2.getChildren().addAll(new Label("Dateien suchen"), txtSearch2, btnClearFilter2);
 
         // Tabpane1
         tabDir2.setClosable(false);
@@ -461,6 +466,10 @@ public class GuiDirRunner extends AnchorPane {
                 tabFilter2.setStyle("-fx-font-weight: bold;");
             }
         });
+        btnClearFilter1.disableProperty().bind(txtSearch1.textProperty().isEmpty());
+        btnClearFilter2.disableProperty().bind(txtSearch2.textProperty().isEmpty());
+        btnClearFilter1.setOnAction(a -> txtSearch1.clear());
+        btnClearFilter2.setOnAction(a -> txtSearch2.clear());
     }
 
     public static final FastDateFormat FORMATTER_ddMMyyyy = FastDateFormat.getInstance("__yyyyMMdd");

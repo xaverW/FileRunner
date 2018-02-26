@@ -70,7 +70,10 @@ public class CreateDirHash {
         fileDataList.clear();
         HashErstellen hashErstellen = new HashErstellen(file, fileDataList);
         runThreads = 1;
-        new Thread(hashErstellen).start();
+        Thread startenThread = new Thread(hashErstellen);
+        startenThread.setName("HashErstellen");
+        startenThread.setDaemon(true);
+        startenThread.start();
     }
 
     private void notifyEvent() {
