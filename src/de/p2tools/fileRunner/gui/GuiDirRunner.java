@@ -32,8 +32,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import org.apache.commons.lang3.time.FastDateFormat;
 
 import java.io.File;
+import java.util.Date;
 
 public class GuiDirRunner extends AnchorPane {
 
@@ -350,10 +352,42 @@ public class GuiDirRunner extends AnchorPane {
         btnSetDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, cbDir2));
         btnSetHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, cbHash1));
         btnSetHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, cbHash2));
+
         btnGenName1.setOnAction(event -> {
             String file = progData.fileDataList1.getSourceDir();
-            txtWriteHash1.setText(file + ".md5");
+            if (file.isEmpty() && tabDir1.isSelected()) {
+                file = projectData.getSrcDir1();
+            } else if (file.isEmpty() && tabFile1.isSelected()) {
+                file = projectData.getSrcHash1();
+            }
+
+            if (file.isEmpty()) {
+                return;
+            }
+
+            if (!txtWriteHash1.getText().startsWith(file)) {
+                txtWriteHash1.setText(file);
+            }
+            txtWriteHash1.setText(getNextName(txtWriteHash1.getText()));
         });
+        btnGenName2.setOnAction(event -> {
+            String file = progData.fileDataList2.getSourceDir();
+            if (file.isEmpty() && tabDir2.isSelected()) {
+                file = projectData.getSrcDir2();
+            } else if (file.isEmpty() && tabFile2.isSelected()) {
+                file = projectData.getSrcHash2();
+            }
+
+            if (file.isEmpty()) {
+                return;
+            }
+
+            if (!txtWriteHash2.getText().startsWith(file)) {
+                txtWriteHash2.setText(file);
+            }
+            txtWriteHash2.setText(getNextName(txtWriteHash2.getText()));
+        });
+
         btnSetWriteHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
         btnSetWriteHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
 
@@ -427,6 +461,32 @@ public class GuiDirRunner extends AnchorPane {
                 tabFilter2.setStyle("-fx-font-weight: bold;");
             }
         });
+    }
+
+    public static final FastDateFormat FORMATTER_ddMMyyyy = FastDateFormat.getInstance("__yyyyMMdd");
+    public static final FastDateFormat FORMATTER_ddMMyyyyHHmmss = FastDateFormat.getInstance("__yyyyMMdd_HHmmss");
+    private String lastDate2 = "";
+
+    private String getNextName(String name) {
+        String ret;
+        final String MD5 = ".md5";
+        final String date1 = FORMATTER_ddMMyyyy.format(new Date()) + ".md5";
+        final String date2 = FORMATTER_ddMMyyyyHHmmss.format(new Date()) + ".md5";
+
+        if (name.endsWith(date1)) {
+            ret = name.replace(date1, date2);
+            lastDate2 = date2;
+        } else if (name.endsWith(date2)) {
+            ret = name.replace(date2, MD5);
+        } else if (!lastDate2.isEmpty() && name.endsWith(lastDate2)) {
+            ret = name.replace(lastDate2, MD5);
+        } else if (name.endsWith(MD5)) {
+            ret = name.replace(MD5, date1);
+        } else {
+            ret = name + MD5;
+        }
+        return ret;
+
     }
 
     private void changeTextFilter() {
