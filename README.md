@@ -19,4 +19,4 @@ Der Button unten *Dateien vergleichen* startet die Erstellung des Hash für beid
 
 
 ## Links
-- [p2tools.de/filerunner/](https://www.p2tools.de/filerunner/)
+- [www.p2tools.de/filerunner/](https://www.p2tools.de/filerunner/)
