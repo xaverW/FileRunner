@@ -189,6 +189,9 @@ public class GuiFileRunner extends AnchorPane {
         btnSaveHash2.setTooltip(new Tooltip("Hash der Datei 2 speichern."));
         btnGetFile1.setTooltip(new Tooltip("Datei zum Erstellen des Hash auswählen."));
         btnGetFile2.setTooltip(new Tooltip("Datei zum Erstellen des Hash auswählen."));
+        cbxMd5.setTooltip(new Tooltip("Es wird ein MD5-Hash erstellt."));
+        cbxSha1.setTooltip(new Tooltip("Es wird ein SHA-1 Hash erstellt."));
+        cbxSha256.setTooltip(new Tooltip("Es wird ein SHA-256 Hash erstellt."));
     }
 
     private void initData() {
@@ -318,6 +321,21 @@ public class GuiFileRunner extends AnchorPane {
 
         });
         btnSaveHash2.setOnAction(a -> {
+            if (txtFile2.getText().isEmpty() || txtHash2.getText().isEmpty()) {
+                return;
+            }
+
+            Path hashFile = Paths.get(txtFile2.getText());
+            String initDirStr = hashFile.getParent().toString();
+            String initFileStr = hashFile.getFileName().toString() + "." + ProgConfig.GUI_FILE_HASH_SUFF.get();
+
+            String fileStr = DirFileChooser.FileChooserSave(ProgData.getInstance().primaryStage, initDirStr, initFileStr).trim();
+            if (fileStr == null || fileStr.isEmpty()) {
+                return;
+            }
+
+            File file = new File(fileStr);
+            progData.worker.save(file, txtFile2.getText(), txtHash2.getText());
         });
 
         btnCheckFile.setOnAction(a -> {

@@ -43,8 +43,7 @@ public class HashTools {
             FileData fileData;
             while (it.hasNext()) {
                 fileData = it.next();
-                out.write(fileData.getHash() + " " +
-                        "*" + fileData.getFileName() + "\n");
+                out.write(fileData.getHash() + " " + "*" + fileData.getFileName() + "\n");
             }
             out.flush();
         } catch (Exception ex) {
@@ -124,16 +123,5 @@ public class HashTools {
         //todo
         return new FileSize("");
     }
-
-//    public static byte[] get(String pwd) throws IOException, GeneralSecurityException {
-//        final String HASH = "SHA1";
-//        MessageDigest md = MessageDigest.getInstance(HASH);
-//        byte[] digest = md.digest(pwd.getBytes());
-//        byte[] hKey = new byte[24];
-//        System.arraycopy(digest, 0, hKey, 0, 8);
-//        System.arraycopy(digest, 8, hKey, 8, 8);
-//        // Erster und dritter Schlüssel sind bei TripleDES identisch
-//        System.arraycopy(digest, 0, hKey, 16, 8);
-//        return hKey;
-//    }
+    
 }

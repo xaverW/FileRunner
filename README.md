@@ -3,3 +3,6 @@
 
 # FileRunner
 
+Mit dem Programm kann man von einem Ordner eine Liste der Filehashes erstellen. So kann man zwei Ordner direkt vergleichen. Es ist auch möglich, einen Ordner mit einer vorher erstellten Hashliste zu vergleichen. Es können so Änderungen im Ordner gefunden werden.
+
+Weiter können auch einzelne Dateien verglichen werden.

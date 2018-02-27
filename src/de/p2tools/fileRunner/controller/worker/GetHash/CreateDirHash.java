@@ -176,7 +176,6 @@ public class CreateDirHash {
                     ret = HashTools.getHashString(messageDigest.digest());
 
                     if (di != null) {
-                        //dir == null -> nur hash prüfen
                         String strFile = file.getAbsolutePath();
                         PDate fileDate = new PDate(file.lastModified());
                         FileSize fileSize = new FileSize(file.length());
