@@ -3,6 +3,20 @@
 
 # FileRunner
 
-Mit dem Programm kann man von einem Ordner eine Liste der Filehashes erstellen. So kann man zwei Ordner direkt vergleichen. Es ist auch möglich, einen Ordner mit einer vorher erstellten Hashliste zu vergleichen. Es können so Änderungen im Ordner gefunden werden.
+Das Programm bietet die Möglichkeit, Ordner und Dateien zu vergleichen. Von Ordnern können "Dateilisten" erstellt und gespeichert werden. Die Ordner können dann gegen die gespeicherten Dateilisten verglichen werden um Änderungen aufzudecken. Weiter können auch einzelne Dateien verglichen werden.
 
-Weiter können auch einzelne Dateien verglichen werden.
+**Tab: Ordner vergleichen**
+
+In der rechten und linken Seite des Programms wird je ein Ordner oder eine Dateiliste geladen. Die Tabelle zeigt dann den Inhalt des Ordners / der Dateiliste an. Mit den Button zwischen den zwei Listen kann man sich dann *alle*, *alle gleichen* oder *unterschiedliche* Dateien anzeigen lassen. Der Tooltip der Button (dazu die Maus kurz über den Button halten) verrät genau, was angezeigt wird.
+
+Unter den Tabellen kann die Dateiliste in einer Hashdatei für einen späteren Vergleich gespeichert werden. Der Button mit den zwei gedrehten Pfeilen schlägt einen Dateinamen vor (unterschiedliche Vorschläge bei mehrmaligem Klick).
+
+**Tab: Dateien vergleichen**
+
+Hier kann der Hash einer einzelnen Datei erstellt werden. Sollen zwei Dateien verglichen werden (oder der Hash einer Datei geprüft werden), wird erst eine Datei ausgewählt und dann der Hash erstellt. Stimmt der mit dem Hash der zweiten Datei überein, sind die Dateien identisch. Das Textfeld des Hash signalisiert das mit einem grünen Hintergrund.
+
+Der Button unten *Dateien vergleichen* startet die Erstellung des Hash für beide Dateien. Der Vorgang ist identisch mit je einem Klick auf "Hash erstellen" für jede Datei einzeln.
+
+
+## Links
+- [p2tools.de/filerunner/](https://www.p2tools.de/filerunner/)
