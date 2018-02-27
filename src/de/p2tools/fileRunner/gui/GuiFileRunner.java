@@ -17,11 +17,11 @@
 package de.p2tools.fileRunner.gui;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.p2Lib.dialog.DirFileChooser;
 import de.p2tools.p2Lib.dialog.PAlert;
+import de.p2tools.p2Lib.hash.HashConst;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -181,6 +181,14 @@ public class GuiFileRunner extends AnchorPane {
 
         vBoxCont.setPadding(new Insets(25));
         vBoxCont.getChildren().addAll(gridPane1, gridPane2, gridPaneHash);
+
+        btnGenHash1.setTooltip(new Tooltip("Hash der Datei 1 erstellen"));
+        btnGenHash2.setTooltip(new Tooltip("Hash der Datei 2 erstellen"));
+        btnCheckFile.setTooltip(new Tooltip("Hash für beide Dateien erstellen und die Dateien damit vergeleichen."));
+        btnSaveHash1.setTooltip(new Tooltip("Hash der Datei 1 speichern."));
+        btnSaveHash2.setTooltip(new Tooltip("Hash der Datei 2 speichern."));
+        btnGetFile1.setTooltip(new Tooltip("Datei zum Erstellen des Hash auswählen."));
+        btnGetFile2.setTooltip(new Tooltip("Datei zum Erstellen des Hash auswählen."));
     }
 
     private void initData() {
@@ -190,40 +198,37 @@ public class GuiFileRunner extends AnchorPane {
         txtHash2.textProperty().bindBidirectional(ProgConfig.GUI_FILE_HASH2.getStringProperty());
 
         switch (ProgConfig.GUI_FILE_HASH.get()) {
-            case ProgConst.HASH_MD5:
+            case HashConst.HASH_MD5:
                 cbxMd5.setSelected(true);
                 break;
-            case ProgConst.HASH_SHA1:
+            case HashConst.HASH_SHA1:
                 cbxSha1.setSelected(true);
                 break;
-            case ProgConst.HASH_SHA256:
+            case HashConst.HASH_SHA256:
                 cbxSha256.setSelected(true);
                 break;
         }
         cbxMd5.setOnAction(a -> {
             clearHash();
-            ProgConfig.GUI_FILE_HASH.setValue(ProgConst.HASH_MD5);
-            ProgConfig.GUI_FILE_HASH_SUFF.setValue(ProgConst.HASH_MD5_SUFFIX);
+            ProgConfig.GUI_FILE_HASH.setValue(HashConst.HASH_MD5);
+            ProgConfig.GUI_FILE_HASH_SUFF.setValue(HashConst.HASH_MD5_SUFFIX);
         });
         cbxSha1.setOnAction(a -> {
             clearHash();
-            ProgConfig.GUI_FILE_HASH.setValue(ProgConst.HASH_SHA1);
-            ProgConfig.GUI_FILE_HASH_SUFF.setValue(ProgConst.HASH_SHA1_SUFFIX);
+            ProgConfig.GUI_FILE_HASH.setValue(HashConst.HASH_SHA1);
+            ProgConfig.GUI_FILE_HASH_SUFF.setValue(HashConst.HASH_SHA1_SUFFIX);
         });
         cbxSha256.setOnAction(a -> {
             clearHash();
-            ProgConfig.GUI_FILE_HASH.setValue(ProgConst.HASH_SHA256);
-            ProgConfig.GUI_FILE_HASH_SUFF.setValue(ProgConst.HASH_SHA256_SUFFIX);
+            ProgConfig.GUI_FILE_HASH.setValue(HashConst.HASH_SHA256);
+            ProgConfig.GUI_FILE_HASH_SUFF.setValue(HashConst.HASH_SHA256_SUFFIX);
         });
-
-        btnSaveHash1.disableProperty().bind(txtFile1.textProperty().isEmpty());
-        btnSaveHash1.disableProperty().bind(txtHash1.textProperty().isEmpty());
-        btnSaveHash2.disableProperty().bind(txtFile2.textProperty().isEmpty());
-        btnSaveHash2.disableProperty().bind(txtHash2.textProperty().isEmpty());
 
         btnCheckFile.disableProperty().bind(txtFile1.textProperty().isEmpty().or(txtFile2.textProperty().isEmpty()));
         btnGenHash1.disableProperty().bind(txtFile1.textProperty().isEmpty());
         btnGenHash2.disableProperty().bind(txtFile2.textProperty().isEmpty());
+        btnSaveHash1.disableProperty().bind(txtFile1.textProperty().isEmpty().or(txtHash1.textProperty().isEmpty()));
+        btnSaveHash2.disableProperty().bind(txtFile2.textProperty().isEmpty().or(txtHash2.textProperty().isEmpty()));
     }
 
     private void clearHash() {
@@ -295,7 +300,7 @@ public class GuiFileRunner extends AnchorPane {
         });
 
         btnSaveHash1.setOnAction(a -> {
-            if (txtFile1.getText().isEmpty()) {
+            if (txtFile1.getText().isEmpty() || txtHash1.getText().isEmpty()) {
                 return;
             }
 
@@ -309,16 +314,7 @@ public class GuiFileRunner extends AnchorPane {
             }
 
             File file = new File(fileStr);
-            if (file.exists()) {
-                PAlert.BUTTON button = PAlert.showAlert_yes_no("Fehler",
-                        "Datei existiert schon!",
-                        "Die angegebene Datei existiert bereits, Datei überschreiben?");
-                if (button != PAlert.BUTTON.YES) {
-                    return;
-                }
-            }
             progData.worker.save(file, txtFile1.getText(), txtHash1.getText());
-
 
         });
         btnSaveHash2.setOnAction(a -> {

@@ -26,25 +26,10 @@ import java.security.NoSuchAlgorithmException;
 
 public class FileHash {
 
-    public enum HASH_ALGORITHM {
 
-        HASH_MD5("MD5"), HASH_SHA_1("SHA-1"), HASH_SHA_256("SHA-256");
-        private final String name;
-
-        HASH_ALGORITHM(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
-
-
-    public static String hashString(String text, HASH_ALGORITHM algorithm) throws HashException {
+    public static String hashString(String text, String algorithm) throws HashException {
         try {
-            MessageDigest md = MessageDigest.getInstance(algorithm.toString());
+            MessageDigest md = MessageDigest.getInstance(algorithm);
             byte[] hashedBytes = md.digest(text.getBytes("UTF-8"));
 
             return convertToHexString(hashedBytes);
@@ -53,11 +38,7 @@ public class FileHash {
         }
     }
 
-    public static String hashFile(File file, HASH_ALGORITHM algorithm) throws HashException {
-        return hashFile(file, algorithm.toString());
-    }
-
-    private static String hashFile(File file, String hAlgo) throws HashException {
+    public static String hashFile(File file, String hAlgo) throws HashException {
         try (FileInputStream inputStream = new FileInputStream(file)) {
             MessageDigest md = MessageDigest.getInstance(hAlgo);
 

@@ -34,14 +34,6 @@ public class ProgConst {
 
     public static final String XML_START = "FileRunner";
 
-    public final static String HASH_SHA256 = "SHA-256";
-    public final static String HASH_SHA1 = "SHA-1";
-    public final static String HASH_MD5 = "MD5";
-
-    public final static String HASH_SHA256_SUFFIX = "sha256";
-    public final static String HASH_SHA1_SUFFIX = "sha1";
-    public final static String HASH_MD5_SUFFIX = "md5";
-
 
     public static final int MAX_PROJECT_DATA = 3;
 

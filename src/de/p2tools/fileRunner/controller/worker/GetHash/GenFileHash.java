@@ -25,7 +25,10 @@ import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 
 import javax.swing.event.EventListenerList;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 
@@ -166,25 +169,5 @@ public class GenFileHash {
         return ret;
     }
 
-    public void save(File file, String fileHash, String hash) {
-        OutputStreamWriter out = null;
-        try {
-            if (file.exists()) {
-                file.delete();
-            }
-            file.createNewFile();
-            out = new OutputStreamWriter(new FileOutputStream(hash, true));
-            out.write(hash + " " + "*" + fileHash + "\n");
-            out.flush();
-        } catch (Exception ex) {
-            Log.errorLog(620120124, ex, "Fehler beim Schreiben der Hashdatei!");
-        } finally {
-            try {
-                out.close();
-            } catch (IOException ex) {
-                Log.errorLog(987410235, ex, "Fehler beim Schießen der Hashdatei!");
-            }
-        }
-    }
 }
 

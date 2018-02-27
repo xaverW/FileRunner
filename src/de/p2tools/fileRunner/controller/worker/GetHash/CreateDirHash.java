@@ -19,10 +19,10 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
-import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
+import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.FileSize;
 import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.PDate;
@@ -167,7 +167,7 @@ public class CreateDirHash {
             private String hash(File file, File di) {
                 String ret = "";
                 try {
-                    MessageDigest messageDigest = MessageDigest.getInstance(ProgConst.HASH_MD5);
+                    MessageDigest messageDigest = MessageDigest.getInstance(HashConst.HASH_MD5);
                     srcStream = new DigestInputStream(new FileInputStream(file), messageDigest);
 
                     while (!stop && srcStream.read(buffer) > -1) {

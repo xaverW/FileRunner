@@ -278,17 +278,11 @@ public class GuiDirRunner extends AnchorPane {
         tg.getToggles().addAll(btnShowAll, btnShowSame, btnShowDiff, btnShowDiffAll, btnShowOnly1, btnShowOnly2);
         btnShowAll.setSelected(true);
         btnShowAll.setGraphic(new Icons().ICON_BUTTON_GUI_ALL);
-        btnShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
         btnShowSame.setGraphic(new Icons().ICON_BUTTON_GUI_SAME);
-        btnShowSame.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen sind und gleich sind."));
         btnShowDiff.setGraphic(new Icons().ICON_BUTTON_GUI_DIFF);
-        btnShowDiff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind und sich unterscheiden."));
         btnShowDiffAll.setGraphic(new Icons().ICON_BUTTON_GUI_DIFF_ALL);
-        btnShowDiffAll.setTooltip(new Tooltip("Alle Dateien suchen, die sich unterscheiden."));
         btnShowOnly1.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_1);
-        btnShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 sind."));
         btnShowOnly2.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_2);
-        btnShowOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 sind."));
         btnReadDir1.setMinWidth(btnReadDir1.getPrefWidth());
         btnReadDir2.setMinWidth(btnReadDir2.getPrefWidth());
         vBoxBtn.getChildren().addAll(btnShowAll, btnShowSame, btnShowDiff, btnShowDiffAll, btnShowOnly1, btnShowOnly2);
@@ -314,6 +308,29 @@ public class GuiDirRunner extends AnchorPane {
             splitPane.getDividers().get(1).setPosition(ddiv1);
 
         });
+
+        btnReadDir1.setTooltip(new Tooltip("Verzeichnis einlesen."));
+        btnReadDir2.setTooltip(new Tooltip("Verzeichnis einlesen."));
+        btnReadHash1.setTooltip(new Tooltip("Hashdatei einlesen."));
+        btnReadHash2.setTooltip(new Tooltip("Hashdatei einlesen."));
+        btnSetDir1.setTooltip(new Tooltip("Verzeichnis auswählen."));
+        btnSetDir2.setTooltip(new Tooltip("Verzeichnis auswählen."));
+        btnSetHash1.setTooltip(new Tooltip("Hashdatei auswählen"));
+        btnSetHash2.setTooltip(new Tooltip("Hashdatei auswählen"));
+        btnSetWriteHash1.setTooltip(new Tooltip("Datei zum Speichern auswählen."));
+        btnSetWriteHash2.setTooltip(new Tooltip("Datei zum Speichern auswählen."));
+        btnWriteHash1.setTooltip(new Tooltip("Hashliste in Datei schreiben."));
+        btnWriteHash2.setTooltip(new Tooltip("Hashliste in Datei schreiben."));
+        btnGenName1.setTooltip(new Tooltip("Einen Dateinamen vorschlagen."));
+        btnGenName2.setTooltip(new Tooltip("Einen Dateinamen vorschlagen."));
+        btnShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
+        btnShowSame.setTooltip(new Tooltip("Alle gleichen Dateien anzeigen."));
+        btnShowDiff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind aber nicht gleich sind."));
+        btnShowDiffAll.setTooltip(new Tooltip("Dateien anzeigen, die sich unterscheiden oder nur in einer Liste sind."));
+        btnShowOnly1.setTooltip(new Tooltip("Dateien anzeigen, die nur in Liste 1 sind."));
+        btnShowOnly2.setTooltip(new Tooltip("Dateien anzeigen, die nur in Liste 2 sind."));
+        btnClearFilter1.setTooltip(new Tooltip("Filter löschen."));
+        btnClearFilter2.setTooltip(new Tooltip("Filter löschen."));
     }
 
     private void initTable() {

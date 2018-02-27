@@ -25,6 +25,7 @@ import de.p2tools.fileRunner.controller.worker.GetHash.CreateDirHash;
 import de.p2tools.fileRunner.controller.worker.GetHash.GenFileHash;
 import de.p2tools.fileRunner.controller.worker.GetHash.HashTools;
 import de.p2tools.fileRunner.controller.worker.GetHash.ReadHashFile;
+import de.p2tools.p2Lib.hash.WriteHashFile;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
@@ -113,7 +114,7 @@ public class Worker {
 //    }
 
     public void save(File file, String fileHash, String hash) {
-        genFileHash.save(file, fileHash, hash);
+        WriteHashFile.write(file, fileHash, hash);
     }
 
     private void notifyEvent(RunEvent runEvent) {
