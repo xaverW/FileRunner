@@ -53,6 +53,8 @@ public class ProgConfig extends PConfig {
     public static PConfigs GUI_FILE_HASH = addNewKey("gui-file-hash", HashConst.HASH_MD5);
     public static PConfigs GUI_FILE_HASH_SUFF = addNewKey("gui-file-hash-suff", HashConst.HASH_MD5_SUFFIX);
 
+    public static PConfigs FARBE__FILE_LINK = addNewKey("FARBE_FILE_LINK");
+
 
     public static ConfigsData getConfigsData() {
         // sonst werden die Keys nich vorher angelegt :)

@@ -71,7 +71,7 @@ public class HashTools {
 
     public static FileData getFileData(String line) {
         line = HashTools.changeLine(line);
-        FileData fileData = new FileData(getFile(line), getDate(line), getFileSize(line), getHash(line));
+        FileData fileData = new FileData(getFile(line), getDate(line), getFileSize(line), getHash(line), getFileIsLink(line));
         return fileData;
     }
 
@@ -123,5 +123,10 @@ public class HashTools {
         //todo
         return new FileSize("");
     }
-    
+
+    public static boolean getFileIsLink(String zeile) {
+        //todo
+        return false;
+    }
+
 }
