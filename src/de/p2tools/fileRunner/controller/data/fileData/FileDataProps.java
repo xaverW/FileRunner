@@ -31,6 +31,7 @@ public class FileDataProps {
     private String hash = "";
     private boolean diff = false;
     private boolean only = false;
+    private boolean link = false;
 
     public String getTag() {
         return TAG;
@@ -90,5 +91,13 @@ public class FileDataProps {
 
     public void setOnly(boolean only) {
         this.only = only;
+    }
+
+    public boolean isLink() {
+        return link;
+    }
+
+    public void setLink(boolean link) {
+        this.link = link;
     }
 }

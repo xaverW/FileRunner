@@ -70,7 +70,7 @@ public class TableFileList {
                 tableView.setContextMenu(getMenu());
             }
         });
-
+        addRowFact(tableView);
         return new TableColumn[]{
                 nrColumn, fileNameColumn, fileSizeColumn, fileDateColumn, diff, only
         };
@@ -84,5 +84,32 @@ public class TableFileList {
         resetTable.setOnAction(a -> new Table().resetTable(tableView, Table.TABLE.FILELIST1));
         contextMenu.getItems().addAll(resetTable);
         return contextMenu;
+    }
+
+    private void addRowFact(TableView<FileData> table) {
+
+        table.setRowFactory(tableview -> new TableRow<FileData>() {
+            @Override
+            public void updateItem(FileData film, boolean empty) {
+                super.updateItem(film, empty);
+
+                if (film == null || empty) {
+                    setStyle("");
+                } else {
+                    if (film.isLink()) {
+                        // Datei ist ein Symlink
+                        for (int i = 0; i < getChildren().size(); i++) {
+                            getChildren().get(i).setStyle(MTColor.FILE_LINK.getCssFont());
+                        }
+
+                    } else {
+                        for (int i = 0; i < getChildren().size(); i++) {
+                            getChildren().get(i).setStyle("");
+                        }
+                    }
+                }
+            }
+        });
+
     }
 }

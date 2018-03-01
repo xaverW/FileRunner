@@ -98,8 +98,8 @@ public class FileDataList extends SimpleListProperty<FileData> {
         super.clear();
     }
 
-    public synchronized boolean addHashString(String file, PDate fileDate, FileSize fileSize, String hash) {
-        FileData fileData = new FileData(file, fileDate, fileSize, hash);
+    public synchronized boolean addHashString(String file, PDate fileDate, FileSize fileSize, String hash, boolean link) {
+        FileData fileData = new FileData(file, fileDate, fileSize, hash, link);
         fileData.setNr(nr++);
         return super.add(fileData);
     }

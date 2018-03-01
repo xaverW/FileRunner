@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.util.LinkedList;
@@ -187,7 +188,12 @@ public class CreateDirHash {
                         if (strFile.startsWith(File.separator)) {
                             strFile = strFile.substring(1);
                         }
-                        fileDataList.addHashString(strFile, fileDate, fileSize, ret);
+                        boolean link = Files.isSymbolicLink(file.toPath());
+//                        System.out.println(strFile);
+//                        System.out.println("  " + Files.isSymbolicLink(file.toPath()));
+//                        System.out.println("  " + file.getAbsolutePath());
+//                        System.out.println("  " + file.getCanonicalPath());
+                        fileDataList.addHashString(strFile, fileDate, fileSize, ret, link);
                     }
                 } catch (Exception ex) {
                     Log.errorLog(963210472, ex, "Fehler! " + file.getAbsolutePath());
