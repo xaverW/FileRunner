@@ -31,7 +31,7 @@ import java.util.Iterator;
 
 public class HashTools {
 
-    public static void schreiben(File hashOutFile, FileDataList fileDataList) {
+    public static void writeDirHashFile(File hashOutFile, FileDataList fileDataList) {
         OutputStreamWriter out = null;
         try {
             if (hashOutFile.exists()) {

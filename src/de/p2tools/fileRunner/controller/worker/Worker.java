@@ -22,9 +22,9 @@ import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.GetHash.CreateDirHash;
-import de.p2tools.fileRunner.controller.worker.GetHash.GenFileHash;
+import de.p2tools.fileRunner.controller.worker.GetHash.CreateFileHash;
 import de.p2tools.fileRunner.controller.worker.GetHash.HashTools;
-import de.p2tools.fileRunner.controller.worker.GetHash.ReadHashFile;
+import de.p2tools.fileRunner.controller.worker.GetHash.ReadDirHashFile;
 import de.p2tools.p2Lib.hash.WriteHashFile;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -37,16 +37,16 @@ public class Worker {
     private final ProgData progData;
 
     private final CreateDirHash createDirHash;
-    private final ReadHashFile readHashFile;
-    private final GenFileHash genFileHash;
+    private final ReadDirHashFile readDirHashFile;
+    private final CreateFileHash createFileHash;
     private EventListenerList listeners = new EventListenerList();
     private BooleanProperty working = new SimpleBooleanProperty(false);
 
     public Worker(ProgData progData) {
         this.progData = progData;
         createDirHash = new CreateDirHash(progData);
-        readHashFile = new ReadHashFile(progData);
-        genFileHash = new GenFileHash();
+        readDirHashFile = new ReadDirHashFile(progData);
+        createFileHash = new CreateFileHash();
 
         createDirHash.addAdListener(new RunListener() {
             @Override
@@ -54,13 +54,13 @@ public class Worker {
                 notifyEvent(runEvent);
             }
         });
-        readHashFile.addAdListener(new RunListener() {
+        readDirHashFile.addAdListener(new RunListener() {
             @Override
             public void ping(RunEvent runEvent) {
                 notifyEvent(runEvent);
             }
         });
-        genFileHash.addAdListener(new RunListener() {
+        createFileHash.addAdListener(new RunListener() {
             @Override
             public void ping(RunEvent runEvent) {
                 notifyEvent(runEvent);
@@ -85,36 +85,32 @@ public class Worker {
 
     public void setStop() {
         createDirHash.setStop();
-        readHashFile.setStop();
-        genFileHash.setStop();
+        readDirHashFile.setStop();
+        createFileHash.setStop();
     }
 
-    public void readDirHash(File dir, FileDataList fileDataList, int sumThreads, boolean recursiv) {
-        createDirHash.hashLesen(dir, fileDataList, sumThreads, recursiv);
+    public void createDirHash(File dir, FileDataList fileDataList, int sumThreads, boolean recursiv, boolean followLink) {
+        createDirHash.createHash(dir, fileDataList, sumThreads, recursiv, followLink);
     }
 
-    public void readHashFile(File file, FileDataList fileDataList) {
-        readHashFile.readFile(file, fileDataList);
+    public void readDirHashFile(File file, FileDataList fileDataList) {
+        readDirHashFile.readFile(file, fileDataList);
     }
 
-    public void writeHash(File destFile, FileDataList fileDataList) {
-        HashTools.schreiben(destFile, fileDataList);
+    public void writeDirHashFile(File destFile, FileDataList fileDataList) {
+        HashTools.writeDirHashFile(destFile, fileDataList);
     }
 
-    public void genFileHash(File file, StringProperty stringProperty) {
-        genFileHash.genHash(file, stringProperty);
+    public void createFileHash(File file, StringProperty stringProperty) {
+        createFileHash.genHash(file, stringProperty);
     }
 
-    public void genFileHash(File file1, StringProperty stringProperty1, File file2, StringProperty stringProperty2) {
-        genFileHash.genHash(file1, stringProperty1, file2, stringProperty2);
+    public void createFileHash(File file1, StringProperty stringProperty1, File file2, StringProperty stringProperty2) {
+        createFileHash.genHash(file1, stringProperty1, file2, stringProperty2);
     }
 
-//    public String getFileHash() {
-//        return genFileHash.getFileHash();
-//    }
-
-    public void save(File file, String fileHash, String hash) {
-        WriteHashFile.write(file, fileHash, hash);
+    public void writeFileHash(File file, String fileHash, String hash) {
+        WriteHashFile.writeFileHash(file, fileHash, hash);
     }
 
     private void notifyEvent(RunEvent runEvent) {

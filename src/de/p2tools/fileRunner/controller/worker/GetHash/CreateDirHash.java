@@ -48,6 +48,7 @@ public class CreateDirHash {
     private int threads = 0;
     private int anzThread = 1;
     private boolean rekursiv = true;
+    private boolean followLink = false;
     private int runThreads = 0;
 
     public CreateDirHash(ProgData progData) {
@@ -62,16 +63,19 @@ public class CreateDirHash {
         stop = true;
     }
 
-    public void hashLesen(File file, FileDataList fileDataList, int anzThread, boolean rekursiv) {
+    public void createHash(File file, FileDataList fileDataList, int anzThread, boolean rekursiv, boolean followLink) {
         this.anzThread = anzThread;
         this.rekursiv = rekursiv;
+        this.followLink = followLink;
+
         max = 0;
         progress = 0;
         stop = false;
+
         fileDataList.clear();
-        HashErstellen hashErstellen = new HashErstellen(file, fileDataList);
+        CreateHash createHash = new CreateHash(file, fileDataList);
         runThreads = 1;
-        Thread startenThread = new Thread(hashErstellen);
+        Thread startenThread = new Thread(createHash);
         startenThread.setName("HashErstellen");
         startenThread.setDaemon(true);
         startenThread.start();
@@ -86,20 +90,20 @@ public class CreateDirHash {
 
     }
 
-    private class HashErstellen implements Runnable {
+    private class CreateHash implements Runnable {
 
-        private File dir1;
+        private File searchDir;
         private FileDataList fileDataList;
         private LinkedList<File> listeFile = new LinkedList<>();
 
-        public HashErstellen(File dir1, FileDataList fileDataList) {
-            this.dir1 = dir1;
+        public CreateHash(File searchDir, FileDataList fileDataList) {
+            this.searchDir = searchDir;
             this.fileDataList = fileDataList;
         }
 
         public synchronized void run() {
             // Dateien auflisten
-            runDir();
+            runDirFindFiles();
             notifyEvent();
 
             // Hash berechnen
@@ -131,7 +135,7 @@ public class CreateDirHash {
             }
         }
 
-        private void runDir() {
+        private void runDirFindFiles() {
             //Verzeichnis ablaufen und Dateien suchen
             try {
                 new RunRekDir() {
@@ -144,9 +148,9 @@ public class CreateDirHash {
                         addGetFile(file);
                     }
 
-                }.rekDir(dir1, rekursiv);
+                }.rekDir(searchDir, rekursiv);
             } catch (Exception ex) {
-                Log.errorLog(975102364, ex, "HashErstellen.run - " + dir1.getAbsolutePath());
+                Log.errorLog(975102364, ex, "CreateHash.run - " + searchDir.getAbsolutePath());
             }
         }
 
@@ -158,14 +162,14 @@ public class CreateDirHash {
             public synchronized void run() {
                 File file;
                 while (!stop && (file = addGetFile(null)) != null) {
-                    hash(file, dir1);
+                    hash(file, searchDir);
                     ++progress;
                     notifyEvent();
                 }
                 --threads;
             }
 
-            private String hash(File file, File di) {
+            private String hash(File file, File searchDir) {
                 String ret = "";
                 try {
                     MessageDigest messageDigest = MessageDigest.getInstance(HashConst.HASH_MD5);
@@ -176,19 +180,23 @@ public class CreateDirHash {
 
                     ret = HashTools.getHashString(messageDigest.digest());
 
-                    if (di != null) {
+                    if (searchDir != null) {
                         String strFile = file.getAbsolutePath();
+
+                        boolean link = Files.isSymbolicLink(file.toPath());
+                        if (link && followLink) {
+                            strFile = file.getCanonicalPath(); // ist der Pfad des verlinkten Files
+                        } else {
+                            strFile = strFile.substring(searchDir.getAbsolutePath().length());
+                            if (strFile.startsWith(File.separator)) {
+                                strFile = strFile.substring(1);
+                            }
+                        }
+
                         PDate fileDate = new PDate(file.lastModified());
                         FileSize fileSize = new FileSize(file.length());
-                        if (di.isDirectory()) {
-                            strFile = strFile.substring(di.getAbsolutePath().length());
-                        } else if (di.isFile()) {
-                            strFile = strFile.substring(di.getParent().length());
-                        }
-                        if (strFile.startsWith(File.separator)) {
-                            strFile = strFile.substring(1);
-                        }
-                        boolean link = Files.isSymbolicLink(file.toPath());
+
+
 //                        System.out.println(strFile);
 //                        System.out.println("  " + Files.isSymbolicLink(file.toPath()));
 //                        System.out.println("  " + file.getAbsolutePath());
@@ -212,7 +220,7 @@ public class CreateDirHash {
             File ret = null;
             if (file != null) {
                 listeFile.add(file);
-                Log.sysLog(file.getAbsolutePath());
+                //Log.sysLog(file.getAbsolutePath());
                 ++max;
             } else {
                 ret = listeFile.poll();

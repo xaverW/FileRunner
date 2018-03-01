@@ -18,6 +18,9 @@ package de.p2tools.fileRunner.gui;
 
 public class HelpText {
 
-    public static final String FILERUNNER = "";
+    public static final String FOLLOW_SYMLINK = "Eine symbolische Verknüpfung ist eine Verknüpfung in einem Dateisystem " +
+            "die auf eine andere Datei oder ein anderes Verzeichnis verweist.\n" +
+            "In der Tabelle wird der Speicherort des Links angezeigt " +
+            "oder der Pfad der Datei auf den der Link zeigt.";
 
 }

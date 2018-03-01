@@ -19,13 +19,11 @@ package de.p2tools.fileRunner.controller.data.projectData;
 
 import de.p2tools.fileRunner.controller.data.Data;
 import de.p2tools.p2Lib.configFile.config.Config;
+import de.p2tools.p2Lib.configFile.config.ConfigBoolProp;
 import de.p2tools.p2Lib.configFile.config.ConfigIntProp;
 import de.p2tools.p2Lib.configFile.config.ConfigStringProp;
 import de.p2tools.p2Lib.configFile.configList.ConfigListString;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -52,6 +50,9 @@ public class ProjectDataProps extends Data<ProjectData> {
     private final IntegerProperty selTab1 = new SimpleIntegerProperty(0);
     private final IntegerProperty selTab2 = new SimpleIntegerProperty(0);
 
+    private final BooleanProperty followLink1 = new SimpleBooleanProperty(false);
+    private final BooleanProperty followLink2 = new SimpleBooleanProperty(false);
+
 
     public String getTag() {
         return TAG;
@@ -69,7 +70,9 @@ public class ProjectDataProps extends Data<ProjectData> {
                 new ConfigStringProp("write-hash-1", "", writeHash1),
                 new ConfigStringProp("write-hash-2", "", writeHash2),
                 new ConfigIntProp("tab-file-1", 0, selTab1),
-                new ConfigIntProp("tab-file-2", 0, selTab2)
+                new ConfigIntProp("tab-file-2", 0, selTab2),
+                new ConfigBoolProp("followLink1", false, followLink1),
+                new ConfigBoolProp("followLink2", false, followLink1)
         ));
     }
 
@@ -207,6 +210,30 @@ public class ProjectDataProps extends Data<ProjectData> {
 
     public void setSelTab2(int selTab2) {
         this.selTab2.set(selTab2);
+    }
+
+    public boolean isFollowLink1() {
+        return followLink1.get();
+    }
+
+    public BooleanProperty followLink1Property() {
+        return followLink1;
+    }
+
+    public void setFollowLink1(boolean followLink1) {
+        this.followLink1.set(followLink1);
+    }
+
+    public boolean isFollowLink2() {
+        return followLink2.get();
+    }
+
+    public BooleanProperty followLink2Property() {
+        return followLink2;
+    }
+
+    public void setFollowLink2(boolean followLink2) {
+        this.followLink2.set(followLink2);
     }
 
     @Override

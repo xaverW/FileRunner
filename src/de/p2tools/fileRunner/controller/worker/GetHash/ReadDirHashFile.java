@@ -32,7 +32,7 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 
-public class ReadHashFile {
+public class ReadDirHashFile {
 
 
     private boolean stop = false;
@@ -40,7 +40,7 @@ public class ReadHashFile {
 
     private final ProgData progData;
 
-    public ReadHashFile(ProgData progData) {
+    public ReadDirHashFile(ProgData progData) {
         this.progData = progData;
     }
 

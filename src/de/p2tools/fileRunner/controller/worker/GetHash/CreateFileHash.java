@@ -32,7 +32,7 @@ import java.io.InputStream;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 
-public class GenFileHash {
+public class CreateFileHash {
     private boolean stop = false;
     private EventListenerList listeners = new EventListenerList();
     private int max = 0;

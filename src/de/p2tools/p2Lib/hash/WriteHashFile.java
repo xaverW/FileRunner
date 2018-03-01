@@ -26,7 +26,7 @@ import java.nio.charset.StandardCharsets;
 
 public class WriteHashFile {
 
-    public static void write(File file, String fileHash, String hash) {
+    public static void writeFileHash(File file, String fileHash, String hash) {
 
         try (OutputStreamWriter out = new OutputStreamWriter(
                 new FileOutputStream(file, false), StandardCharsets.UTF_8)) {
