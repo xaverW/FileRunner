@@ -22,6 +22,8 @@ import javafx.scene.image.ImageView;
 
 public class Icons {
 
+    public final ImageView ICON_TAB_SEARCH = GetIcon.getImageView("tab-search.png", 16, 16);
+
     public final ImageView ICON_BUTTON_HELP = GetIcon.getImageView("button-help.png", 16, 16);
     public final ImageView ICON_BUTTON_FILE_OPEN = GetIcon.getImageView("button-file-open.png", 16, 16);
     public final ImageView ICON_BUTTON_GEN_HASH = GetIcon.getImageView("button-gen-hash.png", 16, 16);

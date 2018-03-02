@@ -32,6 +32,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class StatusBarController extends AnchorPane {
 
     StackPane stackPane = new StackPane();
@@ -186,11 +189,15 @@ public class StatusBarController extends AnchorPane {
         String src1 = progData.fileDataList1.getSourceDir();
         String src2 = progData.fileDataList2.getSourceDir();
 
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.GERMANY);
+        final String anzListeStr1 = numberFormat.format(tbl1Size);
+        final String anzListeStr2 = numberFormat.format(tbl2Size);
+
         if (tbl1Size <= 0) {
             lblLeftCount.setText("[ ]");
             lblLeft.setText(src1);
         } else {
-            lblLeftCount.setText("[" + tbl1Size + "]");
+            lblLeftCount.setText("[" + anzListeStr1 + "]");
             lblLeft.setText(src1);
         }
 
@@ -198,7 +205,7 @@ public class StatusBarController extends AnchorPane {
             lblRightCount.setText("[ ]");
             lblRight.setText(src2);
         } else {
-            lblRightCount.setText("[" + tbl2Size + "]");
+            lblRightCount.setText("[" + anzListeStr2 + "]");
             lblRight.setText(src2);
         }
     }

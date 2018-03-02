@@ -22,5 +22,4 @@ public class HelpText {
             "die auf eine andere Datei oder ein anderes Verzeichnis verweist.\n\n" +
             "In der Tabelle wird der Speicherort des Links angezeigt. " +
             "Wenn der Link aufgelöst werden soll, wird der Pfad auf den der Link zeigt, angezeigt.";
-
 }

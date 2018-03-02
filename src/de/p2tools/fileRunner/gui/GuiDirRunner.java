@@ -31,7 +31,10 @@ import de.p2tools.p2Lib.dialog.PComboBox;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import org.apache.commons.lang3.time.FastDateFormat;
 
 import java.io.File;
@@ -72,10 +75,10 @@ public class GuiDirRunner extends AnchorPane {
     private final Button btnClearFilter1 = new Button();
     private final Button btnClearFilter2 = new Button();
 
-    private final Button btnReadDir1 = new Button("Lesen");
-    private final Button btnReadHash1 = new Button("Lesen");
-    private final Button btnReadDir2 = new Button("Lesen");
-    private final Button btnReadHash2 = new Button("Lesen");
+    private final Button btnReadDir1 = new Button("");
+    private final Button btnReadHash1 = new Button("");
+    private final Button btnReadDir2 = new Button("");
+    private final Button btnReadHash2 = new Button("");
     private final Button btnWriteHash1 = new Button("Liste in Datei schreiben");
     private final Button btnWriteHash2 = new Button("Liste in Datei schreiben");
 
@@ -136,38 +139,24 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void initCont() {
-        btnSetDir1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnSetDir2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnSetHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnSetHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnGenName1.setGraphic(new Icons().ICON_BUTTON_GUI_GEN_NAME);
-        btnGenName2.setGraphic(new Icons().ICON_BUTTON_GUI_GEN_NAME);
-        btnSetWriteHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnSetWriteHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-
-        btnClearFilter1.setGraphic(new Icons().ICON_BUTTON_GUI_CLEAR);
-        btnClearFilter2.setGraphic(new Icons().ICON_BUTTON_GUI_CLEAR);
-
+        //=======================
         // dir1
         VBox vBoxDir1 = new VBox(10);
         vBoxDir1.setPadding(new Insets(10));
 
-        Label lblDir1 = new Label("Verzeichnis 1");
-        lblDir1.setMaxWidth(Double.MAX_VALUE);
-        HBox hBoxDirText = new HBox(10);
-        HBox.setHgrow(lblDir1, Priority.ALWAYS);
-        hBoxDirText.getChildren().addAll(lblDir1);
-
-        // hash1
         HBox hBoxDir1 = new HBox(10);
         HBox.setHgrow(cbDir1, Priority.ALWAYS);
+        cbDir1.setMaxWidth(Double.MAX_VALUE);
         hBoxDir1.getChildren().addAll(cbDir1, btnSetDir1, btnReadDir1);
-        vBoxDir1.getChildren().addAll(hBoxDirText, hBoxDir1);
+        vBoxDir1.getChildren().addAll(new Label("Verzeichnis 1"), hBoxDir1);
 
+        // hash1
         VBox vBoxFile1 = new VBox(10);
         vBoxFile1.setPadding(new Insets(10));
+
         HBox hBoxFile1 = new HBox(10);
         HBox.setHgrow(cbHash1, Priority.ALWAYS);
+        cbHash1.setMaxWidth(Double.MAX_VALUE);
         hBoxFile1.getChildren().addAll(cbHash1, btnSetHash1, btnReadHash1);
         vBoxFile1.getChildren().addAll(new Label("Hashdatei"), hBoxFile1);
 
@@ -203,28 +192,24 @@ public class GuiDirRunner extends AnchorPane {
         tabPane1.getTabs().addAll(tabDir1, tabFile1, tabFilter1);
 
 
+        // =====================
         // dir2
         VBox vBoxDir2 = new VBox(10);
         vBoxDir2.setPadding(new Insets(10));
 
-        Label lblDir2 = new Label("Verzeichnis 2");
-        lblDir2.setMaxWidth(Double.MAX_VALUE);
-        HBox hBoxDirText2 = new HBox(10);
-        HBox.setHgrow(lblDir2, Priority.ALWAYS);
-        hBoxDirText2.getChildren().addAll(lblDir2);
-
-        // hash2
         HBox hBoxDir2 = new HBox(10);
         HBox.setHgrow(cbDir2, Priority.ALWAYS);
+        cbDir2.setMaxWidth(Double.MAX_VALUE);
         hBoxDir2.getChildren().addAll(cbDir2, btnSetDir2, btnReadDir2);
-        vBoxDir2.getChildren().addAll(hBoxDirText2, hBoxDir2);
+        vBoxDir2.getChildren().addAll(new Label("Verzeichnis 2"), hBoxDir2);
 
+        // hash2
         VBox vBoxFile2 = new VBox(10);
         vBoxFile2.setPadding(new Insets(10));
         HBox hBoxFile2 = new HBox(10);
         HBox.setHgrow(cbHash2, Priority.ALWAYS);
+        cbHash2.setMaxWidth(Double.MAX_VALUE);
         hBoxFile2.getChildren().addAll(cbHash2, btnSetHash2, btnReadHash2);
-
         vBoxFile2.getChildren().addAll(new Label("Hashdatei"), hBoxFile2);
 
         // filter2
@@ -245,6 +230,7 @@ public class GuiDirRunner extends AnchorPane {
         hBoxFollow2.getChildren().addAll(cbxFollowLink2, btnHlpFollowLink2);
         vBoxSearch2.getChildren().addAll(hBoxSearch2, hBoxFollow2);
 
+        // =======================
         // Tabpane2
         tabDir2.setClosable(false);
         tabDir2.setContent(vBoxDir2);
@@ -258,37 +244,26 @@ public class GuiDirRunner extends AnchorPane {
         tabPane2.getTabs().addAll(tabDir2, tabFile2, tabFilter2);
 
 
+        // =======================
         // write hash
         HBox hBoxWriteHash1 = new HBox(10);
+        HBox.setHgrow(txtWriteHash1, Priority.ALWAYS);
         hBoxWriteHash1.getChildren().addAll(btnGenName1, txtWriteHash1, btnSetWriteHash1);
         HBox hBoxWrite1 = new HBox(10);
-        hBoxWrite1.getChildren().add(btnWriteHash1);
         hBoxWrite1.setAlignment(Pos.CENTER_RIGHT);
+        hBoxWrite1.getChildren().add(btnWriteHash1);
 
         HBox hBoxWriteHash2 = new HBox(10);
+        HBox.setHgrow(txtWriteHash2, Priority.ALWAYS);
         hBoxWriteHash2.getChildren().addAll(btnGenName2, txtWriteHash2, btnSetWriteHash2);
         HBox hBoxWrite2 = new HBox(10);
-        hBoxWrite2.getChildren().add(btnWriteHash2);
         hBoxWrite2.setAlignment(Pos.CENTER_RIGHT);
-
-        cbDir1.setMaxWidth(Double.MAX_VALUE);
-        cbDir2.setMaxWidth(Double.MAX_VALUE);
-        cbHash1.setMaxWidth(Double.MAX_VALUE);
-        cbHash2.setMaxWidth(Double.MAX_VALUE);
-        txtWriteHash1.setMaxWidth(Double.MAX_VALUE);
-        txtWriteHash2.setMaxWidth(Double.MAX_VALUE);
+        hBoxWrite2.getChildren().add(btnWriteHash2);
 
 
-        GridPane.setHgrow(cbDir1, Priority.ALWAYS);
-        GridPane.setHgrow(cbDir2, Priority.ALWAYS);
-        GridPane.setHgrow(cbHash1, Priority.ALWAYS);
-        GridPane.setHgrow(cbHash2, Priority.ALWAYS);
-        HBox.setHgrow(txtWriteHash1, Priority.ALWAYS);
-        HBox.setHgrow(txtWriteHash2, Priority.ALWAYS);
-
+        // ================================
         VBox.setVgrow(scrollPane1, Priority.ALWAYS);
         VBox.setVgrow(scrollPane2, Priority.ALWAYS);
-
 
         vBox1.setPadding(new Insets(10));
         vBox1.getChildren().addAll(tabPane1, scrollPane1,
@@ -301,18 +276,6 @@ public class GuiDirRunner extends AnchorPane {
         vBoxBtn.getStyleClass().add("pane-border");
         vBoxBtn.setAlignment(Pos.CENTER);
         vBoxBtn.setPadding(new Insets(10));
-
-        ToggleGroup tg = new ToggleGroup();
-        tg.getToggles().addAll(btnShowAll, btnShowSame, btnShowDiff, btnShowDiffAll, btnShowOnly1, btnShowOnly2);
-        btnShowAll.setSelected(true);
-        btnShowAll.setGraphic(new Icons().ICON_BUTTON_GUI_ALL);
-        btnShowSame.setGraphic(new Icons().ICON_BUTTON_GUI_SAME);
-        btnShowDiff.setGraphic(new Icons().ICON_BUTTON_GUI_DIFF);
-        btnShowDiffAll.setGraphic(new Icons().ICON_BUTTON_GUI_DIFF_ALL);
-        btnShowOnly1.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_1);
-        btnShowOnly2.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_2);
-        btnReadDir1.setMinWidth(btnReadDir1.getPrefWidth());
-        btnReadDir2.setMinWidth(btnReadDir2.getPrefWidth());
         vBoxBtn.getChildren().addAll(btnShowAll, btnShowSame, btnShowDiff, btnShowDiffAll, btnShowOnly1, btnShowOnly2);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
@@ -336,6 +299,37 @@ public class GuiDirRunner extends AnchorPane {
             splitPane.getDividers().get(1).setPosition(ddiv1);
 
         });
+
+        // =================================
+        ToggleGroup tg = new ToggleGroup();
+        tg.getToggles().addAll(btnShowAll, btnShowSame, btnShowDiff, btnShowDiffAll, btnShowOnly1, btnShowOnly2);
+        btnShowAll.setSelected(true);
+        btnShowAll.setGraphic(new Icons().ICON_BUTTON_GUI_ALL);
+        btnShowSame.setGraphic(new Icons().ICON_BUTTON_GUI_SAME);
+        btnShowDiff.setGraphic(new Icons().ICON_BUTTON_GUI_DIFF);
+        btnShowDiffAll.setGraphic(new Icons().ICON_BUTTON_GUI_DIFF_ALL);
+        btnShowOnly1.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_1);
+        btnShowOnly2.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_2);
+        btnReadDir1.setMinWidth(btnReadDir1.getPrefWidth());
+        btnReadDir2.setMinWidth(btnReadDir2.getPrefWidth());
+        btnReadHash1.setMinWidth(btnReadHash1.getPrefWidth());
+        btnReadHash2.setMinWidth(btnReadHash2.getPrefWidth());
+
+        btnSetDir1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnSetDir2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnSetHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnSetHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnGenName1.setGraphic(new Icons().ICON_BUTTON_GUI_GEN_NAME);
+        btnGenName2.setGraphic(new Icons().ICON_BUTTON_GUI_GEN_NAME);
+        btnSetWriteHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnSetWriteHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnReadDir1.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
+        btnReadDir2.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
+        btnReadHash1.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
+        btnReadHash2.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
+
+        btnClearFilter1.setGraphic(new Icons().ICON_BUTTON_GUI_CLEAR);
+        btnClearFilter2.setGraphic(new Icons().ICON_BUTTON_GUI_CLEAR);
 
         btnReadDir1.setTooltip(new Tooltip("Verzeichnis einlesen."));
         btnReadDir2.setTooltip(new Tooltip("Verzeichnis einlesen."));
@@ -519,14 +513,18 @@ public class GuiDirRunner extends AnchorPane {
 
     private void setTabText() {
         if (txtSearch2.getText().isEmpty()) {
-            tabFilter2.setStyle("-fx-font-weight: normal; -fx-underline: false;");
+            tabFilter2.setGraphic(null);
+            tabFilter2.setStyle("-fx-font-weight: normal;");
         } else {
+            tabFilter2.setGraphic(new Icons().ICON_TAB_SEARCH);
             tabFilter2.setStyle("-fx-font-weight: bold; -fx-underline: true;");
         }
         if (txtSearch1.getText().isEmpty()) {
+            tabFilter1.setGraphic(null);
             tabFilter1.setStyle("-fx-font-weight: normal;");
         } else {
-            tabFilter1.setStyle("-fx-font-weight: bold;");
+            tabFilter1.setGraphic(new Icons().ICON_TAB_SEARCH);
+            tabFilter1.setStyle("-fx-font-weight: bold; -fx-underline: true;");
         }
     }
 
