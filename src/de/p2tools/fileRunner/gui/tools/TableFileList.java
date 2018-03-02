@@ -98,6 +98,7 @@ public class TableFileList {
                 } else {
                     if (film.isLink()) {
                         // Datei ist ein Symlink
+                        setStyle(MTColor.FILE_LINK_BG.getCssBackground());
                         for (int i = 0; i < getChildren().size(); i++) {
                             getChildren().get(i).setStyle(MTColor.FILE_LINK.getCssFont());
                         }
@@ -109,6 +110,7 @@ public class TableFileList {
                     }
                 }
             }
+
         });
 
     }

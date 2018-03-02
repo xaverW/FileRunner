@@ -389,14 +389,14 @@ public class GuiDirRunner extends AnchorPane {
         bindProjectDate();
     }
 
+
     private void addListener() {
         progData.worker.addAdListener(new RunListener() {
             @Override
             public void ping(RunEvent runEvent) {
                 if (runEvent.nixLos()) {
-//                    System.out.println("Table refresh");
-//                    table1.refresh();
-//                    table2.refresh();
+                    Table.refresh_table(table1);
+                    Table.refresh_table(table2);
                 }
             }
         });

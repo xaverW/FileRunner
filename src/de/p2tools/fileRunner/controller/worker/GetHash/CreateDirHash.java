@@ -72,7 +72,7 @@ public class CreateDirHash {
         progress = 0;
         stop = false;
 
-        fileDataList.clear();
+        fileDataList.removeAll(fileDataList);
         CreateHash createHash = new CreateHash(file, fileDataList);
         runThreads = 1;
         Thread startenThread = new Thread(createHash);
@@ -195,12 +195,6 @@ public class CreateDirHash {
 
                         PDate fileDate = new PDate(file.lastModified());
                         FileSize fileSize = new FileSize(file.length());
-
-
-//                        System.out.println(strFile);
-//                        System.out.println("  " + Files.isSymbolicLink(file.toPath()));
-//                        System.out.println("  " + file.getAbsolutePath());
-//                        System.out.println("  " + file.getCanonicalPath());
                         fileDataList.addHashString(strFile, fileDate, fileSize, ret, link);
                     }
                 } catch (Exception ex) {

@@ -47,6 +47,12 @@ public class Table {
     private PConfigs confVis; //Spalte ist sichtbar
     private PConfigs confOrder; //"Reihenfolge" der Spalten
 
+    public static void refresh_table(TableView table) {
+        for (int i = 0; i < table.getColumns().size(); i++) {
+            ((TableColumn) (table.getColumns().get(i))).setVisible(false);
+            ((TableColumn) (table.getColumns().get(i))).setVisible(true);
+        }
+    }
 
     private void initConf(TABLE eTable) {
         switch (eTable) {

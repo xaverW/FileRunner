@@ -26,6 +26,7 @@ public class MTColor {
 
     // Tabelle Dateien
     public static final MTC FILE_LINK = new MTC(ProgConfig.FARBE__FILE_LINK, Color.rgb(190, 0, 0), "Dateien sind ein Link");
+    public static final MTC FILE_LINK_BG = new MTC(ProgConfig.FARBE__FILE_LINK, Color.rgb(240, 240, 255), "Dateien sind ein Link");
 
     private static ObservableList<MTC> colorList = FXCollections.observableArrayList();
     public static final int MVC_TEXT = 0;
