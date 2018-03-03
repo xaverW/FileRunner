@@ -104,7 +104,6 @@ public class ProjectDataList extends SimpleListProperty<ProjectData> implements 
     int counter;
 
     private void checkMax() {
-        System.out.println("ProjectDataList: " + this.size());
         counter = 0;
         this.removeIf(projectData -> {
             ++counter;
@@ -114,6 +113,5 @@ public class ProjectDataList extends SimpleListProperty<ProjectData> implements 
                 return false;
             }
         });
-        System.out.println("ProjectDataList: " + this.size());
     }
 }

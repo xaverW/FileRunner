@@ -249,11 +249,34 @@ class LoadConfigFile implements AutoCloseable {
 
     private boolean getConfigList(XMLStreamReader parser, ConfigList config) {
         try {
-            final String n = parser.getElementText();
-            config.setActValue(n);
-        } catch (XMLStreamException ex) {
+            while (parser.hasNext()) {
+                final int event = parser.next();
+
+                if (event == XMLStreamConstants.END_ELEMENT && parser.getLocalName().equals(config.getKey())) {
+                    break;
+                }
+                if (event != XMLStreamConstants.START_ELEMENT) {
+                    continue;
+                }
+
+                final String localName = parser.getLocalName();
+                final String n = parser.getElementText();
+                config.setActValue(n);
+
+            }
+
+        } catch (final Exception ex) {
+            Log.errorLog(302104587, ex);
             return false;
         }
+
+
+//        try {
+//            final String n = parser.getElementText();
+//            config.setActValue(n);
+//        } catch (XMLStreamException ex) {
+//            return false;
+//        }
 
         return true;
     }

@@ -517,16 +517,13 @@ public class GuiDirRunner extends AnchorPane {
             changeTextFilter();
             setTabText();
         });
-        // todo
+
         btnClearFilter1.disableProperty().bind(pCboSearch1.valueProperty().isNull()
                 .or(pCboSearch1.valueProperty().isEqualTo("")));
         btnClearFilter2.disableProperty().bind(pCboSearch2.valueProperty().isNull()
                 .or(pCboSearch2.valueProperty().isEqualTo("")));
-
         btnClearFilter1.setOnAction(a -> pCboSearch1.getSelectionModel().select(""));
         btnClearFilter2.setOnAction(a -> pCboSearch2.getSelectionModel().select(""));
-
-
         btnWriteHash1.disableProperty().bind(progData.fileDataList1.emptyProperty());
         btnWriteHash2.disableProperty().bind(progData.fileDataList2.emptyProperty());
     }

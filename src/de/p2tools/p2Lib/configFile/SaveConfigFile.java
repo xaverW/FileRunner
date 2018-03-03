@@ -140,21 +140,15 @@ class SaveConfigFile implements AutoCloseable {
 
         String xmlName = configsData.getTag();
 
-        for (int t = 0; t < tab; ++t) {
-            writer.writeCharacters("\t"); // Tab
-        }
+        writeTab(tab++);
         writer.writeStartElement(xmlName);
         writer.writeCharacters("\n"); // neue Zeile
 
-        ++tab;
         for (Config config : configsData.getConfigsArr()) {
             write(config, tab);
         }
-        --tab;
 
-        for (int t = 0; t < tab; ++t) {
-            writer.writeCharacters("\t"); // Tab
-        }
+        writeTab(--tab);
         writer.writeEndElement();
         writer.writeCharacters("\n"); // neue Zeile
     }
@@ -165,21 +159,15 @@ class SaveConfigFile implements AutoCloseable {
         String xmlName = configsDataList.getTag();
         writer.writeCharacters("\n"); // neue Zeile
 
-        for (int t = 0; t < tab; ++t) {
-            writer.writeCharacters("\t"); // Tab
-        }
+        writeTab(tab++);
         writer.writeStartElement(xmlName);
         writer.writeCharacters("\n"); // neue Zeile
 
-        ++tab;
         for (Object configsData : configsDataList) {
             write(configsData, tab);
         }
-        --tab;
 
-        for (int t = 0; t < tab; ++t) {
-            writer.writeCharacters("\t"); // Tab
-        }
+        writeTab(--tab);
         writer.writeEndElement();
         writer.writeCharacters("\n"); // neue Zeile
     }
@@ -195,28 +183,32 @@ class SaveConfigFile implements AutoCloseable {
     }
 
     private void writeConfList(ConfigList config, int tab) throws XMLStreamException {
-        System.out.println(config.getActValue().toString());
-        if (!config.getActValue().isEmpty()) {
+        if (config.getActValue() != null && !config.getActValue().isEmpty()) {
+
+            writeTab(tab++);
+            writer.writeStartElement(config.getKey());
+            writer.writeCharacters("\n"); // neue Zeile
 
             ObservableList<Object> actValue = config.getActValue();
+            int i = 0;
             for (Object o : actValue) {
-                for (int t = 0; t < tab; ++t) {
-                    writer.writeCharacters("\t"); // Tab
-                }
-                writer.writeStartElement(config.getKey());
+                ++i;
+                writeTab(tab);
+                writer.writeStartElement(config.getKey() + "-" + i);
                 writer.writeCharacters(o.toString());
                 writer.writeEndElement();
                 writer.writeCharacters("\n"); // neue Zeile
             }
 
+            writeTab(--tab);
+            writer.writeEndElement();
+            writer.writeCharacters("\n"); // neue Zeile
         }
     }
 
     private void writeConf(Config config, int tab) throws XMLStreamException {
         if (config.getActValue() != null && !config.getActValueString().isEmpty()) {
-            for (int t = 0; t < tab; ++t) {
-                writer.writeCharacters("\t"); // Tab
-            }
+            writeTab(tab);
             writer.writeStartElement(config.getKey());
             writer.writeCharacters(config.getActValueString());
             writer.writeEndElement();
@@ -224,5 +216,9 @@ class SaveConfigFile implements AutoCloseable {
         }
     }
 
-
+    private void writeTab(int tab) throws XMLStreamException {
+        for (int t = 0; t < tab; ++t) {
+            writer.writeCharacters("\t"); // Tab
+        }
+    }
 }

@@ -19,15 +19,28 @@ package de.p2tools.p2Lib.dialog;
 
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
+import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class PComboBox extends ComboBox<String> {
 
+    public final int MAX_ELEMENTS = 15;
+
+    private int maxElements = MAX_ELEMENTS;
     private StringProperty stringProperty = null;
     private ObservableList<String> data = null;
+
+    public int getMaxElements() {
+        return maxElements;
+    }
+
+    public void setMaxElements(int maxElements) {
+        this.maxElements = maxElements;
+    }
 
     public void init(ObservableList<String> data, StringProperty stringProperty) {
         this.stringProperty = stringProperty;
@@ -71,15 +84,32 @@ public class PComboBox extends ComboBox<String> {
 
         });
         stringProperty.bind(getSelectionModel().selectedItemProperty());
-        clearList();
+        getEditor().setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("MOUSE PRESSED!!!");
+                setOnMousePressed(null);
+            }
+        });
+        getEditor().setOnMouseClicked(null);
+        getEditor().setOnMousePressed(null);
+        getEditor().setOnMouseDragged(null);
+
+        getEditor().setOnMouseClicked(e -> {
+            if (e.getClickCount() > 1) {
+                data.clear();
+            }
+        });
+
+        cleanList();
     }
 
-    private void clearList() {
+    private void cleanList() {
         ArrayList<String> list = new ArrayList<>();
         list.add("");
 
         data.stream().forEach(d -> {
-            if (!list.contains(d)) {
+            if (!list.contains(d) && list.size() < maxElements) {
                 list.add(d);
             }
         });
