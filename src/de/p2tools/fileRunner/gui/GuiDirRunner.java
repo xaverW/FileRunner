@@ -59,8 +59,8 @@ public class GuiDirRunner extends AnchorPane {
     private final PComboBox cbHash2 = new PComboBox();
     private final TextField txtWriteHash1 = new TextField("");
     private final TextField txtWriteHash2 = new TextField("");
-    private final TextField txtSearch1 = new TextField();
-    private final TextField txtSearch2 = new TextField();
+    private final PComboBox cbSearch1 = new PComboBox();
+    private final PComboBox cbSearch2 = new PComboBox();
 
     private final Button btnSetDir1 = new Button("");
     private final Button btnSetDir2 = new Button("");
@@ -169,8 +169,10 @@ public class GuiDirRunner extends AnchorPane {
 
         HBox hBoxSearch1 = new HBox(10);
         hBoxSearch1.setAlignment(Pos.CENTER_LEFT);
-        HBox.setHgrow(txtSearch1, Priority.ALWAYS);
-        hBoxSearch1.getChildren().addAll(new Label("Dateien suchen"), txtSearch1, btnClearFilter1);
+        HBox.setHgrow(cbSearch1, Priority.ALWAYS);
+        cbSearch1.setMaxWidth(Double.MAX_VALUE);
+        cbSearch1.setEditable(true);
+        hBoxSearch1.getChildren().addAll(new Label("Dateien suchen"), cbSearch1, btnClearFilter1);
 
         HBox hBoxFollow1 = new HBox(10);
         HBox.setHgrow(cbxFollowLink1, Priority.ALWAYS);
@@ -221,8 +223,10 @@ public class GuiDirRunner extends AnchorPane {
 
         HBox hBoxSearch2 = new HBox(10);
         hBoxSearch2.setAlignment(Pos.CENTER_LEFT);
-        HBox.setHgrow(txtSearch2, Priority.ALWAYS);
-        hBoxSearch2.getChildren().addAll(new Label("Dateien suchen"), txtSearch2, btnClearFilter2);
+        HBox.setHgrow(cbSearch2, Priority.ALWAYS);
+        cbSearch2.setMaxWidth(Double.MAX_VALUE);
+        cbSearch2.setEditable(true);
+        hBoxSearch2.getChildren().addAll(new Label("Dateien suchen"), cbSearch2, btnClearFilter2);
 
         HBox hBoxFollow2 = new HBox(10);
         HBox.setHgrow(cbxFollowLink2, Priority.ALWAYS);
@@ -371,14 +375,12 @@ public class GuiDirRunner extends AnchorPane {
     private void initProjectData() {
         projectData = progData.projectDataList.getFirst();
 
-        cbDir1.init(progData.projectDataList.getFirst().getSrcDirList(),
-                projectData.getSrcDir1(), projectData.srcDir1Property());
-        cbDir2.init(progData.projectDataList.getFirst().getSrcDirList(),
-                projectData.getSrcDir2(), projectData.srcDir2Property());
-        cbHash1.init(progData.projectDataList.getFirst().getSrcHashList(),
-                projectData.getSrcHash1(), projectData.srcHash1Property());
-        cbHash2.init(progData.projectDataList.getFirst().getSrcHashList(),
-                projectData.getSrcHash2(), projectData.srcHash2Property());
+        cbDir1.init(progData.projectDataList.getFirst().getSrcDirList(), projectData.srcDir1Property());
+        cbDir2.init(progData.projectDataList.getFirst().getSrcDirList(), projectData.srcDir2Property());
+        cbHash1.init(progData.projectDataList.getFirst().getSrcHashList(), projectData.srcHash1Property());
+        cbHash2.init(progData.projectDataList.getFirst().getSrcHashList(), projectData.srcHash2Property());
+        cbSearch1.init(progData.projectDataList.getFirst().getSearchList(), projectData.search1Property());
+        cbSearch2.init(progData.projectDataList.getFirst().getSearchList(), projectData.search2Property());
 
         bindProjectDate();
     }
@@ -495,36 +497,41 @@ public class GuiDirRunner extends AnchorPane {
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
             progData.fileDataList2.setPred(fileDataFilter2);
         });
-        txtSearch1.textProperty().addListener((observable, oldValue, newValue) -> {
+        cbSearch1.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             changeTextFilter();
             setTabText();
         });
-        txtSearch2.textProperty().addListener((observable, oldValue, newValue) -> {
+        cbSearch2.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             changeTextFilter();
             setTabText();
         });
-        btnClearFilter1.disableProperty().bind(txtSearch1.textProperty().isEmpty());
-        btnClearFilter2.disableProperty().bind(txtSearch2.textProperty().isEmpty());
-        btnClearFilter1.setOnAction(a -> txtSearch1.clear());
-        btnClearFilter2.setOnAction(a -> txtSearch2.clear());
+        // todo
+        btnClearFilter1.disableProperty().bind(cbSearch1.valueProperty().isNull()
+                .or(cbSearch1.valueProperty().isEqualTo("")));
+        btnClearFilter2.disableProperty().bind(cbSearch2.valueProperty().isNull()
+                .or(cbSearch2.valueProperty().isEqualTo("")));
+
+        btnClearFilter1.setOnAction(a -> cbSearch1.getSelectionModel().select(""));
+        btnClearFilter2.setOnAction(a -> cbSearch2.getSelectionModel().select(""));
+
         btnWriteHash1.disableProperty().bind(progData.fileDataList1.emptyProperty());
         btnWriteHash2.disableProperty().bind(progData.fileDataList2.emptyProperty());
     }
 
     private void setTabText() {
-        if (txtSearch2.getText().isEmpty()) {
-            tabFilter2.setGraphic(null);
-            tabFilter2.setStyle("-fx-font-weight: normal;");
-        } else {
-            tabFilter2.setGraphic(new Icons().ICON_TAB_SEARCH);
-            tabFilter2.setStyle("-fx-font-weight: bold; -fx-underline: true;");
-        }
-        if (txtSearch1.getText().isEmpty()) {
+        if (cbSearch1.getValue() == null || cbSearch1.getValue().isEmpty()) {
             tabFilter1.setGraphic(null);
             tabFilter1.setStyle("-fx-font-weight: normal;");
         } else {
             tabFilter1.setGraphic(new Icons().ICON_TAB_SEARCH);
             tabFilter1.setStyle("-fx-font-weight: bold; -fx-underline: true;");
+        }
+        if (cbSearch2.getValue() == null || cbSearch2.getValue().isEmpty()) {
+            tabFilter2.setGraphic(null);
+            tabFilter2.setStyle("-fx-font-weight: normal;");
+        } else {
+            tabFilter2.setGraphic(new Icons().ICON_TAB_SEARCH);
+            tabFilter2.setStyle("-fx-font-weight: bold; -fx-underline: true;");
         }
     }
 
@@ -555,16 +562,16 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void changeTextFilter() {
-        fileDataFilter1.setSearchStr(txtSearch1.getText());
-        fileDataFilter2.setSearchStr(txtSearch2.getText());
+        fileDataFilter1.setSearchStr(cbSearch1.getSelectionModel().getSelectedItem());
+        fileDataFilter2.setSearchStr(cbSearch2.getSelectionModel().getSelectedItem());
         progData.fileDataList1.setPred(fileDataFilter1);
         progData.fileDataList2.setPred(fileDataFilter2);
     }
 
     private void clearFilter() {
         btnShowAll.setSelected(true);
-        fileDataFilter1.setSearchStr(txtSearch1.getText());
-        fileDataFilter2.setSearchStr(txtSearch2.getText());
+        fileDataFilter1.setSearchStr(cbSearch1.getSelectionModel().getSelectedItem());
+        fileDataFilter2.setSearchStr(cbSearch2.getSelectionModel().getSelectedItem());
 
         fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
         fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
@@ -575,8 +582,8 @@ public class GuiDirRunner extends AnchorPane {
 
     private void bindProjectDate() {
         if (projectData != null) {
-            txtSearch1.textProperty().bindBidirectional(projectData.search1Property());
-            txtSearch2.textProperty().bindBidirectional(projectData.search2Property());
+//            cbSearch1.textProperty().bindBidirectional(projectData.search1Property());
+//            cbSearch2.textProperty().bindBidirectional(projectData.search2Property());
 
             txtWriteHash1.textProperty().bindBidirectional(projectData.writeHash1Property());
             txtWriteHash2.textProperty().bindBidirectional(projectData.writeHash2Property());
@@ -593,8 +600,8 @@ public class GuiDirRunner extends AnchorPane {
             projectData.srcDir1Property().unbind();
             projectData.srcDir2Property().unbind();
 
-            txtSearch1.textProperty().unbindBidirectional(projectData.search1Property());
-            txtSearch1.textProperty().unbindBidirectional(projectData.search2Property());
+//            cbSearch1.textProperty().unbindBidirectional(projectData.search1Property());
+//            cbSearch1.textProperty().unbindBidirectional(projectData.search2Property());
 
             txtWriteHash1.textProperty().unbindBidirectional(projectData.writeHash1Property());
             txtWriteHash2.textProperty().unbindBidirectional(projectData.writeHash2Property());

@@ -213,7 +213,7 @@ class SaveConfigFile implements AutoCloseable {
     }
 
     private void writeConf(Config config, int tab) throws XMLStreamException {
-        if (!config.getActValueString().isEmpty()) {
+        if (config.getActValue() != null && !config.getActValueString().isEmpty()) {
             for (int t = 0; t < tab; ++t) {
                 writer.writeCharacters("\t"); // Tab
             }

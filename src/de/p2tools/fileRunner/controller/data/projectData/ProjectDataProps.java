@@ -41,8 +41,10 @@ public class ProjectDataProps extends Data<ProjectData> {
     private final StringProperty srcHash2 = new SimpleStringProperty("");
     private ObservableList<String> srcHashList = FXCollections.observableArrayList();
 
+
     private final StringProperty search1 = new SimpleStringProperty("");
     private final StringProperty search2 = new SimpleStringProperty("");
+    private ObservableList<String> searchList = FXCollections.observableArrayList();
 
     private final StringProperty writeHash1 = new SimpleStringProperty("");
     private final StringProperty writeHash2 = new SimpleStringProperty("");
@@ -65,8 +67,10 @@ public class ProjectDataProps extends Data<ProjectData> {
                 new ConfigListString("src-dir-list", srcDirList),
                 new ConfigStringProp("src-hash-1", "", srcHash1),
                 new ConfigStringProp("src-hash-2", "", srcHash2),
+                new ConfigListString("src-hash-list", srcHashList),
                 new ConfigStringProp("search-1", "", search1),
                 new ConfigStringProp("search-2", "", search2),
+                new ConfigListString("search-list", searchList),
                 new ConfigStringProp("write-hash-1", "", writeHash1),
                 new ConfigStringProp("write-hash-2", "", writeHash2),
                 new ConfigIntProp("tab-file-1", 0, selTab1),
@@ -162,6 +166,14 @@ public class ProjectDataProps extends Data<ProjectData> {
 
     public void setSearch2(String search2) {
         this.search2.set(search2);
+    }
+
+    public ObservableList<String> getSearchList() {
+        return searchList;
+    }
+
+    public void setSearchList(ObservableList<String> searchList) {
+        this.searchList = searchList;
     }
 
     public String getWriteHash1() {

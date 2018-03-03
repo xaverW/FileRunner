@@ -31,6 +31,10 @@ public class FileDataFilter {
     }
 
     public void setSearchStr(String searchStr) {
+        if (searchStr == null) {
+            this.searchStr = "";
+            return;
+        }
         this.searchStr = searchStr;
     }
 

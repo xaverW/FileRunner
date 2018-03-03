@@ -21,14 +21,68 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class PComboBox extends ComboBox<String> {
 
+    private StringProperty stringProperty = null;
+    private ObservableList<String> data = null;
+
+    public void init(ObservableList<String> data, StringProperty stringProperty) {
+        this.stringProperty = stringProperty;
+        this.data = data;
+
+        if (!getItems().contains(stringProperty.getValueSafe())) {
+            getItems().add(stringProperty.getValueSafe());
+        }
+        getSelectionModel().select(stringProperty.getValueSafe());
+
+        setCombo();
+    }
+
     public void init(ObservableList<String> data, String init, StringProperty stringProperty) {
-        setItems(data);
+        this.stringProperty = stringProperty;
+        this.data = data;
+
         if (!getItems().contains(init)) {
             getItems().add(init);
         }
         getSelectionModel().select(init);
+
+        setCombo();
+    }
+
+    private void setCombo() {
+        if (data == null || stringProperty == null) {
+            return;
+        }
+
+        Collections.sort(data);
+        setItems(data);
+
+        getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) {
+                return;
+            }
+            if (!data.contains(newValue)) {
+                data.add(newValue);
+            }
+
+        });
         stringProperty.bind(getSelectionModel().selectedItemProperty());
+        clearList();
+    }
+
+    private void clearList() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("");
+
+        data.stream().forEach(d -> {
+            if (!list.contains(d)) {
+                list.add(d);
+            }
+        });
+        data.setAll(list);
     }
 }
