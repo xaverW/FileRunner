@@ -17,6 +17,8 @@
 package de.p2tools.fileRunner.gui.tools;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgData;
+import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.p2Lib.dialog.PAlertFileChosser;
 import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.PConfigs;
@@ -186,7 +188,8 @@ public class MTOpen {
 
 
         try {
-            programm = new PAlertFileChosser().showAlertFileCooser(title, header, cont, false);
+            programm = new PAlertFileChosser().showAlertFileCooser(title, header, cont, false,
+                    ProgData.getInstance().primaryStage, new Icons().ICON_BUTTON_FILE_OPEN);
             if (!programm.isEmpty()) {
                 final String[] cmd = {programm, directory};
                 Runtime.getRuntime().exec(cmd);

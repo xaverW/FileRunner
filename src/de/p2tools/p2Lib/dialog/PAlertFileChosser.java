@@ -16,25 +16,27 @@
 
 package de.p2tools.p2Lib.dialog;
 
-import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.Icons;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.stage.Stage;
 
 import java.util.Optional;
 
 public class PAlertFileChosser extends PAlert {
 
-    public static String showAlertFileCooser(String title, String header, String content, boolean dir) {
-        return showAlertFileCooser(title, header, content, dir, true, "");
+    public static String showAlertFileCooser(String title, String header, String content, boolean dir, Stage primaryStage, ImageView imageView) {
+        return showAlertFileCooser(title, header, content, dir, true, "", primaryStage, imageView);
     }
 
-    public static String showAlertFileCooser(String title, String header, String content, boolean dir, boolean txtArea, String startFile) {
+    public static String showAlertFileCooser(String title, String header, String content,
+                                             boolean dir, boolean txtArea, String startFile,
+                                             Stage primaryStage, ImageView imageView) {
 
         String ret = "";
 
@@ -67,12 +69,16 @@ public class PAlertFileChosser extends PAlert {
         GridPane.setVgrow(txtFile, Priority.ALWAYS);
 
         Button btnDest = new Button("");
-        btnDest.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        if (imageView != null) {
+            btnDest.setGraphic(imageView);
+        } else {
+            btnDest.setText("Auswählen");
+        }
         btnDest.setOnAction(event -> {
             if (dir) {
-                DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtFile);
+                DirFileChooser.DirChooser(primaryStage, txtFile);
             } else {
-                DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtFile);
+                DirFileChooser.FileChooser(primaryStage, txtFile);
             }
         });
 

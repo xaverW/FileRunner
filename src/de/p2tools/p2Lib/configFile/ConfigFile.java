@@ -17,6 +17,7 @@
 
 package de.p2tools.p2Lib.configFile;
 
+import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.p2Lib.tools.SysMsg;
 
 import java.nio.file.Path;
@@ -73,7 +74,7 @@ public class ConfigFile {
         boolean ret = false;
         new BackupConfigFile(maxCopyBackupfile, configFile).konfigCopy();
 
-        SaveConfigFile saveConfigFile = new SaveConfigFile(configFile, configsDataList, configsData);
+        SaveConfigFile saveConfigFile = new SaveConfigFile(ProgConst.XML_START, configFile, configsDataList, configsData);
         saveConfigFile.write();
         return ret;
     }

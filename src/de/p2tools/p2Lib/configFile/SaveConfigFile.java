@@ -16,8 +16,6 @@
 
 package de.p2tools.p2Lib.configFile;
 
-import de.p2tools.fileRunner.controller.config.ProgConst;
-import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigConfigsData;
 import de.p2tools.p2Lib.configFile.config.ConfigConfigsList;
@@ -41,15 +39,16 @@ class SaveConfigFile implements AutoCloseable {
 
     private XMLStreamWriter writer = null;
     private OutputStreamWriter out = null;
-    private Path xmlFilePath = null;
+    private Path xmlFilePath;
     private OutputStream os = null;
-    private ProgData progData = null;
 
+    private final String xmlStart;
     private final ArrayList<ConfigsDataList> configsDataList;
     private final ArrayList<ConfigsData> configsData;
 
-    SaveConfigFile(Path filePath, ArrayList<ConfigsDataList> configsDataList, ArrayList<ConfigsData> configsData) {
+    SaveConfigFile(String xmlStart, Path filePath, ArrayList<ConfigsDataList> configsDataList, ArrayList<ConfigsData> configsData) {
         xmlFilePath = filePath;
+        this.xmlStart = xmlStart;
         this.configsDataList = configsDataList;
         this.configsData = configsData;
     }
@@ -94,7 +93,7 @@ class SaveConfigFile implements AutoCloseable {
         writer = outFactory.createXMLStreamWriter(out);
         writer.writeStartDocument(StandardCharsets.UTF_8.name(), "1.0");
         writer.writeCharacters("\n");
-        writer.writeStartElement(ProgConst.XML_START);
+        writer.writeStartElement(xmlStart);
         writer.writeCharacters("\n");
     }
 
