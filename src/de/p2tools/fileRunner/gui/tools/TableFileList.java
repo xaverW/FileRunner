@@ -17,6 +17,7 @@
 
 package de.p2tools.fileRunner.gui.tools;
 
+import de.p2tools.fileRunner.controller.config.ProgColorList;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.p2Lib.tools.CheckBoxCell;
 import de.p2tools.p2Lib.tools.FileSize;
@@ -98,9 +99,11 @@ public class TableFileList {
                 } else {
                     if (film.isLink()) {
                         // Datei ist ein Symlink
-                        setStyle(MTColor.FILE_LINK_BG.getCssBackground());
+//                        System.out.println(ProgColorList.FILE_LINK_BG.getCssBackground());
+//                        ProgColorList.FILE_LINK_BG.setColor(Color.RED);
+                        setStyle(ProgColorList.FILE_LINK_BG.getCssBackground());
                         for (int i = 0; i < getChildren().size(); i++) {
-                            getChildren().get(i).setStyle(MTColor.FILE_LINK.getCssFont());
+                            getChildren().get(i).setStyle(ProgColorList.FILE_LINK.getCssFont());
                         }
 
                     } else {

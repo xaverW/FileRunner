@@ -16,7 +16,7 @@
 
 package de.p2tools.fileRunner.gui;
 
-import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConfList;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.p2Lib.dialog.DirFileChooser;
@@ -195,12 +195,12 @@ public class GuiFileRunner extends AnchorPane {
     }
 
     private void initData() {
-        txtFile1.textProperty().bindBidirectional(ProgConfig.GUI_FILE_FILE1.getStringProperty());
-        txtHash1.textProperty().bindBidirectional(ProgConfig.GUI_FILE_HASH1.getStringProperty());
-        txtFile2.textProperty().bindBidirectional(ProgConfig.GUI_FILE_FILE2.getStringProperty());
-        txtHash2.textProperty().bindBidirectional(ProgConfig.GUI_FILE_HASH2.getStringProperty());
+        txtFile1.textProperty().bindBidirectional(ProgConfList.GUI_FILE_FILE1.getStringProperty());
+        txtHash1.textProperty().bindBidirectional(ProgConfList.GUI_FILE_HASH1.getStringProperty());
+        txtFile2.textProperty().bindBidirectional(ProgConfList.GUI_FILE_FILE2.getStringProperty());
+        txtHash2.textProperty().bindBidirectional(ProgConfList.GUI_FILE_HASH2.getStringProperty());
 
-        switch (ProgConfig.GUI_FILE_HASH.get()) {
+        switch (ProgConfList.GUI_FILE_HASH.get()) {
             case HashConst.HASH_MD5:
                 cbxMd5.setSelected(true);
                 break;
@@ -213,18 +213,18 @@ public class GuiFileRunner extends AnchorPane {
         }
         cbxMd5.setOnAction(a -> {
             clearHash();
-            ProgConfig.GUI_FILE_HASH.setValue(HashConst.HASH_MD5);
-            ProgConfig.GUI_FILE_HASH_SUFF.setValue(HashConst.HASH_MD5_SUFFIX);
+            ProgConfList.GUI_FILE_HASH.setValue(HashConst.HASH_MD5);
+            ProgConfList.GUI_FILE_HASH_SUFF.setValue(HashConst.HASH_MD5_SUFFIX);
         });
         cbxSha1.setOnAction(a -> {
             clearHash();
-            ProgConfig.GUI_FILE_HASH.setValue(HashConst.HASH_SHA1);
-            ProgConfig.GUI_FILE_HASH_SUFF.setValue(HashConst.HASH_SHA1_SUFFIX);
+            ProgConfList.GUI_FILE_HASH.setValue(HashConst.HASH_SHA1);
+            ProgConfList.GUI_FILE_HASH_SUFF.setValue(HashConst.HASH_SHA1_SUFFIX);
         });
         cbxSha256.setOnAction(a -> {
             clearHash();
-            ProgConfig.GUI_FILE_HASH.setValue(HashConst.HASH_SHA256);
-            ProgConfig.GUI_FILE_HASH_SUFF.setValue(HashConst.HASH_SHA256_SUFFIX);
+            ProgConfList.GUI_FILE_HASH.setValue(HashConst.HASH_SHA256);
+            ProgConfList.GUI_FILE_HASH_SUFF.setValue(HashConst.HASH_SHA256_SUFFIX);
         });
 
         btnCheckFile.disableProperty().bind(txtFile1.textProperty().isEmpty().or(txtFile2.textProperty().isEmpty()));
@@ -309,7 +309,7 @@ public class GuiFileRunner extends AnchorPane {
 
             Path hashFile = Paths.get(txtFile1.getText());
             String initDirStr = hashFile.getParent().toString();
-            String initFileStr = hashFile.getFileName().toString() + "." + ProgConfig.GUI_FILE_HASH_SUFF.get();
+            String initFileStr = hashFile.getFileName().toString() + "." + ProgConfList.GUI_FILE_HASH_SUFF.get();
 
             String fileStr = DirFileChooser.FileChooserSave(ProgData.getInstance().primaryStage, initDirStr, initFileStr).trim();
             if (fileStr == null || fileStr.isEmpty()) {
@@ -327,7 +327,7 @@ public class GuiFileRunner extends AnchorPane {
 
             Path hashFile = Paths.get(txtFile2.getText());
             String initDirStr = hashFile.getParent().toString();
-            String initFileStr = hashFile.getFileName().toString() + "." + ProgConfig.GUI_FILE_HASH_SUFF.get();
+            String initFileStr = hashFile.getFileName().toString() + "." + ProgConfList.GUI_FILE_HASH_SUFF.get();
 
             String fileStr = DirFileChooser.FileChooserSave(ProgData.getInstance().primaryStage, initDirStr, initFileStr).trim();
             if (fileStr == null || fileStr.isEmpty()) {

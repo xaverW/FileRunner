@@ -16,10 +16,10 @@
 
 package de.p2tools.fileRunner.gui.tools;
 
-import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConfList;
+import de.p2tools.p2Lib.configFile.pConfData.PConfData;
 import de.p2tools.p2Lib.configFile.pData.PDataVault;
 import de.p2tools.p2Lib.tools.Log;
-import de.p2tools.p2Lib.tools.PConfigs;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -41,11 +41,11 @@ public class Table {
     private boolean[] visAr;
     private TableColumn[] tArray;
 
-    private PConfigs confWidth; //Spaltenbreite
-    private PConfigs confSort; //"Sortieren"  der Tabelle nach Spalte
-    private PConfigs confUpDown; //Sortierung UP oder Down
-    private PConfigs confVis; //Spalte ist sichtbar
-    private PConfigs confOrder; //"Reihenfolge" der Spalten
+    private PConfData confWidth; //Spaltenbreite
+    private PConfData confSort; //"Sortieren"  der Tabelle nach Spalte
+    private PConfData confUpDown; //Sortierung UP oder Down
+    private PConfData confVis; //Spalte ist sichtbar
+    private PConfData confOrder; //"Reihenfolge" der Spalten
 
     public static void refresh_table(TableView table) {
         for (int i = 0; i < table.getColumns().size(); i++) {
@@ -58,19 +58,19 @@ public class Table {
         switch (eTable) {
 
             case FILELIST1:
-                confWidth = ProgConfig.GUI_FILERUNNER_TABLE1_WIDTH;
-                confSort = ProgConfig.GUI_FILERUNNER_TABLE1_SORT;
-                confUpDown = ProgConfig.GUI_FILERUNNER_TABLE1_UPDOWN;
-                confVis = ProgConfig.GUI_FILERUNNER_TABLE1_VIS;
-                confOrder = ProgConfig.GUI_FILERUNNER_TABLE1_ORDER;
+                confWidth = ProgConfList.GUI_FILERUNNER_TABLE1_WIDTH;
+                confSort = ProgConfList.GUI_FILERUNNER_TABLE1_SORT;
+                confUpDown = ProgConfList.GUI_FILERUNNER_TABLE1_UPDOWN;
+                confVis = ProgConfList.GUI_FILERUNNER_TABLE1_VIS;
+                confOrder = ProgConfList.GUI_FILERUNNER_TABLE1_ORDER;
                 break;
 
             case FILELIST2:
-                confWidth = ProgConfig.GUI_FILERUNNER_TABLE2_WIDTH;
-                confSort = ProgConfig.GUI_FILERUNNER_TABLE2_SORT;
-                confUpDown = ProgConfig.GUI_FILERUNNER_TABLE2_UPDOWN;
-                confVis = ProgConfig.GUI_FILERUNNER_TABLE2_VIS;
-                confOrder = ProgConfig.GUI_FILERUNNER_TABLE2_ORDER;
+                confWidth = ProgConfList.GUI_FILERUNNER_TABLE2_WIDTH;
+                confSort = ProgConfList.GUI_FILERUNNER_TABLE2_SORT;
+                confUpDown = ProgConfList.GUI_FILERUNNER_TABLE2_UPDOWN;
+                confVis = ProgConfList.GUI_FILERUNNER_TABLE2_VIS;
+                confOrder = ProgConfList.GUI_FILERUNNER_TABLE2_ORDER;
                 break;
 
         }

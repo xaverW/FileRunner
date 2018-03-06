@@ -19,7 +19,7 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
-import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConfList;
 import de.p2tools.p2Lib.tools.Log;
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
@@ -120,7 +120,7 @@ public class CreateFileHash {
                 long msgBuff = countBuffer / 100;
                 long run = 0;
 
-                MessageDigest md = MessageDigest.getInstance(ProgConfig.GUI_FILE_HASH.get());
+                MessageDigest md = MessageDigest.getInstance(ProgConfList.GUI_FILE_HASH.get());
                 srcStream = new DigestInputStream(new FileInputStream(file), md);
 
                 while (!stop && srcStream.read(buffer) != -1) {

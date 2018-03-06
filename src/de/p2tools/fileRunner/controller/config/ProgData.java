@@ -23,7 +23,7 @@ import de.p2tools.fileRunner.controller.data.projectData.ProjectDataList;
 import de.p2tools.fileRunner.controller.worker.Worker;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
-import de.p2tools.fileRunner.gui.tools.Listener;
+import de.p2tools.p2Lib.guiTools.Listener;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

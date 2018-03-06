@@ -16,10 +16,7 @@
 
 package de.p2tools.fileRunner.controller;
 
-import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.fileRunner.controller.config.ProgConst;
-import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.config.ProgInfos;
+import de.p2tools.fileRunner.controller.config.*;
 import de.p2tools.p2Lib.PInit;
 import de.p2tools.p2Lib.configFile.ConfigFile;
 import de.p2tools.p2Lib.tools.Log;
@@ -70,7 +67,7 @@ public class ProgStart {
         ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
         return configFile.readConfigFile(
                 new ArrayList<>(Arrays.asList(progData.projectDataList)),
-                new ArrayList<>(Arrays.asList(ProgConfig.getConfigsData())));
+                new ArrayList<>(Arrays.asList(ProgConfList.getConfigsData(), ProgColorList.getConfigsData())));
     }
 
 }

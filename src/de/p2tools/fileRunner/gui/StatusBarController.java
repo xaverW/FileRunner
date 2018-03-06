@@ -20,7 +20,7 @@ import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
-import de.p2tools.fileRunner.gui.tools.Listener;
+import de.p2tools.p2Lib.guiTools.Listener;
 import de.p2tools.p2Lib.tools.Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

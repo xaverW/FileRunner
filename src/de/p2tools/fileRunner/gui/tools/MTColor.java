@@ -17,7 +17,8 @@
 
 package de.p2tools.fileRunner.gui.tools;
 
-import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConfList;
+import de.p2tools.p2Lib.configFile.pConfData.PConfDataColor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
@@ -25,41 +26,38 @@ import javafx.scene.paint.Color;
 public class MTColor {
 
     // Tabelle Dateien
-    public static final MTC FILE_LINK = new MTC(ProgConfig.FARBE__FILE_LINK, Color.rgb(190, 0, 0), "Dateien sind ein Link");
-    public static final MTC FILE_LINK_BG = new MTC(ProgConfig.FARBE__FILE_LINK, Color.rgb(240, 240, 255), "Dateien sind ein Link");
+    public static final PConfDataColor FILE_LINK = new PConfDataColor(ProgConfList.FARBE__FILE_LINK, Color.rgb(190, 0, 0), "Dateien sind ein Link");
+    public static final PConfDataColor FILE_LINK_BG = new PConfDataColor(ProgConfList.FARBE__FILE_LINK, Color.rgb(240, 240, 255), "Dateien sind ein Link");
 
-    private static ObservableList<MTC> colorList = FXCollections.observableArrayList();
-    public static final int MVC_TEXT = 0;
-    public static final int MVC_COLOR = 1;
-    public static final int MVC_MAX = 2;
+    private static ObservableList<PConfDataColor> colorList = FXCollections.observableArrayList();
 
     public MTColor() {
         colorList.add(FILE_LINK);
     }
 
-    public static synchronized ObservableList<MTC> getColorList() {
+    public static synchronized ObservableList<PConfDataColor> getColorList() {
         return colorList;
     }
 
 
     public final void load() {
-        colorList.stream().filter(MTC -> !MTC.getMlConfigs().get().isEmpty()).forEach(MTC -> {
+        colorList.stream().filter(PConfDataColor -> !PConfDataColor.getPConfData().get().isEmpty()).forEach(PConfDataColor -> {
             try {
-                MTC.setColorFromHex(MTC.getMlConfigs().get());
+                PConfDataColor.setColorFromHex(PConfDataColor.getPConfData().get());
             } catch (final Exception ignored) {
-                MTC.resetColor();
+                PConfDataColor.resetColor();
             }
         });
     }
 
     public final void save() {
-        for (final MTC mtc : colorList) {
-            mtc.getMlConfigs().setValue(String.valueOf(mtc.getColorToHex()));
+        for (final PConfDataColor PConfDataColor : colorList) {
+            PConfDataColor.getPConfData().setValue(String.valueOf(PConfDataColor.getColorToHex()));
         }
     }
 
     public void reset() {
-        colorList.forEach(MTC::resetColor);
+        colorList.forEach(PConfDataColor::resetColor);
         save();
     }
 }

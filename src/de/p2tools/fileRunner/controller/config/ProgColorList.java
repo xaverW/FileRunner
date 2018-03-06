@@ -14,28 +14,22 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.fileRunner.controller;
 
-import de.p2tools.fileRunner.controller.config.*;
-import de.p2tools.p2Lib.configFile.ConfigFile;
+package de.p2tools.fileRunner.controller.config;
 
-import java.nio.file.Path;
+import de.p2tools.p2Lib.configFile.pConfData.PColorData;
+import de.p2tools.p2Lib.configFile.pConfData.PColorList;
+import de.p2tools.p2Lib.configFile.pData.PData;
+import javafx.scene.paint.Color;
 
-public class ProgSave {
-    final ProgData progData;
+public class ProgColorList extends PColorList {
 
-    public ProgSave() {
-        progData = ProgData.getInstance();
-    }
+    public static PColorData FILE_LINK = addNewKey("file-link", Color.rgb(190, 0, 0), "Dateien sind ein Link");
+    public static PColorData FILE_LINK_BG = addNewKey("file-ling-bg", Color.rgb(240, 240, 255), "Dateien sind ein Link");
 
-
-    public void save() {
-        final Path xmlFilePath = new ProgInfos().getXmlFilePath();
-        ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
-        configFile.addConfigs(ProgConfList.getConfigsData());
-        configFile.addConfigs(ProgColorList.getConfigsData());
-        configFile.addConfigs(progData.projectDataList);
-        configFile.writeConfigFile();
+    public static PData getConfigsData() {
+        // sonst werden die Keys nicht vorher angelegt :)
+        return PColorList.getPData();
     }
 
 }

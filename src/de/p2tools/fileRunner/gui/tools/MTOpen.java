@@ -16,12 +16,12 @@
 
 package de.p2tools.fileRunner.gui.tools;
 
-import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConfList;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
+import de.p2tools.p2Lib.configFile.pConfData.PConfData;
 import de.p2tools.p2Lib.dialog.PAlertFileChosser;
 import de.p2tools.p2Lib.tools.Log;
-import de.p2tools.p2Lib.tools.PConfigs;
 import javafx.application.Platform;
 
 import java.awt.*;
@@ -47,10 +47,10 @@ public class MTOpen {
         }
 
 
-        if (!ProgConfig.SYSTEM_PROG_OPEN_DIR.get().isEmpty()) {
+        if (!ProgConfList.SYSTEM_PROG_OPEN_DIR.get().isEmpty()) {
             Exception exception;
             try {
-                final String programm = ProgConfig.SYSTEM_PROG_OPEN_DIR.get();
+                final String programm = ProgConfList.SYSTEM_PROG_OPEN_DIR.get();
                 final String[] arrProgCallArray = {programm, directory.getAbsolutePath()};
                 Runtime.getRuntime().exec(arrProgCallArray);
             } catch (final Exception ex) {
@@ -89,10 +89,10 @@ public class MTOpen {
         }
 
 
-        if (!ProgConfig.SYSTEM_PROG_PLAY_FILE.get().isEmpty()) {
+        if (!ProgConfList.SYSTEM_PROG_PLAY_FILE.get().isEmpty()) {
             // dann mit dem vorgegebenen Player starten
             try {
-                final String programm = ProgConfig.SYSTEM_PROG_PLAY_FILE.get();
+                final String programm = ProgConfList.SYSTEM_PROG_PLAY_FILE.get();
                 final String[] cmd = {programm, filmFile.getAbsolutePath()};
                 Runtime.getRuntime().exec(cmd);
             } catch (final Exception ex) {
@@ -125,10 +125,10 @@ public class MTOpen {
         }
 
 
-        if (!ProgConfig.SYSTEM_PROG_OPEN_URL.get().isEmpty()) {
+        if (!ProgConfList.SYSTEM_PROG_OPEN_URL.get().isEmpty()) {
             // dann mit dem vorgegebenen Player starten
             try {
-                final String programm = ProgConfig.SYSTEM_PROG_OPEN_URL.get();
+                final String programm = ProgConfList.SYSTEM_PROG_OPEN_URL.get();
                 final String[] cmd = {programm, url};
                 Runtime.getRuntime().exec(cmd);
             } catch (final Exception ex) {
@@ -160,7 +160,7 @@ public class MTOpen {
         String programm = "";
         boolean ok;
         String title, header, cont;
-        PConfigs conf;
+        PConfData conf;
 
         switch (t) {
             default:
@@ -168,21 +168,21 @@ public class MTOpen {
                 title = "Kein Videoplayer";
                 header = "Videoplayer auswählen";
                 cont = "Ein Videoplayer zum Abspielen wird nicht gefunden. Videoplayer selbst auswählen.";
-                conf = ProgConfig.SYSTEM_PROG_PLAY_FILE;
+                conf = ProgConfList.SYSTEM_PROG_PLAY_FILE;
                 break;
             case DIR:
                 title = "Kein Dateimanager";
                 header = "Dateimanager auswählen";
                 cont = "Der Dateimanager zum Anzeigen des Speicherordners wird nicht gefunden.\n" +
                         "Dateimanager selbst auswählen.";
-                conf = ProgConfig.SYSTEM_PROG_OPEN_DIR;
+                conf = ProgConfList.SYSTEM_PROG_OPEN_DIR;
                 break;
             case URL:
                 title = "Kein Browser";
                 header = "Browser auswählen";
                 cont = "Der Browser zum Anzeigen der URL wird nicht gefunden.\n" +
                         "Browser selbst auswählen.";
-                conf = ProgConfig.SYSTEM_PROG_OPEN_URL;
+                conf = ProgConfList.SYSTEM_PROG_OPEN_URL;
                 break;
         }
 
