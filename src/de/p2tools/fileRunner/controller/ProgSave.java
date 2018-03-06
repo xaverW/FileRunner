@@ -17,6 +17,7 @@
 package de.p2tools.fileRunner.controller;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.config.ProgInfos;
 import de.p2tools.p2Lib.configFile.ConfigFile;
@@ -33,7 +34,7 @@ public class ProgSave {
 
     public void save() {
         final Path xmlFilePath = new ProgInfos().getXmlFilePath();
-        ConfigFile configFile = new ConfigFile(xmlFilePath);
+        ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
         configFile.addConfigs(ProgConfig.getConfigsData());
         configFile.addConfigs(progData.projectDataList);
         configFile.writeConfigFile();

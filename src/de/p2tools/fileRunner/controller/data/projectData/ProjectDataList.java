@@ -17,7 +17,7 @@
 package de.p2tools.fileRunner.controller.data.projectData;
 
 import de.p2tools.fileRunner.controller.config.ProgConst;
-import de.p2tools.p2Lib.configFile.ConfigsDataList;
+import de.p2tools.p2Lib.configFile.pData.PDataList;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -27,7 +27,7 @@ import javafx.collections.FXCollections;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ProjectDataList extends SimpleListProperty<ProjectData> implements ConfigsDataList<ProjectData> {
+public class ProjectDataList extends SimpleListProperty<ProjectData> implements PDataList<ProjectData> {
 
     public static final String TAG = "ProjectDataList";
     private BooleanProperty listChanged = new SimpleBooleanProperty(true);

@@ -17,7 +17,7 @@
 package de.p2tools.fileRunner.gui.tools;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.fileRunner.controller.data.Data;
+import de.p2tools.p2Lib.configFile.pData.PDataVault;
 import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.PConfigs;
 import javafx.scene.control.TableColumn;
@@ -76,7 +76,7 @@ public class Table {
         }
     }
 
-    private void initColumn(TABLE eTable, TableView<Data> table) {
+    private void initColumn(TABLE eTable, TableView<PDataVault> table) {
         switch (eTable) {
             case FILELIST1:
             case FILELIST2:
@@ -112,7 +112,7 @@ public class Table {
     public void saveTable(TableView ta, TABLE eTable) {
         // Tabellendaten sichern
 
-        TableView<Data> table = ta;
+        TableView<PDataVault> table = ta;
 
         initConf(eTable);
         maxSpalten = table.getColumns().size();
@@ -166,7 +166,7 @@ public class Table {
 
     public void setTable(TableView ta, TABLE eTable) {
         // Tabelle setzen
-        TableView<Data> table = ta;
+        TableView<PDataVault> table = ta;
         try {
 
             initConf(eTable);

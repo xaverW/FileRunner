@@ -17,7 +17,7 @@
 
 package de.p2tools.fileRunner.controller.config;
 
-import de.p2tools.p2Lib.configFile.ConfigsData;
+import de.p2tools.p2Lib.configFile.pData.PData;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.PConfig;
 import de.p2tools.p2Lib.tools.PConfigs;
@@ -56,7 +56,7 @@ public class ProgConfig extends PConfig {
     public static PConfigs FARBE__FILE_LINK = addNewKey("FARBE_FILE_LINK");
 
 
-    public static ConfigsData getConfigsData() {
+    public static PData getConfigsData() {
         // sonst werden die Keys nich vorher angelegt :)
         return PConfig.getConfigsData();
     }

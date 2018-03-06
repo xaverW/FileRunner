@@ -20,7 +20,7 @@ import de.p2tools.fileRunner.controller.ProgStart;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.gui.tools.GuiSize;
+import de.p2tools.p2Lib.guiTools.GuiSize;
 import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.tools.Duration;
 import de.p2tools.p2Lib.tools.SysMsg;

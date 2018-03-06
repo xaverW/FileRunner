@@ -17,12 +17,12 @@
 
 package de.p2tools.fileRunner.controller.data.projectData;
 
-import de.p2tools.fileRunner.controller.data.Data;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigBoolProp;
 import de.p2tools.p2Lib.configFile.config.ConfigIntProp;
 import de.p2tools.p2Lib.configFile.config.ConfigStringProp;
-import de.p2tools.p2Lib.configFile.configList.ConfigListString;
+import de.p2tools.p2Lib.configFile.configList.ConfigStringList;
+import de.p2tools.p2Lib.configFile.pData.PDataVault;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +30,7 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ProjectDataProps extends Data<ProjectData> {
+public class ProjectDataProps extends PDataVault<ProjectData> {
     public static final String TAG = "ProjectData";
 
     private final StringProperty srcDir1 = new SimpleStringProperty("");
@@ -64,13 +64,13 @@ public class ProjectDataProps extends Data<ProjectData> {
         return new ArrayList<>(Arrays.asList(
                 new ConfigStringProp("src-dir-1", "", srcDir1),
                 new ConfigStringProp("src-dir-2", "", srcDir2),
-                new ConfigListString("src-dir-list", srcDirList),
+                new ConfigStringList("src-dir-list", srcDirList),
                 new ConfigStringProp("src-hash-1", "", srcHash1),
                 new ConfigStringProp("src-hash-2", "", srcHash2),
-                new ConfigListString("src-hash-list", srcHashList),
+                new ConfigStringList("src-hash-list", srcHashList),
                 new ConfigStringProp("search-1", "", search1),
                 new ConfigStringProp("search-2", "", search2),
-                new ConfigListString("search-list", searchList),
+                new ConfigStringList("search-list", searchList),
                 new ConfigStringProp("write-hash-1", "", writeHash1),
                 new ConfigStringProp("write-hash-2", "", writeHash2),
                 new ConfigIntProp("tab-file-1", 0, selTab1),
