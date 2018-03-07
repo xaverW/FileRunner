@@ -31,6 +31,8 @@ public class ProgConfList extends PConfList {
 
     // Fenstereinstellungen
     public static PConfData SYSTEM_GROESSE_GUI = addNewKey("Groesse-Gui", "1000:900");
+    public static PConfData SYSTEM_CONFIG_DIALOG_SIZE = addNewKey("system-config-dialog-size", "500:500");
+    public static PConfData CONFIG_DIALOG_ACCORDION = addNewKey("config-dialog-accordion", Boolean.TRUE.toString());
 
     // GuiDirRunner
     public static PConfData GUI_FILERUNNER_TABLE1_WIDTH = addNewKey("gui-filerunner-table1-width");

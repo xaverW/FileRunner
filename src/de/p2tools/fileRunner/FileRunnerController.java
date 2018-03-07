@@ -22,6 +22,7 @@ import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
 import de.p2tools.fileRunner.gui.StatusBarController;
+import de.p2tools.fileRunner.gui.configDialog.ConfigDialogController;
 import de.p2tools.fileRunner.gui.dialog.AboutDialogController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -77,6 +78,9 @@ public class FileRunnerController extends StackPane {
 
 
             // Menü
+            final MenuItem miConfig = new MenuItem("Einstellungen");
+            miConfig.setOnAction(e -> new ConfigDialogController());
+
             final MenuItem miQuitt = new MenuItem("Beenden");
             miQuitt.setOnAction(e -> new ProgQuitt().beenden(true));
 
@@ -86,7 +90,7 @@ public class FileRunnerController extends StackPane {
             menuButton.getStyleClass().add("btnFunction");
             menuButton.setText("");
             menuButton.setGraphic(new Icons().FX_ICON_TOOLBAR_MENUE_TOP);
-            menuButton.getItems().addAll(miAbout, miQuitt);
+            menuButton.getItems().addAll(miConfig, miAbout, miQuitt);
 
 
             // Panes
