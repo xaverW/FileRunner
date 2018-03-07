@@ -377,14 +377,14 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void initProjectData() {
-        projectData = progData.projectDataList.getFirst();
+        projectData = progData.projectData;
 
-        pCboDir1.init(progData.projectDataList.getFirst().getSrcDirList(), projectData.srcDir1Property());
-        pCboDir2.init(progData.projectDataList.getFirst().getSrcDirList(), projectData.srcDir2Property());
-        pCboHash1.init(progData.projectDataList.getFirst().getSrcHashList(), projectData.srcHash1Property());
-        pCboHash2.init(progData.projectDataList.getFirst().getSrcHashList(), projectData.srcHash2Property());
-        pCboSearch1.init(progData.projectDataList.getFirst().getSearchList(), projectData.search1Property());
-        pCboSearch2.init(progData.projectDataList.getFirst().getSearchList(), projectData.search2Property());
+        pCboDir1.init(projectData.getSrcDirList(), projectData.srcDir1Property());
+        pCboDir2.init(projectData.getSrcDirList(), projectData.srcDir2Property());
+        pCboHash1.init(projectData.getSrcHashList(), projectData.srcHash1Property());
+        pCboHash2.init(projectData.getSrcHashList(), projectData.srcHash2Property());
+        pCboSearch1.init(projectData.getSearchList(), projectData.search1Property());
+        pCboSearch2.init(projectData.getSearchList(), projectData.search2Property());
 
         bindProjectDate();
     }

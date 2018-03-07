@@ -22,16 +22,21 @@ public class ProjectData extends ProjectDataProps {
     public ProjectData() {
     }
 
-    public ProjectData(String dir1, ProjectData projectData) {
-        setSrcDir1(dir1);
-        if (projectData != null) {
-            setSrcDir2(projectData.getSrcDir2());
-            setSrcHash1(projectData.getSrcHash1());
-            setSrcHash2(projectData.getSrcHash2());
-            setWriteHash1(projectData.getWriteHash1());
-            setWriteHash2(projectData.getWriteHash2());
-        }
-    }
+    public void clearProjectData() {
+        setSrcDir1("");
+        setSrcDir2("");
+        setWriteHash1("");
+        setWriteHash2("");
+        setSearch1("");
+        setSearch2("");
+        setWriteHash1("");
+        setWriteHash2("");
 
+        setSelTab1(0);
+        setSelTab2(0);
+
+        setFollowLink1(false);
+        setFollowLink2(false);
+    }
 
 }

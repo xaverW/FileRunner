@@ -60,6 +60,10 @@ public class ProjectDataProps extends PDataVault<ProjectData> {
         return TAG;
     }
 
+    public String getComment() {
+        return "project data";
+    }
+
     public ArrayList<Config> getConfigsArr() {
         return new ArrayList<>(Arrays.asList(
                 new ConfigStringProp("src-dir-1", "", srcDir1),

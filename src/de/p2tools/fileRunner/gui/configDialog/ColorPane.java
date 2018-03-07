@@ -16,16 +16,16 @@
 
 package de.p2tools.fileRunner.gui.configDialog;
 
+import de.p2tools.fileRunner.controller.config.ProgColorList;
 import de.p2tools.p2Lib.configFile.pConfData.PColorData;
 import de.p2tools.p2Lib.configFile.pConfData.PColorList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 public class ColorPane extends AnchorPane {
 
@@ -43,10 +43,10 @@ public class ColorPane extends AnchorPane {
         initTableColor(tableView);
 
         Button button = new Button("Alle Farben zurücksetzen");
-//        button.setOnAction(event -> {
-//            Daten.mTColor.reset();
+        button.setOnAction(event -> {
+            ProgColorList.resetAllColor();
 //            Listener.notify(Listener.EREIGNIS_GUI_COLOR_CHANGED, ColorPane.class.getSimpleName());
-//        });
+        });
 
         HBox hBox = new HBox();
         hBox.getChildren().add(button);
@@ -68,20 +68,20 @@ public class ColorPane extends AnchorPane {
         textColumn.setCellValueFactory(new PropertyValueFactory<>("text"));
 
         final TableColumn<PColorData, String> changeColumn = new TableColumn<>("Farbe");
-//        changeColumn.setCellFactory(cellFactoryChange);
+        changeColumn.setCellFactory(cellFactoryChange);
         changeColumn.getStyleClass().add("center");
 
         final TableColumn<PColorData, String> resetColumn = new TableColumn<>("Reset");
-//        resetColumn.setCellFactory(cellFactoryReset);
+        resetColumn.setCellFactory(cellFactoryReset);
         resetColumn.getStyleClass().add("center");
 
         final TableColumn<PColorData, Color> colorColumn = new TableColumn<>("Farbe");
         colorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
-//        colorColumn.setCellFactory(cellFactoryColor);
+        colorColumn.setCellFactory(cellFactoryColor);
 
         final TableColumn<PColorData, Color> colorOrgColumn = new TableColumn<>("Original");
         colorOrgColumn.setCellValueFactory(new PropertyValueFactory<>("colorReset"));
-//        colorOrgColumn.setCellFactory(cellFactoryColorReset);
+        colorOrgColumn.setCellFactory(cellFactoryColorReset);
 
         tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
@@ -89,130 +89,130 @@ public class ColorPane extends AnchorPane {
         tableView.setItems(PColorList.getColorList());
     }
 
-//    private Callback<TableColumn<PColorData, String>, TableCell<PColorData, String>> cellFactoryChange
-//            = (final TableColumn<PColorData, String> param) -> {
-//
-//        final TableCell<PColorData, String> cell = new TableCell<MTC, String>() {
-//
-//            @Override
-//            public void updateItem(String item, boolean empty) {
-//                super.updateItem(item, empty);
-//
-//                if (empty) {
-//                    setGraphic(null);
-//                    setText(null);
-//                    return;
-//                }
-//
-//                PColorData MTC = getTableView().getItems().get(getIndex());
-//
-//                final HBox hbox = new HBox();
-//                hbox.setSpacing(5);
-//                hbox.setAlignment(Pos.CENTER);
-//                hbox.setPadding(new Insets(0, 2, 0, 2));
-//
-//                final ColorPicker colorPicker = new ColorPicker();
-//                colorPicker.getStyleClass().add("split-button");
-//
-//                colorPicker.setValue(MTC.getColor());
-//                colorPicker.setOnAction(a -> {
-//                    Color fxColor = colorPicker.getValue();
-//                    MTC.setColor(fxColor);
+    private Callback<TableColumn<PColorData, String>, TableCell<PColorData, String>> cellFactoryChange
+            = (final TableColumn<PColorData, String> param) -> {
+
+        final TableCell<PColorData, String> cell = new TableCell<PColorData, String>() {
+
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                PColorData MTC = getTableView().getItems().get(getIndex());
+
+                final HBox hbox = new HBox();
+                hbox.setSpacing(5);
+                hbox.setAlignment(Pos.CENTER);
+                hbox.setPadding(new Insets(0, 2, 0, 2));
+
+                final ColorPicker colorPicker = new ColorPicker();
+                colorPicker.getStyleClass().add("split-button");
+
+                colorPicker.setValue(MTC.getColor());
+                colorPicker.setOnAction(a -> {
+                    Color fxColor = colorPicker.getValue();
+                    MTC.setColor(fxColor);
 //                    Daten.mTColor.save();
 //                    Listener.notify(Listener.EREIGNIS_GUI_COLOR_CHANGED, ColorPane.class.getSimpleName());
-//                });
-//                hbox.getChildren().addAll(colorPicker);
-//                setGraphic(hbox);
-//            }
-//        };
-//
-//        return cell;
-//    };
-//
-//    private Callback<TableColumn<PColorData, String>, TableCell<MTC, String>> cellFactoryReset
-//            = (final TableColumn<PColorData, String> param) -> {
-//
-//        final TableCell<PColorData, String> cell = new TableCell<MTC, String>() {
-//
-//            @Override
-//            public void updateItem(String item, boolean empty) {
-//                super.updateItem(item, empty);
-//
-//                if (empty) {
-//                    setGraphic(null);
-//                    setText(null);
-//                    return;
-//                }
-//
-//                PColorData MTC = getTableView().getItems().get(getIndex());
-//
-//                final HBox hbox = new HBox();
-//                hbox.setSpacing(5);
-//                hbox.setAlignment(Pos.CENTER);
-//                hbox.setPadding(new Insets(0, 2, 0, 2));
-//
-//                final Button button = new Button("Reset");
-//                button.setOnAction(a -> {
-//                    MTC.resetColor();
+                });
+                hbox.getChildren().addAll(colorPicker);
+                setGraphic(hbox);
+            }
+        };
+
+        return cell;
+    };
+
+    private Callback<TableColumn<PColorData, String>, TableCell<PColorData, String>> cellFactoryReset
+            = (final TableColumn<PColorData, String> param) -> {
+
+        final TableCell<PColorData, String> cell = new TableCell<PColorData, String>() {
+
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                PColorData MTC = getTableView().getItems().get(getIndex());
+
+                final HBox hbox = new HBox();
+                hbox.setSpacing(5);
+                hbox.setAlignment(Pos.CENTER);
+                hbox.setPadding(new Insets(0, 2, 0, 2));
+
+                final Button button = new Button("Reset");
+                button.setOnAction(a -> {
+                    MTC.resetColor();
 //                    Daten.mTColor.save();
 //                    Listener.notify(Listener.EREIGNIS_GUI_COLOR_CHANGED, ColorPane.class.getSimpleName());
-//                });
-//
-//                hbox.getChildren().add(button);
-//                setGraphic(hbox);
-//            }
-//        };
-//
-//        return cell;
-//    };
-//
-//    private Callback<TableColumn<PColorData, Color>, TableCell<PColorData, Color>> cellFactoryColor
-//            = (final TableColumn<PColorData, Color> param) -> {
-//
-//        final TableCell<PColorData, Color> cell = new TableCell<MTC, Color>() {
-//
-//
-//            @Override
-//            public void updateItem(Color item, boolean empty) {
-//                super.updateItem(item, empty);
-//
-//                if (empty) {
-//                    setGraphic(null);
-//                    setText(null);
-//                    return;
-//                }
-//
-//                PColorData MTC = getTableView().getItems().get(getIndex());
-//                setStyle("-fx-background-color:" + MTC.getColorToWeb());
-//            }
-//
-//        };
-//
-//        return cell;
-//    };
-//    private Callback<TableColumn<PColorData, Color>, TableCell<PColorData, Color>> cellFactoryColorReset
-//            = (final TableColumn<PColorData, Color> param) -> {
-//
-//        final TableCell<PColorData, Color> cell = new TableCell<MTC, Color>() {
-//
-//
-//            @Override
-//            public void updateItem(Color item, boolean empty) {
-//                super.updateItem(item, empty);
-//
-//                if (empty) {
-//                    setGraphic(null);
-//                    setText(null);
-//                    return;
-//                }
-//
-//                PColorData MTC = getTableView().getItems().get(getIndex());
-//                setStyle("-fx-background-color:" + MTC.getColorToWeb(MTC.getColorReset()));
-//            }
-//
-//        };
-//
-//        return cell;
-//    };
+                });
+
+                hbox.getChildren().add(button);
+                setGraphic(hbox);
+            }
+        };
+
+        return cell;
+    };
+
+    private Callback<TableColumn<PColorData, Color>, TableCell<PColorData, Color>> cellFactoryColor
+            = (final TableColumn<PColorData, Color> param) -> {
+
+        final TableCell<PColorData, Color> cell = new TableCell<PColorData, Color>() {
+
+
+            @Override
+            public void updateItem(Color item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                PColorData MTC = getTableView().getItems().get(getIndex());
+                setStyle("-fx-background-color:" + MTC.getColorToWeb());
+            }
+
+        };
+
+        return cell;
+    };
+    private Callback<TableColumn<PColorData, Color>, TableCell<PColorData, Color>> cellFactoryColorReset
+            = (final TableColumn<PColorData, Color> param) -> {
+
+        final TableCell<PColorData, Color> cell = new TableCell<PColorData, Color>() {
+
+
+            @Override
+            public void updateItem(Color item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                PColorData MTC = getTableView().getItems().get(getIndex());
+                setStyle("-fx-background-color:" + MTC.getColorToWeb(MTC.getColorReset()));
+            }
+
+        };
+
+        return cell;
+    };
 
 }

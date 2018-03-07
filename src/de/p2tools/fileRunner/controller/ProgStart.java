@@ -55,6 +55,11 @@ public class ProgStart {
 
         PInit.initLib(ProgData.getInstance().primaryStage, ProgConst.PROGRAMMNAME,
                 ProgConst.CSS_FILE, ProgInfos.getUserAgent(), ProgData.debug);
+
+        if (!ProgConfList.SYSTEM_STORE_CONFIG.getBool()) {
+            progData.projectData.clearProjectData();
+        }
+
         return true;
     }
 
@@ -66,8 +71,10 @@ public class ProgStart {
     private boolean loadConnfig(Path xmlFilePath) {
         ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
         return configFile.readConfigFile(
-                new ArrayList<>(Arrays.asList(progData.projectDataList)),
-                new ArrayList<>(Arrays.asList(ProgConfList.getConfigsData(), ProgColorList.getConfigsData())));
+                null,
+                new ArrayList<>(Arrays.asList(ProgConfList.getConfigsData(),
+                        ProgColorList.getConfigsData(),
+                        progData.projectData)));
     }
 
 }

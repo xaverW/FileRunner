@@ -23,7 +23,6 @@ import de.p2tools.p2Lib.configFile.pData.PData;
 import de.p2tools.p2Lib.hash.HashConst;
 
 public class ProgConfList extends PConfList {
-
     // wegen des Problems mit ext. Programmaufrufen und Leerzeichen
     public static PConfData SYSTEM_PROG_OPEN_DIR = addNewKey("Programm-Ordner-oeffnen");
     public static PConfData SYSTEM_PROG_OPEN_URL = addNewKey("Programm-Url-oeffnen");
@@ -32,7 +31,7 @@ public class ProgConfList extends PConfList {
     // Fenstereinstellungen
     public static PConfData SYSTEM_GROESSE_GUI = addNewKey("Groesse-Gui", "1000:900");
     public static PConfData SYSTEM_CONFIG_DIALOG_SIZE = addNewKey("system-config-dialog-size", "500:500");
-    public static PConfData CONFIG_DIALOG_ACCORDION = addNewKey("config-dialog-accordion", Boolean.TRUE.toString());
+    public static PConfData SYSTEM_STORE_CONFIG = addNewKey("system-store-config", Boolean.TRUE.toString());
 
     // GuiDirRunner
     public static PConfData GUI_FILERUNNER_TABLE1_WIDTH = addNewKey("gui-filerunner-table1-width");
@@ -55,11 +54,7 @@ public class ProgConfList extends PConfList {
     public static PConfData GUI_FILE_HASH = addNewKey("gui-file-hash", HashConst.HASH_MD5);
     public static PConfData GUI_FILE_HASH_SUFF = addNewKey("gui-file-hash-suff", HashConst.HASH_MD5_SUFFIX);
 
-    public static PConfData FARBE__FILE_LINK = addNewKey("FARBE_FILE_LINK");
-
-
     public static PData getConfigsData() {
-        // sonst werden die Keys nicht vorher angelegt :)
         return PConfList.getPData();
     }
 

@@ -19,7 +19,7 @@ package de.p2tools.fileRunner.controller.config;
 
 import de.p2tools.fileRunner.FileRunnerController;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.data.projectData.ProjectDataList;
+import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
 import de.p2tools.fileRunner.controller.worker.Worker;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
@@ -45,7 +45,7 @@ public class ProgData {
 
     // zentrale Klassen
     public Worker worker;
-    public ProjectDataList projectDataList;
+    public ProjectData projectData;
 
     // Gui
     public Stage primaryStage = null;
@@ -56,7 +56,7 @@ public class ProgData {
 
 
     private ProgData() {
-        projectDataList = new ProjectDataList();
+        projectData = new ProjectData();
 
         fileDataList1 = new FileDataList();
         fileDataList2 = new FileDataList();

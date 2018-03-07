@@ -16,10 +16,12 @@
 
 package de.p2tools.fileRunner.gui.configDialog;
 
+import de.p2tools.fileRunner.controller.config.ProgConfList;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.gui.HelpText;
 import de.p2tools.p2Lib.dialog.PAlert;
+import javafx.beans.property.BooleanProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -30,6 +32,7 @@ public class ConfigPane extends AnchorPane {
 
     private final ProgData daten;
     private final VBox vBox = new VBox(10);
+    BooleanProperty systemStoreProp = ProgConfList.SYSTEM_STORE_CONFIG.getBooleanProperty();
 
     public ConfigPane() {
         daten = ProgData.getInstance();
@@ -49,15 +52,15 @@ public class ConfigPane extends AnchorPane {
         gridPane.setVgap(15);
         gridPane.setPadding(new Insets(20, 20, 20, 20));
 
-        final CheckBox tglSearchAbo = new CheckBox("Abos automatisch suchen");
-        tglSearchAbo.setMaxWidth(Double.MAX_VALUE);
-//        tglSearchAbo.selectedProperty().bindBidirectional(propAbo);
-        gridPane.add(tglSearchAbo, 0, 1);
+        final CheckBox chkSaveConfig = new CheckBox("Einstellungen speichern");
+        chkSaveConfig.selectedProperty().bindBidirectional(systemStoreProp);
+        gridPane.add(chkSaveConfig, 0, 0);
+
         final Button btnHelpAbo = new Button("");
         btnHelpAbo.setGraphic(new Icons().ICON_BUTTON_HELP);
-        btnHelpAbo.setOnAction(a -> new PAlert().showHelpAlert("Filtern", HelpText.FOLLOW_SYMLINK));
+        btnHelpAbo.setOnAction(a -> new PAlert().showHelpAlert("Programmstart", HelpText.STORE_PROG_CONFIG));
         GridPane.setHalignment(btnHelpAbo, HPos.RIGHT);
-        gridPane.add(btnHelpAbo, 1, 1);
+        gridPane.add(btnHelpAbo, 1, 0);
 
         final ColumnConstraints ccTxt = new ColumnConstraints();
         ccTxt.setFillWidth(true);

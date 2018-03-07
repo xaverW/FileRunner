@@ -18,6 +18,10 @@ package de.p2tools.fileRunner.gui;
 
 public class HelpText {
 
+    public static final String STORE_PROG_CONFIG = "Die aktuellen Einstellungen des Programms können beim " +
+            "nächsten Programmstart wieder hergestellt werden oder das Programm startet mit " +
+            "den Standardeinstellungen.";
+
     public static final String FOLLOW_SYMLINK = "Eine symbolische Verknüpfung ist eine Verknüpfung in einem Dateisystem " +
             "die auf eine andere Datei oder ein anderes Verzeichnis verweist.\n\n" +
             "In der Tabelle wird der Speicherort des Links angezeigt. " +
