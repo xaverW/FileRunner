@@ -80,7 +80,7 @@ public class ProjectDataProps extends PDataVault<ProjectData> {
                 new ConfigIntProp("tab-file-1", 0, selTab1),
                 new ConfigIntProp("tab-file-2", 0, selTab2),
                 new ConfigBoolProp("followLink1", false, followLink1),
-                new ConfigBoolProp("followLink2", false, followLink1)
+                new ConfigBoolProp("followLink2", false, followLink2)
         ));
     }
 

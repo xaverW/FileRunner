@@ -89,11 +89,6 @@ public class GuiDirRunner extends AnchorPane {
     private final ToggleButton tglShowOnly1 = new ToggleButton("");
     private final ToggleButton tglShowOnly2 = new ToggleButton("");
 
-    private final CheckBox chkFollowLink1 = new CheckBox("Symbolische Verknüpfungen auflösen");
-    private final CheckBox chkFollowLink2 = new CheckBox("Symbolische Verknüpfungen auflösen");
-    private final Button btnHlpFollowLink1 = new Button("");
-    private final Button btnHlpFollowLink2 = new Button("");
-
     private final TabPane tabPane1 = new TabPane();
     private final Tab tabDir1 = new Tab("Ordner");
     private final Tab tabFile1 = new Tab("Hashdatei");
@@ -163,9 +158,6 @@ public class GuiDirRunner extends AnchorPane {
         vBoxFile1.getChildren().addAll(new Label("Hashdatei"), hBoxFile1);
 
         // filter1
-        btnHlpFollowLink1.setGraphic(new Icons().ICON_BUTTON_HELP);
-        btnHlpFollowLink1.setOnAction(a -> new PAlert().showHelpAlert("Filtern", HelpText.FOLLOW_SYMLINK));
-
         VBox vBoxSearch1 = new VBox(10);
         vBoxSearch1.setPadding(new Insets(10));
 
@@ -174,14 +166,9 @@ public class GuiDirRunner extends AnchorPane {
         HBox.setHgrow(pCboSearch1, Priority.ALWAYS);
         pCboSearch1.setMaxWidth(Double.MAX_VALUE);
         pCboSearch1.setEditable(true);
-        hBoxSearch1.getChildren().addAll(new Label("Dateien suchen"), pCboSearch1, btnClearFilter1);
+        hBoxSearch1.getChildren().addAll(pCboSearch1, btnClearFilter1);
 
-        HBox hBoxFollow1 = new HBox(10);
-        HBox.setHgrow(chkFollowLink1, Priority.ALWAYS);
-        chkFollowLink1.setMaxWidth(Double.MAX_VALUE);
-        hBoxFollow1.getChildren().addAll(chkFollowLink1, btnHlpFollowLink1);
-
-        vBoxSearch1.getChildren().addAll(hBoxSearch1, hBoxFollow1);
+        vBoxSearch1.getChildren().addAll(new Label("Dateien suchen"), hBoxSearch1);
 
         // Tabpane1
         tabDir1.setClosable(false);
@@ -219,9 +206,6 @@ public class GuiDirRunner extends AnchorPane {
         vBoxFile2.getChildren().addAll(new Label("Hashdatei"), hBoxFile2);
 
         // filter2
-        btnHlpFollowLink2.setGraphic(new Icons().ICON_BUTTON_HELP);
-        btnHlpFollowLink2.setOnAction(a -> new PAlert().showHelpAlert("Filtern", HelpText.FOLLOW_SYMLINK));
-
         VBox vBoxSearch2 = new VBox(10);
         vBoxSearch2.setPadding(new Insets(10));
 
@@ -230,13 +214,9 @@ public class GuiDirRunner extends AnchorPane {
         HBox.setHgrow(pCboSearch2, Priority.ALWAYS);
         pCboSearch2.setMaxWidth(Double.MAX_VALUE);
         pCboSearch2.setEditable(true);
-        hBoxSearch2.getChildren().addAll(new Label("Dateien suchen"), pCboSearch2, btnClearFilter2);
+        hBoxSearch2.getChildren().addAll(pCboSearch2, btnClearFilter2);
 
-        HBox hBoxFollow2 = new HBox(10);
-        HBox.setHgrow(chkFollowLink2, Priority.ALWAYS);
-        chkFollowLink2.setMaxWidth(Double.MAX_VALUE);
-        hBoxFollow2.getChildren().addAll(chkFollowLink2, btnHlpFollowLink2);
-        vBoxSearch2.getChildren().addAll(hBoxSearch2, hBoxFollow2);
+        vBoxSearch2.getChildren().addAll(new Label("Dateien suchen"), hBoxSearch2);
 
         // =======================
         // Tabpane2
@@ -400,9 +380,6 @@ public class GuiDirRunner extends AnchorPane {
                 }
             }
         });
-
-        chkFollowLink1.selectedProperty().bindBidirectional(projectData.followLink1Property());
-        chkFollowLink2.selectedProperty().bindBidirectional(projectData.followLink2Property());
 
         btnSelectDir1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, pCboDir1));
         btnSelectDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, pCboDir2));
@@ -607,34 +584,14 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void bindProjectDate() {
-        if (projectData != null) {
-//            cbSearch1.textProperty().bindBidirectional(projectData.search1Property());
-//            cbSearch2.textProperty().bindBidirectional(projectData.search2Property());
+        txtWriteHash1.textProperty().bindBidirectional(projectData.writeHash1Property());
+        txtWriteHash2.textProperty().bindBidirectional(projectData.writeHash2Property());
 
-            txtWriteHash1.textProperty().bindBidirectional(projectData.writeHash1Property());
-            txtWriteHash2.textProperty().bindBidirectional(projectData.writeHash2Property());
+        tabPane1.getSelectionModel().select(projectData.getSelTab1());
+        tabPane2.getSelectionModel().select(projectData.getSelTab2());
 
-            tabPane1.getSelectionModel().select(projectData.getSelTab1());
-            tabPane2.getSelectionModel().select(projectData.getSelTab2());
-            projectData.selTab1Property().bind(tabPane1.getSelectionModel().selectedIndexProperty());
-            projectData.selTab2Property().bind(tabPane2.getSelectionModel().selectedIndexProperty());
-        }
-    }
-
-    private void unBindProjectDate() {
-        if (projectData != null) {
-            projectData.srcDir1Property().unbind();
-            projectData.srcDir2Property().unbind();
-
-//            cbSearch1.textProperty().unbindBidirectional(projectData.search1Property());
-//            cbSearch1.textProperty().unbindBidirectional(projectData.search2Property());
-
-            txtWriteHash1.textProperty().unbindBidirectional(projectData.writeHash1Property());
-            txtWriteHash2.textProperty().unbindBidirectional(projectData.writeHash2Property());
-
-            projectData.selTab1Property().unbind();
-            projectData.selTab2Property().unbind();
-        }
+        projectData.selTab1Property().bind(tabPane1.getSelectionModel().selectedIndexProperty());
+        projectData.selTab2Property().bind(tabPane2.getSelectionModel().selectedIndexProperty());
     }
 
     public void saveTable() {

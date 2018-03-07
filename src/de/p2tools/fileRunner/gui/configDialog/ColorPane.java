@@ -1,6 +1,6 @@
 /*
- * MTPlayer Copyright (C) 2017 W. Xaver W.Xaver[at]googlemail.com
- * https://sourceforge.net/projects/mtplayer/
+ * P2tools Copyright (C) 2018 W. Xaver W.Xaver[at]googlemail.com
+ * https://www.p2tools.de/
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation, either version 3 of the
@@ -23,7 +23,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
@@ -38,7 +41,7 @@ public class ColorPane extends AnchorPane {
         vBox.setSpacing(10);
 
         TableView<PColorData> tableView = new TableView<>();
-        tableView.setMinHeight(Region.USE_PREF_SIZE);
+//        tableView.setMinHeight(Region.USE_PREF_SIZE);
         VBox.setVgrow(tableView, Priority.ALWAYS);
         initTableColor(tableView);
 
@@ -104,7 +107,7 @@ public class ColorPane extends AnchorPane {
                     return;
                 }
 
-                PColorData MTC = getTableView().getItems().get(getIndex());
+                PColorData pColorData = getTableView().getItems().get(getIndex());
 
                 final HBox hbox = new HBox();
                 hbox.setSpacing(5);
@@ -114,10 +117,10 @@ public class ColorPane extends AnchorPane {
                 final ColorPicker colorPicker = new ColorPicker();
                 colorPicker.getStyleClass().add("split-button");
 
-                colorPicker.setValue(MTC.getColor());
+                colorPicker.setValue(pColorData.getColor());
                 colorPicker.setOnAction(a -> {
                     Color fxColor = colorPicker.getValue();
-                    MTC.setColor(fxColor);
+                    pColorData.setColor(fxColor);
 //                    Daten.mTColor.save();
 //                    Listener.notify(Listener.EREIGNIS_GUI_COLOR_CHANGED, ColorPane.class.getSimpleName());
                 });
@@ -144,7 +147,7 @@ public class ColorPane extends AnchorPane {
                     return;
                 }
 
-                PColorData MTC = getTableView().getItems().get(getIndex());
+                PColorData pColorData = getTableView().getItems().get(getIndex());
 
                 final HBox hbox = new HBox();
                 hbox.setSpacing(5);
@@ -153,7 +156,7 @@ public class ColorPane extends AnchorPane {
 
                 final Button button = new Button("Reset");
                 button.setOnAction(a -> {
-                    MTC.resetColor();
+                    pColorData.resetColor();
 //                    Daten.mTColor.save();
 //                    Listener.notify(Listener.EREIGNIS_GUI_COLOR_CHANGED, ColorPane.class.getSimpleName());
                 });

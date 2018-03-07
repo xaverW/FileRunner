@@ -59,7 +59,6 @@ public class GuiFileRunner extends AnchorPane {
 
     private final Button btnCheckFile = new Button("Dateien vergleichen");
 
-
     private final ProgData progData;
 
     public GuiFileRunner() {

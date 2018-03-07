@@ -25,18 +25,21 @@ public class ProjectData extends ProjectDataProps {
     public void clearProjectData() {
         setSrcDir1("");
         setSrcDir2("");
-        setWriteHash1("");
-        setWriteHash2("");
+
+        setSrcHash1("");
+        setSrcHash2("");
+
         setSearch1("");
         setSearch2("");
+
         setWriteHash1("");
         setWriteHash2("");
 
         setSelTab1(0);
         setSelTab2(0);
 
-        setFollowLink1(false);
-        setFollowLink2(false);
+//        setFollowLink1(false);
+//        setFollowLink2(false);
     }
 
 }

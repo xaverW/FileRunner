@@ -1,6 +1,6 @@
 /*
- * MTPlayer Copyright (C) 2017 W. Xaver W.Xaver[at]googlemail.com
- * https://sourceforge.net/projects/mtplayer/
+ * P2tools Copyright (C) 2018 W. Xaver W.Xaver[at]googlemail.com
+ * https://www.p2tools.de/
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation, either version 3 of the
@@ -26,16 +26,17 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
 public class ConfigPane extends AnchorPane {
 
-    private final ProgData daten;
+    private final ProgData progData;
     private final VBox vBox = new VBox(10);
     BooleanProperty systemStoreProp = ProgConfList.SYSTEM_STORE_CONFIG.getBooleanProperty();
 
     public ConfigPane() {
-        daten = ProgData.getInstance();
+        progData = ProgData.getInstance();
 
         AnchorPane.setTopAnchor(vBox, 10.0);
         AnchorPane.setRightAnchor(vBox, 10.0);
@@ -54,13 +55,36 @@ public class ConfigPane extends AnchorPane {
 
         final CheckBox chkSaveConfig = new CheckBox("Einstellungen speichern");
         chkSaveConfig.selectedProperty().bindBidirectional(systemStoreProp);
-        gridPane.add(chkSaveConfig, 0, 0);
 
-        final Button btnHelpAbo = new Button("");
-        btnHelpAbo.setGraphic(new Icons().ICON_BUTTON_HELP);
-        btnHelpAbo.setOnAction(a -> new PAlert().showHelpAlert("Programmstart", HelpText.STORE_PROG_CONFIG));
-        GridPane.setHalignment(btnHelpAbo, HPos.RIGHT);
-        gridPane.add(btnHelpAbo, 1, 0);
+        final Button btnHelpStore = new Button("");
+        btnHelpStore.setGraphic(new Icons().ICON_BUTTON_HELP);
+        btnHelpStore.setOnAction(a -> new PAlert().showHelpAlert("Programmstart", HelpText.STORE_PROG_CONFIG));
+        GridPane.setHalignment(btnHelpStore, HPos.RIGHT);
+
+
+        final CheckBox chkFollowLink1 = new CheckBox("In Tabelle 1");
+        final CheckBox chkFollowLink2 = new CheckBox("In Tabelle 2");
+        final Label lblFollow = new Label("Symbolische Verknüpfungen auflösen");
+
+        final Button btnHelpFollowLink = new Button("");
+        btnHelpFollowLink.setGraphic(new Icons().ICON_BUTTON_HELP);
+        btnHelpFollowLink.setOnAction(a -> new PAlert().showHelpAlert("Verknüpfung folgen", HelpText.FOLLOW_SYMLINK));
+        GridPane.setHalignment(btnHelpFollowLink, HPos.RIGHT);
+
+        chkFollowLink1.selectedProperty().bindBidirectional(progData.projectData.followLink1Property());
+        chkFollowLink2.selectedProperty().bindBidirectional(progData.projectData.followLink2Property());
+
+        int row = 0;
+        gridPane.add(chkSaveConfig, 0, row);
+        gridPane.add(btnHelpStore, 2, row);
+
+        gridPane.add(new Label(" "), 2, ++row);
+
+        gridPane.add(lblFollow, 0, ++row, 1, 2);
+        gridPane.add(btnHelpFollowLink, 2, ++row);
+        gridPane.add(chkFollowLink1, 0, ++row);
+        gridPane.add(chkFollowLink2, 0, ++row);
+
 
         final ColumnConstraints ccTxt = new ColumnConstraints();
         ccTxt.setFillWidth(true);

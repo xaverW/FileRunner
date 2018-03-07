@@ -30,6 +30,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.*;
 
 public class FileRunnerController extends StackPane {
@@ -90,7 +91,7 @@ public class FileRunnerController extends StackPane {
             menuButton.getStyleClass().add("btnFunction");
             menuButton.setText("");
             menuButton.setGraphic(new Icons().FX_ICON_TOOLBAR_MENUE_TOP);
-            menuButton.getItems().addAll(miConfig, miAbout, miQuitt);
+            menuButton.getItems().addAll(miConfig, miAbout, new SeparatorMenuItem(), miQuitt);
 
 
             // Panes
