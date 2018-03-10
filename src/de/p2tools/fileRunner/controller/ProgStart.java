@@ -72,7 +72,7 @@ public class ProgStart {
         ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
         return configFile.readConfigFile(
                 null,
-                new ArrayList<>(Arrays.asList(progData.progConfig,
+                new ArrayList<>(Arrays.asList(ProgConfig.getInstance(),
                         ProgColorList.getConfigsData(),
                         progData.projectData)));
     }

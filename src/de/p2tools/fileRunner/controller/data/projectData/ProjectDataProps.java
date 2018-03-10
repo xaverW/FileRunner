@@ -22,7 +22,7 @@ import de.p2tools.p2Lib.configFile.config.ConfigBoolProp;
 import de.p2tools.p2Lib.configFile.config.ConfigIntProp;
 import de.p2tools.p2Lib.configFile.config.ConfigStringProp;
 import de.p2tools.p2Lib.configFile.configList.ConfigStringList;
-import de.p2tools.p2Lib.configFile.pData.PDataVault;
+import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +30,7 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ProjectDataProps extends PDataVault<ProjectData> {
+public class ProjectDataProps extends PDataSample<ProjectData> {
     public static final String TAG = "ProjectData";
 
     private final StringProperty srcDir1 = new SimpleStringProperty("");

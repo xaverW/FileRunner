@@ -73,8 +73,8 @@ public class FileRunner extends Application {
             root = new FileRunnerController();
             progData.fileRunnerController = root;
             scene = new Scene(root,
-                    GuiSize.getWidth(ProgConfig.SYSTEM_GROESSE_GUI),
-                    GuiSize.getHeight(ProgConfig.SYSTEM_GROESSE_GUI));
+                    GuiSize.getWidth(ProgConfig.SYSTEM_GUI_SIZE),
+                    GuiSize.getHeight(ProgConfig.SYSTEM_GUI_SIZE));
 
             String css = this.getClass().getResource(ProgConst.CSS_FILE).toExternalForm();
             scene.getStylesheets().add(css);
@@ -85,7 +85,7 @@ public class FileRunner extends Application {
                 new ProgQuitt().beenden(true);
             });
 
-            GuiSize.setPos(ProgConfig.SYSTEM_GROESSE_GUI, primaryStage);
+            GuiSize.setPos(ProgConfig.SYSTEM_GUI_SIZE, primaryStage);
             primaryStage.show();
 
         } catch (final Exception e) {
