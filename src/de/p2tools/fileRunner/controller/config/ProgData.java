@@ -53,9 +53,10 @@ public class ProgData {
 
     public GuiDirRunner guiDirRunner = null; // DirTab
     public GuiFileRunner guiFileRunner = null; // FileTab
-
+    public ProgConfig progConfig;
 
     private ProgData() {
+        progConfig = new ProgConfig();
         projectData = new ProjectData();
 
         fileDataList1 = new FileDataList();

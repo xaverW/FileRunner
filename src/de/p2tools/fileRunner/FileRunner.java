@@ -17,7 +17,7 @@ package de.p2tools.fileRunner;
 
 import de.p2tools.fileRunner.controller.ProgQuitt;
 import de.p2tools.fileRunner.controller.ProgStart;
-import de.p2tools.fileRunner.controller.config.ProgConfList;
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.res.GetIcon;
@@ -73,8 +73,8 @@ public class FileRunner extends Application {
             root = new FileRunnerController();
             progData.fileRunnerController = root;
             scene = new Scene(root,
-                    GuiSize.getWidth(ProgConfList.SYSTEM_GROESSE_GUI),
-                    GuiSize.getHeight(ProgConfList.SYSTEM_GROESSE_GUI));
+                    GuiSize.getWidth(ProgConfig.SYSTEM_GROESSE_GUI),
+                    GuiSize.getHeight(ProgConfig.SYSTEM_GROESSE_GUI));
 
             String css = this.getClass().getResource(ProgConst.CSS_FILE).toExternalForm();
             scene.getStylesheets().add(css);
@@ -85,7 +85,7 @@ public class FileRunner extends Application {
                 new ProgQuitt().beenden(true);
             });
 
-            GuiSize.setPos(ProgConfList.SYSTEM_GROESSE_GUI, primaryStage);
+            GuiSize.setPos(ProgConfig.SYSTEM_GROESSE_GUI, primaryStage);
             primaryStage.show();
 
         } catch (final Exception e) {

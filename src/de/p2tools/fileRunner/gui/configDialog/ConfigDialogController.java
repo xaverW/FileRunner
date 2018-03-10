@@ -16,7 +16,7 @@
 
 package de.p2tools.fileRunner.gui.configDialog;
 
-import de.p2tools.fileRunner.controller.config.ProgConfList;
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.p2Lib.dialog.MTDialog;
 import javafx.geometry.Insets;
@@ -38,7 +38,7 @@ public class ConfigDialogController extends MTDialog {
     private final ProgData daten;
 
     public ConfigDialogController() {
-        super(null, ProgConfList.SYSTEM_CONFIG_DIALOG_SIZE, "Einstellungen", true);
+        super(null, ProgConfig.SYSTEM_CONFIG_DIALOG_SIZE, "Einstellungen", true);
 
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10));

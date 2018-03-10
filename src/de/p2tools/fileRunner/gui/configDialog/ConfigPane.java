@@ -16,7 +16,7 @@
 
 package de.p2tools.fileRunner.gui.configDialog;
 
-import de.p2tools.fileRunner.controller.config.ProgConfList;
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.gui.HelpText;
@@ -33,7 +33,7 @@ public class ConfigPane extends AnchorPane {
 
     private final ProgData progData;
     private final VBox vBox = new VBox(10);
-    BooleanProperty systemStoreProp = ProgConfList.SYSTEM_STORE_CONFIG.getBooleanProperty();
+    BooleanProperty systemStoreProp = ProgConfig.SYSTEM_STORE_CONFIG.getActValueProperty();
 
     public ConfigPane() {
         progData = ProgData.getInstance();

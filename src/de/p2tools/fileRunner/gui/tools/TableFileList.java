@@ -99,8 +99,6 @@ public class TableFileList {
                 } else {
                     if (film.isLink()) {
                         // Datei ist ein Symlink
-//                        System.out.println(ProgColorList.FILE_LINK_BG.getCssBackground());
-//                        ProgColorList.FILE_LINK_BG.setColor(Color.RED);
                         setStyle(ProgColorList.FILE_LINK_BG.getCssBackground());
                         for (int i = 0; i < getChildren().size(); i++) {
                             getChildren().get(i).setStyle(ProgColorList.FILE_LINK.getCssFont());

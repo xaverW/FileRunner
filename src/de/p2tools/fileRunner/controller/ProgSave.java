@@ -16,7 +16,10 @@
 
 package de.p2tools.fileRunner.controller;
 
-import de.p2tools.fileRunner.controller.config.*;
+import de.p2tools.fileRunner.controller.config.ProgColorList;
+import de.p2tools.fileRunner.controller.config.ProgConst;
+import de.p2tools.fileRunner.controller.config.ProgData;
+import de.p2tools.fileRunner.controller.config.ProgInfos;
 import de.p2tools.p2Lib.configFile.ConfigFile;
 
 import java.nio.file.Path;
@@ -32,7 +35,7 @@ public class ProgSave {
     public void save() {
         final Path xmlFilePath = new ProgInfos().getXmlFilePath();
         ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
-        configFile.addConfigs(ProgConfList.getConfigsData());
+        configFile.addConfigs(progData.progConfig);
         configFile.addConfigs(ProgColorList.getConfigsData());
         configFile.addConfigs(progData.projectData);
         configFile.writeConfigFile();
