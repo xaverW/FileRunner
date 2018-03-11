@@ -142,7 +142,6 @@ public class GuiDirRunner extends AnchorPane {
         HBox hBoxDir1 = new HBox(10);
         HBox.setHgrow(pCboDir1, Priority.ALWAYS);
         pCboDir1.setMaxWidth(Double.MAX_VALUE);
-        pCboDir1.setEditable(true);
         hBoxDir1.getChildren().addAll(pCboDir1, btnSelectDir1, btnReadDir1);
         vBoxDir1.getChildren().addAll(new Label("Verzeichnis 1"), hBoxDir1);
 
@@ -165,7 +164,6 @@ public class GuiDirRunner extends AnchorPane {
         hBoxSearch1.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(pCboSearch1, Priority.ALWAYS);
         pCboSearch1.setMaxWidth(Double.MAX_VALUE);
-        pCboSearch1.setEditable(true);
         hBoxSearch1.getChildren().addAll(pCboSearch1, btnClearFilter1);
 
         vBoxSearch1.getChildren().addAll(new Label("Dateien suchen"), hBoxSearch1);
@@ -201,7 +199,6 @@ public class GuiDirRunner extends AnchorPane {
         HBox hBoxFile2 = new HBox(10);
         HBox.setHgrow(pCboHash2, Priority.ALWAYS);
         pCboHash2.setMaxWidth(Double.MAX_VALUE);
-        pCboHash2.setEditable(true);
         hBoxFile2.getChildren().addAll(pCboHash2, btnSelectHash2, btnReadHash2);
         vBoxFile2.getChildren().addAll(new Label("Hashdatei"), hBoxFile2);
 
@@ -213,7 +210,6 @@ public class GuiDirRunner extends AnchorPane {
         hBoxSearch2.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(pCboSearch2, Priority.ALWAYS);
         pCboSearch2.setMaxWidth(Double.MAX_VALUE);
-        pCboSearch2.setEditable(true);
         hBoxSearch2.getChildren().addAll(pCboSearch2, btnClearFilter2);
 
         vBoxSearch2.getChildren().addAll(new Label("Dateien suchen"), hBoxSearch2);
