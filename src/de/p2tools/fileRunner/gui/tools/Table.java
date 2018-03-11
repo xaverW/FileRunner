@@ -17,9 +17,9 @@
 package de.p2tools.fileRunner.gui.tools;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
 import de.p2tools.p2Lib.tools.Log;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -41,11 +41,11 @@ public class Table {
     private boolean[] visAr;
     private TableColumn[] tArray;
 
-    private Config confWidth; //Spaltenbreite
-    private Config confSort; //"Sortieren"  der Tabelle nach Spalte
-    private Config confUpDown; //Sortierung UP oder Down
-    private Config confVis; //Spalte ist sichtbar
-    private Config confOrder; //"Reihenfolge" der Spalten
+    private StringProperty confWidth; //Spaltenbreite
+    private StringProperty confSort; //"Sortieren"  der Tabelle nach Spalte
+    private StringProperty confUpDown; //Sortierung UP oder Down
+    private StringProperty confVis; //Spalte ist sichtbar
+    private StringProperty confOrder; //"Reihenfolge" der Spalten
 
     public static void refresh_table(TableView table) {
         for (int i = 0; i < table.getColumns().size(); i++) {
@@ -84,9 +84,9 @@ public class Table {
                 break;
 
         }
-        String order = confOrder.getActValueString();
+        String order = confOrder.get();
         String[] arOrder = order.split(",");
-        if (confOrder.getActValueString().isEmpty() || arOrder.length != tArray.length) {
+        if (confOrder.get().isEmpty() || arOrder.length != tArray.length) {
             // dann gibts keine Einstellungen oder die Anzahl der Spalten hat sich geändert
             for (TableColumn tc : tArray) {
                 table.getColumns().add(tc);
@@ -136,11 +136,11 @@ public class Table {
             order += c.getText() + ",";
         });
 
-        confWidth.setActValue(width);
-        confVis.setActValue(vis);
-        confSort.setActValue(sort);
-        confUpDown.setActValue(upDown);
-        confOrder.setActValue(order);
+        confWidth.set(width);
+        confVis.set(vis);
+        confSort.set(sort);
+        confUpDown.set(upDown);
+        confOrder.set(order);
 
     }
 
@@ -178,8 +178,8 @@ public class Table {
             breite = getDoubleArray(maxSpalten);
             visAr = getBoolArray(maxSpalten);
 
-            if (!confWidth.getActValueString().isEmpty()) {
-                width = confWidth.getActValueString();
+            if (!confWidth.get().isEmpty()) {
+                width = confWidth.get();
                 if (arrLesen(width, breite)) {
                     for (int i = 0; i < breite.length; ++i) {
                         table.getColumns().get(i).setPrefWidth(breite[i]);
@@ -187,8 +187,8 @@ public class Table {
                 }
             }
 
-            if (!confVis.getActValueString().isEmpty()) {
-                vis = confVis.getActValueString();
+            if (!confVis.get().isEmpty()) {
+                vis = confVis.get();
                 if (arrLesen(vis, visAr)) {
                     for (int i = 0; i < visAr.length; ++i) {
                         table.getColumns().get(i).setVisible(visAr[i]);
@@ -196,10 +196,10 @@ public class Table {
                 }
             }
 
-            if (!confSort.getActValueString().isEmpty()) {
-                String sort = confSort.getActValueString();
+            if (!confSort.get().isEmpty()) {
+                String sort = confSort.get();
                 String[] arSort = sort.split(",");
-                String sortUp = confUpDown.getActValueString();
+                String sortUp = confUpDown.get();
                 String[] arSortUp = sortUp.split(",");
 
                 for (int i = 0; i < arSort.length; ++i) {
@@ -302,11 +302,11 @@ public class Table {
             set += visArray[i] + ",";
         }
 
-        confWidth.setActValue("");
-        confVis.setActValue(set);
-        confSort.setActValue("");
-        confUpDown.setActValue("");
-        confOrder.setActValue("");
+        confWidth.set("");
+        confVis.set(set);
+        confSort.set("");
+        confUpDown.set("");
+        confOrder.set("");
     }
 
 

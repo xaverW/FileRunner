@@ -33,7 +33,7 @@ public class ConfigPane extends AnchorPane {
 
     private final ProgData progData;
     private final VBox vBox = new VBox(10);
-    BooleanProperty systemStoreProp = ProgConfig.SYSTEM_STORE_CONFIG.getActValueProperty();
+    BooleanProperty systemStoreProp = ProgConfig.SYSTEM_STORE_CONFIG;
 
     public ConfigPane() {
         progData = ProgData.getInstance();

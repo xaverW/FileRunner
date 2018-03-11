@@ -120,7 +120,7 @@ public class CreateFileHash {
                 long msgBuff = countBuffer / 100;
                 long run = 0;
 
-                MessageDigest md = MessageDigest.getInstance(ProgConfig.GUI_FILE_HASH.getActValueString());
+                MessageDigest md = MessageDigest.getInstance(ProgConfig.GUI_FILE_HASH.get());
                 srcStream = new DigestInputStream(new FileInputStream(file), md);
 
                 while (!stop && srcStream.read(buffer) != -1) {

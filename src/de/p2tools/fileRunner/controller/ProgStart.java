@@ -56,7 +56,7 @@ public class ProgStart {
         PInit.initLib(ProgData.getInstance().primaryStage, ProgConst.PROGRAMMNAME,
                 ProgConst.CSS_FILE, ProgInfos.getUserAgent(), ProgData.debug);
 
-        if (!ProgConfig.SYSTEM_STORE_CONFIG.getActValue()) {
+        if (!ProgConfig.SYSTEM_STORE_CONFIG.get()) {
             progData.projectData.clearProjectData();
         }
 
