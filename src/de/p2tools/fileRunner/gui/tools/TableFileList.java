@@ -19,7 +19,7 @@ package de.p2tools.fileRunner.gui.tools;
 
 import de.p2tools.fileRunner.controller.config.ProgColorList;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
-import de.p2tools.p2Lib.tools.CheckBoxCell;
+import de.p2tools.p2Lib.guiTools.CheckBoxCell;
 import de.p2tools.p2Lib.tools.FileSize;
 import de.p2tools.p2Lib.tools.PDate;
 import javafx.scene.control.*;

@@ -23,6 +23,7 @@ import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
+import de.p2tools.fileRunner.gui.tools.GuiTools;
 import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.dialog.DirFileChooser;
 import de.p2tools.p2Lib.dialog.PAlert;
@@ -35,10 +36,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import org.apache.commons.lang3.time.FastDateFormat;
 
 import java.io.File;
-import java.util.Date;
 
 public class GuiDirRunner extends AnchorPane {
 
@@ -69,8 +68,8 @@ public class GuiDirRunner extends AnchorPane {
     private final Button btnSelectHashList1 = new Button();
     private final Button btnSelectHashList2 = new Button();
 
-    private final Button btnSaveHashList1 = new Button();
-    private final Button btnSaveHashList2 = new Button();
+    private final Button btnProposeHashName1 = new Button();
+    private final Button btnProposeHashName2 = new Button();
 
     private final Button btnClearFilter1 = new Button();
     private final Button btnClearFilter2 = new Button();
@@ -232,14 +231,14 @@ public class GuiDirRunner extends AnchorPane {
         // write hash
         HBox hBoxWriteHash1 = new HBox(10);
         HBox.setHgrow(txtWriteHash1, Priority.ALWAYS);
-        hBoxWriteHash1.getChildren().addAll(btnSaveHashList1, txtWriteHash1, btnSelectHashList1);
+        hBoxWriteHash1.getChildren().addAll(btnProposeHashName1, txtWriteHash1, btnSelectHashList1);
         HBox hBoxWrite1 = new HBox(10);
         hBoxWrite1.setAlignment(Pos.CENTER_RIGHT);
         hBoxWrite1.getChildren().add(btnWriteHash1);
 
         HBox hBoxWriteHash2 = new HBox(10);
         HBox.setHgrow(txtWriteHash2, Priority.ALWAYS);
-        hBoxWriteHash2.getChildren().addAll(btnSaveHashList2, txtWriteHash2, btnSelectHashList2);
+        hBoxWriteHash2.getChildren().addAll(btnProposeHashName2, txtWriteHash2, btnSelectHashList2);
         HBox hBoxWrite2 = new HBox(10);
         hBoxWrite2.setAlignment(Pos.CENTER_RIGHT);
         hBoxWrite2.getChildren().add(btnWriteHash2);
@@ -303,8 +302,8 @@ public class GuiDirRunner extends AnchorPane {
         btnSelectDir2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnSelectHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnSelectHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnSaveHashList1.setGraphic(new Icons().ICON_BUTTON_GUI_GEN_NAME);
-        btnSaveHashList2.setGraphic(new Icons().ICON_BUTTON_GUI_GEN_NAME);
+        btnProposeHashName1.setGraphic(new Icons().ICON_BUTTON_GUI_GEN_NAME);
+        btnProposeHashName2.setGraphic(new Icons().ICON_BUTTON_GUI_GEN_NAME);
         btnSelectHashList1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnSelectHashList2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnReadDir1.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
@@ -327,8 +326,8 @@ public class GuiDirRunner extends AnchorPane {
         btnSelectHashList2.setTooltip(new Tooltip("Datei zum Speichern auswählen."));
         btnWriteHash1.setTooltip(new Tooltip("Hashliste in Datei schreiben."));
         btnWriteHash2.setTooltip(new Tooltip("Hashliste in Datei schreiben."));
-        btnSaveHashList1.setTooltip(new Tooltip("Einen Dateinamen vorschlagen."));
-        btnSaveHashList2.setTooltip(new Tooltip("Einen Dateinamen vorschlagen."));
+        btnProposeHashName1.setTooltip(new Tooltip("Einen Dateinamen vorschlagen."));
+        btnProposeHashName2.setTooltip(new Tooltip("Einen Dateinamen vorschlagen."));
         tglShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
         tglShowSame.setTooltip(new Tooltip("Alle gleichen Dateien anzeigen."));
         tglShowDiff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind aber nicht gleich sind."));
@@ -384,7 +383,7 @@ public class GuiDirRunner extends AnchorPane {
 
         btnSelectHashList1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
         btnSelectHashList2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
-        btnSaveHashList1.setOnAction(event -> {
+        btnProposeHashName1.setOnAction(event -> {
             String file = progData.fileDataList1.getSourceDir();
             if (file.isEmpty() && tabDir1.isSelected()) {
                 file = projectData.getSrcDir1();
@@ -399,9 +398,9 @@ public class GuiDirRunner extends AnchorPane {
             if (!txtWriteHash1.getText().startsWith(file)) {
                 txtWriteHash1.setText(file);
             }
-            txtWriteHash1.setText(getNextName(txtWriteHash1.getText()));
+            txtWriteHash1.setText(GuiTools.getNextName(txtWriteHash1.getText()));
         });
-        btnSaveHashList2.setOnAction(event -> {
+        btnProposeHashName2.setOnAction(event -> {
             String file = progData.fileDataList2.getSourceDir();
             if (file.isEmpty() && tabDir2.isSelected()) {
                 file = projectData.getSrcDir2();
@@ -416,7 +415,7 @@ public class GuiDirRunner extends AnchorPane {
             if (!txtWriteHash2.getText().startsWith(file)) {
                 txtWriteHash2.setText(file);
             }
-            txtWriteHash2.setText(getNextName(txtWriteHash2.getText()));
+            txtWriteHash2.setText(GuiTools.getNextName(txtWriteHash2.getText()));
         });
 
 
@@ -534,31 +533,6 @@ public class GuiDirRunner extends AnchorPane {
         }
     }
 
-    public static final FastDateFormat FORMATTER_ddMMyyyy = FastDateFormat.getInstance("__yyyyMMdd");
-    public static final FastDateFormat FORMATTER_ddMMyyyyHHmmss = FastDateFormat.getInstance("__yyyyMMdd_HHmmss");
-    private String lastDate2 = "";
-
-    private String getNextName(String name) {
-        String ret;
-        final String MD5 = ".md5";
-        final String date1 = FORMATTER_ddMMyyyy.format(new Date()) + ".md5";
-        final String date2 = FORMATTER_ddMMyyyyHHmmss.format(new Date()) + ".md5";
-
-        if (name.endsWith(date1)) {
-            ret = name.replace(date1, date2);
-            lastDate2 = date2;
-        } else if (name.endsWith(date2)) {
-            ret = name.replace(date2, MD5);
-        } else if (!lastDate2.isEmpty() && name.endsWith(lastDate2)) {
-            ret = name.replace(lastDate2, MD5);
-        } else if (name.endsWith(MD5)) {
-            ret = name.replace(MD5, date1);
-        } else {
-            ret = name + MD5;
-        }
-        return ret;
-
-    }
 
     private void changeTextFilter() {
         fileDataFilter1.setSearchStr(pCboSearch1.getSelectionModel().getSelectedItem());
