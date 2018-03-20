@@ -419,6 +419,15 @@ public class GuiDirRunner extends AnchorPane {
         });
 
 
+        btnReadDir1.disableProperty().bind(pCboDir1.getEditor().textProperty().isNull()
+                .or(pCboDir1.getEditor().textProperty().isEqualTo("")));
+        btnReadDir2.disableProperty().bind(pCboDir2.getEditor().textProperty().isNull()
+                .or(pCboDir2.getEditor().textProperty().isEqualTo("")));
+        btnReadHash1.disableProperty().bind(pCboHash1.getEditor().textProperty().isNull()
+                .or(pCboHash1.getEditor().textProperty().isEqualTo("")));
+        btnReadHash2.disableProperty().bind(pCboHash2.getEditor().textProperty().isNull()
+                .or(pCboHash2.getEditor().textProperty().isEqualTo("")));
+
         btnReadDir1.setOnAction(a -> {
             if (readDirHash(projectData.getSrcDir1(), progData.fileDataList1, projectData.isFollowLink1())) {
                 setTabDirFile(0, true);
