@@ -18,5 +18,10 @@ Hier kann der Hash einer einzelnen Datei erstellt werden. Sollen zwei Dateien ve
 Der Button unten *Dateien vergleichen* startet die Erstellung des Hash für beide Dateien. Der Vorgang ist identisch mit je einem Klick auf "Hash erstellen" für jede Datei einzeln.
 
 
+## Systemvoraussetzungen
+
+Unterstützt wird Windows (Vista, 7, 8, 10) und Linux. Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version: 1.8 (= Java 8). Für Linux-Benutzer wird OpenJDK8 empfohlen, außerdem benötigen Linux Benutzer die aktuelle Version von JavaFX (OpenJFX).
+
+
 ## Links
 - [www.p2tools.de/filerunner/](https://www.p2tools.de/filerunner/)

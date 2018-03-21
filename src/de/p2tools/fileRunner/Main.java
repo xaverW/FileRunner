@@ -72,6 +72,14 @@ public class Main {
     }
 
     private void start(String... args) {
+//        try {
+//            Date d = new Date(new File(getClass().getClassLoader().getResource(
+//                    getClass().getCanonicalName()
+//                            .replace('.', '/') + ".class").toURI()).lastModified());
+//            System.out.println(new SimpleDateFormat("dd.MM.yyyy HH.mm.ss").format(d));
+//        } catch (Exception ex) {
+//        }
+
         if (hasJavaFx()) {
 
             if (args != null) {
