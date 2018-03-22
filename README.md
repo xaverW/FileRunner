@@ -11,6 +11,7 @@ Weiter können auch zwei Dateien direkt verglichen werden (oder eine Datei direk
 
 
 <br />
+
 **Ordner vergleichen**
 
 In der rechten und linken Seite des Programms kann je ein Ordner oder eine Dateiliste geladen werden. Die Tabelle zeigt dann den Inhalt des Ordners oder der Dateiliste an. Unter "Suchen" kann man die Liste der angezeigten Dateien einschränken, z.B. mit ".java" nur Java- oder mit ".jpg" nur JPG-Dateien anzeigen.
@@ -22,6 +23,7 @@ Unter den Tabellen kann die Liste der Dateien in einer Dateiliste für einen sp�
 Die Dateilisten sind MD5-Hashes aller Dateien eines Ordners. Damit kann man Dateien auf Veränderung überprüfen.
 
 <br />
+
 **Dateien vergleichen**
 
 Hier kann der Hash einer einzelnen Datei erstellt werden. Sollen zwei Dateien verglichen werden (oder der Hash einer Datei geprüft werden), wird erst eine Datei ausgewählt und dann der Hash erstellt. Stimmt der mit dem Hash der zweiten Datei überein, sind die Dateien identisch. Das Textfeld des Hash signalisiert das mit einem grünen Hintergrund.
@@ -36,6 +38,9 @@ Der Button unten *Dateien vergleichen* startet die Erstellung des Hash für beid
 
 Unterstützt wird Windows (Vista, 7, 8, 10) und Linux. Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version: 1.8 (= Java 8). Für Linux-Benutzer wird OpenJDK8 empfohlen, außerdem benötigen Linux Benutzer die aktuelle Version von JavaFX (OpenJFX).
 
+
+<br />
+<br />
 
 **Links**
 
