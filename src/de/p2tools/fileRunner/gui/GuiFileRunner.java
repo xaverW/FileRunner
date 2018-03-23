@@ -240,7 +240,7 @@ public class GuiFileRunner extends AnchorPane {
 
     private void setColor() {
         if (!txtHash1.getText().isEmpty() && !txtHash2.getText().isEmpty() &&
-                txtHash1.getText().equals(txtHash2.getText())) {
+                txtHash1.getText().toLowerCase().equals(txtHash2.getText().toLowerCase())) {
             txtHash1.getStyleClass().add("txtHash");
             txtHash2.getStyleClass().add("txtHash");
         } else {
