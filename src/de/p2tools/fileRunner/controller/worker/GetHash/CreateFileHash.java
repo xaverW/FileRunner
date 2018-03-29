@@ -20,6 +20,7 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.p2Lib.tools.Functions;
 import de.p2tools.p2Lib.tools.Log;
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
@@ -29,6 +30,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 
@@ -60,7 +63,7 @@ public class CreateFileHash {
 //        return fileHash;
 //    }
 
-    public void genHash(File file, StringProperty stringProperty) {
+    public void genHash(String file, StringProperty stringProperty) {
         stop = false;
 //        fileHash = "";
 
@@ -76,7 +79,7 @@ public class CreateFileHash {
         startenThread.start();
     }
 
-    public void genHash(File file1, StringProperty stringProperty1, File file2, StringProperty stringProperty2) {
+    public void genHash(String file1, StringProperty stringProperty1, String file2, StringProperty stringProperty2) {
         stop = false;
 //        fileHash = "";
 
@@ -99,12 +102,12 @@ public class CreateFileHash {
     }
 
     private class HashErstellen implements Runnable {
-        private final File file;
+        private final String fileStr;
         private final StringProperty stringProperty;
         private String fileHash = "";
 
-        public HashErstellen(File file, StringProperty stringProperty) {
-            this.file = file;
+        public HashErstellen(String fileStr, StringProperty stringProperty) {
+            this.fileStr = fileStr;
             this.stringProperty = stringProperty;
         }
 
@@ -116,12 +119,34 @@ public class CreateFileHash {
                 final int BUFFER_MAX = 1024;
                 byte[] buffer = new byte[BUFFER_MAX];
 
-                long countBuffer = file.length() / BUFFER_MAX;
-                long msgBuff = countBuffer / 100;
+                long countBuffer;
+                long msgBuff;
                 long run = 0;
+                MessageDigest md;
 
-                MessageDigest md = MessageDigest.getInstance(ProgConfig.GUI_FILE_HASH.get());
-                srcStream = new DigestInputStream(new FileInputStream(file), md);
+                if (Functions.istUrl(fileStr)) {
+                    // eine URL verarbeiten
+                    int timeout = 10000; //ms
+                    HttpURLConnection conn;
+                    conn = (HttpURLConnection) new URL(fileStr).openConnection();
+                    conn.setReadTimeout(timeout);
+                    conn.setConnectTimeout(timeout);
+
+                    countBuffer = conn.getContentLengthLong() / BUFFER_MAX;
+                    msgBuff = countBuffer / 100;
+
+                    md = MessageDigest.getInstance(ProgConfig.GUI_FILE_HASH.get());
+                    srcStream = new DigestInputStream(conn.getInputStream(), md);
+
+                } else {
+                    File f = new File(fileStr);
+                    countBuffer = f.length() / BUFFER_MAX;
+                    msgBuff = countBuffer / 100;
+
+                    md = MessageDigest.getInstance(ProgConfig.GUI_FILE_HASH.get());
+                    srcStream = new DigestInputStream(new FileInputStream(fileStr), md);
+                }
+
 
                 while (!stop && srcStream.read(buffer) != -1) {
                     ++run;
@@ -153,6 +178,7 @@ public class CreateFileHash {
             }
 
             Platform.runLater(() -> stringProperty.setValue(fileHash));
+            
             --thrads;
             if (thrads <= 0) {
                 max = 0;
