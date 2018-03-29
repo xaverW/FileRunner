@@ -101,11 +101,11 @@ public class Worker {
         HashTools.writeDirHashFile(destFile, fileDataList);
     }
 
-    public void createFileHash(File file, StringProperty stringProperty) {
+    public void createFileHash(String file, StringProperty stringProperty) {
         createFileHash.genHash(file, stringProperty);
     }
 
-    public void createFileHash(File file1, StringProperty stringProperty1, File file2, StringProperty stringProperty2) {
+    public void createFileHash(String file1, StringProperty stringProperty1, String file2, StringProperty stringProperty2) {
         createFileHash.genHash(file1, stringProperty1, file2, stringProperty2);
     }
 

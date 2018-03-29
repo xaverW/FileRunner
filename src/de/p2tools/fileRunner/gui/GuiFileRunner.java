@@ -22,6 +22,7 @@ import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.p2Lib.dialog.DirFileChooser;
 import de.p2tools.p2Lib.dialog.PAlert;
 import de.p2tools.p2Lib.hash.HashConst;
+import de.p2tools.p2Lib.tools.Functions;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -124,7 +125,7 @@ public class GuiFileRunner extends AnchorPane {
 
         gridPane1.add(lblDir1, 0, r, 1, 4);
         gridPane1.add(new Label(" "), 1, r);
-        gridPane1.add(new Label("Datei"), 1, ++r);
+        gridPane1.add(new Label("Datei/URL"), 1, ++r);
         gridPane1.add(txtFile1, 2, r);
         gridPane1.add(btnGetFile1, 3, r);
 
@@ -148,7 +149,7 @@ public class GuiFileRunner extends AnchorPane {
         gridPane2.add(lblDir2, 0, ++r, 1, 4);
         gridPane2.add(new Label(" "), 1, r);
 
-        gridPane2.add(new Label("Datei"), 1, ++r);
+        gridPane2.add(new Label("Datei/URL"), 1, ++r);
         gridPane2.add(txtFile2, 2, r);
         gridPane2.add(btnGetFile2, 3, r);
 
@@ -240,7 +241,7 @@ public class GuiFileRunner extends AnchorPane {
 
     private void setColor() {
         if (!txtHash1.getText().isEmpty() && !txtHash2.getText().isEmpty() &&
-                txtHash1.getText().equals(txtHash2.getText())) {
+                txtHash1.getText().toLowerCase().equals(txtHash2.getText().toLowerCase())) {
             txtHash1.getStyleClass().add("txtHash");
             txtHash2.getStyleClass().add("txtHash");
         } else {
@@ -271,8 +272,9 @@ public class GuiFileRunner extends AnchorPane {
                 PAlert.showErrorAlert("Hash erstellen", "Es ist keine Datei angegeben!");
                 return;
             }
-            File file = new File(txtFile1.getText().trim());
-            if (!file.exists()) {
+
+            String file = txtFile1.getText().trim();
+            if (!checkFile(file)) {
                 PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei existiert nicht!");
                 return;
             }
@@ -284,8 +286,8 @@ public class GuiFileRunner extends AnchorPane {
                 PAlert.showErrorAlert("Hash erstellen", "Es ist keine Datei angegeben!");
                 return;
             }
-            File file = new File(txtFile2.getText().trim());
-            if (!file.exists()) {
+            String file = txtFile2.getText().trim();
+            if (!checkFile(file)) {
                 PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei existiert nicht!");
                 return;
             }
@@ -310,13 +312,17 @@ public class GuiFileRunner extends AnchorPane {
             String initDirStr = hashFile.getParent().toString();
             String initFileStr = hashFile.getFileName().toString() + "." + ProgConfig.GUI_FILE_HASH_SUFF.get();
 
+            if (Functions.istUrl(txtFile1.getText())) {
+                initDirStr = "";
+            }
+
             String fileStr = DirFileChooser.FileChooserSave(ProgData.getInstance().primaryStage, initDirStr, initFileStr).trim();
             if (fileStr == null || fileStr.isEmpty()) {
                 return;
             }
 
             File file = new File(fileStr);
-            progData.worker.writeFileHash(file, txtFile1.getText(), txtHash1.getText());
+            progData.worker.writeFileHash(file, initFileStr, txtHash1.getText());
 
         });
         btnSaveHash2.setOnAction(a -> {
@@ -328,13 +334,17 @@ public class GuiFileRunner extends AnchorPane {
             String initDirStr = hashFile.getParent().toString();
             String initFileStr = hashFile.getFileName().toString() + "." + ProgConfig.GUI_FILE_HASH_SUFF.get();
 
+            if (Functions.istUrl(txtFile2.getText())) {
+                initDirStr = "";
+            }
+
             String fileStr = DirFileChooser.FileChooserSave(ProgData.getInstance().primaryStage, initDirStr, initFileStr).trim();
             if (fileStr == null || fileStr.isEmpty()) {
                 return;
             }
 
             File file = new File(fileStr);
-            progData.worker.writeFileHash(file, txtFile2.getText(), txtHash2.getText());
+            progData.worker.writeFileHash(file, initFileStr, txtHash2.getText());
         });
 
         btnCheckFile.setOnAction(a -> {
@@ -348,17 +358,25 @@ public class GuiFileRunner extends AnchorPane {
                 PAlert.showErrorAlert("Hash erstellen", "Es ist keine Datei (2) angegeben!");
                 return;
             }
-            File file1 = new File(txtFile1.getText().trim());
-            if (!file1.exists()) {
+
+            String file1 = txtFile1.getText().trim();
+            if (!checkFile(file1)) {
                 PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei (1) existiert nicht!");
                 return;
             }
-            File file2 = new File(txtFile2.getText().trim());
-            if (!file2.exists()) {
+            String file2 = txtFile2.getText().trim();
+            if (!checkFile(file2)) {
                 PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei (2) existiert nicht!");
                 return;
             }
             progData.worker.createFileHash(file1, txtHash1.textProperty(), file2, txtHash2.textProperty());
         });
+    }
+
+    private boolean checkFile(String file) {
+        if (!Functions.istUrl(file) && !new File(file).exists()) {
+            return false;
+        }
+        return true;
     }
 }
