@@ -97,8 +97,8 @@ public class Worker {
         readDirHashFile.readFile(file, fileDataList);
     }
 
-    public void writeDirHashFile(File destFile, FileDataList fileDataList) {
-        HashTools.writeDirHashFile(destFile, fileDataList);
+    public boolean writeDirHashFile(File destFile, FileDataList fileDataList) {
+        return HashTools.writeDirHashFile(destFile, fileDataList);
     }
 
     public void createFileHash(String file, StringProperty stringProperty) {

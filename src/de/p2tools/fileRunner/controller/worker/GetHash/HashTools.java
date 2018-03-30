@@ -19,9 +19,11 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
+import de.p2tools.p2Lib.dialog.PAlert;
 import de.p2tools.p2Lib.tools.FileSize;
 import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.PDate;
+import javafx.application.Platform;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,8 +33,10 @@ import java.util.Iterator;
 
 public class HashTools {
 
-    public static void writeDirHashFile(File hashOutFile, FileDataList fileDataList) {
+    public static boolean writeDirHashFile(File hashOutFile, FileDataList fileDataList) {
+        // todo Fehler melden
         OutputStreamWriter out = null;
+        boolean ret = false;
         try {
             if (hashOutFile.exists()) {
                 hashOutFile.delete();
@@ -46,15 +50,21 @@ public class HashTools {
                 out.write(fileData.getHash() + " " + "*" + fileData.getFileName() + "\n");
             }
             out.flush();
+            ret = true;
         } catch (Exception ex) {
+            ret = false;
             Log.errorLog(986532014, ex, "Fehler beim Schreiben der Hashdatei!");
+            Platform.runLater(() -> PAlert.showErrorAlert("Hashfile schreiben", hashOutFile.toString() + "\n" +
+                    "Die Datei konnte nicht gespeichert werden.\n" +
+                    ex.getLocalizedMessage()));
         } finally {
             try {
-                out.close();
+                if (out != null) out.close();
             } catch (IOException ex) {
                 Log.errorLog(203064547, ex, "Fehler beim Schießen der Hashdatei!");
             }
         }
+        return ret;
     }
 
     public static String changeLine(String line) {

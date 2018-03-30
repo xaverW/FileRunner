@@ -29,13 +29,15 @@ import de.p2tools.p2Lib.dialog.DirFileChooser;
 import de.p2tools.p2Lib.dialog.PAlert;
 import de.p2tools.p2Lib.dialog.PAlertFileChosser;
 import de.p2tools.p2Lib.dialog.PComboBox;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.Transition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.io.File;
 
@@ -80,6 +82,9 @@ public class GuiDirRunner extends AnchorPane {
     private final Button btnReadHash2 = new Button("");
     private final Button btnWriteHash1 = new Button("Liste in Datei schreiben");
     private final Button btnWriteHash2 = new Button("Liste in Datei schreiben");
+
+    private final Label lblWriteHash1 = new Label("Ok");
+    private final Label lblWriteHash2 = new Label("Ok");
 
     private final ToggleButton tglShowAll = new ToggleButton("");
     private final ToggleButton tglShowSame = new ToggleButton("");
@@ -234,14 +239,14 @@ public class GuiDirRunner extends AnchorPane {
         hBoxWriteHash1.getChildren().addAll(btnProposeHashName1, txtWriteHash1, btnSelectHashList1);
         HBox hBoxWrite1 = new HBox(10);
         hBoxWrite1.setAlignment(Pos.CENTER_RIGHT);
-        hBoxWrite1.getChildren().add(btnWriteHash1);
+        hBoxWrite1.getChildren().addAll(lblWriteHash1, btnWriteHash1);
 
         HBox hBoxWriteHash2 = new HBox(10);
         HBox.setHgrow(txtWriteHash2, Priority.ALWAYS);
         hBoxWriteHash2.getChildren().addAll(btnProposeHashName2, txtWriteHash2, btnSelectHashList2);
         HBox hBoxWrite2 = new HBox(10);
         hBoxWrite2.setAlignment(Pos.CENTER_RIGHT);
-        hBoxWrite2.getChildren().add(btnWriteHash2);
+        hBoxWrite2.getChildren().addAll(lblWriteHash2, btnWriteHash2);
 
 
         // ================================
@@ -284,6 +289,11 @@ public class GuiDirRunner extends AnchorPane {
         });
 
         // =================================
+        lblWriteHash1.setVisible(false);
+        lblWriteHash1.setPadding(new Insets(10));
+        lblWriteHash2.setVisible(false);
+        lblWriteHash2.setPadding(new Insets(10));
+
         ToggleGroup tg = new ToggleGroup();
         tg.getToggles().addAll(tglShowAll, tglShowSame, tglShowDiff, tglShowDiffAll, tglShowOnly1, tglShowOnly2);
         tglShowAll.setSelected(true);
@@ -453,8 +463,13 @@ public class GuiDirRunner extends AnchorPane {
             changeTextFilter();
         });
 
-        btnWriteHash1.setOnAction(e -> writeHashFile(true));
-        btnWriteHash2.setOnAction(event -> writeHashFile(false));
+        btnWriteHash1.setOnAction(e -> {
+            writeHashFile(true);
+        });
+        btnWriteHash2.setOnAction(event -> {
+            writeHashFile(false);
+        });
+
 
         tglShowAll.setOnAction(e -> {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
@@ -505,8 +520,9 @@ public class GuiDirRunner extends AnchorPane {
                 .or(pCboSearch2.valueProperty().isEqualTo("")));
         btnClearFilter1.setOnAction(a -> pCboSearch1.getSelectionModel().select(""));
         btnClearFilter2.setOnAction(a -> pCboSearch2.getSelectionModel().select(""));
-        btnWriteHash1.disableProperty().bind(progData.fileDataList1.emptyProperty());
-        btnWriteHash2.disableProperty().bind(progData.fileDataList2.emptyProperty());
+        //todo??
+        btnWriteHash1.disableProperty().bind(progData.fileDataList1.emptyProperty().or(txtWriteHash1.textProperty().isEmpty()));
+        btnWriteHash2.disableProperty().bind(progData.fileDataList2.emptyProperty().or(txtWriteHash2.textProperty().isEmpty()));
     }
 
     private void setTabText() {
@@ -620,10 +636,13 @@ public class GuiDirRunner extends AnchorPane {
         File file;
         String str;
         FileDataList fileDataList;
+        Label lbl;
         if (hash1) {
+            lbl = lblWriteHash1;
             str = txtWriteHash1.getText().trim();
             fileDataList = progData.fileDataList1;
         } else {
+            lbl = lblWriteHash2;
             str = txtWriteHash2.getText().trim();
             fileDataList = progData.fileDataList2;
         }
@@ -639,6 +658,25 @@ public class GuiDirRunner extends AnchorPane {
                 return;
             }
         }
-        progData.worker.writeDirHashFile(file, fileDataList);
+        if (progData.worker.writeDirHashFile(file, fileDataList)) {
+
+            lbl.setVisible(true);
+            final Animation animation = new Transition() {
+                {
+                    setCycleDuration(Duration.millis(2000));
+                    setInterpolator(Interpolator.EASE_OUT);
+                }
+
+                @Override
+                protected void interpolate(double frac) {
+                    Color vColor = Color.web("#90ee90", 1 - frac);
+                    lbl.setBackground(new Background(new BackgroundFill(vColor, CornerRadii.EMPTY, Insets.EMPTY)));
+                    if (frac == 1) {
+                        lbl.setVisible(false);
+                    }
+                }
+            };
+            animation.play();
+        }
     }
 }
