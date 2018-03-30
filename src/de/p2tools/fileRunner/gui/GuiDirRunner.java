@@ -58,8 +58,8 @@ public class GuiDirRunner extends AnchorPane {
     private final PComboBox pCboDir2 = new PComboBox();
     private final PComboBox pCboHash1 = new PComboBox();
     private final PComboBox pCboHash2 = new PComboBox();
-    private final TextField txtWriteHash1 = new TextField("");
-    private final TextField txtWriteHash2 = new TextField("");
+    private final PComboBox txtWriteHash1 = new PComboBox();
+    private final PComboBox txtWriteHash2 = new PComboBox();
     private final PComboBox pCboSearch1 = new PComboBox();
     private final PComboBox pCboSearch2 = new PComboBox();
 
@@ -236,14 +236,20 @@ public class GuiDirRunner extends AnchorPane {
         // write hash
         HBox hBoxWriteHash1 = new HBox(10);
         HBox.setHgrow(txtWriteHash1, Priority.ALWAYS);
+        txtWriteHash1.setMaxWidth(Double.MAX_VALUE);
+        txtWriteHash1.setEditable(true);
         hBoxWriteHash1.getChildren().addAll(btnProposeHashName1, txtWriteHash1, btnSelectHashList1);
+
         HBox hBoxWrite1 = new HBox(10);
         hBoxWrite1.setAlignment(Pos.CENTER_RIGHT);
         hBoxWrite1.getChildren().addAll(lblWriteHash1, btnWriteHash1);
 
         HBox hBoxWriteHash2 = new HBox(10);
         HBox.setHgrow(txtWriteHash2, Priority.ALWAYS);
+        txtWriteHash2.setMaxWidth(Double.MAX_VALUE);
+        txtWriteHash2.setEditable(true);
         hBoxWriteHash2.getChildren().addAll(btnProposeHashName2, txtWriteHash2, btnSelectHashList2);
+
         HBox hBoxWrite2 = new HBox(10);
         hBoxWrite2.setAlignment(Pos.CENTER_RIGHT);
         hBoxWrite2.getChildren().addAll(lblWriteHash2, btnWriteHash2);
@@ -370,8 +376,14 @@ public class GuiDirRunner extends AnchorPane {
         pCboHash2.init(projectData.getSrcHashList(), projectData.srcHash2Property());
         pCboSearch1.init(projectData.getSearchList(), projectData.search1Property());
         pCboSearch2.init(projectData.getSearchList(), projectData.search2Property());
+        txtWriteHash1.init(projectData.getWriteHashList(), projectData.writeHash1Property());
+        txtWriteHash2.init(projectData.getWriteHashList(), projectData.writeHash2Property());
 
-        bindProjectDate();
+        tabPane1.getSelectionModel().select(projectData.getSelTab1());
+        tabPane2.getSelectionModel().select(projectData.getSelTab2());
+
+        projectData.selTab1Property().bind(tabPane1.getSelectionModel().selectedIndexProperty());
+        projectData.selTab2Property().bind(tabPane2.getSelectionModel().selectedIndexProperty());
     }
 
 
@@ -405,10 +417,10 @@ public class GuiDirRunner extends AnchorPane {
                 return;
             }
 
-            if (!txtWriteHash1.getText().startsWith(file)) {
-                txtWriteHash1.setText(file);
+            if (!txtWriteHash1.getEditor().getText().startsWith(file)) {
+                txtWriteHash1.getEditor().setText(file);
             }
-            txtWriteHash1.setText(GuiTools.getNextName(txtWriteHash1.getText()));
+            txtWriteHash1.getEditor().setText(GuiTools.getNextName(txtWriteHash1.getEditor().getText()));
         });
         btnProposeHashName2.setOnAction(event -> {
             String file = progData.fileDataList2.getSourceDir();
@@ -422,10 +434,10 @@ public class GuiDirRunner extends AnchorPane {
                 return;
             }
 
-            if (!txtWriteHash2.getText().startsWith(file)) {
-                txtWriteHash2.setText(file);
+            if (!txtWriteHash2.getEditor().getText().startsWith(file)) {
+                txtWriteHash2.getEditor().setText(file);
             }
-            txtWriteHash2.setText(GuiTools.getNextName(txtWriteHash2.getText()));
+            txtWriteHash2.getEditor().setText(GuiTools.getNextName(txtWriteHash2.getEditor().getText()));
         });
 
 
@@ -521,8 +533,10 @@ public class GuiDirRunner extends AnchorPane {
         btnClearFilter1.setOnAction(a -> pCboSearch1.getSelectionModel().select(""));
         btnClearFilter2.setOnAction(a -> pCboSearch2.getSelectionModel().select(""));
         //todo??
-        btnWriteHash1.disableProperty().bind(progData.fileDataList1.emptyProperty().or(txtWriteHash1.textProperty().isEmpty()));
-        btnWriteHash2.disableProperty().bind(progData.fileDataList2.emptyProperty().or(txtWriteHash2.textProperty().isEmpty()));
+        btnWriteHash1.disableProperty().bind(progData.fileDataList1.emptyProperty().
+                or(txtWriteHash1.getEditor().textProperty().isEmpty()));
+        btnWriteHash2.disableProperty().bind(progData.fileDataList2.emptyProperty().
+                or(txtWriteHash2.getEditor().textProperty().isEmpty()));
     }
 
     private void setTabText() {
@@ -578,17 +592,6 @@ public class GuiDirRunner extends AnchorPane {
         progData.fileDataList2.setPred(fileDataFilter2);
     }
 
-    private void bindProjectDate() {
-        txtWriteHash1.textProperty().bindBidirectional(projectData.writeHash1Property());
-        txtWriteHash2.textProperty().bindBidirectional(projectData.writeHash2Property());
-
-        tabPane1.getSelectionModel().select(projectData.getSelTab1());
-        tabPane2.getSelectionModel().select(projectData.getSelTab2());
-
-        projectData.selTab1Property().bind(tabPane1.getSelectionModel().selectedIndexProperty());
-        projectData.selTab2Property().bind(tabPane2.getSelectionModel().selectedIndexProperty());
-    }
-
     public void saveTable() {
         new Table().saveTable(table1, Table.TABLE.FILELIST1);
         new Table().saveTable(table2, Table.TABLE.FILELIST2);
@@ -639,11 +642,11 @@ public class GuiDirRunner extends AnchorPane {
         Label lbl;
         if (hash1) {
             lbl = lblWriteHash1;
-            str = txtWriteHash1.getText().trim();
+            str = projectData.getWriteHash1().trim();
             fileDataList = progData.fileDataList1;
         } else {
             lbl = lblWriteHash2;
-            str = txtWriteHash2.getText().trim();
+            str = projectData.getWriteHash2().trim();
             fileDataList = progData.fileDataList2;
         }
 

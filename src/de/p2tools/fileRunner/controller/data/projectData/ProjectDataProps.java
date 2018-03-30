@@ -48,6 +48,7 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
 
     private final StringProperty writeHash1 = new SimpleStringProperty("");
     private final StringProperty writeHash2 = new SimpleStringProperty("");
+    private ObservableList<String> writeHashList = FXCollections.observableArrayList();
 
     private final IntegerProperty selTab1 = new SimpleIntegerProperty(0);
     private final IntegerProperty selTab2 = new SimpleIntegerProperty(0);
@@ -77,6 +78,7 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
                 new ConfigStringList("search-list", searchList),
                 new ConfigStringProp("write-hash-1", "", writeHash1),
                 new ConfigStringProp("write-hash-2", "", writeHash2),
+                new ConfigStringList("write-hash-list", writeHashList),
                 new ConfigIntProp("tab-file-1", 0, selTab1),
                 new ConfigIntProp("tab-file-2", 0, selTab2),
                 new ConfigBoolProp("followLink1", false, followLink1),
@@ -202,6 +204,14 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
 
     public void setWriteHash2(String writeHash2) {
         this.writeHash2.set(writeHash2);
+    }
+
+    public ObservableList<String> getWriteHashList() {
+        return writeHashList;
+    }
+
+    public void setWriteHashList(ObservableList<String> writeHashList) {
+        this.writeHashList = writeHashList;
     }
 
     public int getSelTab1() {

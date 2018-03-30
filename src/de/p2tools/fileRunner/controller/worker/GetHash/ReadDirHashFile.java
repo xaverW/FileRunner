@@ -99,6 +99,10 @@ public class ReadDirHashFile {
                 String zeile;
                 while (!stop && (zeile = in.readLine()) != null) {
                     try {
+                        if (zeile.isEmpty()) {
+                            continue;
+                        }
+
                         final FileData fileData = HashTools.getFileData(zeile);
                         tmp.add(fileData);
                     } catch (Exception ex) {
