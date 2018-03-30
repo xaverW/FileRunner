@@ -58,8 +58,8 @@ public class GuiDirRunner extends AnchorPane {
     private final PComboBox pCboDir2 = new PComboBox();
     private final PComboBox pCboHash1 = new PComboBox();
     private final PComboBox pCboHash2 = new PComboBox();
-    private final PComboBox txtWriteHash1 = new PComboBox();
-    private final PComboBox txtWriteHash2 = new PComboBox();
+    private final PComboBox pCboWriteHash1 = new PComboBox();
+    private final PComboBox pCboWriteHash2 = new PComboBox();
     private final PComboBox pCboSearch1 = new PComboBox();
     private final PComboBox pCboSearch2 = new PComboBox();
 
@@ -235,20 +235,20 @@ public class GuiDirRunner extends AnchorPane {
         // =======================
         // write hash
         HBox hBoxWriteHash1 = new HBox(10);
-        HBox.setHgrow(txtWriteHash1, Priority.ALWAYS);
-        txtWriteHash1.setMaxWidth(Double.MAX_VALUE);
-        txtWriteHash1.setEditable(true);
-        hBoxWriteHash1.getChildren().addAll(btnProposeHashName1, txtWriteHash1, btnSelectHashList1);
+        HBox.setHgrow(pCboWriteHash1, Priority.ALWAYS);
+        pCboWriteHash1.setMaxWidth(Double.MAX_VALUE);
+        pCboWriteHash1.setEditable(true);
+        hBoxWriteHash1.getChildren().addAll(btnProposeHashName1, pCboWriteHash1, btnSelectHashList1);
 
         HBox hBoxWrite1 = new HBox(10);
         hBoxWrite1.setAlignment(Pos.CENTER_RIGHT);
         hBoxWrite1.getChildren().addAll(lblWriteHash1, btnWriteHash1);
 
         HBox hBoxWriteHash2 = new HBox(10);
-        HBox.setHgrow(txtWriteHash2, Priority.ALWAYS);
-        txtWriteHash2.setMaxWidth(Double.MAX_VALUE);
-        txtWriteHash2.setEditable(true);
-        hBoxWriteHash2.getChildren().addAll(btnProposeHashName2, txtWriteHash2, btnSelectHashList2);
+        HBox.setHgrow(pCboWriteHash2, Priority.ALWAYS);
+        pCboWriteHash2.setMaxWidth(Double.MAX_VALUE);
+        pCboWriteHash2.setEditable(true);
+        hBoxWriteHash2.getChildren().addAll(btnProposeHashName2, pCboWriteHash2, btnSelectHashList2);
 
         HBox hBoxWrite2 = new HBox(10);
         hBoxWrite2.setAlignment(Pos.CENTER_RIGHT);
@@ -376,8 +376,8 @@ public class GuiDirRunner extends AnchorPane {
         pCboHash2.init(projectData.getSrcHashList(), projectData.srcHash2Property());
         pCboSearch1.init(projectData.getSearchList(), projectData.search1Property());
         pCboSearch2.init(projectData.getSearchList(), projectData.search2Property());
-        txtWriteHash1.init(projectData.getWriteHashList(), projectData.writeHash1Property());
-        txtWriteHash2.init(projectData.getWriteHashList(), projectData.writeHash2Property());
+        pCboWriteHash1.init(projectData.getWriteHashList(), projectData.writeHash1Property());
+        pCboWriteHash2.init(projectData.getWriteHashList(), projectData.writeHash2Property());
 
         tabPane1.getSelectionModel().select(projectData.getSelTab1());
         tabPane2.getSelectionModel().select(projectData.getSelTab2());
@@ -403,8 +403,8 @@ public class GuiDirRunner extends AnchorPane {
         btnSelectHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, pCboHash1));
         btnSelectHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, pCboHash2));
 
-        btnSelectHashList1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
-        btnSelectHashList2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtWriteHash1));
+        btnSelectHashList1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, pCboWriteHash1));
+        btnSelectHashList2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, pCboWriteHash1));
         btnProposeHashName1.setOnAction(event -> {
             String file = progData.fileDataList1.getSourceDir();
             if (file.isEmpty() && tabDir1.isSelected()) {
@@ -417,10 +417,10 @@ public class GuiDirRunner extends AnchorPane {
                 return;
             }
 
-            if (!txtWriteHash1.getEditor().getText().startsWith(file)) {
-                txtWriteHash1.getEditor().setText(file);
+            if (!pCboWriteHash1.getEditor().getText().startsWith(file)) {
+                pCboWriteHash1.getEditor().setText(file);
             }
-            txtWriteHash1.getEditor().setText(GuiTools.getNextName(txtWriteHash1.getEditor().getText()));
+            pCboWriteHash1.selectElement(GuiTools.getNextName(pCboWriteHash1.getEditor().getText()));
         });
         btnProposeHashName2.setOnAction(event -> {
             String file = progData.fileDataList2.getSourceDir();
@@ -434,10 +434,10 @@ public class GuiDirRunner extends AnchorPane {
                 return;
             }
 
-            if (!txtWriteHash2.getEditor().getText().startsWith(file)) {
-                txtWriteHash2.getEditor().setText(file);
+            if (!pCboWriteHash2.getEditor().getText().startsWith(file)) {
+                pCboWriteHash2.getEditor().setText(file);
             }
-            txtWriteHash2.getEditor().setText(GuiTools.getNextName(txtWriteHash2.getEditor().getText()));
+            pCboWriteHash2.selectElement(GuiTools.getNextName(pCboWriteHash2.getEditor().getText()));
         });
 
 
@@ -532,11 +532,10 @@ public class GuiDirRunner extends AnchorPane {
                 .or(pCboSearch2.valueProperty().isEqualTo("")));
         btnClearFilter1.setOnAction(a -> pCboSearch1.getSelectionModel().select(""));
         btnClearFilter2.setOnAction(a -> pCboSearch2.getSelectionModel().select(""));
-        //todo??
         btnWriteHash1.disableProperty().bind(progData.fileDataList1.emptyProperty().
-                or(txtWriteHash1.getEditor().textProperty().isEmpty()));
+                or(pCboWriteHash1.getEditor().textProperty().isEmpty()));
         btnWriteHash2.disableProperty().bind(progData.fileDataList2.emptyProperty().
-                or(txtWriteHash2.getEditor().textProperty().isEmpty()));
+                or(pCboWriteHash2.getEditor().textProperty().isEmpty()));
     }
 
     private void setTabText() {
