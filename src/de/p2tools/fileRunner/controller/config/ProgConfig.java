@@ -20,6 +20,7 @@ package de.p2tools.fileRunner.controller.config;
 import de.p2tools.p2Lib.configFile.pData.PDataProgConfig;
 import de.p2tools.p2Lib.hash.HashConst;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 
 public class ProgConfig extends PDataProgConfig {
@@ -32,6 +33,7 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty SYSTEM_GUI_SIZE = addStrProp("system-gui-size", "1000:900");
     public static StringProperty SYSTEM_CONFIG_DIALOG_SIZE = addStrProp("system-config-dialog-size", "500:500");
     public static BooleanProperty SYSTEM_STORE_CONFIG = addBoolProp("system-store-config", Boolean.TRUE);
+    public static IntegerProperty SYSTEM_INFOS_NR = addIntProp("system-info-nr", 0);
 
     // GuiDirRunner
     public static StringProperty GUI_FILERUNNER_TABLE1_WIDTH = addStrProp("gui-filerunner-table1-width");

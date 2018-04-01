@@ -17,6 +17,8 @@
 package de.p2tools.fileRunner;
 
 import de.p2tools.fileRunner.controller.ProgQuitt;
+import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
@@ -24,6 +26,8 @@ import de.p2tools.fileRunner.gui.GuiFileRunner;
 import de.p2tools.fileRunner.gui.StatusBarController;
 import de.p2tools.fileRunner.gui.configDialog.ConfigDialogController;
 import de.p2tools.fileRunner.gui.dialog.AboutDialogController;
+import de.p2tools.p2Lib.checkForUpdates.SearchProgInfo;
+import de.p2tools.p2Lib.tools.Functions;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -85,13 +89,20 @@ public class FileRunnerController extends StackPane {
             final MenuItem miQuitt = new MenuItem("Beenden");
             miQuitt.setOnAction(e -> new ProgQuitt().beenden(true));
 
+            final MenuItem miUpdate = new MenuItem("Gibt es ein Update?");
+            miUpdate.setOnAction(event -> new SearchProgInfo().checkUpdate(ProgConst.WEBSITE_PROG_UPDATE,
+                    Functions.getProgVersionInt(),
+                    ProgConfig.SYSTEM_INFOS_NR, true, true));
+
             final MenuItem miAbout = new MenuItem("Über dieses Programm");
             miAbout.setOnAction(event -> new AboutDialogController(progData));
 
             menuButton.getStyleClass().add("btnFunction");
             menuButton.setText("");
             menuButton.setGraphic(new Icons().FX_ICON_TOOLBAR_MENUE_TOP);
-            menuButton.getItems().addAll(miConfig, miAbout, new SeparatorMenuItem(), miQuitt);
+            menuButton.getItems().addAll(miConfig,
+                    new SeparatorMenuItem(), miAbout, miUpdate,
+                    new SeparatorMenuItem(), miQuitt);
 
 
             // Panes
