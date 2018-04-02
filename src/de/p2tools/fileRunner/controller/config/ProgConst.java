@@ -34,8 +34,4 @@ public class ProgConst {
     public static final String VERZEICHNIS_EINSTELLUNGEN = ".fileRunner"; // im Homeverzeichnis
 
     public static final String XML_START = "FileRunner";
-
-
-    public static final int MAX_PROJECT_DATA = 3;
-
 }
