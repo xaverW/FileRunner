@@ -16,12 +16,13 @@
 
 package de.p2tools.fileRunner.gui.dialog;
 
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.config.ProgInfos;
-import de.p2tools.fileRunner.gui.tools.MTOpen;
 import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.dialog.MTDialogExtra;
+import de.p2tools.p2Lib.guiTools.PHyperlink;
 import de.p2tools.p2Lib.tools.Functions;
 import de.p2tools.p2Lib.tools.Log;
 import javafx.geometry.Insets;
@@ -109,15 +110,7 @@ public class AboutDialogController extends MTDialogExtra {
         text.setFont(Font.font(null, FontWeight.BOLD, 15));
         gridPane.add(text, 0, ++row, 2, 1);
 
-        Hyperlink hyperlink = new Hyperlink(ProgConst.WEBSITE_P2);
-        hyperlink.setStyle("-fx-font-size: 15px;");
-        hyperlink.setOnAction(a -> {
-            try {
-                MTOpen.openURL(ProgConst.WEBSITE_P2);
-            } catch (Exception e) {
-                Log.errorLog(974125469, e);
-            }
-        });
+        Hyperlink hyperlink = new PHyperlink(ProgConst.WEBSITE_P2, ProgConfig.SYSTEM_PROG_OPEN_URL);
 
         text = new Text("Website:");
         text.setFont(new Font(15));

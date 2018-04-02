@@ -108,7 +108,6 @@ public class FileRunnerController extends StackPane {
             // Panes
             progData.guiDirRunner = new GuiDirRunner();
             progData.guiFileRunner = new GuiFileRunner();
-
             stackPaneCont.getChildren().addAll(progData.guiDirRunner, progData.guiFileRunner);
 
             // Statusbar
@@ -136,8 +135,6 @@ public class FileRunnerController extends StackPane {
             borderPane.setTop(hBoxMenueButton);
             borderPane.setCenter(stackPaneCont);
             borderPane.setBottom(statusBarController);
-//            borderPane.setLeft(hBoxPrev);
-//            borderPane.setRight(hBoxNext);
 
             this.setPadding(new Insets(0));
             this.getChildren().addAll(borderPane);
