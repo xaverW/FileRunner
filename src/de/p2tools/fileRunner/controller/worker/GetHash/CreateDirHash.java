@@ -24,8 +24,8 @@ import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.FileSize;
-import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.PDate;
+import de.p2tools.p2Lib.tools.log.PLog;
 
 import javax.swing.event.EventListenerList;
 import java.io.File;
@@ -150,7 +150,7 @@ public class CreateDirHash {
 
                 }.rekDir(searchDir, rekursiv);
             } catch (Exception ex) {
-                Log.errorLog(975102364, ex, "CreateHash.run - " + searchDir.getAbsolutePath());
+                PLog.errorLog(975102364, ex, "CreateHash.run - " + searchDir.getAbsolutePath());
             }
         }
 
@@ -198,7 +198,7 @@ public class CreateDirHash {
                         fileDataList.addHashString(strFile, fileDate, fileSize, ret, link);
                     }
                 } catch (Exception ex) {
-                    Log.errorLog(963210472, ex, "Fehler! " + file.getAbsolutePath());
+                    PLog.errorLog(963210472, ex, "Fehler! " + file.getAbsolutePath());
                 } finally {
                     try {
                         srcStream.close();
@@ -214,7 +214,7 @@ public class CreateDirHash {
             File ret = null;
             if (file != null) {
                 listeFile.add(file);
-                //Log.sysLog(file.getAbsolutePath());
+                //PLog.sysLog(file.getAbsolutePath());
                 ++max;
             } else {
                 ret = listeFile.poll();

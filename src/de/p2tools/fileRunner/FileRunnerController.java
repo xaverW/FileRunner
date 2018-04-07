@@ -28,6 +28,7 @@ import de.p2tools.fileRunner.gui.configDialog.ConfigDialogController;
 import de.p2tools.fileRunner.gui.dialog.AboutDialogController;
 import de.p2tools.p2Lib.checkForUpdates.SearchProgInfo;
 import de.p2tools.p2Lib.tools.Functions;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -142,7 +143,7 @@ public class FileRunnerController extends StackPane {
             selPanelDirRunner();
 
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            PLog.errorLog(645120321, ex);
         }
     }
 

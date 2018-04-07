@@ -18,7 +18,7 @@ package de.p2tools.fileRunner.gui.tools;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
-import de.p2tools.p2Lib.tools.Log;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -213,7 +213,7 @@ public class Table {
                 }
             }
         } catch (final Exception ex) {
-            Log.errorLog(642103218, ex.getMessage());
+            PLog.errorLog(642103218, ex.getMessage());
             reset(ta, eTable);
         }
 

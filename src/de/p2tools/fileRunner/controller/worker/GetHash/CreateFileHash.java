@@ -21,7 +21,7 @@ import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.p2Lib.tools.Functions;
-import de.p2tools.p2Lib.tools.Log;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 
@@ -166,7 +166,7 @@ public class CreateFileHash {
                     fileHash = h.toString();
                 }
             } catch (Exception ex) {
-                Log.errorLog(764512032, ex, "Hash konnte nicht erstellt werden.");
+                PLog.errorLog(764512032, ex, "Hash konnte nicht erstellt werden.");
                 fileHash = "";
             } finally {
                 try {
@@ -178,7 +178,7 @@ public class CreateFileHash {
             }
 
             Platform.runLater(() -> stringProperty.setValue(fileHash));
-            
+
             --thrads;
             if (thrads <= 0) {
                 max = 0;

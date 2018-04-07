@@ -19,6 +19,7 @@ package de.p2tools.fileRunner.gui.configDialog;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.p2Lib.dialog.MTDialog;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -83,7 +84,7 @@ public class ConfigDialogController extends MTDialog {
             tabPane.getTabs().add(tab);
 
         } catch (final Exception ex) {
-            System.out.println(ex.getMessage());
+            PLog.errorLog(874102058, ex);
         }
     }
 

@@ -18,7 +18,7 @@
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.p2Lib.dialog.PAlertFileChosser;
-import de.p2tools.p2Lib.tools.Log;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
 
 import java.io.File;
@@ -74,7 +74,7 @@ public class RunRekDir {
                 work(dir);
             }
         } catch (Exception ex) {
-            Log.errorLog(945123697, ex, "Fehler beim Schreiben der Hashdatei!");
+            PLog.errorLog(945123697, ex, "Fehler beim Schreiben der Hashdatei!");
         }
         return r;
     }

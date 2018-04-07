@@ -23,7 +23,7 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
-import de.p2tools.p2Lib.tools.Log;
+import de.p2tools.p2Lib.tools.log.PLog;
 
 import javax.swing.event.EventListenerList;
 import java.io.File;
@@ -106,12 +106,12 @@ public class ReadDirHashFile {
                         final FileData fileData = HashTools.getFileData(zeile);
                         tmp.add(fileData);
                     } catch (Exception ex) {
-                        Log.errorLog(704125890, ex, new String[]{"Kann die Zeile in der Hashdatei nicht verarbeiten:", zeile});
+                        PLog.errorLog(704125890, ex, new String[]{"Kann die Zeile in der Hashdatei nicht verarbeiten:", zeile});
                     }
                 }
                 in.close();
             } catch (Exception ex) {
-                Log.errorLog(954102023, ex);
+                PLog.errorLog(954102023, ex);
                 tmp.clear();
             } finally {
                 try {

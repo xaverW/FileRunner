@@ -19,7 +19,7 @@ import de.p2tools.fileRunner.controller.Messages;
 import de.p2tools.fileRunner.controller.ProgStart;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.p2Lib.tools.Log;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Application;
 import javafx.application.Platform;
 import org.apache.commons.lang3.SystemUtils;
@@ -72,6 +72,8 @@ public class Main {
     }
 
     private void start(String... args) {
+//        PLog.errorLog(905210124, "Test1");
+//        PLog.errorLog(975421036, new IndexOutOfBoundsException(), "Test2");
 //        try {
 //            Date d = new Date(new File(getClass().getClassLoader().getResource(
 //                    getClass().getCanonicalName()
@@ -123,7 +125,7 @@ public class Main {
                 case ProgramArguments.STARTUPMODE_VERBOSE:
                     EventQueue.invokeLater(() -> {
                         ProgStart.startMsg();
-                        Log.endMsg();
+                        PLog.endMsg();
                         System.exit(0);
                     });
                     break;

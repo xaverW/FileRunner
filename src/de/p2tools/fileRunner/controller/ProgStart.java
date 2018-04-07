@@ -19,14 +19,14 @@ package de.p2tools.fileRunner.controller;
 import de.p2tools.fileRunner.controller.config.*;
 import de.p2tools.p2Lib.PInit;
 import de.p2tools.p2Lib.configFile.ConfigFile;
-import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.SysMsg;
+import de.p2tools.p2Lib.tools.log.PLog;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static de.p2tools.p2Lib.tools.Log.LILNE;
+import static de.p2tools.p2Lib.tools.log.PLog.LILNE;
 
 public class ProgStart {
     ProgData progData;
@@ -37,7 +37,7 @@ public class ProgStart {
     }
 
     public static void startMsg() {
-        Log.versionMsg(ProgConst.PROGRAMMNAME);
+        PLog.versionMsg(ProgConst.PROGRAMMNAME);
         SysMsg.sysMsg("Programmpfad: " + ProgInfos.getPathJar());
         SysMsg.sysMsg("Verzeichnis Einstellungen: " + ProgInfos.getSettingsDirectory_String());
         SysMsg.sysMsg("");
@@ -55,6 +55,7 @@ public class ProgStart {
 
         PInit.initLib(ProgData.getInstance().primaryStage, ProgConst.PROGRAMMNAME,
                 ProgConst.CSS_FILE, ProgInfos.getUserAgent(), ProgData.debug);
+
 
         if (!ProgConfig.SYSTEM_STORE_CONFIG.get()) {
             progData.projectData.clearProjectData();

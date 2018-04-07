@@ -21,8 +21,8 @@ import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.p2Lib.dialog.PAlert;
 import de.p2tools.p2Lib.tools.FileSize;
-import de.p2tools.p2Lib.tools.Log;
 import de.p2tools.p2Lib.tools.PDate;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
 
 import java.io.File;
@@ -53,7 +53,7 @@ public class HashTools {
             ret = true;
         } catch (Exception ex) {
             ret = false;
-            Log.errorLog(986532014, ex, "Fehler beim Schreiben der Hashdatei!");
+            PLog.errorLog(986532014, ex, "Fehler beim Schreiben der Hashdatei!");
             Platform.runLater(() -> PAlert.showErrorAlert("Hashfile schreiben", hashOutFile.toString() + "\n" +
                     "Die Datei konnte nicht gespeichert werden.\n" +
                     ex.getLocalizedMessage()));
@@ -61,7 +61,7 @@ public class HashTools {
             try {
                 if (out != null) out.close();
             } catch (IOException ex) {
-                Log.errorLog(203064547, ex, "Fehler beim Schießen der Hashdatei!");
+                PLog.errorLog(203064547, ex, "Fehler beim Schießen der Hashdatei!");
             }
         }
         return ret;

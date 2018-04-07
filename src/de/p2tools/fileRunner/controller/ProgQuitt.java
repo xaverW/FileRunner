@@ -20,7 +20,7 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.p2Lib.guiTools.GuiSize;
 import de.p2tools.p2Lib.tools.Duration;
-import de.p2tools.p2Lib.tools.Log;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
 
 public class ProgQuitt {
@@ -64,7 +64,7 @@ public class ProgQuitt {
 
         new ProgSave().save();
 
-        Log.endMsg();
+        PLog.endMsg();
         Duration.printCounter();
 
         return true;

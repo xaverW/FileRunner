@@ -16,7 +16,7 @@
 
 package de.p2tools.fileRunner.controller;
 
-import de.p2tools.p2Lib.tools.Log;
+import de.p2tools.p2Lib.tools.log.PLog;
 
 /**
  * A enum which contains log messages.
@@ -68,16 +68,16 @@ public enum Messages {
         switch (aMessage.getMessageType()) {
             case ERROR:
                 if (aException == null) {
-                    Log.errorLog(aMessage.getErrorCode() == null ? 0 : aMessage.getErrorCode(), message);
+                    PLog.errorLog(aMessage.getErrorCode() == null ? 0 : aMessage.getErrorCode(), message);
                 } else {
-                    Log.errorLog(aMessage.getErrorCode() == null ? 0 : aMessage.getErrorCode(), aException, message);
+                    PLog.errorLog(aMessage.getErrorCode() == null ? 0 : aMessage.getErrorCode(), aException, message);
                 }
                 break;
             case WARNING:
-                Log.sysLog(aMessage.getMessageType().toString() + ": " + message);
+                PLog.sysLog(aMessage.getMessageType().toString() + ": " + message);
                 break;
             case INFO:
-                Log.sysLog(message);
+                PLog.sysLog(message);
         }
     }
 

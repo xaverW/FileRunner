@@ -21,7 +21,7 @@ import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.p2Lib.guiTools.Listener;
-import de.p2tools.p2Lib.tools.Log;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -131,7 +131,7 @@ public class StatusBarController extends AnchorPane {
                         setStatusbar();
                     }
                 } catch (final Exception ex) {
-                    Log.errorLog(936251087, ex);
+                    PLog.errorLog(936251087, ex);
                 }
             }
         });

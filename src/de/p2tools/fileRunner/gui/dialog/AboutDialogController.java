@@ -24,7 +24,7 @@ import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.dialog.MTDialogExtra;
 import de.p2tools.p2Lib.guiTools.PHyperlink;
 import de.p2tools.p2Lib.tools.Functions;
-import de.p2tools.p2Lib.tools.Log;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -171,7 +171,7 @@ public class AboutDialogController extends MTDialogExtra {
         try {
             img = GetIcon.getImage(ProgConst.LOGO_NAME, ProgConst.ICON_PATH, 150, 150);
         } catch (Exception ex) {
-            Log.errorLog(975421305, ex);
+            PLog.errorLog(975421305, ex);
         }
         return img;
     }
