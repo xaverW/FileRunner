@@ -19,14 +19,13 @@ package de.p2tools.fileRunner.controller;
 import de.p2tools.fileRunner.controller.config.*;
 import de.p2tools.p2Lib.PInit;
 import de.p2tools.p2Lib.configFile.ConfigFile;
-import de.p2tools.p2Lib.tools.SysMsg;
+import de.p2tools.p2Lib.tools.log.LogMsg;
 import de.p2tools.p2Lib.tools.log.PLog;
+import de.p2tools.p2Lib.tools.log.PLogger;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static de.p2tools.p2Lib.tools.log.PLog.LILNE;
 
 public class ProgStart {
     ProgData progData;
@@ -37,21 +36,27 @@ public class ProgStart {
     }
 
     public static void startMsg() {
-        PLog.versionMsg(ProgConst.PROGRAMMNAME);
-        SysMsg.sysMsg("Programmpfad: " + ProgInfos.getPathJar());
-        SysMsg.sysMsg("Verzeichnis Einstellungen: " + ProgInfos.getSettingsDirectory_String());
-        SysMsg.sysMsg("");
-        SysMsg.sysMsg(LILNE);
-        SysMsg.sysMsg("");
-        SysMsg.sysMsg("");
+        if (ProgData.debug) {
+            PLogger.setFileHandler(ProgInfos.getLogDirectory_String());
+        }
+
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Verzeichnisse:");
+        list.add("Programmpfad: " + ProgInfos.getPathJar());
+        list.add("Verzeichnis Einstellungen: " + ProgInfos.getSettingsDirectory_String());
+
+        LogMsg.startMsg(ProgConst.PROGRAMMNAME, list);
     }
 
     public boolean loadConfigData() {
-        if (!loadConnfig(new ProgInfos().getXmlFilePath())) {
+        boolean load = loadConnfig(new ProgInfos().getXmlFilePath());
+
+        if (!load) {
             // teils geladene Reste entfernen
             initKonfig();
         }
-        SysMsg.sysMsg("Progstart: Konfig");
+
+        PLog.sysLog("Progstart: Konfig");
 
         PInit.initLib(ProgData.getInstance().primaryStage, ProgConst.PROGRAMMNAME,
                 ProgConst.CSS_FILE, ProgInfos.getUserAgent(), ProgData.debug);

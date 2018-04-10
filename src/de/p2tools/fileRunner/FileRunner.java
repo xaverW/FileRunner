@@ -22,8 +22,8 @@ import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.guiTools.GuiSize;
-import de.p2tools.p2Lib.tools.Duration;
-import de.p2tools.p2Lib.tools.SysMsg;
+import de.p2tools.p2Lib.tools.log.Duration;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -126,13 +126,13 @@ public class FileRunner extends Application {
     }
 
     private void printArguments(final String[] aArguments) {
-        SysMsg.sysMsg("");
-        SysMsg.sysMsg(TEXT_LINE);
+        PLog.sysLog("");
+        PLog.sysLog(TEXT_LINE);
         for (final String argument : aArguments) {
-            SysMsg.sysMsg(String.format(LOG_TEXT_STARTPARAMETER_PATTERN, argument));
+            PLog.sysLog(String.format(LOG_TEXT_STARTPARAMETER_PATTERN, argument));
         }
-        SysMsg.sysMsg(TEXT_LINE);
-        SysMsg.sysMsg("");
+        PLog.sysLog(TEXT_LINE);
+        PLog.sysLog("");
     }
 
 }

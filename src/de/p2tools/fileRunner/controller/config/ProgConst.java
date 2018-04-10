@@ -21,6 +21,7 @@ public class ProgConst {
     public static final String PROGRAMMNAME = "FileRunner";
     public static final String CONFIG_FILE = "fileRunner.xml";
     public static final String CSS_FILE = "/de/p2tools/fileRunner/fileRunner.css";
+    public static final String LOG_DIR = "Log";
 
     public static final String WEBSITE_P2 = "https://www.p2tools.de";
     public static final String WEBSITE_PROG_UPDATE = "https://www.p2tools.de/extra/filerunner-info.xml";

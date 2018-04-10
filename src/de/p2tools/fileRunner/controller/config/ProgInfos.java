@@ -99,6 +99,16 @@ public class ProgInfos {
         return baseDirectoryPath;
     }
 
+    public static String getLogDirectory_String() {
+        final String logDir;
+        if (ProgConfig.SYSTEM_LOG_DIR.get().isEmpty()) {
+            logDir = Paths.get(getSettingsDirectory_String(), ProgConst.LOG_DIR).toString();
+        } else {
+            logDir = ProgConfig.SYSTEM_LOG_DIR.get();
+        }
+        return logDir;
+    }
+
     public static String getSettingsDirectory_String() {
         return getSettingsDirectory().toString();
     }

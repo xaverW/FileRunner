@@ -19,8 +19,7 @@ package de.p2tools.fileRunner.controller;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.p2Lib.guiTools.GuiSize;
-import de.p2tools.p2Lib.tools.Duration;
-import de.p2tools.p2Lib.tools.log.PLog;
+import de.p2tools.p2Lib.tools.log.LogMsg;
 import javafx.application.Platform;
 
 public class ProgQuitt {
@@ -63,9 +62,7 @@ public class ProgQuitt {
         writeWindowSizes();
 
         new ProgSave().save();
-
-        PLog.endMsg();
-        Duration.printCounter();
+        LogMsg.endMsg();
 
         return true;
     }
