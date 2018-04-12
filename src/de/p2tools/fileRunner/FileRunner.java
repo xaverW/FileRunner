@@ -23,13 +23,9 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.guiTools.GuiSize;
 import de.p2tools.p2Lib.tools.log.Duration;
-import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.util.List;
 
 public class FileRunner extends Application {
 
@@ -53,15 +49,9 @@ public class FileRunner extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
-        final Parameters parameters = getParameters();
-        final List<String> rawArguments = parameters.getRaw();
-        final String pfad = readPfadFromArguments(rawArguments.toArray(new String[]{}));
-
         Duration.counterStart(LOG_TEXT_PROGRAMMSTART);
-
-        progData = ProgData.getInstance(pfad);
+        progData = ProgData.getInstance();
         progData.primaryStage = primaryStage;
-
         new ProgStart(progData).loadConfigData();
 
         initRootLayout();
@@ -102,37 +92,5 @@ public class FileRunner extends Application {
 
         Duration.staticPing("Gui steht!");
     }
-
-    private String readPfadFromArguments(final String[] aArguments) {
-        String pfad;
-        if (aArguments == null) {
-            pfad = "";
-        } else {
-            printArguments(aArguments);
-            if (aArguments.length > 0) {
-                if (!aArguments[0].startsWith(ARGUMENT_PREFIX)) {
-                    if (!aArguments[0].endsWith(File.separator)) {
-                        aArguments[0] += File.separator;
-                    }
-                    pfad = aArguments[0];
-                } else {
-                    pfad = "";
-                }
-            } else {
-                pfad = "";
-            }
-        }
-        return pfad;
-    }
-
-    private void printArguments(final String[] aArguments) {
-        PLog.sysLog("");
-        PLog.sysLog(TEXT_LINE);
-        for (final String argument : aArguments) {
-            PLog.sysLog(String.format(LOG_TEXT_STARTPARAMETER_PATTERN, argument));
-        }
-        PLog.sysLog(TEXT_LINE);
-        PLog.sysLog("");
-    }
-
+    
 }

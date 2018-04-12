@@ -15,11 +15,8 @@
  */
 package de.p2tools.fileRunner;
 
-import de.p2tools.fileRunner.controller.Messages;
-import de.p2tools.fileRunner.controller.ProgStart;
 import de.p2tools.fileRunner.controller.config.ProgConst;
-import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.p2Lib.tools.log.LogMsg;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Application;
 import javafx.application.Platform;
 import org.apache.commons.lang3.SystemUtils;
@@ -28,13 +25,12 @@ import java.awt.*;
 
 public class Main {
 
-    private final class ProgramArguments {
-        private static final String STARTUPMODE_DEBUG = "-d";
-        private static final String STARTUPMODE_VERBOSE = "-v";
-    }
-
     private static final String JAVAFX_CLASSNAME_APPLICATION_PLATFORM = "javafx.application.Platform";
     private static final String X11_AWT_APP_CLASS_NAME = "awtAppClassName";
+    private static final String ERROR_NO_JAVAFX_INSTALLED = "JavaFX wurde nicht im Klassenpfad gefunden. \n" +
+            "Stellen Sie sicher, dass Sie ein Java JRE ab Version 8 benutzen. \n" +
+            "Falls Sie Linux nutzen, installieren Sie das openjfx-Paket ihres \n" +
+            "Package-Managers, oder nutzen Sie eine eigene JRE-Installation.";
     public static final String TEXT_LINE = "===========================================";
 
     /**
@@ -46,10 +42,7 @@ public class Main {
             return true;
 
         } catch (final ClassNotFoundException e) {
-            System.out.println(TEXT_LINE);
-            System.out.printf(Messages.ERROR_NO_JAVAFX_INSTALLED.getText());
-            System.out.println(TEXT_LINE);
-
+            PLog.errorLog(487651240, new String[]{TEXT_LINE, ERROR_NO_JAVAFX_INSTALLED, TEXT_LINE});
             return false;
         }
     }
@@ -72,21 +65,9 @@ public class Main {
     }
 
     private void start(String... args) {
-//        PLog.errorLog(905210124, "Test1");
-//        PLog.errorLog(975421036, new IndexOutOfBoundsException(), "Test2");
-//        try {
-//            Date d = new Date(new File(getClass().getClassLoader().getResource(
-//                    getClass().getCanonicalName()
-//                            .replace('.', '/') + ".class").toURI()).lastModified());
-//            System.out.println(new SimpleDateFormat("dd.MM.yyyy HH.mm.ss").format(d));
-//        } catch (Exception ex) {
-//        }
-
         if (hasJavaFx()) {
 
-            if (args != null) {
-                processArgs(args);
-            }
+            new AppParameter().processArgs(args);
             startGui(args);
         }
     }
@@ -115,25 +96,6 @@ public class Main {
             awtAppClassNameField.set(xToolkit, ProgConst.PROGRAMMNAME);
         } catch (final Exception ignored) {
             System.err.println("Couldn't set awtAppClassName");
-        }
-    }
-
-    private void processArgs(final String... aArguments) {
-        for (String argument : aArguments) {
-            argument = argument.toLowerCase();
-            switch (argument) {
-                case ProgramArguments.STARTUPMODE_VERBOSE:
-                    EventQueue.invokeLater(() -> {
-                        ProgStart.startMsg();
-                        LogMsg.endMsg();
-                        System.exit(0);
-                    });
-                    break;
-
-                case ProgramArguments.STARTUPMODE_DEBUG:
-                    ProgData.debug = true;
-                    break;
-            }
         }
     }
 
