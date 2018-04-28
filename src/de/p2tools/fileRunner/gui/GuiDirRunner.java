@@ -28,7 +28,7 @@ import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.dialog.DirFileChooser;
 import de.p2tools.p2Lib.dialog.PAlert;
 import de.p2tools.p2Lib.dialog.PAlertFileChosser;
-import de.p2tools.p2Lib.dialog.PComboBox;
+import de.p2tools.p2Lib.guiTools.PComboBox;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;

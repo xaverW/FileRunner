@@ -71,12 +71,12 @@ public class ProgData {
     }
 
 
-    public static final ProgData getInstance(String dir) {
+    public synchronized static final ProgData getInstance(String dir) {
         configDir = dir;
         return getInstance();
     }
 
-    public static final ProgData getInstance() {
+    public synchronized static final ProgData getInstance() {
         return instance == null ? instance = new ProgData() : instance;
     }
 

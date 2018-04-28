@@ -27,9 +27,6 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class ProjectDataProps extends PDataSample<ProjectData> {
     public static final String TAG = "ProjectData";
 
@@ -65,8 +62,8 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
         return "project data";
     }
 
-    public ArrayList<Config> getConfigsArr() {
-        return new ArrayList<>(Arrays.asList(
+    public Config[] getConfigsArr() {
+        return new Config[]{
                 new ConfigStringProp("src-dir-1", "", srcDir1),
                 new ConfigStringProp("src-dir-2", "", srcDir2),
                 new ConfigStringList("src-dir-list", srcDirList),
@@ -82,8 +79,7 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
                 new ConfigIntProp("tab-file-1", 0, selTab1),
                 new ConfigIntProp("tab-file-2", 0, selTab2),
                 new ConfigBoolProp("followLink1", false, followLink1),
-                new ConfigBoolProp("followLink2", false, followLink2)
-        ));
+                new ConfigBoolProp("followLink2", false, followLink2)};
     }
 
     public String getSrcDir1() {
