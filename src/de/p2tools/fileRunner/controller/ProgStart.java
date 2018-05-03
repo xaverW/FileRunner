@@ -49,7 +49,7 @@ public class ProgStart {
     }
 
     public boolean loadConfigData() {
-        boolean load = loadConnfig(new ProgInfos().getXmlFilePath());
+        boolean load = loadConnfig(new ProgInfos().getSettingsFile());
 
         if (!load) {
             // teils geladene Reste entfernen

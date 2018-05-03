@@ -17,11 +17,9 @@
 package de.p2tools.fileRunner.controller.config;
 
 import de.p2tools.fileRunner.Main;
-import de.p2tools.fileRunner.controller.Messages;
+import de.p2tools.p2Lib.configFile.SettingsDirectory;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.CodeSource;
@@ -58,47 +56,6 @@ public class ProgInfos {
         return s;
     }
 
-    public static String pathProgramIcons() {
-        return getPathJar() + ProgConst.VERZEICHNIS_PROGRAMM_ICONS;
-    }
-
-    /**
-     * Return the path to "p2tools.xml"
-     *
-     * @return Path object to p2tools.xml file
-     */
-    public Path getXmlFilePath() {
-        return ProgInfos.getSettingsDirectory().resolve(ProgConst.CONFIG_FILE);
-    }
-
-    /**
-     * Return the location of the settings directory. If it does not exist, create one.
-     *
-     * @return Path to the settings directory
-     * @throws IllegalStateException Will be thrown if settings directory don't exist and if there is
-     *                               an error on creating it.
-     */
-    public static Path getSettingsDirectory() throws IllegalStateException {
-        final Path baseDirectoryPath;
-        if (ProgData.configDir == null || ProgData.configDir.isEmpty()) {
-            baseDirectoryPath = Paths.get(System.getProperty("user.home"), ProgConst.VERZEICHNIS_EINSTELLUNGEN);
-        } else {
-            baseDirectoryPath = Paths.get(ProgData.configDir);
-        }
-
-        if (Files.notExists(baseDirectoryPath)) {
-            try {
-                Files.createDirectories(baseDirectoryPath);
-            } catch (final IOException ioException) {
-                Messages.logMessage(Messages.ERROR_CANT_CREATE_FOLDER, ioException, baseDirectoryPath.toString());
-                throw new IllegalStateException(
-                        Messages.ERROR_CANT_CREATE_FOLDER.getTextFormatted(baseDirectoryPath.toString()), ioException);
-            }
-        }
-
-        return baseDirectoryPath;
-    }
-
     public static String getLogDirectory_String() {
         final String logDir;
         if (ProgConfig.SYSTEM_LOG_DIR.get().isEmpty()) {
@@ -107,6 +64,17 @@ public class ProgInfos {
             logDir = ProgConfig.SYSTEM_LOG_DIR.get();
         }
         return logDir;
+    }
+
+    public Path getSettingsFile() {
+        return SettingsDirectory.getSettingsFile(ProgData.configDir,
+                ProgConst.CONFIG_DIRECTORY,
+                ProgConst.CONFIG_FILE);
+    }
+
+    public static Path getSettingsDirectory() throws IllegalStateException {
+        return SettingsDirectory.getSettingsDirectory(ProgData.configDir,
+                ProgConst.CONFIG_DIRECTORY);
     }
 
     public static String getSettingsDirectory_String() {

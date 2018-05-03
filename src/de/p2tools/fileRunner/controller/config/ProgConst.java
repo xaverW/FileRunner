@@ -19,7 +19,12 @@ package de.p2tools.fileRunner.controller.config;
 public class ProgConst {
 
     public static final String PROGRAMMNAME = "FileRunner";
+
+    // config file
     public static final String CONFIG_FILE = "fileRunner.xml";
+    public static final String CONFIG_DIRECTORY = "p2FileRunner"; // im Homeverzeichnis
+    public static final String XML_START = "FileRunner";
+
     public static final String CSS_FILE = "/de/p2tools/fileRunner/fileRunner.css";
     public static final String LOG_DIR = "Log";
 
@@ -32,7 +37,5 @@ public class ProgConst {
 
     // Dateien/Verzeichnisse
     public static final String VERZEICHNIS_PROGRAMM_ICONS = "Icons/Programm"; // Unterverzeichnis im Programmverzeichnis
-    public static final String VERZEICHNIS_EINSTELLUNGEN = ".fileRunner"; // im Homeverzeichnis
 
-    public static final String XML_START = "FileRunner";
 }

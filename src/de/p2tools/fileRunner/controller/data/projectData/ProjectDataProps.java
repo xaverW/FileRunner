@@ -64,22 +64,22 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
 
     public Config[] getConfigsArr() {
         return new Config[]{
-                new ConfigStringProp("src-dir-1", "", srcDir1),
-                new ConfigStringProp("src-dir-2", "", srcDir2),
+                new ConfigStringProp("src-dir-1", srcDir1),
+                new ConfigStringProp("src-dir-2", srcDir2),
                 new ConfigStringList("src-dir-list", srcDirList),
-                new ConfigStringProp("src-hash-1", "", srcHash1),
-                new ConfigStringProp("src-hash-2", "", srcHash2),
+                new ConfigStringProp("src-hash-1", srcHash1),
+                new ConfigStringProp("src-hash-2", srcHash2),
                 new ConfigStringList("src-hash-list", srcHashList),
-                new ConfigStringProp("search-1", "", search1),
-                new ConfigStringProp("search-2", "", search2),
+                new ConfigStringProp("search-1", search1),
+                new ConfigStringProp("search-2", search2),
                 new ConfigStringList("search-list", searchList),
-                new ConfigStringProp("write-hash-1", "", writeHash1),
-                new ConfigStringProp("write-hash-2", "", writeHash2),
+                new ConfigStringProp("write-hash-1", writeHash1),
+                new ConfigStringProp("write-hash-2", writeHash2),
                 new ConfigStringList("write-hash-list", writeHashList),
-                new ConfigIntProp("tab-file-1", 0, selTab1),
-                new ConfigIntProp("tab-file-2", 0, selTab2),
-                new ConfigBoolProp("followLink1", false, followLink1),
-                new ConfigBoolProp("followLink2", false, followLink2)};
+                new ConfigIntProp("tab-file-1", selTab1),
+                new ConfigIntProp("tab-file-2", selTab2),
+                new ConfigBoolProp("followLink1", followLink1),
+                new ConfigBoolProp("followLink2", followLink2)};
     }
 
     public String getSrcDir1() {
