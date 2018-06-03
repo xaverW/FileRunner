@@ -20,6 +20,7 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.config.ProgInfos;
+import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.dialog.MTDialogExtra;
 import de.p2tools.p2Lib.guiTools.PHyperlink;
@@ -110,7 +111,8 @@ public class AboutDialogController extends MTDialogExtra {
         text.setFont(Font.font(null, FontWeight.BOLD, 15));
         gridPane.add(text, 0, ++row, 2, 1);
 
-        Hyperlink hyperlink = new PHyperlink(ProgConst.WEBSITE_P2, ProgConfig.SYSTEM_PROG_OPEN_URL);
+        // todo -> Configdialog
+        Hyperlink hyperlink = new PHyperlink(ProgConst.WEBSITE_P2, ProgConfig.SYSTEM_PROG_OPEN_URL, new Icons().ICON_BUTTON_FILE_OPEN);
 
         text = new Text("Website:");
         text.setFont(new Font(15));
