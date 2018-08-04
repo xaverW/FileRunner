@@ -22,7 +22,7 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.config.ProgInfos;
 import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.res.GetIcon;
-import de.p2tools.p2Lib.dialog.MTDialogExtra;
+import de.p2tools.p2Lib.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PHyperlink;
 import de.p2tools.p2Lib.tools.Functions;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -40,7 +40,7 @@ import javafx.scene.text.Text;
 
 import java.nio.file.Path;
 
-public class AboutDialogController extends MTDialogExtra {
+public class AboutDialogController extends PDialogExtra {
 
     private final ProgData progData;
     Button btnOk = new Button("Ok");
@@ -52,7 +52,7 @@ public class AboutDialogController extends MTDialogExtra {
 
         this.progData = progData;
 
-        getTilePaneOk().getChildren().addAll(btnOk);
+        getHboxOk().getChildren().addAll(btnOk);
         init(getvBoxDialog(), true);
     }
 

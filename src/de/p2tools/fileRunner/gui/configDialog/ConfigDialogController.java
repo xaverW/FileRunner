@@ -18,7 +18,7 @@ package de.p2tools.fileRunner.gui.configDialog;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.p2Lib.dialog.MTDialog;
+import de.p2tools.p2Lib.dialog.PDialog;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -31,7 +31,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 
-public class ConfigDialogController extends MTDialog {
+public class ConfigDialogController extends PDialog {
 
     private TabPane tabPane = new TabPane();
     private Button btnOk = new Button("Ok");

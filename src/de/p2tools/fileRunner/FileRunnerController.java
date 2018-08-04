@@ -31,7 +31,6 @@ import de.p2tools.p2Lib.tools.Functions;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -42,8 +41,6 @@ public class FileRunnerController extends StackPane {
 
     Button btnDirRunner = new Button("Ordner\nvergleichen");
     Button btnFileRunner = new Button("Dateien\nvergleichen");
-    Button btnPrev = new Button("");
-    Button btnNext = new Button("");
 
     MenuButton menuButton = new MenuButton("");
 
@@ -114,24 +111,6 @@ public class FileRunnerController extends StackPane {
             // Statusbar
             statusBarController = new StatusBarController(progData);
 
-
-            // Button NEXT-PREV
-            HBox hBoxPrev = new HBox();
-            hBoxPrev.getChildren().addAll(btnPrev);
-            hBoxPrev.setAlignment(Pos.CENTER);
-            btnPrev.setMaxHeight(Double.MAX_VALUE);
-            btnPrev.setGraphic(new Icons().ICON_BUTTON_GUI_PREV);
-            btnPrev.setOnAction(a -> setPrev());
-            HBox.setHgrow(btnPrev, Priority.ALWAYS);
-
-            HBox hBoxNext = new HBox();
-            hBoxNext.getChildren().addAll(btnNext);
-            hBoxNext.setAlignment(Pos.CENTER);
-            btnNext.setMaxHeight(Double.MAX_VALUE);
-            btnNext.setGraphic(new Icons().ICON_BUTTON_GUI_NEXT);
-            btnNext.setOnAction(a -> setNext());
-            HBox.setHgrow(btnNext, Priority.ALWAYS);
-
             // ProgGUI
             borderPane.setTop(hBoxMenueButton);
             borderPane.setCenter(stackPaneCont);
@@ -147,26 +126,7 @@ public class FileRunnerController extends StackPane {
         }
     }
 
-    private void setPrev() {
-        Node front = stackPaneCont.getChildren().get(stackPaneCont.getChildren().size() - 1);
-        if (front.equals(progData.guiDirRunner)) {
-
-        } else if (front.equals(progData.guiFileRunner)) {
-            selPanelDirRunner();
-        }
-    }
-
-    private void setNext() {
-        Node front = stackPaneCont.getChildren().get(stackPaneCont.getChildren().size() - 1);
-        if (front.equals(progData.guiDirRunner)) {
-            selPanelFileRunner();
-        }
-    }
-
     private void selPanelDirRunner() {
-        btnPrev.setDisable(true);
-        btnNext.setDisable(false);
-
         btnDirRunner.getStyleClass().clear();
         btnFileRunner.getStyleClass().clear();
 
@@ -179,9 +139,6 @@ public class FileRunnerController extends StackPane {
     }
 
     private void selPanelFileRunner() {
-        btnPrev.setDisable(false);
-        btnNext.setDisable(true);
-
         btnDirRunner.getStyleClass().clear();
         btnFileRunner.getStyleClass().clear();
 
