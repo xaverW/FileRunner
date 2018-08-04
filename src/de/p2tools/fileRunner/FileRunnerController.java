@@ -26,6 +26,7 @@ import de.p2tools.fileRunner.gui.GuiFileRunner;
 import de.p2tools.fileRunner.gui.StatusBarController;
 import de.p2tools.fileRunner.gui.configDialog.ConfigDialogController;
 import de.p2tools.fileRunner.gui.dialog.AboutDialogController;
+import de.p2tools.p2Lib.PConst;
 import de.p2tools.p2Lib.checkForUpdates.SearchProgInfo;
 import de.p2tools.p2Lib.tools.Functions;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -39,8 +40,8 @@ import javafx.scene.layout.*;
 
 public class FileRunnerController extends StackPane {
 
-    Button btnDirRunner = new Button("Ordner\nvergleichen");
-    Button btnFileRunner = new Button("Dateien\nvergleichen");
+    Button btnDirRunner = new Button("Ordner" + PConst.LINE_SEPARATOR + "vergleichen");
+    Button btnFileRunner = new Button("Dateien" + PConst.LINE_SEPARATOR + "vergleichen");
 
     MenuButton menuButton = new MenuButton("");
 

@@ -16,6 +16,8 @@
 
 package de.p2tools.fileRunner.gui;
 
+import de.p2tools.p2Lib.PConst;
+
 public class HelpText {
 
     public static final String STORE_PROG_CONFIG = "Die aktuellen Einstellungen des Programms können beim " +
@@ -23,7 +25,7 @@ public class HelpText {
             "den Standardeinstellungen.";
 
     public static final String FOLLOW_SYMLINK = "Eine symbolische Verknüpfung ist eine Verknüpfung in einem Dateisystem " +
-            "die auf eine andere Datei oder ein anderes Verzeichnis verweist.\n\n" +
+            "die auf eine andere Datei oder ein anderes Verzeichnis verweist." + PConst.LINE_SEPARATORx2 +
             "In der Tabelle wird der Speicherort des Links angezeigt. " +
             "Wenn der Link aufgelöst werden soll, wird der Pfad auf den der Link zeigt, angezeigt.";
 }
