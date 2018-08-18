@@ -19,7 +19,7 @@ package de.p2tools.fileRunner.controller;
 import de.p2tools.fileRunner.controller.config.*;
 import de.p2tools.p2Lib.PInit;
 import de.p2tools.p2Lib.configFile.ConfigFile;
-import de.p2tools.p2Lib.tools.log.LogMsg;
+import de.p2tools.p2Lib.tools.log.LogMessage;
 import de.p2tools.p2Lib.tools.log.PLog;
 import de.p2tools.p2Lib.tools.log.PLogger;
 
@@ -45,7 +45,7 @@ public class ProgStart {
         list.add("Programmpfad: " + ProgInfos.getPathJar());
         list.add("Verzeichnis Einstellungen: " + ProgInfos.getSettingsDirectory_String());
 
-        LogMsg.startMsg(ProgConst.PROGRAMMNAME, list);
+        LogMessage.startMsg(ProgConst.PROGRAMMNAME, list);
     }
 
     public boolean loadConfigData() {

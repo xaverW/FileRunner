@@ -22,7 +22,7 @@ import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.p2Lib.dialog.DirFileChooser;
 import de.p2tools.p2Lib.dialog.PAlert;
 import de.p2tools.p2Lib.hash.HashConst;
-import de.p2tools.p2Lib.tools.Functions;
+import de.p2tools.p2Lib.tools.net.PUrlTools;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -274,8 +274,7 @@ public class GuiFileRunner extends AnchorPane {
             }
 
             String file = txtFile1.getText().trim();
-            if (!checkFile(file)) {
-                PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei existiert nicht!");
+            if (!checkFile(file, 1)) {
                 return;
             }
             progData.worker.createFileHash(file, txtHash1.textProperty());
@@ -287,8 +286,7 @@ public class GuiFileRunner extends AnchorPane {
                 return;
             }
             String file = txtFile2.getText().trim();
-            if (!checkFile(file)) {
-                PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei existiert nicht!");
+            if (!checkFile(file, 2)) {
                 return;
             }
             progData.worker.createFileHash(file, txtHash2.textProperty());
@@ -312,7 +310,7 @@ public class GuiFileRunner extends AnchorPane {
             String initDirStr = hashFile.getParent().toString();
             String initFileStr = hashFile.getFileName().toString() + "." + ProgConfig.GUI_FILE_HASH_SUFF.get();
 
-            if (Functions.istUrl(txtFile1.getText())) {
+            if (PUrlTools.isUrl(txtFile1.getText())) {
                 initDirStr = "";
             }
 
@@ -334,7 +332,7 @@ public class GuiFileRunner extends AnchorPane {
             String initDirStr = hashFile.getParent().toString();
             String initFileStr = hashFile.getFileName().toString() + "." + ProgConfig.GUI_FILE_HASH_SUFF.get();
 
-            if (Functions.istUrl(txtFile2.getText())) {
+            if (PUrlTools.isUrl(txtFile2.getText())) {
                 initDirStr = "";
             }
 
@@ -360,23 +358,26 @@ public class GuiFileRunner extends AnchorPane {
             }
 
             String file1 = txtFile1.getText().trim();
-            if (!checkFile(file1)) {
-                PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei (1) existiert nicht!");
+            if (!checkFile(file1, 1)) {
                 return;
             }
             String file2 = txtFile2.getText().trim();
-            if (!checkFile(file2)) {
-                PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei (2) existiert nicht!");
+            if (!checkFile(file2, 2)) {
                 return;
             }
             progData.worker.createFileHash(file1, txtHash1.textProperty(), file2, txtHash2.textProperty());
         });
     }
 
-    private boolean checkFile(String file) {
-        if (!Functions.istUrl(file) && !new File(file).exists()) {
-            return false;
+    private boolean checkFile(String file, int nr) {
+        if (PUrlTools.isUrl(file) && PUrlTools.urlExists(file) || new File(file).exists()) {
+            return true;
         }
-        return true;
+        if (PUrlTools.isUrl(file)) {
+            PAlert.showErrorAlert(progData.primaryStage, "Hash erstellen", "Die angegebene URL " + nr + " existiert nicht!");
+        } else {
+            PAlert.showErrorAlert(progData.primaryStage, "Hash erstellen", "Die angegebene Datei " + nr + " existiert nicht!");
+        }
+        return false;
     }
 }

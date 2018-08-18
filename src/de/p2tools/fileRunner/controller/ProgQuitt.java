@@ -18,8 +18,8 @@ package de.p2tools.fileRunner.controller;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.p2Lib.guiTools.GuiSize;
-import de.p2tools.p2Lib.tools.log.LogMsg;
+import de.p2tools.p2Lib.guiTools.PGuiSize;
+import de.p2tools.p2Lib.tools.log.LogMessage;
 import javafx.application.Platform;
 
 public class ProgQuitt {
@@ -32,7 +32,7 @@ public class ProgQuitt {
 
     private void writeWindowSizes() {
         // Hauptfenster
-        GuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, progData.primaryStage);
+        PGuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, progData.primaryStage);
     }
 
     private void writeTabSettings() {
@@ -62,7 +62,7 @@ public class ProgQuitt {
         writeWindowSizes();
 
         new ProgSave().save();
-        LogMsg.endMsg();
+        LogMessage.endMsg();
 
         return true;
     }

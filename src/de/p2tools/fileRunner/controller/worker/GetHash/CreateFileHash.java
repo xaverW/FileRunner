@@ -20,8 +20,8 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.p2Lib.tools.Functions;
 import de.p2tools.p2Lib.tools.log.PLog;
+import de.p2tools.p2Lib.tools.net.PUrlTools;
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 
@@ -41,7 +41,6 @@ public class CreateFileHash {
     private int max = 0;
     private int progress = 0;
     private int thrads = 0;
-//    private String fileHash = "";
 
     public void addAdListener(RunListener listener) {
         listeners.add(RunListener.class, listener);
@@ -59,54 +58,48 @@ public class CreateFileHash {
         }
     }
 
-//    public String getFileHash() {
-//        return fileHash;
-//    }
-
     public void genHash(String file, StringProperty stringProperty) {
         stop = false;
-//        fileHash = "";
 
         max = 100;
         progress = 0;
         thrads = 1;
         notifyEvent();
 
-        HashErstellen hashErstellen = new HashErstellen(file, stringProperty);
-        Thread startenThread = new Thread(hashErstellen);
-        startenThread.setName("HashErstellen");
-        startenThread.setDaemon(true);
-        startenThread.start();
+        CreateHash createHash = new CreateHash(file, stringProperty);
+        Thread genHashThread = new Thread(createHash);
+        genHashThread.setName("CreateHash");
+        genHashThread.setDaemon(true);
+        genHashThread.start();
     }
 
     public void genHash(String file1, StringProperty stringProperty1, String file2, StringProperty stringProperty2) {
         stop = false;
-//        fileHash = "";
 
         max = 200;
         progress = 0;
         thrads = 2;
         notifyEvent();
 
-        HashErstellen hashErstellen = new HashErstellen(file1, stringProperty1);
-        Thread startenThread = new Thread(hashErstellen);
-        startenThread.setName("HashErstellen-1");
-        startenThread.setDaemon(true);
-        startenThread.start();
+        CreateHash createHash = new CreateHash(file1, stringProperty1);
+        Thread genHashThread = new Thread(createHash);
+        genHashThread.setName("CreateHash-1");
+        genHashThread.setDaemon(true);
+        genHashThread.start();
 
-        hashErstellen = new HashErstellen(file2, stringProperty2);
-        startenThread = new Thread(hashErstellen);
-        startenThread.setName("HashErstellen-2");
-        startenThread.setDaemon(true);
-        startenThread.start();
+        createHash = new CreateHash(file2, stringProperty2);
+        genHashThread = new Thread(createHash);
+        genHashThread.setName("CreateHash-2");
+        genHashThread.setDaemon(true);
+        genHashThread.start();
     }
 
-    private class HashErstellen implements Runnable {
+    private class CreateHash implements Runnable {
         private final String fileStr;
         private final StringProperty stringProperty;
         private String fileHash = "";
 
-        public HashErstellen(String fileStr, StringProperty stringProperty) {
+        public CreateHash(String fileStr, StringProperty stringProperty) {
             this.fileStr = fileStr;
             this.stringProperty = stringProperty;
         }
@@ -124,7 +117,7 @@ public class CreateFileHash {
                 long run = 0;
                 MessageDigest md;
 
-                if (Functions.istUrl(fileStr)) {
+                if (PUrlTools.isUrl(fileStr)) {
                     // eine URL verarbeiten
                     int timeout = 10000; //ms
                     HttpURLConnection conn;

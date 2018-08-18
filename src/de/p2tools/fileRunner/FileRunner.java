@@ -21,7 +21,7 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.res.GetIcon;
-import de.p2tools.p2Lib.guiTools.GuiSize;
+import de.p2tools.p2Lib.guiTools.PGuiSize;
 import de.p2tools.p2Lib.tools.log.Duration;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -63,8 +63,8 @@ public class FileRunner extends Application {
             root = new FileRunnerController();
             progData.fileRunnerController = root;
             scene = new Scene(root,
-                    GuiSize.getWidth(ProgConfig.SYSTEM_GUI_SIZE),
-                    GuiSize.getHeight(ProgConfig.SYSTEM_GUI_SIZE));
+                    PGuiSize.getWidth(ProgConfig.SYSTEM_GUI_SIZE),
+                    PGuiSize.getHeight(ProgConfig.SYSTEM_GUI_SIZE));
 
             String css = this.getClass().getResource(ProgConst.CSS_FILE).toExternalForm();
             scene.getStylesheets().add(css);
@@ -75,7 +75,7 @@ public class FileRunner extends Application {
                 new ProgQuitt().beenden(true);
             });
 
-            GuiSize.setPos(ProgConfig.SYSTEM_GUI_SIZE, primaryStage);
+            PGuiSize.setPos(ProgConfig.SYSTEM_GUI_SIZE, primaryStage);
             primaryStage.show();
 
         } catch (final Exception e) {
@@ -92,5 +92,5 @@ public class FileRunner extends Application {
 
         Duration.staticPing("Gui steht!");
     }
-    
+
 }

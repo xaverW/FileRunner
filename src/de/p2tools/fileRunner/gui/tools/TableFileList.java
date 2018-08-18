@@ -19,7 +19,7 @@ package de.p2tools.fileRunner.gui.tools;
 
 import de.p2tools.fileRunner.controller.config.ProgColorList;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
-import de.p2tools.p2Lib.guiTools.CheckBoxCell;
+import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
 import de.p2tools.p2Lib.tools.FileSize;
 import de.p2tools.p2Lib.tools.PDate;
 import javafx.scene.control.*;
@@ -55,11 +55,11 @@ public class TableFileList {
 
         final TableColumn<FileData, Boolean> diff = new TableColumn<>("Diff");
         diff.setCellValueFactory(new PropertyValueFactory<>("diff"));
-        diff.setCellFactory(new CheckBoxCell().cellFactoryBool);
+        diff.setCellFactory(new PCheckBoxCell().cellFactoryBool);
 
         final TableColumn<FileData, Boolean> only = new TableColumn<>("Only");
         only.setCellValueFactory(new PropertyValueFactory<>("only"));
-        only.setCellFactory(new CheckBoxCell().cellFactoryBool);
+        only.setCellFactory(new PCheckBoxCell().cellFactoryBool);
 
         nrColumn.setMaxWidth(1f * Integer.MAX_VALUE * 10);
         fileNameColumn.setMaxWidth(1f * Integer.MAX_VALUE * 50);

@@ -76,7 +76,7 @@ public class CreateDirHash {
         CreateHash createHash = new CreateHash(file, fileDataList);
         runThreads = 1;
         Thread startenThread = new Thread(createHash);
-        startenThread.setName("HashErstellen");
+        startenThread.setName("CreateHash");
         startenThread.setDaemon(true);
         startenThread.start();
     }
