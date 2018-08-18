@@ -29,6 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 
 public class ConfigDialogController extends PDialog {
@@ -37,9 +38,11 @@ public class ConfigDialogController extends PDialog {
     private Button btnOk = new Button("Ok");
 
     private final ProgData daten;
+    private Stage stage;
 
     public ConfigDialogController() {
         super(null, ProgConfig.SYSTEM_CONFIG_DIALOG_SIZE, "Einstellungen", true);
+        this.daten = ProgData.getInstance();
 
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10));
@@ -53,12 +56,12 @@ public class ConfigDialogController extends PDialog {
         hBox.getChildren().add(btnOk);
         vBox.getChildren().add(hBox);
 
-        this.daten = ProgData.getInstance();
         init(vBox, true);
     }
 
     @Override
     public void make() {
+        this.stage = getStage();
         btnOk.setOnAction(a -> close());
         initPanel();
     }
@@ -71,13 +74,13 @@ public class ConfigDialogController extends PDialog {
     private void initPanel() {
         try {
 
-            AnchorPane configPane = new ConfigPane();
+            AnchorPane configPane = new ConfigPane(stage);
             Tab tab = new Tab("Allgemein");
             tab.setClosable(false);
             tab.setContent(configPane);
             tabPane.getTabs().add(tab);
 
-            AnchorPane colorPane = new ColorPane();
+            AnchorPane colorPane = new ColorPane(stage);
             tab = new Tab("Farben");
             tab.setClosable(false);
             tab.setContent(colorPane);

@@ -374,9 +374,9 @@ public class GuiFileRunner extends AnchorPane {
             return true;
         }
         if (PUrlTools.isUrl(file)) {
-            PAlert.showErrorAlert(progData.primaryStage, "Hash erstellen", "Die angegebene URL " + nr + " existiert nicht!");
+            PAlert.showErrorAlert("Hash erstellen", "Die angegebene URL " + nr + " existiert nicht!");
         } else {
-            PAlert.showErrorAlert(progData.primaryStage, "Hash erstellen", "Die angegebene Datei " + nr + " existiert nicht!");
+            PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei " + nr + " existiert nicht!");
         }
         return false;
     }

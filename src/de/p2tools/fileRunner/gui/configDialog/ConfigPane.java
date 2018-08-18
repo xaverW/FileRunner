@@ -18,9 +18,8 @@ package de.p2tools.fileRunner.gui.configDialog;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.gui.HelpText;
-import de.p2tools.p2Lib.dialog.PAlert;
+import de.p2tools.p2Lib.guiTools.PButton;
 import javafx.beans.property.BooleanProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -28,14 +27,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
 public class ConfigPane extends AnchorPane {
 
     private final ProgData progData;
     private final VBox vBox = new VBox(10);
     BooleanProperty systemStoreProp = ProgConfig.SYSTEM_STORE_CONFIG;
+    private final Stage stage;
 
-    public ConfigPane() {
+    public ConfigPane(Stage stage) {
+        this.stage = stage;
         progData = ProgData.getInstance();
 
         AnchorPane.setTopAnchor(vBox, 10.0);
@@ -56,9 +58,7 @@ public class ConfigPane extends AnchorPane {
         final CheckBox chkSaveConfig = new CheckBox("Einstellungen speichern");
         chkSaveConfig.selectedProperty().bindBidirectional(systemStoreProp);
 
-        final Button btnHelpStore = new Button("");
-        btnHelpStore.setGraphic(new Icons().ICON_BUTTON_HELP);
-        btnHelpStore.setOnAction(a -> new PAlert().showHelpAlert("Programmstart", HelpText.STORE_PROG_CONFIG));
+        final Button btnHelpStore = new PButton().helpButton(stage, "Programmstart", HelpText.STORE_PROG_CONFIG);
         GridPane.setHalignment(btnHelpStore, HPos.RIGHT);
 
 
@@ -66,9 +66,7 @@ public class ConfigPane extends AnchorPane {
         final CheckBox chkFollowLink2 = new CheckBox("In Tabelle 2");
         final Label lblFollow = new Label("Symbolische Verknüpfungen auflösen");
 
-        final Button btnHelpFollowLink = new Button("");
-        btnHelpFollowLink.setGraphic(new Icons().ICON_BUTTON_HELP);
-        btnHelpFollowLink.setOnAction(a -> new PAlert().showHelpAlert("Verknüpfung folgen", HelpText.FOLLOW_SYMLINK));
+        final Button btnHelpFollowLink = new PButton().helpButton(stage, "Verknüpfung folgen", HelpText.FOLLOW_SYMLINK);
         GridPane.setHalignment(btnHelpFollowLink, HPos.RIGHT);
 
         chkFollowLink1.selectedProperty().bindBidirectional(progData.projectData.followLink1Property());

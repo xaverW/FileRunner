@@ -28,11 +28,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class ColorPane extends AnchorPane {
 
-    public ColorPane() {
+    private final Stage stage;
+
+    public ColorPane(Stage stage) {
+        this.stage = stage;
         makeColor();
     }
 
