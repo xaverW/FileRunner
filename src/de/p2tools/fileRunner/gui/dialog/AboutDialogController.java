@@ -25,7 +25,7 @@ import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.PConst;
 import de.p2tools.p2Lib.dialog.PDialogExtra;
 import de.p2tools.p2Lib.guiTools.PHyperlink;
-import de.p2tools.p2Lib.tools.Functions;
+import de.p2tools.p2Lib.tools.ProgramTools;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -89,11 +89,11 @@ public class AboutDialogController extends PDialogExtra {
         text.setFont(Font.font(null, FontWeight.BOLD, 40));
         gridPane.add(text, 0, row, 2, 1);
 
-        text = new Text(PConst.LINE_SEPARATOR + "Version: " + Functions.getProgVersion());
+        text = new Text(PConst.LINE_SEPARATOR + "Version: " + ProgramTools.getProgVersion());
         text.setFont(new Font(18));
         gridPane.add(text, 0, ++row, 2, 1);
 
-        text = new Text("[ Build: " + Functions.getBuild() + " vom " + Functions.getCompileDate() + " ]");
+        text = new Text("[ Build: " + ProgramTools.getBuild() + " vom " + ProgramTools.getCompileDate() + " ]");
         text.setFont(new Font(15));
         text.setFill(GRAY);
         gridPane.add(text, 0, ++row, 2, 1);

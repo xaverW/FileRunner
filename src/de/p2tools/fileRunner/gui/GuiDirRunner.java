@@ -28,7 +28,7 @@ import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.dialog.DirFileChooser;
 import de.p2tools.p2Lib.dialog.PAlert;
 import de.p2tools.p2Lib.dialog.PAlertFileChosser;
-import de.p2tools.p2Lib.guiTools.PComboBox;
+import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
@@ -54,14 +54,14 @@ public class GuiDirRunner extends AnchorPane {
     private final TableView table1 = new TableView();
     private final TableView table2 = new TableView();
 
-    private final PComboBox pCboDir1 = new PComboBox();
-    private final PComboBox pCboDir2 = new PComboBox();
-    private final PComboBox pCboHash1 = new PComboBox();
-    private final PComboBox pCboHash2 = new PComboBox();
-    private final PComboBox pCboWriteHash1 = new PComboBox();
-    private final PComboBox pCboWriteHash2 = new PComboBox();
-    private final PComboBox pCboSearch1 = new PComboBox();
-    private final PComboBox pCboSearch2 = new PComboBox();
+    private final PComboBoxString pCboDir1 = new PComboBoxString();
+    private final PComboBoxString pCboDir2 = new PComboBoxString();
+    private final PComboBoxString pCboHash1 = new PComboBoxString();
+    private final PComboBoxString pCboHash2 = new PComboBoxString();
+    private final PComboBoxString pCboWriteHash1 = new PComboBoxString();
+    private final PComboBoxString pCboWriteHash2 = new PComboBoxString();
+    private final PComboBoxString pCboSearch1 = new PComboBoxString();
+    private final PComboBoxString pCboSearch2 = new PComboBoxString();
 
     private final Button btnSelectDir1 = new Button("");
     private final Button btnSelectDir2 = new Button("");

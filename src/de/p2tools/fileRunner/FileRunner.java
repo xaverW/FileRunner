@@ -22,7 +22,7 @@ import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
-import de.p2tools.p2Lib.tools.log.Duration;
+import de.p2tools.p2Lib.tools.log.PDuration;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -49,7 +49,7 @@ public class FileRunner extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
-        Duration.counterStart(LOG_TEXT_PROGRAMMSTART);
+        PDuration.counterStart(LOG_TEXT_PROGRAMMSTART);
         progData = ProgData.getInstance();
         progData.primaryStage = primaryStage;
         new ProgStart(progData).loadConfigData();
@@ -84,13 +84,13 @@ public class FileRunner extends Application {
     }
 
     public void losGehts() {
-        Duration.counterStop(LOG_TEXT_PROGRAMMSTART);
+        PDuration.counterStop(LOG_TEXT_PROGRAMMSTART);
         primaryStage.getIcons().add(GetIcon.getImage(ProgConst.ICON_NAME, ProgConst.ICON_PATH, 32, 32));
 
-        Duration.staticPing("Erster Start");
+        PDuration.onlyPing("Erster Start");
         primaryStage.setTitle(ProgConst.PROGRAMMNAME);
 
-        Duration.staticPing("Gui steht!");
+        PDuration.onlyPing("Gui steht!");
     }
 
 }
