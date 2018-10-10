@@ -21,10 +21,7 @@ import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.worker.GetHash.CreateDirHash;
-import de.p2tools.fileRunner.controller.worker.GetHash.CreateFileHash;
-import de.p2tools.fileRunner.controller.worker.GetHash.HashTools;
-import de.p2tools.fileRunner.controller.worker.GetHash.ReadDirHashFile;
+import de.p2tools.fileRunner.controller.worker.GetHash.*;
 import de.p2tools.p2Lib.hash.WriteHashFile;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -37,6 +34,7 @@ public class Worker {
     private final ProgData progData;
 
     private final CreateDirHash createDirHash;
+    private final CreateZipHash createZipHash;
     private final ReadDirHashFile readDirHashFile;
     private final CreateFileHash createFileHash;
     private EventListenerList listeners = new EventListenerList();
@@ -45,10 +43,17 @@ public class Worker {
     public Worker(ProgData progData) {
         this.progData = progData;
         createDirHash = new CreateDirHash(progData);
+        createZipHash = new CreateZipHash(progData);
         readDirHashFile = new ReadDirHashFile(progData);
         createFileHash = new CreateFileHash();
 
         createDirHash.addAdListener(new RunListener() {
+            @Override
+            public void ping(RunEvent runEvent) {
+                notifyEvent(runEvent);
+            }
+        });
+        createZipHash.addAdListener(new RunListener() {
             @Override
             public void ping(RunEvent runEvent) {
                 notifyEvent(runEvent);
@@ -85,12 +90,17 @@ public class Worker {
 
     public void setStop() {
         createDirHash.setStop();
+        createZipHash.setStop();
         readDirHashFile.setStop();
         createFileHash.setStop();
     }
 
     public void createDirHash(File dir, FileDataList fileDataList, int sumThreads, boolean recursiv, boolean followLink) {
         createDirHash.createHash(dir, fileDataList, sumThreads, recursiv, followLink);
+    }
+
+    public void createZipHash(File zipFile, FileDataList fileDataList) {
+        createZipHash.createHash(zipFile, fileDataList);
     }
 
     public void readDirHashFile(File file, FileDataList fileDataList) {

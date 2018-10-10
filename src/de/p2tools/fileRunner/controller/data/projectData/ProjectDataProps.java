@@ -34,6 +34,10 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
     private final StringProperty srcDir2 = new SimpleStringProperty("");
     private ObservableList<String> srcDirList = FXCollections.observableArrayList();
 
+    private final StringProperty srcZip1 = new SimpleStringProperty("");
+    private final StringProperty srcZip2 = new SimpleStringProperty("");
+    private ObservableList<String> srcZipList = FXCollections.observableArrayList();
+
     private final StringProperty srcHash1 = new SimpleStringProperty("");
     private final StringProperty srcHash2 = new SimpleStringProperty("");
     private ObservableList<String> srcHashList = FXCollections.observableArrayList();
@@ -67,6 +71,9 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
                 new ConfigStringProp("src-dir-1", srcDir1),
                 new ConfigStringProp("src-dir-2", srcDir2),
                 new ConfigStringList("src-dir-list", srcDirList),
+                new ConfigStringProp("src-zip-1", srcZip1),
+                new ConfigStringProp("src-zip-2", srcZip2),
+                new ConfigStringList("src-zip-list", srcZipList),
                 new ConfigStringProp("src-hash-1", srcHash1),
                 new ConfigStringProp("src-hash-2", srcHash2),
                 new ConfigStringList("src-hash-list", srcHashList),
@@ -112,6 +119,38 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
 
     public void setSrcDirList(ObservableList<String> srcDirList) {
         this.srcDirList = srcDirList;
+    }
+
+    public String getSrcZip1() {
+        return srcZip1.get();
+    }
+
+    public StringProperty srcZip1Property() {
+        return srcZip1;
+    }
+
+    public void setSrcZip1(String srcZip1) {
+        this.srcZip1.set(srcZip1);
+    }
+
+    public String getSrcZip2() {
+        return srcZip2.get();
+    }
+
+    public StringProperty srcZip2Property() {
+        return srcZip2;
+    }
+
+    public void setSrcZip2(String srcZip2) {
+        this.srcZip2.set(srcZip2);
+    }
+
+    public ObservableList<String> getSrcZipList() {
+        return srcZipList;
+    }
+
+    public void setSrcZipList(ObservableList<String> srcZipList) {
+        this.srcZipList = srcZipList;
     }
 
     public String getSrcHash1() {

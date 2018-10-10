@@ -56,6 +56,8 @@ public class GuiDirRunner extends AnchorPane {
 
     private final PComboBoxString pCboDir1 = new PComboBoxString();
     private final PComboBoxString pCboDir2 = new PComboBoxString();
+    private final PComboBoxString pCboZip1 = new PComboBoxString();
+    private final PComboBoxString pCboZip2 = new PComboBoxString();
     private final PComboBoxString pCboHash1 = new PComboBoxString();
     private final PComboBoxString pCboHash2 = new PComboBoxString();
     private final PComboBoxString pCboWriteHash1 = new PComboBoxString();
@@ -65,6 +67,8 @@ public class GuiDirRunner extends AnchorPane {
 
     private final Button btnSelectDir1 = new Button("");
     private final Button btnSelectDir2 = new Button("");
+    private final Button btnSelectZip1 = new Button("");
+    private final Button btnSelectZip2 = new Button("");
     private final Button btnSelectHash1 = new Button("");
     private final Button btnSelectHash2 = new Button("");
     private final Button btnSelectHashList1 = new Button();
@@ -77,8 +81,10 @@ public class GuiDirRunner extends AnchorPane {
     private final Button btnClearFilter2 = new Button();
 
     private final Button btnReadDir1 = new Button("");
-    private final Button btnReadHash1 = new Button("");
     private final Button btnReadDir2 = new Button("");
+    private final Button btnReadZip1 = new Button("");
+    private final Button btnReadZip2 = new Button("");
+    private final Button btnReadHash1 = new Button("");
     private final Button btnReadHash2 = new Button("");
     private final Button btnWriteHash1 = new Button("Liste in Datei schreiben");
     private final Button btnWriteHash2 = new Button("Liste in Datei schreiben");
@@ -95,11 +101,13 @@ public class GuiDirRunner extends AnchorPane {
 
     private final TabPane tabPane1 = new TabPane();
     private final Tab tabDir1 = new Tab("Ordner");
+    private final Tab tabZip1 = new Tab("Zipdatei");
     private final Tab tabFile1 = new Tab("Hashdatei");
     private final Tab tabFilter1 = new Tab("Suchen");
 
     private final TabPane tabPane2 = new TabPane();
     private final Tab tabDir2 = new Tab("Ordner");
+    private final Tab tabZip2 = new Tab("Zipdatei");
     private final Tab tabFile2 = new Tab("Hashdatei");
     private final Tab tabFilter2 = new Tab("Suchen");
 
@@ -149,6 +157,16 @@ public class GuiDirRunner extends AnchorPane {
         hBoxDir1.getChildren().addAll(pCboDir1, btnSelectDir1, btnReadDir1);
         vBoxDir1.getChildren().addAll(new Label("Verzeichnis 1"), hBoxDir1);
 
+        // zip1
+        VBox vBoxZip1 = new VBox(10);
+        vBoxZip1.setPadding(new Insets(10));
+
+        HBox hBoxZip1 = new HBox(10);
+        HBox.setHgrow(pCboZip1, Priority.ALWAYS);
+        pCboZip1.setMaxWidth(Double.MAX_VALUE);
+        hBoxZip1.getChildren().addAll(pCboZip1, btnSelectZip1, btnReadZip1);
+        vBoxZip1.getChildren().addAll(new Label("Zipfile 1"), hBoxZip1);
+
         // hash1
         VBox vBoxFile1 = new VBox(10);
         vBoxFile1.setPadding(new Insets(10));
@@ -176,13 +194,16 @@ public class GuiDirRunner extends AnchorPane {
         tabDir1.setClosable(false);
         tabDir1.setContent(vBoxDir1);
 
+        tabZip1.setClosable(false);
+        tabZip1.setContent(vBoxZip1);
+
         tabFile1.setClosable(false);
         tabFile1.setContent(vBoxFile1);
 
         tabFilter1.setClosable(false);
         tabFilter1.setContent(vBoxSearch1);
 
-        tabPane1.getTabs().addAll(tabDir1, tabFile1, tabFilter1);
+        tabPane1.getTabs().addAll(tabDir1, tabZip1, tabFile1, tabFilter1);
 
 
         // =====================
@@ -196,6 +217,17 @@ public class GuiDirRunner extends AnchorPane {
         pCboDir2.setEditable(true);
         hBoxDir2.getChildren().addAll(pCboDir2, btnSelectDir2, btnReadDir2);
         vBoxDir2.getChildren().addAll(new Label("Verzeichnis 2"), hBoxDir2);
+
+        // zip2
+        VBox vBoxZip2 = new VBox(10);
+        vBoxZip2.setPadding(new Insets(10));
+
+        HBox hBoxZip2 = new HBox(10);
+        HBox.setHgrow(pCboZip2, Priority.ALWAYS);
+        pCboZip2.setMaxWidth(Double.MAX_VALUE);
+        pCboZip2.setEditable(true);
+        hBoxZip2.getChildren().addAll(pCboZip2, btnSelectZip2, btnReadZip2);
+        vBoxZip2.getChildren().addAll(new Label("Zipdatei 2"), hBoxZip2);
 
         // hash2
         VBox vBoxFile2 = new VBox(10);
@@ -223,13 +255,16 @@ public class GuiDirRunner extends AnchorPane {
         tabDir2.setClosable(false);
         tabDir2.setContent(vBoxDir2);
 
+        tabZip2.setClosable(false);
+        tabZip2.setContent(vBoxZip2);
+
         tabFile2.setClosable(false);
         tabFile2.setContent(vBoxFile2);
 
         tabFilter2.setClosable(false);
         tabFilter2.setContent(vBoxSearch2);
 
-        tabPane2.getTabs().addAll(tabDir2, tabFile2, tabFilter2);
+        tabPane2.getTabs().addAll(tabDir2, tabZip2, tabFile2, tabFilter2);
 
 
         // =======================
@@ -270,7 +305,7 @@ public class GuiDirRunner extends AnchorPane {
         vBoxBtn.getStyleClass().add("pane-border");
         vBoxBtn.setAlignment(Pos.CENTER);
         vBoxBtn.setPadding(new Insets(10));
-        vBoxBtn.getChildren().addAll(tglShowAll, tglShowSame, tglShowDiff, tglShowDiffAll, tglShowOnly1, tglShowOnly2);
+        vBoxBtn.getChildren().addAll(tglShowAll, tglShowSame, tglShowDiffAll, tglShowDiff, tglShowOnly1, tglShowOnly2);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
         splitPane.getItems().addAll(vBox1, vBoxBtn, vBox2);
@@ -301,21 +336,25 @@ public class GuiDirRunner extends AnchorPane {
         lblWriteHash2.setPadding(new Insets(10));
 
         ToggleGroup tg = new ToggleGroup();
-        tg.getToggles().addAll(tglShowAll, tglShowSame, tglShowDiff, tglShowDiffAll, tglShowOnly1, tglShowOnly2);
+        tg.getToggles().addAll(tglShowAll, tglShowSame, tglShowDiffAll, tglShowDiff, tglShowOnly1, tglShowOnly2);
         tglShowAll.setSelected(true);
         tglShowAll.setGraphic(new Icons().ICON_BUTTON_GUI_ALL);
         tglShowSame.setGraphic(new Icons().ICON_BUTTON_GUI_SAME);
-        tglShowDiff.setGraphic(new Icons().ICON_BUTTON_GUI_DIFF);
         tglShowDiffAll.setGraphic(new Icons().ICON_BUTTON_GUI_DIFF_ALL);
+        tglShowDiff.setGraphic(new Icons().ICON_BUTTON_GUI_DIFF);
         tglShowOnly1.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_1);
         tglShowOnly2.setGraphic(new Icons().ICON_BUTTON_GUI_ONLY_2);
         btnReadDir1.setMinWidth(btnReadDir1.getPrefWidth());
         btnReadDir2.setMinWidth(btnReadDir2.getPrefWidth());
+        btnReadZip1.setMinWidth(btnReadZip1.getPrefWidth());
+        btnReadZip2.setMinWidth(btnReadZip2.getPrefWidth());
         btnReadHash1.setMinWidth(btnReadHash1.getPrefWidth());
         btnReadHash2.setMinWidth(btnReadHash2.getPrefWidth());
 
         btnSelectDir1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnSelectDir2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnSelectZip1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnSelectZip2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnSelectHash1.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnSelectHash2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnProposeHashName1.setGraphic(new Icons().ICON_BUTTON_GUI_GEN_NAME);
@@ -324,6 +363,8 @@ public class GuiDirRunner extends AnchorPane {
         btnSelectHashList2.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnReadDir1.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
         btnReadDir2.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
+        btnReadZip1.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
+        btnReadZip2.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
         btnReadHash1.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
         btnReadHash2.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
 
@@ -332,10 +373,14 @@ public class GuiDirRunner extends AnchorPane {
 
         btnReadDir1.setTooltip(new Tooltip("Verzeichnis einlesen."));
         btnReadDir2.setTooltip(new Tooltip("Verzeichnis einlesen."));
+        btnReadZip1.setTooltip(new Tooltip("Zipdatei einlesen."));
+        btnReadZip2.setTooltip(new Tooltip("Zipdatei einlesen."));
         btnReadHash1.setTooltip(new Tooltip("Hashdatei einlesen."));
         btnReadHash2.setTooltip(new Tooltip("Hashdatei einlesen."));
         btnSelectDir1.setTooltip(new Tooltip("Verzeichnis auswählen."));
         btnSelectDir2.setTooltip(new Tooltip("Verzeichnis auswählen."));
+        btnSelectZip1.setTooltip(new Tooltip("Zipdatei auswählen."));
+        btnSelectZip2.setTooltip(new Tooltip("Zipdatei auswählen."));
         btnSelectHash1.setTooltip(new Tooltip("Hashdatei auswählen"));
         btnSelectHash2.setTooltip(new Tooltip("Hashdatei auswählen"));
         btnSelectHashList1.setTooltip(new Tooltip("Datei zum Speichern auswählen."));
@@ -346,10 +391,10 @@ public class GuiDirRunner extends AnchorPane {
         btnProposeHashName2.setTooltip(new Tooltip("Einen Dateinamen vorschlagen."));
         tglShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
         tglShowSame.setTooltip(new Tooltip("Alle gleichen Dateien anzeigen."));
-        tglShowDiff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind aber nicht gleich sind."));
-        tglShowDiffAll.setTooltip(new Tooltip("Dateien anzeigen, die sich unterscheiden oder nur in einer Liste sind."));
-        tglShowOnly1.setTooltip(new Tooltip("Dateien anzeigen, die nur in Liste 1 sind."));
-        tglShowOnly2.setTooltip(new Tooltip("Dateien anzeigen, die nur in Liste 2 sind."));
+        tglShowDiffAll.setTooltip(new Tooltip("Dateien suchen, die sich unterscheiden oder nur in einer Liste enthalten sind."));
+        tglShowDiff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind, sich aber unterscheiden."));
+        tglShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 enthalten sind."));
+        tglShowOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 enthalten sind."));
         btnClearFilter1.setTooltip(new Tooltip("Filter löschen."));
         btnClearFilter2.setTooltip(new Tooltip("Filter löschen."));
     }
@@ -372,6 +417,8 @@ public class GuiDirRunner extends AnchorPane {
 
         pCboDir1.init(projectData.getSrcDirList(), projectData.srcDir1Property());
         pCboDir2.init(projectData.getSrcDirList(), projectData.srcDir2Property());
+        pCboZip1.init(projectData.getSrcZipList(), projectData.srcZip1Property());
+        pCboZip2.init(projectData.getSrcZipList(), projectData.srcZip2Property());
         pCboHash1.init(projectData.getSrcHashList(), projectData.srcHash1Property());
         pCboHash2.init(projectData.getSrcHashList(), projectData.srcHash2Property());
         pCboSearch1.init(projectData.getSearchList(), projectData.search1Property());
@@ -400,6 +447,8 @@ public class GuiDirRunner extends AnchorPane {
 
         btnSelectDir1.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, pCboDir1));
         btnSelectDir2.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, pCboDir2));
+        btnSelectZip1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, pCboZip1));
+        btnSelectZip2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, pCboZip2));
         btnSelectHash1.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, pCboHash1));
         btnSelectHash2.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, pCboHash2));
 
@@ -445,35 +494,57 @@ public class GuiDirRunner extends AnchorPane {
                 .or(pCboDir1.getEditor().textProperty().isEqualTo("")));
         btnReadDir2.disableProperty().bind(pCboDir2.getEditor().textProperty().isNull()
                 .or(pCboDir2.getEditor().textProperty().isEqualTo("")));
+        btnReadZip1.disableProperty().bind(pCboZip1.getEditor().textProperty().isNull()
+                .or(pCboZip1.getEditor().textProperty().isEqualTo("")));
+        btnReadZip2.disableProperty().bind(pCboZip2.getEditor().textProperty().isNull()
+                .or(pCboZip2.getEditor().textProperty().isEqualTo("")));
         btnReadHash1.disableProperty().bind(pCboHash1.getEditor().textProperty().isNull()
                 .or(pCboHash1.getEditor().textProperty().isEqualTo("")));
         btnReadHash2.disableProperty().bind(pCboHash2.getEditor().textProperty().isNull()
                 .or(pCboHash2.getEditor().textProperty().isEqualTo("")));
 
+
         btnReadDir1.setOnAction(a -> {
             if (readDirHash(projectData.getSrcDir1(), progData.fileDataList1, projectData.isFollowLink1())) {
-                setTabDirFile(0, true);
-            }
-            changeTextFilter();
-        });
-        btnReadHash1.setOnAction(a -> {
-            if (readHashFile(projectData.getSrcHash1(), progData.fileDataList1)) {
-                setTabDirFile(0, false);
+                setTabDirFile(DIR_ZIP_HASH.DIR_1);
             }
             changeTextFilter();
         });
         btnReadDir2.setOnAction(a -> {
             if (readDirHash(projectData.getSrcDir2(), progData.fileDataList2, projectData.isFollowLink2())) {
-                setTabDirFile(1, true);
+                setTabDirFile(DIR_ZIP_HASH.DIR_2);
+            }
+            changeTextFilter();
+        });
+
+
+        btnReadZip1.setOnAction(a -> {
+            if (readZipHash(projectData.getSrcZip1(), progData.fileDataList1)) {
+                setTabDirFile(DIR_ZIP_HASH.ZIP_1);
+            }
+            changeTextFilter();
+        });
+        btnReadZip2.setOnAction(a -> {
+            if (readZipHash(projectData.getSrcZip2(), progData.fileDataList2)) {
+                setTabDirFile(DIR_ZIP_HASH.ZIP_2);
+            }
+            changeTextFilter();
+        });
+
+
+        btnReadHash1.setOnAction(a -> {
+            if (readHashFile(projectData.getSrcHash1(), progData.fileDataList1)) {
+                setTabDirFile(DIR_ZIP_HASH.HASH_1);
             }
             changeTextFilter();
         });
         btnReadHash2.setOnAction(a -> {
             if (readHashFile(projectData.getSrcHash2(), progData.fileDataList2)) {
-                setTabDirFile(1, false);
+                setTabDirFile(DIR_ZIP_HASH.HASH_2);
             }
             changeTextFilter();
         });
+
 
         btnWriteHash1.setOnAction(e -> {
             writeHashFile(true);
@@ -495,15 +566,15 @@ public class GuiDirRunner extends AnchorPane {
             progData.fileDataList1.setPred(fileDataFilter1);
             progData.fileDataList2.setPred(fileDataFilter2);
         });
-        tglShowDiff.setOnAction(e -> {
-            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
-            fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
-            progData.fileDataList1.setPred(fileDataFilter1);
-            progData.fileDataList2.setPred(fileDataFilter2);
-        });
         tglShowDiffAll.setOnAction(e -> {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_ALL);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_ALL);
+            progData.fileDataList1.setPred(fileDataFilter1);
+            progData.fileDataList2.setPred(fileDataFilter2);
+        });
+        tglShowDiff.setOnAction(e -> {
+            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
+            fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
             progData.fileDataList1.setPred(fileDataFilter1);
             progData.fileDataList2.setPred(fileDataFilter2);
         });
@@ -555,19 +626,41 @@ public class GuiDirRunner extends AnchorPane {
         }
     }
 
-    private void setTabDirFile(int i, boolean dir) {
-        if (i == 0 && dir) {
-            tabDir1.setGraphic(new Icons().ICON_TAB_DIR_FILE);
-            tabFile1.setGraphic(null);
-        } else if (i == 0) {
-            tabDir1.setGraphic(null);
-            tabFile1.setGraphic(new Icons().ICON_TAB_DIR_FILE);
-        } else if (dir) {
-            tabDir2.setGraphic(new Icons().ICON_TAB_DIR_FILE);
-            tabFile2.setGraphic(null);
-        } else {
-            tabDir2.setGraphic(null);
-            tabFile2.setGraphic(new Icons().ICON_TAB_DIR_FILE);
+    enum DIR_ZIP_HASH {DIR_1, DIR_2, ZIP_1, ZIP_2, HASH_1, HASH_2}
+
+    private void setTabDirFile(DIR_ZIP_HASH dir_zip_hash) {
+        // todo
+        switch (dir_zip_hash) {
+            case DIR_1:
+                tabDir1.setGraphic(new Icons().ICON_TAB_DIR_FILE);
+                tabZip1.setGraphic(null);
+                tabFile1.setGraphic(null);
+                break;
+            case DIR_2:
+                tabDir2.setGraphic(new Icons().ICON_TAB_DIR_FILE);
+                tabZip2.setGraphic(null);
+                tabFile2.setGraphic(null);
+                break;
+            case ZIP_1:
+                tabDir1.setGraphic(null);
+                tabZip1.setGraphic(new Icons().ICON_TAB_DIR_FILE);
+                tabFile1.setGraphic(null);
+                break;
+            case ZIP_2:
+                tabDir2.setGraphic(null);
+                tabZip2.setGraphic(new Icons().ICON_TAB_DIR_FILE);
+                tabFile2.setGraphic(null);
+                break;
+            case HASH_1:
+                tabDir1.setGraphic(null);
+                tabZip1.setGraphic(null);
+                tabFile1.setGraphic(new Icons().ICON_TAB_DIR_FILE);
+                break;
+            case HASH_2:
+                tabDir2.setGraphic(null);
+                tabZip2.setGraphic(null);
+                tabFile2.setGraphic(new Icons().ICON_TAB_DIR_FILE);
+                break;
         }
     }
 
@@ -609,6 +702,25 @@ public class GuiDirRunner extends AnchorPane {
             ret = true;
             progData.worker.createDirHash(dir, fileDataList, 1, true, followLink);
             fileDataList.setSourceDir(hashDir);
+        }
+
+        clearFilter();
+        return ret;
+    }
+
+    private boolean readZipHash(String hashZip, FileDataList fileDataList) {
+        boolean ret = false;
+        if (hashZip.isEmpty()) {
+            return false;
+        }
+
+        File zipFile = new File(hashZip);
+        if (!zipFile.exists()) {
+            PAlertFileChosser.showErrorAlert("Zipdatei einlesen", "Die Zipdatei existiert nicht!");
+        } else {
+            ret = true;
+            progData.worker.createZipHash(zipFile, fileDataList);
+            fileDataList.setSourceDir(hashZip);
         }
 
         clearFilter();
