@@ -64,6 +64,9 @@
     -fx-background-radius: 5;
 }
 
+.toggle-button:selected {
+    -fx-base: #dcdcff;
+}
 
 /* Rahmen */
 .dialog-border {-fx-background-insets: 10, 40;
@@ -174,41 +177,6 @@
          linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 40%, white 90%),
          radial-gradient(center 80% -70%, radius 200%, #e6e6e6 35%, rgba(230,230,230,0) 40%);
  }
-
-.btnCreate{
-     -fx-font-weight: bold;
-     -fx-text-alignment: center;
-     -fx-alignment: center ;
-     -fx-background-radius: 30;
-     -fx-background-insets: 0,1,1;
-     -fx-text-fill: black;
-     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
-     -fx-padding: 10 20 10 20;
-     -fx-border: 10;
-  }
-
-
-.btnCreate:hover{
-     -fx-font-weight: bold;
-     -fx-alignment: center ;
-     -fx-background-radius: 30;
-     -fx-background-insets: 0,1,1;
-     -fx-text-fill: black;
-     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
-     -fx-padding: 10 20 10 20;
-     -fx-border: 10;
-  }
-
-.btnCreate:pressed{
-     -fx-font-weight: bold;
-     -fx-alignment: center ;
-     -fx-background-radius: 30;
-     -fx-background-insets: 0,1,1;
-     -fx-text-fill: black;
-     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
-     -fx-padding: 10 20 10 20;
-     -fx-border: 10;
-  }
 
 
 .headerLabel {
