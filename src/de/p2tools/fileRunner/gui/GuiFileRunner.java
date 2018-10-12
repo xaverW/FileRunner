@@ -48,6 +48,7 @@ public class GuiFileRunner extends AnchorPane {
     private final RadioButton cbxMd5 = new RadioButton("MD5");
     private final RadioButton cbxSha1 = new RadioButton("Sha-1");
     private final RadioButton cbxSha256 = new RadioButton("Sha-256");
+    private final RadioButton cbxSha512 = new RadioButton("Sha-512");
 
     private final Button btnGetFile1 = new Button("");
     private final Button btnGetFile2 = new Button("");
@@ -78,6 +79,8 @@ public class GuiFileRunner extends AnchorPane {
         cbxMd5.setToggleGroup(tg);
         cbxSha1.setToggleGroup(tg);
         cbxSha256.setToggleGroup(tg);
+        cbxSha512.setToggleGroup(tg);
+
         cbxMd5.setSelected(true);
         initCont();
         initData();
@@ -172,12 +175,13 @@ public class GuiFileRunner extends AnchorPane {
         gridPaneHash.add(cbxMd5, 0, r);
         gridPaneHash.add(cbxSha1, 1, r);
         gridPaneHash.add(cbxSha256, 2, r);
+        gridPaneHash.add(cbxSha512, 3, r);
 
         HBox hBoxCheck = new HBox(10);
         hBoxCheck.setAlignment(Pos.CENTER_RIGHT);
         hBoxCheck.getChildren().add(btnCheckFile);
         GridPane.setHgrow(hBoxCheck, Priority.ALWAYS);
-        gridPaneHash.add(hBoxCheck, 3, r);
+        gridPaneHash.add(hBoxCheck, 4, r);
 
         vBoxCont.setPadding(new Insets(25));
         vBoxCont.getChildren().addAll(gridPane1, gridPane2, gridPaneHash);
@@ -192,6 +196,7 @@ public class GuiFileRunner extends AnchorPane {
         cbxMd5.setTooltip(new Tooltip("Es wird ein MD5-Hash erstellt."));
         cbxSha1.setTooltip(new Tooltip("Es wird ein SHA-1 Hash erstellt."));
         cbxSha256.setTooltip(new Tooltip("Es wird ein SHA-256 Hash erstellt."));
+        cbxSha512.setTooltip(new Tooltip("Es wird ein SHA-512 Hash erstellt."));
     }
 
     private void initData() {
@@ -210,6 +215,9 @@ public class GuiFileRunner extends AnchorPane {
             case HashConst.HASH_SHA256:
                 cbxSha256.setSelected(true);
                 break;
+            case HashConst.HASH_SHA512:
+                cbxSha512.setSelected(true);
+                break;
         }
         cbxMd5.setOnAction(a -> {
             clearHash();
@@ -225,6 +233,11 @@ public class GuiFileRunner extends AnchorPane {
             clearHash();
             ProgConfig.GUI_FILE_HASH.set(HashConst.HASH_SHA256);
             ProgConfig.GUI_FILE_HASH_SUFF.set(HashConst.HASH_SHA256_SUFFIX);
+        });
+        cbxSha512.setOnAction(a -> {
+            clearHash();
+            ProgConfig.GUI_FILE_HASH.set(HashConst.HASH_SHA512);
+            ProgConfig.GUI_FILE_HASH_SUFF.set(HashConst.HASH_SHA512_SUFFIX);
         });
 
         btnCheckFile.disableProperty().bind(txtFile1.textProperty().isEmpty().or(txtFile2.textProperty().isEmpty()));
