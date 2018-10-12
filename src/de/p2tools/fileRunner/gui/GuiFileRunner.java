@@ -16,6 +16,8 @@
 
 package de.p2tools.fileRunner.gui;
 
+import de.p2tools.fileRunner.controller.RunEvent;
+import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
@@ -23,6 +25,8 @@ import de.p2tools.p2Lib.dialog.DirFileChooser;
 import de.p2tools.p2Lib.dialog.PAlert;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.net.PUrlTools;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -61,6 +65,7 @@ public class GuiFileRunner extends AnchorPane {
 
     private final Button btnCheckFile = new Button("Dateien vergleichen");
 
+    private final BooleanProperty isRunning = new SimpleBooleanProperty(false);
     private final ProgData progData;
 
     public GuiFileRunner() {
@@ -240,9 +245,9 @@ public class GuiFileRunner extends AnchorPane {
             ProgConfig.GUI_FILE_HASH_SUFF.set(HashConst.HASH_SHA512_SUFFIX);
         });
 
-        btnCheckFile.disableProperty().bind(txtFile1.textProperty().isEmpty().or(txtFile2.textProperty().isEmpty()));
-        btnGenHash1.disableProperty().bind(txtFile1.textProperty().isEmpty());
-        btnGenHash2.disableProperty().bind(txtFile2.textProperty().isEmpty());
+        btnCheckFile.disableProperty().bind(txtFile1.textProperty().isEmpty().or(txtFile2.textProperty().isEmpty().or(isRunning)));
+        btnGenHash1.disableProperty().bind(txtFile1.textProperty().isEmpty().or(isRunning));
+        btnGenHash2.disableProperty().bind(txtFile2.textProperty().isEmpty().or(isRunning));
         btnSaveHash1.disableProperty().bind(txtFile1.textProperty().isEmpty().or(txtHash1.textProperty().isEmpty()));
         btnSaveHash2.disableProperty().bind(txtFile2.textProperty().isEmpty().or(txtHash2.textProperty().isEmpty()));
     }
@@ -264,6 +269,17 @@ public class GuiFileRunner extends AnchorPane {
     }
 
     private void addListener() {
+        progData.worker.addAdListener(new RunListener() {
+            @Override
+            public void ping(RunEvent runEvent) {
+                if (runEvent.nixLos()) {
+                    isRunning.setValue(false);
+                } else {
+                    isRunning.setValue(true);
+                }
+            }
+        });
+
         txtFile1.textProperty().addListener((observable, oldValue, newValue) -> {
             txtHash1.clear();
         });
