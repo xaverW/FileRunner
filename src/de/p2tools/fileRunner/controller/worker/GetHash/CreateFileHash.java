@@ -36,6 +36,7 @@ import java.security.DigestInputStream;
 import java.security.MessageDigest;
 
 public class CreateFileHash {
+
     private boolean stop = false;
     private EventListenerList listeners = new EventListenerList();
     private int max = 0;
@@ -119,7 +120,7 @@ public class CreateFileHash {
 
                 if (PUrlTools.isUrl(fileStr)) {
                     // eine URL verarbeiten
-                    int timeout = 10000; //ms
+                    int timeout = PUrlTools.TIME_OUT; //ms
                     HttpURLConnection conn;
                     conn = (HttpURLConnection) new URL(fileStr).openConnection();
                     conn.setReadTimeout(timeout);
