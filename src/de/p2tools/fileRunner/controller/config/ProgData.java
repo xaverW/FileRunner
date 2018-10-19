@@ -36,6 +36,7 @@ public class ProgData {
 
     // flags
     public static boolean debug = false; // Debugmodus
+    public static boolean duration = false; // Duration ausgeben
 
     // Infos
     public static String configDir; // Verzeichnis zum Speichern der Programmeinstellungen
