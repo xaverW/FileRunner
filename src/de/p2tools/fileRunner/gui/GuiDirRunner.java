@@ -26,6 +26,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class GuiDirRunner extends AnchorPane {
@@ -73,7 +74,9 @@ public class GuiDirRunner extends AnchorPane {
         vBoxBtn.getStyleClass().add("pane-border");
         vBoxBtn.setAlignment(Pos.CENTER);
         vBoxBtn.setPadding(new Insets(10));
-        vBoxBtn.getChildren().addAll(tglShowAll, tglShowSame, tglShowDiffAll, tglShowDiff, tglShowOnly1, tglShowOnly2);
+        Region spacer = new Region();
+        spacer.setMinSize(10, 10);
+        vBoxBtn.getChildren().addAll(tglShowAll, tglShowSame, tglShowDiffAll, spacer, tglShowDiff, tglShowOnly1, tglShowOnly2);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
         splitPane.getItems().addAll(guiDirRunnerPanel1, vBoxBtn, guiDirRunnerPanel2);

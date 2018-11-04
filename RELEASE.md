@@ -2,6 +2,15 @@
 
 <br />
 
+**Release 3-0**
+
+* beim Vergleich von Dateilisten sind jetzt auch ZIP-Dateien möglich
+* es gibt einen weiteren Hash-Algorithmus: sha512
+* die Programmausgabe in der Konsole wurde überarbeitet
+
+<br />
+<br />
+
 **Release 2-1**
 
 * es kann nach einem Programmupdate gesucht werden

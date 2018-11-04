@@ -154,7 +154,12 @@ public class CreateZipHash {
                 }
                 ret = HashTools.getHashString(messageDigest.digest());
 
-                String strFile = zipEntry.getName();
+                String strFileZipEntry = zipEntry.getName();
+
+                // damit / bei Win zu \ wird oder wenn fehlerhaft im zip: \ dann unter Linux zu /
+                String strFile = strFileZipEntry.replace("/", File.separator);
+                strFile = strFile.replace("\\", File.separator);
+
                 if (strFile.startsWith(File.separator)) {
                     strFile = strFile.substring(1);
                 }

@@ -28,6 +28,8 @@ import de.p2tools.fileRunner.gui.tools.GuiTools;
 import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.dialog.DirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -68,7 +70,7 @@ public class GuiDirRunnerPanel extends VBox {
     private final Tab tabFile = new Tab("Hashdatei");
     private final Tab tabFilter = new Tab("Filter");
 
-    private ProjectData projectData;
+    private final ProjectData projectData;
     private final ProgData progData;
     private final FileDataFilter fileDataFilter;
 
@@ -77,6 +79,15 @@ public class GuiDirRunnerPanel extends VBox {
     private FileDataList fileDataList;
     private Table.TABLE TABLE;
     private final boolean panel1;
+
+    private final StringProperty srcDir;
+    private final StringProperty srcZip;
+    private final StringProperty srcHash;
+    private final StringProperty search;
+    private final StringProperty writeHash;
+    private final int selTab;
+    private final IntegerProperty selIndex;
+
 
     enum DIR_ZIP_HASH {DIR, ZIP, HASH}
 
@@ -91,9 +102,28 @@ public class GuiDirRunnerPanel extends VBox {
         if (panel1) {
             fileDataList = progData.fileDataList1;
             TABLE = Table.TABLE.FILELIST1;
+
+            srcDir = projectData.srcDir1Property();
+            srcZip = projectData.srcZip1Property();
+            srcHash = projectData.srcHash1Property();
+            search = projectData.search1Property();
+            writeHash = projectData.writeHash1Property();
+
+            selTab = projectData.getSelTab1();
+            selIndex = projectData.selTab1Property();
+
         } else {
             fileDataList = progData.fileDataList2;
             TABLE = Table.TABLE.FILELIST2;
+
+            srcDir = projectData.srcDir2Property();
+            srcZip = projectData.srcZip2Property();
+            srcHash = projectData.srcHash2Property();
+            search = projectData.search2Property();
+            writeHash = projectData.writeHash2Property();
+
+            selTab = projectData.getSelTab2();
+            selIndex = projectData.selTab2Property();
         }
         generatePanel();
         initTable();
@@ -173,7 +203,7 @@ public class GuiDirRunnerPanel extends VBox {
         HBox.setHgrow(pCboWriteHash, Priority.ALWAYS);
         pCboWriteHash.setMaxWidth(Double.MAX_VALUE);
         pCboWriteHash.setEditable(true);
-        hBoxWriteHash.getChildren().addAll(btnProposeHashName, pCboWriteHash, btnSelectHashList);
+        hBoxWriteHash.getChildren().addAll(pCboWriteHash, btnSelectHashList, btnProposeHashName);
 
         HBox hBoxWrite = new HBox(10);
         hBoxWrite.setAlignment(Pos.CENTER_RIGHT);
@@ -225,23 +255,15 @@ public class GuiDirRunnerPanel extends VBox {
     }
 
     private void initProjectData() {
-        if (panel1) {
-            pCboDir.init(projectData.getSrcDirList(), projectData.srcDir1Property());
-            pCboZip.init(projectData.getSrcZipList(), projectData.srcZip1Property());
-            pCboHash.init(projectData.getSrcHashList(), projectData.srcHash1Property());
-            pCboSearch.init(projectData.getSearchList(), projectData.search1Property());
-            pCboWriteHash.init(projectData.getWriteHashList(), projectData.writeHash1Property());
-            tabPane.getSelectionModel().select(projectData.getSelTab1());
-            projectData.selTab1Property().bind(tabPane.getSelectionModel().selectedIndexProperty());
-        } else {
-            pCboDir.init(projectData.getSrcDirList(), projectData.srcDir2Property());
-            pCboZip.init(projectData.getSrcZipList(), projectData.srcZip2Property());
-            pCboHash.init(projectData.getSrcHashList(), projectData.srcHash2Property());
-            pCboSearch.init(projectData.getSearchList(), projectData.search2Property());
-            pCboWriteHash.init(projectData.getWriteHashList(), projectData.writeHash2Property());
-            tabPane.getSelectionModel().select(projectData.getSelTab2());
-            projectData.selTab2Property().bind(tabPane.getSelectionModel().selectedIndexProperty());
-        }
+        pCboDir.init(projectData.getSrcDirList(), srcDir);
+        pCboZip.init(projectData.getSrcZipList(), srcZip);
+        pCboHash.init(projectData.getSrcHashList(), srcHash);
+        pCboSearch.init(projectData.getSearchList(), search);
+        pCboWriteHash.init(projectData.getWriteHashList(), writeHash);
+
+        tabPane.getSelectionModel().select(selTab);
+        selIndex.bind(tabPane.getSelectionModel().selectedIndexProperty());
+
         setTabFilterText();
     }
 
@@ -256,10 +278,10 @@ public class GuiDirRunnerPanel extends VBox {
             }
         });
 
-        btnSelectDir.setOnAction(event -> DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, pCboDir));
-        btnSelectZip.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, pCboZip));
-        btnSelectHash.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, pCboHash));
-        btnSelectHashList.setOnAction(event -> DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, pCboWriteHash));
+        btnSelectDir.setOnAction(event -> DirFileChooser.DirChooser(progData.primaryStage, pCboDir));
+        btnSelectZip.setOnAction(event -> DirFileChooser.FileChooser(progData.primaryStage, pCboZip));
+        btnSelectHash.setOnAction(event -> DirFileChooser.FileChooser(progData.primaryStage, pCboHash));
+        btnSelectHashList.setOnAction(event -> DirFileChooser.FileChooser(progData.primaryStage, pCboWriteHash));
 
         btnProposeHashName.setOnAction(event -> {
             String file;
@@ -341,7 +363,6 @@ public class GuiDirRunnerPanel extends VBox {
     }
 
     private void setTabDirFile(DIR_ZIP_HASH dir_zip_hash) {
-        // todo
         switch (dir_zip_hash) {
             case DIR:
                 tabDir.setGraphic(new Icons().ICON_TAB_DIR_FILE);
@@ -368,10 +389,6 @@ public class GuiDirRunnerPanel extends VBox {
 
     private void clearFilter() {
         guiDirRunner.clearFilter();
-
-//        fileDataFilter.setSearchStr(pCboSearch.getSelectionModel().getSelectedItem());
-//        fileDataFilter.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
-//        fileDataList.setPred(fileDataFilter);
     }
 
     public void saveTable() {
