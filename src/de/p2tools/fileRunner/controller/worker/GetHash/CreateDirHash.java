@@ -23,8 +23,8 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.p2Lib.hash.HashConst;
-import de.p2tools.p2Lib.tools.FileSize;
-import de.p2tools.p2Lib.tools.PDate;
+import de.p2tools.p2Lib.tools.PFileSize;
+import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.log.PLog;
 
 import javax.swing.event.EventListenerList;
@@ -194,7 +194,7 @@ public class CreateDirHash {
                         }
 
                         PDate fileDate = new PDate(file.lastModified());
-                        FileSize fileSize = new FileSize(file.length());
+                        PFileSize fileSize = new PFileSize(file.length());
                         fileDataList.addHashString(strFile, fileDate, fileSize, ret, link);
                     }
                 } catch (Exception ex) {

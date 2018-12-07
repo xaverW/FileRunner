@@ -21,8 +21,8 @@ import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.p2Lib.PConst;
 import de.p2tools.p2Lib.dialog.PAlert;
-import de.p2tools.p2Lib.tools.FileSize;
-import de.p2tools.p2Lib.tools.PDate;
+import de.p2tools.p2Lib.tools.PFileSize;
+import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
 
@@ -130,9 +130,9 @@ public class HashTools {
         return new PDate(0);
     }
 
-    public static FileSize getFileSize(String zeile) {
+    public static PFileSize getFileSize(String zeile) {
         //todo
-        return new FileSize("");
+        return new PFileSize("");
     }
 
     public static boolean getFileIsLink(String zeile) {

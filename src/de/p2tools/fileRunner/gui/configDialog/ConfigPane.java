@@ -58,7 +58,7 @@ public class ConfigPane extends AnchorPane {
         final CheckBox chkSaveConfig = new CheckBox("Einstellungen speichern");
         chkSaveConfig.selectedProperty().bindBidirectional(systemStoreProp);
 
-        final Button btnHelpStore = new PButton().helpButton(stage, "Programmstart", HelpText.STORE_PROG_CONFIG);
+        final Button btnHelpStore = PButton.helpButton(stage, "Programmstart", HelpText.STORE_PROG_CONFIG);
         GridPane.setHalignment(btnHelpStore, HPos.RIGHT);
 
 
@@ -66,7 +66,7 @@ public class ConfigPane extends AnchorPane {
         final CheckBox chkFollowLink2 = new CheckBox("In Tabelle 2");
         final Label lblFollow = new Label("Symbolische Verknüpfungen auflösen");
 
-        final Button btnHelpFollowLink = new PButton().helpButton(stage, "Verknüpfung folgen", HelpText.FOLLOW_SYMLINK);
+        final Button btnHelpFollowLink = PButton.helpButton(stage, "Verknüpfung folgen", HelpText.FOLLOW_SYMLINK);
         GridPane.setHalignment(btnHelpFollowLink, HPos.RIGHT);
 
         chkFollowLink1.selectedProperty().bindBidirectional(progData.projectData.followLink1Property());

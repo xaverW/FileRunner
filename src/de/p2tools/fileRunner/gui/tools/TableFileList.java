@@ -20,8 +20,8 @@ package de.p2tools.fileRunner.gui.tools;
 import de.p2tools.fileRunner.controller.config.ProgColorList;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
-import de.p2tools.p2Lib.tools.FileSize;
-import de.p2tools.p2Lib.tools.PDate;
+import de.p2tools.p2Lib.tools.PFileSize;
+import de.p2tools.p2Lib.tools.date.PDate;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
@@ -47,7 +47,7 @@ public class TableFileList {
         final TableColumn<FileData, String> fileNameColumn = new TableColumn<>("Datei");
         fileNameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName"));
 
-        final TableColumn<FileSize, String> fileSizeColumn = new TableColumn<>("Größe");
+        final TableColumn<PFileSize, String> fileSizeColumn = new TableColumn<>("Größe");
         fileSizeColumn.setCellValueFactory(new PropertyValueFactory<>("fileSize"));
 
         final TableColumn<FileData, PDate> fileDateColumn = new TableColumn<>("Geändert");
