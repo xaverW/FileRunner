@@ -61,11 +61,18 @@ public class ProgConfig extends PDataProgConfig {
 
     public static StringProperty GUI_FILE_HASH = addStr("gui-file-hash", HashConst.HASH_MD5);
     public static StringProperty GUI_FILE_HASH_SUFF = addStr("gui-file-hash-suff", HashConst.HASH_MD5_SUFFIX);
+
+
     private static ProgConfig instance;
+
+    private ProgConfig() {
+        super(arrayList, "ProgConfig");
+    }
 
     public static final ProgConfig getInstance() {
         return instance == null ? instance = new ProgConfig() : instance;
     }
+
 
     private static StringProperty addStr(String key) {
         return addStrProp(arrayList, key);
