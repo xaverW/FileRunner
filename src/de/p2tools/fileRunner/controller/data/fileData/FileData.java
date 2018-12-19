@@ -17,8 +17,8 @@
 
 package de.p2tools.fileRunner.controller.data.fileData;
 
-import de.p2tools.p2Lib.tools.PFileSize;
 import de.p2tools.p2Lib.tools.date.PDate;
+import de.p2tools.p2Lib.tools.file.PFileSize;
 
 public class FileData extends FileDataProps {
 

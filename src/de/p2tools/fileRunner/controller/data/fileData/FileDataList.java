@@ -17,8 +17,8 @@
 
 package de.p2tools.fileRunner.controller.data.fileData;
 
-import de.p2tools.p2Lib.tools.PFileSize;
 import de.p2tools.p2Lib.tools.date.PDate;
+import de.p2tools.p2Lib.tools.file.PFileSize;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;

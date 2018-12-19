@@ -23,8 +23,8 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.p2Lib.hash.HashConst;
-import de.p2tools.p2Lib.tools.PFileSize;
 import de.p2tools.p2Lib.tools.date.PDate;
+import de.p2tools.p2Lib.tools.file.PFileSize;
 import de.p2tools.p2Lib.tools.log.PLog;
 
 import javax.swing.event.EventListenerList;

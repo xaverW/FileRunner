@@ -21,6 +21,7 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.res.GetIcon;
+import de.p2tools.p2Lib.PInit;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
 import de.p2tools.p2Lib.tools.log.PDuration;
 import javafx.application.Application;
@@ -69,6 +70,8 @@ public class FileRunner extends Application {
             String css = this.getClass().getResource(ProgConst.CSS_FILE).toExternalForm();
             scene.getStylesheets().add(css);
 
+            PInit.addP2LibCss(scene);
+            
             primaryStage.setScene(scene);
             primaryStage.setOnCloseRequest(e -> {
                 e.consume();
