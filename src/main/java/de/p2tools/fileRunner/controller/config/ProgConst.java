@@ -31,11 +31,9 @@ public class ProgConst {
     public static final String WEBSITE_P2 = "https://www.p2tools.de";
     public static final String WEBSITE_PROG_UPDATE = "https://www.p2tools.de/extra/filerunner-info.xml";
 
-    public static final String LOGO_NAME = "P2.png";
-    public static final String ICON_NAME = "Icon.png";
-    public static final String ICON_PATH = "/de/p2tools/fileRunner/res/";
-
-    // Dateien/Verzeichnisse
-    public static final String VERZEICHNIS_PROGRAMM_ICONS = "Icons/Programm"; // Unterverzeichnis im Programmverzeichnis
+    public static final String P2_ICON = "P2.png";
+    public static final String P2_ICON_32 = "P2_32.png";
+    public static final String P2_ICON_PATH = "/de/p2tools/fileRunner/icon/";
+    public static final String PFAD_PROGRAMM_ICONS = "/de/p2tools/fileRunner/icon/program/";
 
 }

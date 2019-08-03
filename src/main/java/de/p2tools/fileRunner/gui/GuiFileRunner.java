@@ -21,8 +21,8 @@ import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
-import de.p2tools.p2Lib.dialog.DirFileChooser;
-import de.p2tools.p2Lib.dialog.PAlert;
+import de.p2tools.p2Lib.alert.PAlert;
+import de.p2tools.p2Lib.dialog.PDirFileChooser;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.net.PUrlTools;
 import javafx.beans.property.BooleanProperty;
@@ -323,11 +323,11 @@ public class GuiFileRunner extends AnchorPane {
 
         btnGetFile1.setOnAction(a -> {
             txtHash1.clear();
-            DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtFile1);
+            PDirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtFile1);
         });
         btnGetFile2.setOnAction(a -> {
             txtHash2.clear();
-            DirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtFile2);
+            PDirFileChooser.FileChooser(ProgData.getInstance().primaryStage, txtFile2);
         });
 
         btnSaveHash1.setOnAction(a -> {
@@ -343,7 +343,7 @@ public class GuiFileRunner extends AnchorPane {
                 initDirStr = "";
             }
 
-            String fileStr = DirFileChooser.FileChooserSave(ProgData.getInstance().primaryStage, initDirStr, initFileStr).trim();
+            String fileStr = PDirFileChooser.FileChooserSave(ProgData.getInstance().primaryStage, initDirStr, initFileStr).trim();
             if (fileStr == null || fileStr.isEmpty()) {
                 return;
             }
@@ -365,7 +365,7 @@ public class GuiFileRunner extends AnchorPane {
                 initDirStr = "";
             }
 
-            String fileStr = DirFileChooser.FileChooserSave(ProgData.getInstance().primaryStage, initDirStr, initFileStr).trim();
+            String fileStr = PDirFileChooser.FileChooserSave(ProgData.getInstance().primaryStage, initDirStr, initFileStr).trim();
             if (fileStr == null || fileStr.isEmpty()) {
                 return;
             }

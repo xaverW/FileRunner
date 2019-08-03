@@ -23,7 +23,7 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.PInit;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
-import de.p2tools.p2Lib.tools.log.PDuration;
+import de.p2tools.p2Lib.tools.duration.PDuration;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -88,7 +88,7 @@ public class FileRunner extends Application {
 
     public void losGehts() {
         PDuration.counterStop(LOG_TEXT_PROGRAMMSTART);
-        primaryStage.getIcons().add(GetIcon.getImage(ProgConst.ICON_NAME, ProgConst.ICON_PATH, 32, 32));
+        primaryStage.getIcons().add(GetIcon.getImage(ProgConst.P2_ICON_32, ProgConst.P2_ICON_PATH, 32, 32));
 
         PDuration.onlyPing("Erster Start");
         primaryStage.setTitle(ProgConst.PROGRAMMNAME);

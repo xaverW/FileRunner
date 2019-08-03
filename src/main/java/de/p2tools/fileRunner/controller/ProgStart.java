@@ -17,8 +17,10 @@
 package de.p2tools.fileRunner.controller;
 
 import de.p2tools.fileRunner.controller.config.*;
+import de.p2tools.p2Lib.PConst;
 import de.p2tools.p2Lib.PInit;
 import de.p2tools.p2Lib.configFile.ConfigFile;
+import de.p2tools.p2Lib.configFile.ReadWriteConfigFile;
 import de.p2tools.p2Lib.tools.log.LogMessage;
 import de.p2tools.p2Lib.tools.log.PLog;
 import de.p2tools.p2Lib.tools.log.PLogger;
@@ -28,6 +30,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ProgStart {
+    private static final String backupHeader = "Die Einstellungen des Programms sind beschädigt" + PConst.LINE_SEPARATOR +
+            "und können nicht geladen werden.";
+    private static final String backupText = "Soll versucht werden, mit gesicherten Einstellungen" + PConst.LINE_SEPARATOR
+            + "des Programms zu starten?" + PConst.LINE_SEPARATORx2
+            + "(ansonsten startet das Programm mit Standardeinstellungen)";
+
     ProgData progData;
 
     public ProgStart(ProgData progData) {
@@ -76,12 +84,28 @@ public class ProgStart {
     }
 
     private boolean loadConnfig(Path xmlFilePath) {
+//        ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
+//        return configFile.readConfigFile(
+//                null,
+//                new ArrayList<>(Arrays.asList(ProgConfig.getInstance(),
+//                        ProgColorList.getConfigsData(),
+//                        progData.projectData)));
+
+
         ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
-        return configFile.readConfigFile(
-                null,
-                new ArrayList<>(Arrays.asList(ProgConfig.getInstance(),
-                        ProgColorList.getConfigsData(),
-                        progData.projectData)));
+        configFile.addConfigs(ProgConfig.getInstance());
+        configFile.addConfigs(ProgColorList.getConfigsData());
+        configFile.addConfigs(progData.projectData);
+
+        PLog.sysLog("Konfig lesen: " + xmlFilePath.toString());
+
+        ReadWriteConfigFile readWriteConfigFile = new ReadWriteConfigFile();
+        readWriteConfigFile.addConfigFile(configFile);
+
+        boolean ret = readWriteConfigFile.readConfigFile(backupHeader, backupText);
+
+        return ret;
+
     }
 
 }

@@ -172,7 +172,7 @@ public class AboutDialogController extends PDialogExtra {
     private javafx.scene.image.Image getImage() {
         Image img = null;
         try {
-            img = GetIcon.getImage(ProgConst.LOGO_NAME, ProgConst.ICON_PATH, 150, 150);
+            img = GetIcon.getImage(ProgConst.P2_ICON, ProgConst.P2_ICON_PATH, 150, 150);
         } catch (Exception ex) {
             PLog.errorLog(975421305, ex);
         }

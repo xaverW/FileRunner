@@ -19,8 +19,8 @@ package de.p2tools.fileRunner.gui;
 
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.p2Lib.dialog.PAlert;
-import de.p2tools.p2Lib.dialog.PAlertFileChosser;
+import de.p2tools.p2Lib.alert.PAlert;
+import de.p2tools.p2Lib.dialog.PDialogFileChosser;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
@@ -49,7 +49,7 @@ public class GuiDirFactory {
 
         File dir = new File(hashDir);
         if (!dir.exists()) {
-            PAlertFileChosser.showErrorAlert("Verzeichnis einlesen", "Verzeichnis existiert nicht!");
+            PDialogFileChosser.showErrorAlert("Verzeichnis einlesen", "Verzeichnis existiert nicht!");
         } else {
             ret = true;
             progData.worker.createDirHash(dir, fileDataList, 1, true, followLink);
@@ -67,7 +67,7 @@ public class GuiDirFactory {
 
         File zipFile = new File(hashZip);
         if (!zipFile.exists()) {
-            PAlertFileChosser.showErrorAlert("Zipdatei einlesen", "Die Zipdatei existiert nicht!");
+            PDialogFileChosser.showErrorAlert("Zipdatei einlesen", "Die Zipdatei existiert nicht!");
         } else {
             ret = true;
             progData.worker.createZipHash(zipFile, fileDataList);
@@ -85,7 +85,7 @@ public class GuiDirFactory {
 
         File file = new File(hashFile);
         if (!file.exists() || !file.isFile()) {
-            PAlertFileChosser.showErrorAlert("Hashdatei einlesen", "Die Hashdatei existiert nicht!");
+            PDialogFileChosser.showErrorAlert("Hashdatei einlesen", "Die Hashdatei existiert nicht!");
         } else {
             ret = true;
             progData.worker.readDirHashFile(file, fileDataList);
@@ -103,7 +103,7 @@ public class GuiDirFactory {
         }
         file = new File(fileStr);
         if (file.exists()) {
-            PAlert.BUTTON btn = PAlertFileChosser.showAlert_yes_no("Datei existiert bereits!", "Überschreiben",
+            PAlert.BUTTON btn = PDialogFileChosser.showAlert_yes_no("Datei existiert bereits!", "Überschreiben",
                     "Hashdatei existiert bereits, überschreiben?");
             if (btn.equals(PAlert.BUTTON.NO)) {
                 return;

@@ -16,27 +16,28 @@
 
 package de.p2tools.fileRunner.res;
 
+import de.p2tools.fileRunner.controller.config.ProgConst;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class GetIcon {
 
-    private final static String PFAD_PROGRAMM = "/de/p2tools/fileRunner/res/programm/";
+//    private final static String PFAD_PROGRAMM = "/de/p2tools/fileRunner/icon/program/";
 
     public static ImageView getImageView(String strIcon, int w, int h) {
-        return new ImageView(getImage(strIcon, PFAD_PROGRAMM, w, h));
+        return new ImageView(getImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, w, h));
     }
 
     public static ImageView getImageView(String strIcon) {
-        return new ImageView(getImage(strIcon, PFAD_PROGRAMM, 0, 0));
+        return new ImageView(getImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, 0, 0));
     }
 
     public static Image getImage(String strIcon, int w, int h) {
-        return getImage(strIcon, PFAD_PROGRAMM, w, h);
+        return getImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, w, h);
     }
 
     public static Image getImage(String strIcon) {
-        return getImage(strIcon, PFAD_PROGRAMM, 0, 0);
+        return getImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, 0, 0);
     }
 
     public static Image getImage(String strIcon, String path, int w, int h) {

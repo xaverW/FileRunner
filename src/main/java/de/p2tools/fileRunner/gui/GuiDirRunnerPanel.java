@@ -26,7 +26,7 @@ import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
 import de.p2tools.fileRunner.gui.tools.GuiTools;
 import de.p2tools.fileRunner.gui.tools.Table;
-import de.p2tools.p2Lib.dialog.DirFileChooser;
+import de.p2tools.p2Lib.dialog.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
@@ -278,10 +278,10 @@ public class GuiDirRunnerPanel extends VBox {
             }
         });
 
-        btnSelectDir.setOnAction(event -> DirFileChooser.DirChooser(progData.primaryStage, pCboDir));
-        btnSelectZip.setOnAction(event -> DirFileChooser.FileChooser(progData.primaryStage, pCboZip));
-        btnSelectHash.setOnAction(event -> DirFileChooser.FileChooser(progData.primaryStage, pCboHash));
-        btnSelectHashList.setOnAction(event -> DirFileChooser.FileChooser(progData.primaryStage, pCboWriteHash));
+        btnSelectDir.setOnAction(event -> PDirFileChooser.DirChooser(progData.primaryStage, pCboDir));
+        btnSelectZip.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, pCboZip));
+        btnSelectHash.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, pCboHash));
+        btnSelectHashList.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, pCboWriteHash));
 
         btnProposeHashName.setOnAction(event -> {
             String file;
