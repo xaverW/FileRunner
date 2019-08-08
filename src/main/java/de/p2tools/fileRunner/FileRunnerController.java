@@ -44,6 +44,7 @@ public class FileRunnerController extends StackPane {
     Button btnFileRunner = new Button("Dateien" + PConst.LINE_SEPARATOR + "vergleichen");
 
     MenuButton menuButton = new MenuButton("");
+    MenuButton menuButton2 = new MenuButton("");
 
     BorderPane borderPane = new BorderPane();
     StackPane stackPaneCont = new StackPane();
@@ -72,7 +73,7 @@ public class FileRunnerController extends StackPane {
             HBox.setHgrow(tilePane, Priority.ALWAYS);
 
             tilePane.getChildren().addAll(btnDirRunner, btnFileRunner);
-            hBoxMenueButton.getChildren().addAll(tilePane, menuButton);
+            hBoxMenueButton.getChildren().addAll(menuButton2, tilePane, menuButton);
 
             btnDirRunner.setOnAction(e -> selPanelDirRunner());
             btnDirRunner.setMaxWidth(Double.MAX_VALUE);
@@ -102,6 +103,11 @@ public class FileRunnerController extends StackPane {
             menuButton.getItems().addAll(miConfig,
                     new SeparatorMenuItem(), miAbout, miUpdate,
                     new SeparatorMenuItem(), miQuitt);
+
+            menuButton2.getStyleClass().add("btnFunction");
+            menuButton2.setText("");
+            menuButton2.setGraphic(new Icons().FX_ICON_TOOLBAR_MENUE_TOP);
+            menuButton2.setVisible(false);
 
 
             // Panes
