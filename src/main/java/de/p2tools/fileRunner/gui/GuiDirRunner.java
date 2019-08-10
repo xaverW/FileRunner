@@ -44,8 +44,8 @@ public class GuiDirRunner extends AnchorPane {
     private final ProgData progData;
     private final FileDataFilter fileDataFilter1 = new FileDataFilter();
     private final FileDataFilter fileDataFilter2 = new FileDataFilter();
-    private final GuiDirRunnerPanel guiDirRunnerPanel1;
-    private final GuiDirRunnerPanel guiDirRunnerPanel2;
+    private final GuiDirPane guiDirPane1;
+    private final GuiDirPane guiDirPane2;
 
     private double orgX, orgDiv0, orgDiv1, orgSize;
 
@@ -59,8 +59,8 @@ public class GuiDirRunner extends AnchorPane {
         AnchorPane.setTopAnchor(splitPane, 0.0);
         getChildren().addAll(splitPane);
 
-        guiDirRunnerPanel1 = new GuiDirRunnerPanel(progData, this, fileDataFilter1, true);
-        guiDirRunnerPanel2 = new GuiDirRunnerPanel(progData, this, fileDataFilter2, false);
+        guiDirPane1 = new GuiDirPane(progData, this, fileDataFilter1, true);
+        guiDirPane2 = new GuiDirPane(progData, this, fileDataFilter2, false);
 
         initCont();
         addListener();
@@ -79,7 +79,7 @@ public class GuiDirRunner extends AnchorPane {
         vBoxBtn.getChildren().addAll(tglShowAll, tglShowSame, tglShowDiffAll, spacer, tglShowDiff, tglShowOnly1, tglShowOnly2);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
-        splitPane.getItems().addAll(guiDirRunnerPanel1, vBoxBtn, guiDirRunnerPanel2);
+        splitPane.getItems().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
 
         vBoxBtn.setOnMousePressed(e -> {
             orgX = e.getSceneX();
@@ -178,8 +178,8 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     public void saveTable() {
-        guiDirRunnerPanel1.saveTable();
-        guiDirRunnerPanel2.saveTable();
+        guiDirPane1.saveTable();
+        guiDirPane2.saveTable();
     }
 
 }

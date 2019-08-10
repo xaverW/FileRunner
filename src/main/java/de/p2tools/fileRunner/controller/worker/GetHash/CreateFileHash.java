@@ -74,26 +74,26 @@ public class CreateFileHash {
         genHashThread.start();
     }
 
-    public void genHash(String file1, StringProperty stringProperty1, String file2, StringProperty stringProperty2) {
-        stop = false;
-
-        max = 200;
-        progress = 0;
-        thrads = 2;
-        notifyEvent();
-
-        CreateHash createHash = new CreateHash(file1, stringProperty1);
-        Thread genHashThread = new Thread(createHash);
-        genHashThread.setName("CreateHash-1");
-        genHashThread.setDaemon(true);
-        genHashThread.start();
-
-        createHash = new CreateHash(file2, stringProperty2);
-        genHashThread = new Thread(createHash);
-        genHashThread.setName("CreateHash-2");
-        genHashThread.setDaemon(true);
-        genHashThread.start();
-    }
+//    public void genHash(String file1, StringProperty stringProperty1, String file2, StringProperty stringProperty2) {
+//        stop = false;
+//
+//        max = 200;
+//        progress = 0;
+//        thrads = 2;
+//        notifyEvent();
+//
+//        CreateHash createHash = new CreateHash(file1, stringProperty1);
+//        Thread genHashThread = new Thread(createHash);
+//        genHashThread.setName("CreateHash-1");
+//        genHashThread.setDaemon(true);
+//        genHashThread.start();
+//
+//        createHash = new CreateHash(file2, stringProperty2);
+//        genHashThread = new Thread(createHash);
+//        genHashThread.setName("CreateHash-2");
+//        genHashThread.setDaemon(true);
+//        genHashThread.start();
+//    }
 
     private class CreateHash implements Runnable {
         private final String fileStr;

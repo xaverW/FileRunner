@@ -27,7 +27,6 @@ import de.p2tools.p2Lib.tools.log.PLogger;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ProgStart {
     private static final String backupHeader = "Die Einstellungen des Programms sind beschädigt" + PConst.LINE_SEPARATOR +

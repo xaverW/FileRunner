@@ -15,11 +15,9 @@
  */
 package de.p2tools.fileRunner;
 
-import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.p2Lib.guiTools.LinuxJavaFx;
 import javafx.application.Application;
 import javafx.application.Platform;
-import org.apache.commons.lang3.SystemUtils;
 
 public class Main {
 
@@ -55,9 +53,10 @@ public class Main {
     private void startGui(final String[] args) {
         Platform.setImplicitExit(false);
 
-        if (SystemUtils.IS_OS_UNIX) {
-            LinuxJavaFx.setupX11WindowManagerClassName(ProgConst.PROGRAMMNAME);
-        }
+//        todo wirft einen Fehler und funktioniert nicht mit FX
+//        if (SystemUtils.IS_OS_UNIX) {
+//            LinuxJavaFx.setupX11WindowManagerClassName(ProgConst.PROGRAMMNAME);
+//        }
 
         Application.launch(FileRunner.class, args);
     }

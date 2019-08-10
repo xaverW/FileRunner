@@ -37,6 +37,7 @@ public class Worker {
     private final CreateZipHash createZipHash;
     private final ReadDirHashFile readDirHashFile;
     private final CreateFileHash createFileHash;
+    private final ReadHashFile readHashFile;
     private EventListenerList listeners = new EventListenerList();
     private BooleanProperty working = new SimpleBooleanProperty(false);
 
@@ -46,6 +47,7 @@ public class Worker {
         createZipHash = new CreateZipHash(progData);
         readDirHashFile = new ReadDirHashFile(progData);
         createFileHash = new CreateFileHash();
+        readHashFile = new ReadHashFile();
 
         createDirHash.addAdListener(new RunListener() {
             @Override
@@ -66,6 +68,12 @@ public class Worker {
             }
         });
         createFileHash.addAdListener(new RunListener() {
+            @Override
+            public void ping(RunEvent runEvent) {
+                notifyEvent(runEvent);
+            }
+        });
+        readHashFile.addAdListener(new RunListener() {
             @Override
             public void ping(RunEvent runEvent) {
                 notifyEvent(runEvent);
@@ -93,6 +101,7 @@ public class Worker {
         createZipHash.setStop();
         readDirHashFile.setStop();
         createFileHash.setStop();
+        readHashFile.setStop();
     }
 
     public void createDirHash(File dir, FileDataList fileDataList, int sumThreads, boolean recursiv, boolean followLink) {
@@ -111,13 +120,17 @@ public class Worker {
         return HashTools.writeDirHashFile(destFile, fileDataList);
     }
 
+    public void readHashFile(String file, StringProperty stringProperty) {
+        readHashFile.readHash(file, stringProperty);
+    }
+
     public void createFileHash(String file, StringProperty stringProperty) {
         createFileHash.genHash(file, stringProperty);
     }
 
-    public void createFileHash(String file1, StringProperty stringProperty1, String file2, StringProperty stringProperty2) {
-        createFileHash.genHash(file1, stringProperty1, file2, stringProperty2);
-    }
+//    public void createFileHash(String file1, StringProperty stringProperty1, String file2, StringProperty stringProperty2) {
+//        createFileHash.genHash(file1, stringProperty1, file2, stringProperty2);
+//    }
 
     public void writeFileHash(File file, String fileHash, String hash) {
         WriteHashFile.writeFileHash(file, fileHash, hash);

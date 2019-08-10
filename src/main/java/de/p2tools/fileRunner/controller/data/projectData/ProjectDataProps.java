@@ -30,6 +30,22 @@ import javafx.collections.ObservableList;
 public class ProjectDataProps extends PDataSample<ProjectData> {
     public static final String TAG = "ProjectData";
 
+    // compare file
+    private final IntegerProperty compFileSel1 = new SimpleIntegerProperty(0);
+    private final IntegerProperty compFileSel2 = new SimpleIntegerProperty(0);
+
+    private final StringProperty compFileSrcFile1 = new SimpleStringProperty("");
+    private final StringProperty compFileSrcFile2 = new SimpleStringProperty("");
+    private ObservableList<String> compFileSrcFileList = FXCollections.observableArrayList();
+
+    private final StringProperty compFileHashFile1 = new SimpleStringProperty("");
+    private final StringProperty compFileHashFile2 = new SimpleStringProperty("");
+    private ObservableList<String> compFileHashFileList = FXCollections.observableArrayList();
+
+    private final StringProperty compFileHash1 = new SimpleStringProperty("");
+    private final StringProperty compFileHash2 = new SimpleStringProperty("");
+
+    // compare dir
     private final StringProperty srcDir1 = new SimpleStringProperty("");
     private final StringProperty srcDir2 = new SimpleStringProperty("");
     private ObservableList<String> srcDirList = FXCollections.observableArrayList();
@@ -68,6 +84,19 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
 
     public Config[] getConfigsArr() {
         return new Config[]{
+                // comp file
+                new ConfigIntProp("comp-file-sel-1", compFileSel1),
+                new ConfigIntProp("comp-file-sel-2", compFileSel2),
+                new ConfigStringProp("comp-file-src-file-1", compFileSrcFile1),
+                new ConfigStringProp("comp-file-src-file-2", compFileSrcFile2),
+                new ConfigStringList("comp-file-src-file-list", compFileSrcFileList),
+                new ConfigStringProp("comp-file-hash-file-1", compFileHashFile1),
+                new ConfigStringProp("comp-file-hash-file-2", compFileHashFile2),
+                new ConfigStringList("comp-file-hash-file-list", compFileHashFileList),
+                new ConfigStringProp("comp-file-hash-1", compFileHash1),
+                new ConfigStringProp("comp-file-hash-2", compFileHash2),
+
+                // comp dir
                 new ConfigStringProp("src-dir-1", srcDir1),
                 new ConfigStringProp("src-dir-2", srcDir2),
                 new ConfigStringList("src-dir-list", srcDirList),
@@ -89,6 +118,123 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
                 new ConfigBoolProp("followLink2", followLink2)};
     }
 
+    //===============================================================
+    // compare file
+
+    public int getCompFileSel1() {
+        return compFileSel1.get();
+    }
+
+    public IntegerProperty compFileSel1Property() {
+        return compFileSel1;
+    }
+
+    public void setCompFileSel1(int compFileSel1) {
+        this.compFileSel1.set(compFileSel1);
+    }
+
+    public int getCompFileSel2() {
+        return compFileSel2.get();
+    }
+
+    public IntegerProperty compFileSel2Property() {
+        return compFileSel2;
+    }
+
+    public void setCompFileSel2(int compFileSel2) {
+        this.compFileSel2.set(compFileSel2);
+    }
+
+    public String getCompFileSrcFile1() {
+        return compFileSrcFile1.get();
+    }
+
+    public StringProperty compFileSrcFile1Property() {
+        return compFileSrcFile1;
+    }
+
+    public void setCompFileSrcFile1(String compFileSrcFile1) {
+        this.compFileSrcFile1.set(compFileSrcFile1);
+    }
+
+    public String getCompFileSrcFile2() {
+        return compFileSrcFile2.get();
+    }
+
+    public StringProperty compFileSrcFile2Property() {
+        return compFileSrcFile2;
+    }
+
+    public void setCompFileSrcFile2(String compFileSrcFile2) {
+        this.compFileSrcFile2.set(compFileSrcFile2);
+    }
+
+    public ObservableList<String> getCompFileSrcFileList() {
+        return compFileSrcFileList;
+    }
+
+    public void setCompFileSrcFileList(ObservableList<String> compFileSrcFileList) {
+        this.compFileSrcFileList = compFileSrcFileList;
+    }
+
+    public String getCompFileHashFile1() {
+        return compFileHashFile1.get();
+    }
+
+    public StringProperty compFileHashFile1Property() {
+        return compFileHashFile1;
+    }
+
+    public void setCompFileHashFile1(String compFileHashFile1) {
+        this.compFileHashFile1.set(compFileHashFile1);
+    }
+
+    public String getCompFileHashFile2() {
+        return compFileHashFile2.get();
+    }
+
+    public StringProperty compFileHashFile2Property() {
+        return compFileHashFile2;
+    }
+
+    public void setCompFileHashFile2(String compFileHashFile2) {
+        this.compFileHashFile2.set(compFileHashFile2);
+    }
+
+    public ObservableList<String> getCompFileHashFileList() {
+        return compFileHashFileList;
+    }
+
+    public void setCompFileHashFileList(ObservableList<String> compFileHashFileList) {
+        this.compFileHashFileList = compFileHashFileList;
+    }
+
+    public String getCompFileHash1() {
+        return compFileHash1.get();
+    }
+
+    public StringProperty compFileHash1Property() {
+        return compFileHash1;
+    }
+
+    public void setCompFileHash1(String compFileHash1) {
+        this.compFileHash1.set(compFileHash1);
+    }
+
+    public String getCompFileHash2() {
+        return compFileHash2.get();
+    }
+
+    public StringProperty compFileHash2Property() {
+        return compFileHash2;
+    }
+
+    public void setCompFileHash2(String compFileHash2) {
+        this.compFileHash2.set(compFileHash2);
+    }
+
+    //===============================================================
+    // compare dir
     public String getSrcDir1() {
         return srcDir1.get();
     }

@@ -24,6 +24,7 @@ import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
+import de.p2tools.fileRunner.controller.worker.HashFactory;
 import de.p2tools.fileRunner.gui.tools.GuiTools;
 import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.dialog.PDirFileChooser;
@@ -37,7 +38,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class GuiDirRunnerPanel extends VBox {
+public class GuiDirPane extends VBox {
 
     private final ScrollPane scrollPane = new ScrollPane();
     private final TableView table = new TableView();
@@ -74,7 +75,6 @@ public class GuiDirRunnerPanel extends VBox {
     private final ProgData progData;
     private final FileDataFilter fileDataFilter;
 
-    private final GuiDirFactory guiDirFactory;
     private final GuiDirRunner guiDirRunner;
     private FileDataList fileDataList;
     private Table.TABLE TABLE;
@@ -91,11 +91,10 @@ public class GuiDirRunnerPanel extends VBox {
 
     enum DIR_ZIP_HASH {DIR, ZIP, HASH}
 
-    public GuiDirRunnerPanel(ProgData progData, GuiDirRunner guiDirRunner, FileDataFilter fileDataFilter, boolean panel1) {
+    public GuiDirPane(ProgData progData, GuiDirRunner guiDirRunner, FileDataFilter fileDataFilter, boolean panel1) {
         this.progData = progData;
         this.guiDirRunner = guiDirRunner;
         this.fileDataFilter = fileDataFilter;
-        this.guiDirFactory = new GuiDirFactory(progData);
         this.panel1 = panel1;
 
         this.projectData = progData.projectData;
@@ -396,25 +395,25 @@ public class GuiDirRunnerPanel extends VBox {
     }
 
     private boolean readDirHash(String hashDir, FileDataList fileDataList, boolean followLink) {
-        boolean ret = guiDirFactory.readDirHash(hashDir, fileDataList, followLink);
+        boolean ret = HashFactory.readDirHash(hashDir, fileDataList, followLink);
         clearFilter();
         return ret;
     }
 
     private boolean readZipHash(String hashZip, FileDataList fileDataList) {
-        boolean ret = guiDirFactory.readZipHash(hashZip, fileDataList);
+        boolean ret = HashFactory.readZipHash(hashZip, fileDataList);
         clearFilter();
         return ret;
     }
 
     private boolean readHashFile(String hashFile, FileDataList fileDataList) {
-        boolean ret = guiDirFactory.readHashFile(hashFile, fileDataList);
+        boolean ret = HashFactory.readHashFile(hashFile, fileDataList);
         clearFilter();
         return ret;
     }
 
     private void writeHashFile() {
-        guiDirFactory.writeHashFile(lblWriteHash,
+        HashFactory.writeHashFile(lblWriteHash,
                 (panel1 ? projectData.getWriteHash1().trim() : projectData.getWriteHash2().trim()),
                 fileDataList);
     }

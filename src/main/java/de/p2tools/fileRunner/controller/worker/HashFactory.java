@@ -15,12 +15,13 @@
  */
 
 
-package de.p2tools.fileRunner.gui;
+package de.p2tools.fileRunner.controller.worker;
 
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialog.PDialogFileChosser;
+import de.p2tools.p2Lib.tools.net.PUrlTools;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
@@ -34,14 +35,13 @@ import javafx.util.Duration;
 
 import java.io.File;
 
-public class GuiDirFactory {
-    private final ProgData progData;
+public class HashFactory {
 
-    public GuiDirFactory(ProgData progData) {
-        this.progData = progData;
+    private HashFactory() {
     }
 
-    public boolean readDirHash(String hashDir, FileDataList fileDataList, boolean followLink) {
+    public static boolean readDirHash(String hashDir, FileDataList fileDataList, boolean followLink) {
+        ProgData progData = ProgData.getInstance();
         boolean ret = false;
         if (hashDir.isEmpty()) {
             return false;
@@ -59,7 +59,8 @@ public class GuiDirFactory {
         return ret;
     }
 
-    public boolean readZipHash(String hashZip, FileDataList fileDataList) {
+    public static boolean readZipHash(String hashZip, FileDataList fileDataList) {
+        ProgData progData = ProgData.getInstance();
         boolean ret = false;
         if (hashZip.isEmpty()) {
             return false;
@@ -77,7 +78,8 @@ public class GuiDirFactory {
         return ret;
     }
 
-    public boolean readHashFile(String hashFile, FileDataList fileDataList) {
+    public static boolean readHashFile(String hashFile, FileDataList fileDataList) {
+        ProgData progData = ProgData.getInstance();
         boolean ret = false;
         if (hashFile.isEmpty()) {
             return false;
@@ -95,7 +97,8 @@ public class GuiDirFactory {
         return ret;
     }
 
-    public void writeHashFile(Label lbl, String fileStr, FileDataList fileDataList) {
+    public static void writeHashFile(Label lbl, String fileStr, FileDataList fileDataList) {
+        ProgData progData = ProgData.getInstance();
         File file;
 
         if (fileStr.isEmpty()) {
@@ -129,5 +132,17 @@ public class GuiDirFactory {
             };
             animation.play();
         }
+    }
+
+    public static boolean checkFile(String file) {
+        if (PUrlTools.isUrl(file) && PUrlTools.urlExists(file) || new File(file).exists()) {
+            return true;
+        }
+        if (PUrlTools.isUrl(file)) {
+            PAlert.showErrorAlert("Hash erstellen", "Die angegebene URL existiert nicht!");
+        } else {
+            PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei existiert nicht!");
+        }
+        return false;
     }
 }
