@@ -210,6 +210,10 @@
     -fx-border-width: 1;
     -fx-border-color: -style-border-color-tab;
  }
+.pane-border-lightgray {
+    -fx-border-width: 1;
+    -fx-border-color: #d6d6d6;
+ }
 
 /* CheckBoxCell */
 .checkbox-table * {
@@ -228,8 +232,20 @@
 .checkbox-table:selected .mark {
     -fx-background-color: black;
 }
+
+.txtHashOk {
+    /*-fx-background-color: lightgreen; wegen PTextfield: stat label gehts nicht */
+    -fx-border-width: 2;
+    -fx-border-color: green;
+}
 .txtHash {
-    -fx-control-inner-background: lightgreen;
+    -fx-border-width: 2;
+    -fx-border-color: lightgray;
+}
+
+.txtHash:focused {
+    -fx-border-width: 2;
+    -fx-border-color: transparent;
 }
 
 .lblSize {

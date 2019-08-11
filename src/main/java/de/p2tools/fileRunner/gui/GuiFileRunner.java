@@ -21,6 +21,8 @@ import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.p2Lib.alert.PAlert;
+import de.p2tools.p2Lib.guiTools.PColumnConstraints;
+import de.p2tools.p2Lib.guiTools.PTextField;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.net.PUrlTools;
 import javafx.beans.property.BooleanProperty;
@@ -28,11 +30,16 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.io.File;
 
 public class GuiFileRunner extends AnchorPane {
+
+    private final GridPane gridPane = new GridPane();
 
     private final GuiFilePane guiFilePane1;
     private final GuiFilePane guiFilePane2;
@@ -76,7 +83,7 @@ public class GuiFileRunner extends AnchorPane {
 
         initCont();
         initData();
-        setColor();
+        initColor();
         addListener();
     }
 
@@ -87,46 +94,28 @@ public class GuiFileRunner extends AnchorPane {
         Label lblDir = new Label("Datei " + (one ? "1" : "2"));
         lblDir.getStyleClass().add("headerLabelVertikal");
         lblDir.setMaxWidth(Double.MAX_VALUE);
-
-        HBox.setHgrow(one ? guiFilePane1 : guiFilePane2, Priority.ALWAYS);
-
-        HBox hBox = new HBox(10);
-        hBox.setAlignment(Pos.CENTER_LEFT);
-        hBox.getStyleClass().add("pane-border");
-        hBox.getChildren().addAll(lblDir, one ? guiFilePane1 : guiFilePane2);
-        vBoxCont.getChildren().addAll(hBox);
+        gridPane.add(lblDir, 0, one ? 0 : 1);
+        gridPane.add(one ? guiFilePane1 : guiFilePane2, 1, one ? 0 : 1, 2, 1);
     }
 
     private void initCont() {
-        Label lblHash = new Label("Hash");
-        lblHash.getStyleClass().add("headerLabelVertikal");
-        lblHash.setMaxWidth(Double.MAX_VALUE);
+        Label lbl = new Label("Hash:   ");
+        HBox hBox = new HBox(10);
+        hBox.setPadding(new Insets(20, 0, 20, 0));
+        hBox.setAlignment(Pos.CENTER_LEFT);
+        hBox.getChildren().addAll(lbl, cbxMd5, cbxSha1, cbxSha256, cbxSha512);
 
-        // Hash
-        int r = 0;
-        GridPane gridPaneHash = new GridPane();
-        gridPaneHash.setPadding(new Insets(20));
-        gridPaneHash.getStyleClass().add("pane-border");
-        gridPaneHash.setVgap(20);
-        gridPaneHash.setHgap(20);
-
-        gridPaneHash.add(lblHash, 0, r, 1, 1);
-        gridPaneHash.add(new Label(" "), 1, r);
-
-
-        gridPaneHash.add(cbxMd5, 2, r);
-        gridPaneHash.add(cbxSha1, 3, r);
-        gridPaneHash.add(cbxSha256, 4, r);
-        gridPaneHash.add(cbxSha512, 5, r);
-
-        HBox hBoxCheck = new HBox(10);
-        hBoxCheck.setAlignment(Pos.CENTER_RIGHT);
-        hBoxCheck.getChildren().add(btnCheckFile);
-        GridPane.setHgrow(hBoxCheck, Priority.ALWAYS);
-        gridPaneHash.add(hBoxCheck, 6, r);
+        gridPane.setPadding(new Insets(10));
+        gridPane.getStyleClass().add("pane-border-lightgray");
+        gridPane.setVgap(10);
+        gridPane.setHgap(10);
+        gridPane.add(hBox, 1, 2);
+        gridPane.add(btnCheckFile, 2, 2);
+        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
+                PColumnConstraints.getCcComputedSizeAndHgrow(), PColumnConstraints.getCcPrefSize());
 
         vBoxCont.setPadding(new Insets(25));
-        vBoxCont.getChildren().addAll(gridPaneHash);
+        vBoxCont.getChildren().addAll(gridPane);
 
         btnCheckFile.setTooltip(new Tooltip("Hash für beide Dateien erstellen und die Dateien damit vergeleichen."));
         cbxMd5.setTooltip(new Tooltip("Es wird ein MD5-Hash erstellt."));
@@ -175,26 +164,48 @@ public class GuiFileRunner extends AnchorPane {
             ProgConfig.GUI_FILE_HASH_SUFF.set(HashConst.HASH_SHA512_SUFFIX);
         });
 
-//        guiFilePane1.compareNotProperty().addListener((observable, oldValue, newValue) -> {
-//            System.out.println("comp 1: " + guiFilePane1.compareNotProperty().get());
-//        });
-//        guiFilePane2.compareNotProperty().addListener((observable, oldValue, newValue) -> {
-//            System.out.println("comp 2: " + guiFilePane2.compareNotProperty().get());
-//        });
         btnCheckFile.disableProperty().bind(guiFilePane1.compareNotProperty()
                 .or(guiFilePane2.compareNotProperty())
                 .or(isRunning));
     }
 
+    private void initColor() {
+        setColor();
+        PTextField pTextField1 = guiFilePane1.getTxtHash();
+        PTextField pTextField2 = guiFilePane2.getTxtHash();
+        pTextField1.textProperty().addListener((observable, oldValue, newValue) -> {
+            setColor();
+        });
+        pTextField2.textProperty().addListener((observable, oldValue, newValue) -> {
+            setColor();
+        });
+    }
+
+    public static String PTEXTFIELD_LABEL =
+            "-fx-control-inner-background: lightgreen;";
+
     private void setColor() {
-//        if (!txtHash1.getText().isEmpty() && !txtHash2.getText().isEmpty() &&
-//                txtHash1.getText().toLowerCase().equals(txtHash2.getText().toLowerCase())) {
-//            txtHash1.getStyleClass().add("txtHash");
-//            txtHash2.getStyleClass().add("txtHash");
-//        } else {
-//            txtHash1.getStyleClass().removeAll("txtHash");
-//            txtHash2.getStyleClass().removeAll("txtHash");
-//        }
+        PTextField pTextField1 = guiFilePane1.getTxtHash();
+        PTextField pTextField2 = guiFilePane2.getTxtHash();
+        if (!pTextField1.getText().isEmpty() &&
+                !pTextField2.getText().isEmpty() &&
+                pTextField1.getText().toLowerCase().equals(pTextField2.getText().toLowerCase())) {
+
+//            pTextField1.setStyle(PTEXTFIELD_LABEL);
+//            pTextField2.setStyle(PTEXTFIELD_LABEL);
+            pTextField1.getStyleClass().removeAll("txtHash");
+            pTextField2.getStyleClass().removeAll("txtHash");
+            pTextField1.getStyleClass().add("txtHashOk");
+            pTextField2.getStyleClass().add("txtHashOk");
+
+        } else {
+//            pTextField1.setStyle(null);
+//            pTextField2.setStyle(null);
+            pTextField1.getStyleClass().removeAll("txtHashOk");
+            pTextField2.getStyleClass().removeAll("txtHashOk");
+            pTextField1.getStyleClass().add("txtHash");
+            pTextField2.getStyleClass().add("txtHash");
+        }
     }
 
     private void addListener() {

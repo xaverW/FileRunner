@@ -110,6 +110,10 @@ public class GuiFilePane extends VBox {
         txtHash.setText("");
     }
 
+    public PTextField getTxtHash() {
+        return txtHash;
+    }
+
     private void initProjectData() {
         pCboFile.init(projectData.getCompFileSrcFileList(), srcFile);
         pCboHashFile.init(projectData.getCompFileHashFileList(), hashFile);
@@ -117,7 +121,6 @@ public class GuiFilePane extends VBox {
     }
 
     private void initPane() {
-        this.setPadding(new Insets(5));
         ToggleGroup tg = new ToggleGroup();
         tg.getToggles().addAll(rb0, rb1, rb2);
         switch (sel.get()) {
@@ -144,6 +147,7 @@ public class GuiFilePane extends VBox {
 
         int r = 0;
         GridPane gridPane = new GridPane();
+        gridPane.getStyleClass().add("pane-border");
         gridPane.setPadding(new Insets(10));
         gridPane.setVgap(10);
         gridPane.setHgap(10);
@@ -162,8 +166,10 @@ public class GuiFilePane extends VBox {
 
         HBox hBox = new HBox(10);
         hBox.setAlignment(Pos.CENTER_RIGHT);
-        hBox.getChildren().addAll(btnSaveHash, btnGenHash);
+//        hBox.setAlignment(Pos.CENTER_LEFT);
+        hBox.getChildren().addAll(btnGenHash, btnSaveHash);
         gridPane.add(hBox, 1, ++r);
+//        gridPane.add(hBox, 1, ++r, 2, 1);
 
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
                 PColumnConstraints.getCcComputedSizeAndHgrow(),
@@ -199,9 +205,6 @@ public class GuiFilePane extends VBox {
                         .or(isRunning)
         );
         compareNot.bind(btnGenHash.disableProperty());
-//        compareNot.addListener((observable, oldValue, newValue) -> {
-//            System.out.println("compareNot: " + compareNot.get());
-//        });
 
         btnSaveHash.disableProperty().bind(
                 rb0.selectedProperty().and(pCboFile.getEditor().textProperty().isEqualTo(""))
@@ -287,20 +290,21 @@ public class GuiFilePane extends VBox {
             return;
         }
 
-        Path hashFile = Paths.get(pCboFile.getSelValue().trim());
-        String initDirStr = hashFile.getParent().toString();
-        String initFileStr = hashFile.getFileName().toString() + "." + ProgConfig.GUI_FILE_HASH_SUFF.get();
+        Path srcFile = Paths.get(pCboFile.getSelValue().trim()); // ist die Datei aus der der md5 generiert wird
+        String initDirStr = srcFile.getParent().toString(); // ist der Vorschlag: Ordner
+        String initMd5FileStr = srcFile.getFileName().toString() + "." + ProgConfig.GUI_FILE_HASH_SUFF.get(); // ist der Vorschlag: Dateiname
+        String srcFileStr = srcFile.getFileName().toString(); // wird in die md5-Datei geschrieben
 
         if (PUrlTools.isUrl(pCboFile.getSelValue().trim())) {
-            initDirStr = "";
+            initDirStr = ""; // bei URLs gibts keinen Pfad
         }
 
-        String fileStr = PDirFileChooser.FileChooserSave(ProgData.getInstance().primaryStage, initDirStr, initFileStr).trim();
-        if (fileStr == null || fileStr.isEmpty()) {
+        String md5FileStr = PDirFileChooser.FileChooserSave(ProgData.getInstance().primaryStage, initDirStr, initMd5FileStr).trim();
+        if (md5FileStr == null || md5FileStr.isEmpty()) {
             return;
         }
 
-        File file = new File(fileStr);
-        progData.worker.writeFileHash(file, initFileStr, txtHash.getText());
+        File md5File = new File(md5FileStr);
+        progData.worker.writeFileHash(md5File, srcFileStr, txtHash.getText());
     }
 }
