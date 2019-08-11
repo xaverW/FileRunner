@@ -49,7 +49,7 @@ public class AboutDialogController extends PDialogExtra {
 
 
     public AboutDialogController(ProgData progData) {
-        super(null, "Über das Programm", true);
+        super(progData.primaryStage, "Über das Programm");
 
         this.progData = progData;
 

@@ -38,6 +38,7 @@ public class ProgConfig extends PDataProgConfig {
     // Fenstereinstellungen
     public static StringProperty SYSTEM_GUI_SIZE = addStr("system-gui-size", "1000:900");
     public static StringProperty SYSTEM_CONFIG_DIALOG_SIZE = addStr("system-config-dialog-size", "500:500");
+    public static StringProperty SYSTEM_SELECT_HASH_DIALOG_SIZE = addStr("system-select-hash-dialog-size", "500:500");
     public static BooleanProperty SYSTEM_STORE_CONFIG = addBool("system-store-config", Boolean.TRUE);
     public static IntegerProperty SYSTEM_INFOS_NR = addInt("system-info-nr", 0);
 

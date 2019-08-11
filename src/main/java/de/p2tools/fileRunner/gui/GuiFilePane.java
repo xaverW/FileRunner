@@ -95,7 +95,7 @@ public class GuiFilePane extends VBox {
         initProjectData();
         initPane();
         addListener();
-        setVis();
+        setVis(false);
     }
 
     public boolean getCompareNot() {
@@ -140,7 +140,6 @@ public class GuiFilePane extends VBox {
         btnGetHashFile.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
         btnGetHashFile.setTooltip(new Tooltip("Datei mit Hash-Werten auswählen."));
         btnSaveHash.setTooltip(new Tooltip("Hash der Datei 2 speichern."));
-        btnGetFile.setTooltip(new Tooltip("Datei zum Erstellen des Hash auswählen."));
 
         pCboFile.setMaxWidth(Double.MAX_VALUE);
         pCboHashFile.setMaxWidth(Double.MAX_VALUE);
@@ -189,9 +188,9 @@ public class GuiFilePane extends VBox {
                 }
             }
         });
-        rb0.setOnAction(event -> setVis());
-        rb1.setOnAction(event -> setVis());
-        rb2.setOnAction(event -> setVis());
+        rb0.setOnAction(event -> setVis(true));
+        rb1.setOnAction(event -> setVis(true));
+        rb2.setOnAction(event -> setVis(true));
 
         btnGetFile.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, pCboFile));
         btnGetHashFile.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, pCboHashFile));
@@ -208,14 +207,18 @@ public class GuiFilePane extends VBox {
 
         btnSaveHash.disableProperty().bind(
                 rb0.selectedProperty().and(pCboFile.getEditor().textProperty().isEqualTo(""))
-                        .or(rb1.selectedProperty().and(pCboHashFile.getEditor().textProperty().isEqualTo("")))
+                        .or(rb1.selectedProperty())
                         .or(rb2.selectedProperty())
                         .or(txtHash.textProperty().isEmpty()
                                 .or(isRunning))
         );
     }
 
-    private void setVis() {
+    private void setVis(boolean clearHash) {
+        if (clearHash) {
+            txtHash.setText("");
+        }
+
         pCboFile.setDisable(rb0.isSelected() ? false : true);
         pCboHashFile.setDisable(rb1.isSelected() ? false : true);
         txtHash.setStateLabel(rb2.isSelected() ? false : true);
@@ -228,7 +231,7 @@ public class GuiFilePane extends VBox {
             sel.set(1);
         } else if (rb2.isSelected()) {
             sel.set(2);
-            txtHash.setText("");
+//            txtHash.setText("");
         }
 
     }
@@ -290,10 +293,20 @@ public class GuiFilePane extends VBox {
             return;
         }
 
-        Path srcFile = Paths.get(pCboFile.getSelValue().trim()); // ist die Datei aus der der md5 generiert wird
-        String initDirStr = srcFile.getParent().toString(); // ist der Vorschlag: Ordner
-        String initMd5FileStr = srcFile.getFileName().toString() + "." + ProgConfig.GUI_FILE_HASH_SUFF.get(); // ist der Vorschlag: Dateiname
-        String srcFileStr = srcFile.getFileName().toString(); // wird in die md5-Datei geschrieben
+        String src = pCboFile.getSelValue().trim();
+        Path srcFile = Paths.get(src); // ist die Datei aus der der md5 generiert wird
+        String initDirStr = ""; // ist der Vorschlag: Ordner
+        String initMd5FileStr = ""; // ist der Vorschlag: Dateiname
+        String srcFileStr = ""; // wird in die md5-Datei geschrieben
+
+        if (!HashFactory.checkFile(src)) {
+            initMd5FileStr = src + "." + ProgConfig.GUI_FILE_HASH_SUFF.get();
+            srcFileStr = src;
+        } else {
+            initDirStr = srcFile.getParent().toString();
+            initMd5FileStr = srcFile.getFileName().toString() + "." + ProgConfig.GUI_FILE_HASH_SUFF.get();
+            srcFileStr = srcFile.getFileName().toString();
+        }
 
         if (PUrlTools.isUrl(pCboFile.getSelValue().trim())) {
             initDirStr = ""; // bei URLs gibts keinen Pfad

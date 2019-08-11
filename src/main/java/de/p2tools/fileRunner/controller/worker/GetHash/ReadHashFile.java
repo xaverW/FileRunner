@@ -19,16 +19,19 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
+import de.p2tools.fileRunner.controller.config.ProgData;
+import de.p2tools.fileRunner.gui.dialog.SelectHashDialogController;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import javax.swing.event.EventListenerList;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class ReadHashFile {
@@ -66,7 +69,7 @@ public class ReadHashFile {
         private final String fileStr;
         private final StringProperty stringProperty;
         private String fileHash = "";
-        private ArrayList<String[]> hashList = new ArrayList<>();
+        private ObservableList<HashFileEntry> hashList = FXCollections.observableArrayList();
 
         public ReadHash(String fileStr, StringProperty stringProperty) {
             this.fileStr = fileStr;
@@ -78,28 +81,37 @@ public class ReadHashFile {
 
             try (Stream<String> lines = Files.lines(Paths.get(fileStr), Charset.defaultCharset())) {
                 lines.forEachOrdered(line -> {
-                    if (!line.isEmpty()) {
-                        hashList.add(getHashFromLine(line));
+
+                    final HashFileEntry entry = getHashFromLine(line);
+                    if (entry != null) {
+                        hashList.add(entry);
                     }
+
                 });
             } catch (IOException ex) {
                 PLog.errorLog(620301973, ex, "load hashfile: " + fileStr);
             }
 
             if (!hashList.isEmpty()) {
-                // todo dialog if more then one line
-                String[] str = hashList.get(0);
-                fileHash = str[0];
-                Platform.runLater(() -> stringProperty.setValue(fileHash));
+                Platform.runLater(() -> {
+                    SelectHashDialogController hashDialog = new SelectHashDialogController(ProgData.getInstance(), hashList);
+                    HashFileEntry entry = hashDialog.getHashFileEntry();
+                    if (entry != null) {
+                        stringProperty.setValue(entry.getHash());
+                    }
+                });
             }
 
             notifyEvent(0, 0, "");
         }
     }
 
-    private String[] getHashFromLine(String line) {
+    private HashFileEntry getHashFromLine(String line) {
+        if (line.isEmpty()) {
+            return null;
+        }
+
         // F40736FE37D60E1CFE29E0C4034C353C3E45D547 *Film 3.mp4.sha1
-        String[] ret = {"", ""};
         String h = "", f = "";
 
         int l = line.indexOf(" ");
@@ -109,10 +121,10 @@ public class ReadHashFile {
             if (f.startsWith("*")) {
                 f = f.replaceFirst("\\*", "");
             }
-            ret[0] = h;
-            ret[1] = f;
+            return new HashFileEntry(h, f);
         }
-        return ret;
+
+        return null;
     }
 
 }

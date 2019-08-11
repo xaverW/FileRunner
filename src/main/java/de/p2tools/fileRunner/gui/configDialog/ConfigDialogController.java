@@ -41,7 +41,7 @@ public class ConfigDialogController extends PDialog {
     private Stage stage;
 
     public ConfigDialogController() {
-        super(null, ProgConfig.SYSTEM_CONFIG_DIALOG_SIZE, "Einstellungen", true);
+        super(ProgData.getInstance().primaryStage, ProgConfig.SYSTEM_CONFIG_DIALOG_SIZE, "Einstellungen", true);
         this.daten = ProgData.getInstance();
 
         VBox vBox = new VBox();
