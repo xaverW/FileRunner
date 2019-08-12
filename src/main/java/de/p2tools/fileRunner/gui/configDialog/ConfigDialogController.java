@@ -73,11 +73,16 @@ public class ConfigDialogController extends PDialog {
 
     private void initPanel() {
         try {
-
-            AnchorPane configPane = new ConfigPane(stage);
+            AnchorPane configPane = new GeneralPane(stage);
             Tab tab = new Tab("Allgemein");
             tab.setClosable(false);
             tab.setContent(configPane);
+            tabPane.getTabs().add(tab);
+
+            AnchorPane updatePane = new UpdatePane(getStage());
+            tab = new Tab("Update");
+            tab.setClosable(false);
+            tab.setContent(updatePane);
             tabPane.getTabs().add(tab);
 
             AnchorPane colorPane = new ColorPane(stage);

@@ -17,8 +17,7 @@
 package de.p2tools.fileRunner;
 
 import de.p2tools.fileRunner.controller.ProgQuitt;
-import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.fileRunner.controller.config.ProgConst;
+import de.p2tools.fileRunner.controller.SearchProgramUpdate;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
@@ -27,8 +26,6 @@ import de.p2tools.fileRunner.gui.StatusBarController;
 import de.p2tools.fileRunner.gui.configDialog.ConfigDialogController;
 import de.p2tools.fileRunner.gui.dialog.AboutDialogController;
 import de.p2tools.p2Lib.PConst;
-import de.p2tools.p2Lib.checkForUpdates.SearchProgInfo;
-import de.p2tools.p2Lib.tools.ProgramTools;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -90,9 +87,8 @@ public class FileRunnerController extends StackPane {
             miQuitt.setOnAction(e -> new ProgQuitt().beenden(true));
 
             final MenuItem miUpdate = new MenuItem("Gibt es ein Update?");
-            miUpdate.setOnAction(event -> new SearchProgInfo().checkUpdate(ProgConst.WEBSITE_PROG_UPDATE,
-                    ProgramTools.getProgVersionInt(),
-                    ProgConfig.SYSTEM_INFOS_NR, true, true));
+            miUpdate.setOnAction(event -> new SearchProgramUpdate(progData.primaryStage, progData)
+                    .checkVersion(false));
 
             final MenuItem miAbout = new MenuItem("Über dieses Programm");
             miAbout.setOnAction(event -> new AboutDialogController(progData));

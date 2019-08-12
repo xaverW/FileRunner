@@ -29,6 +29,7 @@ public class ProgConst {
     public static final String LOG_DIR = "Log";
 
     public static final String WEBSITE_P2 = "https://www.p2tools.de";
+    public static final String WEBSITE_FILE_RUNNER = "https://www.p2tools.de/filerunner/";
     public static final String WEBSITE_PROG_UPDATE = "https://www.p2tools.de/extra/filerunner-info.xml";
 
     public static final String P2_ICON = "P2.png";

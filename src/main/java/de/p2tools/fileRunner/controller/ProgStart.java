@@ -21,6 +21,7 @@ import de.p2tools.p2Lib.PConst;
 import de.p2tools.p2Lib.PInit;
 import de.p2tools.p2Lib.configFile.ConfigFile;
 import de.p2tools.p2Lib.configFile.ReadWriteConfigFile;
+import de.p2tools.p2Lib.tools.ProgramTools;
 import de.p2tools.p2Lib.tools.log.LogMessage;
 import de.p2tools.p2Lib.tools.log.PLog;
 import de.p2tools.p2Lib.tools.log.PLogger;
@@ -34,6 +35,9 @@ public class ProgStart {
     private static final String backupText = "Soll versucht werden, mit gesicherten Einstellungen" + PConst.LINE_SEPARATOR
             + "des Programms zu starten?" + PConst.LINE_SEPARATORx2
             + "(ansonsten startet das Programm mit Standardeinstellungen)";
+
+    private static final String TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE = "Programmversion ist aktuell";
+    private static final String TITLE_TEXT_PROGRAMMUPDATE_EXISTS = "Ein Programmupdate ist verfügbar";
 
     ProgData progData;
 
@@ -70,9 +74,9 @@ public class ProgStart {
                 ProgData.debug, ProgData.duration);
 
 
-        if (!ProgConfig.SYSTEM_STORE_CONFIG.get()) {
-            progData.projectData.clearProjectData();
-        }
+//        if (!ProgConfig.SYSTEM_STORE_CONFIG.get()) {
+        progData.projectData.clearProjectData();
+//        }
 
         return true;
     }
@@ -105,6 +109,30 @@ public class ProgStart {
 
         return ret;
 
+    }
+
+    public void setOrgTitle() {
+        setOrgTitle(progData);
+    }
+
+    public static void setOrgTitle(ProgData progData) {
+        progData.primaryStage.setTitle(ProgConst.PROGRAMMNAME + " " + ProgramTools.getProgVersion());
+    }
+
+    public void setUpdateTitle() {
+        setUpdateTitle(progData);
+    }
+
+    public static void setUpdateTitle(ProgData progData) {
+        progData.primaryStage.setTitle(TITLE_TEXT_PROGRAMMUPDATE_EXISTS);
+    }
+
+    public void setNoUpdateTitle() {
+        setNoUpdateTitle(progData);
+    }
+
+    public static void setNoUpdateTitle(ProgData progData) {
+        progData.primaryStage.setTitle(TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE);
     }
 
 }

@@ -17,11 +17,13 @@ package de.p2tools.fileRunner;
 
 import de.p2tools.fileRunner.controller.ProgQuitt;
 import de.p2tools.fileRunner.controller.ProgStart;
+import de.p2tools.fileRunner.controller.SearchProgramUpdate;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.PInit;
+import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import javafx.application.Application;
@@ -69,9 +71,10 @@ public class FileRunner extends Application {
 
             String css = this.getClass().getResource(ProgConst.CSS_FILE).toExternalForm();
             scene.getStylesheets().add(css);
-
             PInit.addP2LibCss(scene);
-            
+
+            initP2lib();
+
             primaryStage.setScene(scene);
             primaryStage.setOnCloseRequest(e -> {
                 e.consume();
@@ -86,14 +89,22 @@ public class FileRunner extends Application {
         }
     }
 
+    private void initP2lib() {
+        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));
+        PInit.initLib(primaryStage, ProgConst.PROGRAMMNAME,
+                ProgConst.CSS_FILE, "",
+                ProgData.debug, ProgData.duration);
+    }
+
     public void losGehts() {
         PDuration.counterStop(LOG_TEXT_PROGRAMMSTART);
         primaryStage.getIcons().add(GetIcon.getImage(ProgConst.P2_ICON_32, ProgConst.P2_ICON_PATH, 32, 32));
 
         PDuration.onlyPing("Erster Start");
-        primaryStage.setTitle(ProgConst.PROGRAMMNAME);
+        ProgStart.setOrgTitle(progData);
 
         PDuration.onlyPing("Gui steht!");
+        new SearchProgramUpdate(primaryStage, progData).checkProgramUpdate();
     }
 
 }

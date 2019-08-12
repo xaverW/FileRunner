@@ -37,10 +37,8 @@ public class ProgConfig extends PDataProgConfig {
 
     // Fenstereinstellungen
     public static StringProperty SYSTEM_GUI_SIZE = addStr("system-gui-size", "1000:900");
-    public static StringProperty SYSTEM_CONFIG_DIALOG_SIZE = addStr("system-config-dialog-size", "500:500");
+    public static StringProperty SYSTEM_CONFIG_DIALOG_SIZE = addStr("system-config-dialog-size", "700:500");
     public static StringProperty SYSTEM_SELECT_HASH_DIALOG_SIZE = addStr("system-select-hash-dialog-size", "500:500");
-    public static BooleanProperty SYSTEM_STORE_CONFIG = addBool("system-store-config", Boolean.TRUE);
-    public static IntegerProperty SYSTEM_INFOS_NR = addInt("system-info-nr", 0);
 
     // GuiDirRunner
     public static StringProperty GUI_FILERUNNER_TABLE1_WIDTH = addStr("gui-filerunner-table1-width");
@@ -55,14 +53,16 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty GUI_FILERUNNER_TABLE2_VIS = addStr("gui-filerunner-table2-vis");
     public static StringProperty GUI_FILERUNNER_TABLE2_ORDER = addStr("gui-filerunner-table2-order");
 
-    public static StringProperty GUI_FILE_FILE1 = addStr("gui-file-file1");
-    public static StringProperty GUI_FILE_HASH1 = addStr("gui-file-hash1");
-    public static StringProperty GUI_FILE_FILE2 = addStr("gui-file-file2");
-    public static StringProperty GUI_FILE_HASH2 = addStr("gui-file-hash2");
-
     public static StringProperty GUI_FILE_HASH = addStr("gui-file-hash", HashConst.HASH_MD5);
     public static StringProperty GUI_FILE_HASH_SUFF = addStr("gui-file-hash-suff", HashConst.HASH_MD5_SUFFIX);
 
+    // Configdialog
+
+    // Programupdate
+    public static IntegerProperty SYSTEM_UPDATE_PROGRAM_VERSION = addInt("system-update-program-version", 0);
+    public static BooleanProperty SYSTEM_UPDATE_SEARCH_PROG_START = addBool("system-update-search-prog-update", true);
+    public static StringProperty SYSTEM_UPDATE_DATE = addStr("system-update-date");
+    public static IntegerProperty SYSTEM_UPDATE_INFOS_NR = addInt("system-update-info-nr", 0);
 
     private static ProgConfig instance;
 
