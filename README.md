@@ -1,20 +1,24 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
-## FileRunner
+# FileRunner
 
-Das Programm bietet die Möglichkeit, Dateilisten und einzelne Dateien zu vergleichen.
+Die Hauptintention des Programms ist es, Ordnerinhalte auf Veränderungen zu überprüfen. 
+
+Das Programm bietet dazu die Möglichkeit, Ordner und einzelne Dateien zu vergleichen und kann Listen mit Hashwerten der enthaltenen Dateien eines Ordners anlegen. Mit den Hashlisten können die Ordner dann immer wieder auf Veränderungen kontrolliert werden. Weiter ist es möglich, Ordner auch direkt zu vergleichen oder auch mit dem Inhalt von ZIP-Dateien zu vergleichen.
 
 <br />
+
+## Infos über das Programm
 
 **Dateilisten vergleichen**
 
 Eine Dateiliste 
+- kann eine mit dem Programm erstellte Liste mit Hashwerten von den Dateien eines Ordners sein.
 - können die Dateien in einem Ordner sein, 
 - kann der Inhalt einer Zip-Datei sein 
-- kann eine vorher mit dem Programm gespeicherte Liste von Dateien sein.
 
-Zwei dieser Dateilisten können dann direkt verglichen werden. In der rechten und linken Seite des Programms kann je eine Dateiliste (ein Ordner, eine ZIP-Datei oder eine in einer Datei gespeicherte Dateiliste) geladen werden. Die Tabelle zeigt dann die Dateien in der Liste an. 
+Zwei dieser Dateilisten können dann direkt verglichen werden. In der rechten und linken Seite des Programms kann je eine Dateiliste (eine Hashliste, ein Ordner oder eine ZIP-Datei) geladen werden. Die Tabelle zeigt dann die enthaltenen Dateien an. 
 
 Unter "Filter" kann man die Liste der angezeigten Dateien einschränken, z.B. mit ".java" nur Java- oder mit ".jpg" nur JPG-Dateien anzeigen.
 
@@ -37,7 +41,7 @@ Mögliche Szenarien zum Finden von gleichen und unterschiedlichen Dateien:
 
 Es können auch zwei Dateien direkt verglichen werden (oder eine Datei direkt gegen einen Hash kontrolliert werden). Dabei sind lokale Dateien und auch URLs möglich.
 
-Sollen zwei Dateien verglichen werden, wird je eine Datei in **Datei 1 -> Datei/URL"** und in **Datei 2 -> Datei/URL"** eingetragen. Mit **Dateien vergleichen** wird dann der Hash der beiden Dateien erstellt. Ein grüner Hintergrund signalisiert, dass die beiden Dateien identisch sind.
+Sollen zwei Dateien verglichen werden, wird je eine Datei in **Datei 1 -> Datei/URL"** und in **Datei 2 -> Datei/URL"** eingetragen. Mit **Dateien vergleichen** wird dann der Hash der beiden Dateien erstellt. Ein grüner Rahmen signalisiert, dass die beiden Dateien identisch sind.
 
 Soll eine Datei mit einem Hash verglichen werden, wird die Datei in **Datei 1 -> Datei/URL"** eingetragen. Der Hash wird in **Datei 2 -> Hash** eingetragen. Mit **Hash erstellen** unter der zu prüfenden Datei wird ihr Hash erstellt, ein grüner Hintergrund signalisiert wieder wenn der zu prüfende Hash stimmt.
 
@@ -46,15 +50,30 @@ Als Dateien kann man lokale Dateien angeben und auch URLs von Dateien. Diese wer
 Der Button unten *Dateien vergleichen* startet die Erstellung des Hash für beide Dateien. Der Vorgang ist identisch mit je einem Klick auf "Hash erstellen" für jede Datei einzeln.
 
 <br />
+
+## Systemvoraussetzungen
+
+Unterstützt wird Windows (10) und Linux.
+
+Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version: Java 11. Für Linux-Benutzer wird OpenJDK11 empfohlen. (FX-Runtime bringt das Programm bereits mit und muss nicht installiert werden).
+
 <br />
 
-**Systemvoraussetzungen**
+## Download
 
-Unterstützt wird Windows (7, 8, 10) und Linux. Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version: 1.8 (= Java 8).
+Das Programm wird in drei Paketen angeboten. Diese unterscheiden sich nur im "Zubehör", das Programm selbst ist in allen Paketen identisch:
 
-Für Linux-Benutzer wird OpenJDK8 empfohlen. Außerdem benötigen Linux Benutzer die aktuelle Version von JavaFX (OpenJFX). OpenJFX ist aber bis jetzt nur für OpenJDK8 ohne Probleme zu installieren. Soll es Java 10 sein, wäre das Oracle Java SE 10 eine Alternative (und das bringt JavaFX schon mit).
+- **FileRunner-XX.zip**  
+Das Programmpaket bringt nur das Programm aber kein Java mit. Auf dem Rechner muss eine Java-Laufzeitumgebung ab Java11 installiert sein. Dieses Programmpaket kann auf allen Betriebssystemen verwendet werden. Es bringt Startdateien für Linux und Windows mit.
+
+- **FileRunner-XX__Linux+Java.zip**  
+  **FileRunner-XX__Windows+Java.zip**  
+Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das angegebene Betriebssystem: Linux oder Windows. Es muss kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung liegt im Ordner "Java" und kommt von jdk.java.net).
 
 
-**Links**
+## Links
 
-[www.p2tools.de/filerunner/](https://www.p2tools.de/filerunner/)
+zum Download: [github.com/xaverW/FileRunner/releases](https://github.com/xaverW/FileRunner/releases)
+zur Website: [www.p2tools.de/filerunner/](https://www.p2tools.de/filerunner/)
+
+

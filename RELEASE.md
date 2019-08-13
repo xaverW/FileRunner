@@ -2,6 +2,15 @@
 
 <br />
 
+**Release 4**
+
+* Wechsel auf Java11
+* beim Vergleich von Dateien werden jetzt die letzten "Dateien" gespeichert
+* kleinere Änderungen am GUI
+
+<br />
+<br />
+
 **Release 3-0**
 
 * beim Vergleich von Dateilisten sind jetzt auch ZIP-Dateien möglich
