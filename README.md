@@ -39,11 +39,11 @@ Mögliche Szenarien zum Finden von gleichen und unterschiedlichen Dateien:
 
 **Dateien vergleichen**
 
-Es können auch zwei Dateien direkt verglichen werden (oder eine Datei direkt gegen einen Hash kontrolliert werden). Dabei sind lokale Dateien und auch URLs möglich.
+Es können auch zwei Dateien direkt verglichen werden (oder eine Datei direkt gegen einen Hash kontrolliert werden). Dabei sind lokale Dateien und auch URLs möglich. Als Hash kann man ein Hashfile (z.B. datei.txt.md5) oder den Hash direkt angeben.
 
 Sollen zwei Dateien verglichen werden, wird je eine Datei in **Datei 1 -> Datei/URL"** und in **Datei 2 -> Datei/URL"** eingetragen. Mit **Dateien vergleichen** wird dann der Hash der beiden Dateien erstellt. Ein grüner Rahmen signalisiert, dass die beiden Dateien identisch sind.
 
-Soll eine Datei mit einem Hash verglichen werden, wird die Datei in **Datei 1 -> Datei/URL"** eingetragen. Der Hash wird in **Datei 2 -> Hash** eingetragen. Mit **Hash erstellen** unter der zu prüfenden Datei wird ihr Hash erstellt, ein grüner Hintergrund signalisiert wieder wenn der zu prüfende Hash stimmt.
+Soll eine Datei mit einem Hash verglichen werden, wird die Datei in **Datei 1 -> Datei/URL"** eingetragen. Der Hash wird aus **Datei 2 -> Hashdatei** ausgelesen oder direkt in **Datei 2 -> Hash** eingetragen. Mit **Hash erstellen** unter der zu prüfenden Datei wird ihr Hash erstellt, ein grüner Rahmen signalisiert wieder, wenn der zu prüfende Hash stimmt.
 
 Als Dateien kann man lokale Dateien angeben und auch URLs von Dateien. Diese werden dann geladen (was bei sehr großen Dateien dauern kann!) und dabei wird der Hash ermittelt.
 
@@ -53,7 +53,7 @@ Der Button unten *Dateien vergleichen* startet die Erstellung des Hash für beid
 
 ## Systemvoraussetzungen
 
-Unterstützt wird Windows (10) und Linux.
+Unterstützt wird Windows und Linux.
 
 Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version: Java 11. Für Linux-Benutzer wird OpenJDK11 empfohlen. (FX-Runtime bringt das Programm bereits mit und muss nicht installiert werden).
 
@@ -73,7 +73,7 @@ Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das
 
 ## Links
 
-zum Download: [github.com/xaverW/FileRunner/releases](https://github.com/xaverW/FileRunner/releases)
+zum Download: [github.com/xaverW/FileRunner/releases](https://github.com/xaverW/FileRunner/releases)  
 zur Website: [www.p2tools.de/filerunner/](https://www.p2tools.de/filerunner/)
 
 
