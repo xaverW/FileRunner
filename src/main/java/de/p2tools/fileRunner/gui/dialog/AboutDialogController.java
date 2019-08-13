@@ -112,7 +112,6 @@ public class AboutDialogController extends PDialogExtra {
         text.setFont(Font.font(null, FontWeight.BOLD, 15));
         gridPane.add(text, 0, ++row, 2, 1);
 
-        // todo -> Configdialog
         Hyperlink hyperlink = new PHyperlink(ProgConst.WEBSITE_P2, ProgConfig.SYSTEM_PROG_OPEN_URL, new Icons().ICON_BUTTON_FILE_OPEN);
 
         text = new Text("Website:");

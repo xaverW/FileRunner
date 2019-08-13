@@ -33,7 +33,6 @@ import static java.lang.Thread.sleep;
 
 public class SearchProgramUpdate {
 
-
     private final ProgData progData;
     private final Stage stage;
 

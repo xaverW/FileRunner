@@ -66,7 +66,9 @@ public class CreateZipHash {
         progress = 0;
         stop = false;
 
-        fileDataList.removeAll(fileDataList);
+//        fileDataList.removeAll(fileDataList);
+        fileDataList.clear();
+
         CreateHash createHash = new CreateHash(file, fileDataList);
         Thread thread = new Thread(createHash);
         thread.setName("CreateZipHash");

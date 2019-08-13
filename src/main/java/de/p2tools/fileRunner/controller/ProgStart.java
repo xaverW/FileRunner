@@ -18,7 +18,6 @@ package de.p2tools.fileRunner.controller;
 
 import de.p2tools.fileRunner.controller.config.*;
 import de.p2tools.p2Lib.PConst;
-import de.p2tools.p2Lib.PInit;
 import de.p2tools.p2Lib.configFile.ConfigFile;
 import de.p2tools.p2Lib.configFile.ReadWriteConfigFile;
 import de.p2tools.p2Lib.tools.ProgramTools;
@@ -30,6 +29,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class ProgStart {
+
     private static final String backupHeader = "Die Einstellungen des Programms sind beschädigt" + PConst.LINE_SEPARATOR +
             "und können nicht geladen werden.";
     private static final String backupText = "Soll versucht werden, mit gesicherten Einstellungen" + PConst.LINE_SEPARATOR
@@ -68,15 +68,7 @@ public class ProgStart {
         }
 
         PLog.sysLog("Progstart: Konfig");
-
-        PInit.initLib(ProgData.getInstance().primaryStage, ProgConst.PROGRAMMNAME,
-                ProgConst.CSS_FILE, ProgInfos.getUserAgent(),
-                ProgData.debug, ProgData.duration);
-
-
-//        if (!ProgConfig.SYSTEM_STORE_CONFIG.get()) {
         progData.projectData.clearProjectData();
-//        }
 
         return true;
     }
@@ -87,14 +79,6 @@ public class ProgStart {
     }
 
     private boolean loadConnfig(Path xmlFilePath) {
-//        ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
-//        return configFile.readConfigFile(
-//                null,
-//                new ArrayList<>(Arrays.asList(ProgConfig.getInstance(),
-//                        ProgColorList.getConfigsData(),
-//                        progData.projectData)));
-
-
         ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
         configFile.addConfigs(ProgConfig.getInstance());
         configFile.addConfigs(ProgColorList.getConfigsData());
@@ -106,9 +90,7 @@ public class ProgStart {
         readWriteConfigFile.addConfigFile(configFile);
 
         boolean ret = readWriteConfigFile.readConfigFile(backupHeader, backupText);
-
         return ret;
-
     }
 
     public void setOrgTitle() {

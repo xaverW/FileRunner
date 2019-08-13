@@ -92,6 +92,7 @@ public class FileDataList extends SimpleListProperty<FileData> {
         filteredFileDate.setPredicate(p -> pred);
     }
 
+    @Override
     public void clear() {
         nr = 1;
         sourceDir = "";

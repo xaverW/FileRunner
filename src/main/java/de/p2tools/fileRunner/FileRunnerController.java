@@ -49,7 +49,6 @@ public class FileRunnerController extends StackPane {
 
     private final ProgData progData;
 
-
     public FileRunnerController() {
         progData = ProgData.getInstance();
         init();

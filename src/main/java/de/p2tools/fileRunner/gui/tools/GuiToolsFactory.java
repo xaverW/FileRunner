@@ -17,13 +17,12 @@
 
 package de.p2tools.fileRunner.gui.tools;
 
-import javafx.scene.control.Control;
 import org.apache.commons.lang3.time.FastDateFormat;
 
 import java.util.Date;
 
 
-public class GuiTools {
+public class GuiToolsFactory {
 
     private static final String STR = "__";
     private static final String FORMATTER_ddMMyyyy_str = STR + "yyyyMMdd";
@@ -33,12 +32,7 @@ public class GuiTools {
     private static final FastDateFormat FORMATTER_ddMMyyyyHHmmss = FastDateFormat.getInstance(FORMATTER_ddMMyyyyHHmmss_str);
     private final static String MD5 = ".md5";
 
-    public static void setColor(Control tf, boolean set) {
-        if (set) {
-            tf.getStyleClass().add("txtIsEmpty");
-        } else {
-            tf.getStyleClass().removeAll("txtIsEmpty");
-        }
+    private GuiToolsFactory() {
     }
 
     public static String getNextName(String name) {

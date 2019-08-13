@@ -62,19 +62,12 @@ public class SelectHashDialogController extends PDialogExtra {
         });
         getHboxOk().getChildren().addAll(btnOk, btnCancel);
 
-//        scrollPaneTable.setContent(tableView);
-//        scrollPaneTable.setFitToHeight(true);
-//        scrollPaneTable.setFitToWidth(true);
-//        VBox.setVgrow(scrollPaneTable, Priority.ALWAYS);
-
         VBox.setVgrow(tableView, Priority.ALWAYS);
-
         getVboxCont().getChildren().add(tableView);
         initTable();
     }
 
     public HashFileEntry getHashFileEntry() {
-
         return hashFileEntry;
     }
 

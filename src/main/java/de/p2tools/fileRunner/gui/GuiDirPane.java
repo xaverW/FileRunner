@@ -25,7 +25,7 @@ import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
-import de.p2tools.fileRunner.gui.tools.GuiTools;
+import de.p2tools.fileRunner.gui.tools.GuiToolsFactory;
 import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.dialog.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
@@ -298,7 +298,7 @@ public class GuiDirPane extends VBox {
             if (!pCboWriteHash.getEditor().getText().startsWith(file)) {
                 pCboWriteHash.getEditor().setText(file);
             }
-            pCboWriteHash.selectElement(GuiTools.getNextName(pCboWriteHash.getEditor().getText()));
+            pCboWriteHash.selectElement(GuiToolsFactory.getNextName(pCboWriteHash.getEditor().getText()));
         });
 
 

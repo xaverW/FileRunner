@@ -35,11 +35,7 @@ public class FileRunner extends Application {
     private Stage primaryStage;
     private FileRunnerController root;
 
-    private static final String TEXT_LINE = "==========================================";
-    private static final String LOG_TEXT_STARTPARAMETER_PATTERN = "Startparameter: %s";
-
     private static final String LOG_TEXT_PROGRAMMSTART = "***Programmstart***";
-    private static final String ARGUMENT_PREFIX = "-";
 
     protected ProgData progData;
     Scene scene = null;
@@ -57,6 +53,7 @@ public class FileRunner extends Application {
         progData.primaryStage = primaryStage;
         new ProgStart(progData).loadConfigData();
 
+        initP2lib();
         initRootLayout();
         losGehts();
     }
@@ -73,8 +70,6 @@ public class FileRunner extends Application {
             scene.getStylesheets().add(css);
             PInit.addP2LibCss(scene);
 
-            initP2lib();
-
             primaryStage.setScene(scene);
             primaryStage.setOnCloseRequest(e -> {
                 e.consume();
@@ -90,7 +85,7 @@ public class FileRunner extends Application {
     }
 
     private void initP2lib() {
-        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));
+        PButton.setHlpImage(GetIcon.getImageView("button-help.png", 16, 16));
         PInit.initLib(primaryStage, ProgConst.PROGRAMMNAME,
                 ProgConst.CSS_FILE, "",
                 ProgData.debug, ProgData.duration);

@@ -72,7 +72,8 @@ public class CreateDirHash {
         progress = 0;
         stop = false;
 
-        fileDataList.removeAll(fileDataList);
+        fileDataList.clear();
+//        fileDataList.removeAll(fileDataList);
         CreateHash createHash = new CreateHash(file, fileDataList);
         runThreads = 1;
         Thread startenThread = new Thread(createHash);

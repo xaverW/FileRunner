@@ -89,7 +89,7 @@ public class TableFileList {
 
     private void addRowFact(TableView<FileData> table) {
 
-        table.setRowFactory(tableview -> new TableRow<FileData>() {
+        table.setRowFactory(tableview -> new TableRow<>() {
             @Override
             public void updateItem(FileData film, boolean empty) {
                 super.updateItem(film, empty);
