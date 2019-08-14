@@ -12,7 +12,7 @@
 <br />
 <br />
 
-**Release 3-0**
+**Release 3**
 
 * beim Vergleich von Dateilisten sind jetzt auch ZIP-Dateien möglich
 * es gibt einen weiteren Hash-Algorithmus: sha512
@@ -21,7 +21,7 @@
 <br />
 <br />
 
-**Release 2-1**
+**Release 2**
 
 * es kann nach einem Programmupdate gesucht werden
 * beim Vergleichen von zwei Dateien können jetzt auch URLs angegeben werden
@@ -30,14 +30,14 @@
 <br />
 <br />
 
-**Release 1-3**
+**Release 1**
 
 * Fehler bereinigt und Bedienung optimiert
 
 <br />
 <br />
 
-**Release 0-14**
+**Release 0**
 
 * Das ist die erste veröffentlichte Version von FileRunner
 
