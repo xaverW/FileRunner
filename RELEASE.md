@@ -7,6 +7,7 @@
 * Wechsel auf Java11
 * beim Vergleich von Dateien werden jetzt die letzten "Dateien" gespeichert
 * kleinere Änderungen am GUI
+* das Programm kann beim Start prüfen, ob es ein Update gibt (Einstellungen)
 
 <br />
 <br />
