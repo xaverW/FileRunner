@@ -4,9 +4,10 @@
 # FileRunner
 
 Die Hauptintention des Programms ist es, Ordnerinhalte auf Veränderungen zu überprüfen. 
+<br />
+<br />
 
-Das Programm bietet dazu die Möglichkeit, Ordner und einzelne Dateien zu vergleichen und kann Listen mit Hashwerten der enthaltenen Dateien eines Ordners anlegen. Mit den Hashlisten können die Ordner dann immer wieder auf Veränderungen kontrolliert werden. Weiter ist es möglich, Ordner auch direkt zu vergleichen oder auch mit dem Inhalt von ZIP-Dateien zu vergleichen.
-
+Das Programm bietet dazu die Möglichkeit, Listen mit Hashwerten aller Dateien eines Ordners anzulegen. Mit den Hashlisten können die Ordner dann immer wieder auf Veränderungen kontrolliert werden. Weiter ist es möglich, Ordner auch direkt zu vergleichen oder auch mit dem Inhalt von ZIP-Dateien zu vergleichen.
 <br />
 
 ## Infos über das Programm
@@ -15,25 +16,25 @@ Das Programm bietet dazu die Möglichkeit, Ordner und einzelne Dateien zu vergle
 
 Eine Dateiliste 
 - kann eine mit dem Programm erstellte Liste mit Hashwerten von den Dateien eines Ordners sein.
-- können die Dateien in einem Ordner sein, 
-- kann der Inhalt einer Zip-Datei sein 
+- können die Dateien in einem Ordner sein.
+- kann der Inhalt einer Zip-Datei sein.
 
 Zwei dieser Dateilisten können dann direkt verglichen werden. In der rechten und linken Seite des Programms kann je eine Dateiliste (eine Hashliste, ein Ordner oder eine ZIP-Datei) geladen werden. Die Tabelle zeigt dann die enthaltenen Dateien an. 
 
 Unter "Filter" kann man die Liste der angezeigten Dateien einschränken, z.B. mit ".java" nur Java- oder mit ".jpg" nur JPG-Dateien anzeigen.
 
-Die Buttons zwischen den zwei Listen zeigen *alle*, *alle gleichen* oder *unterschiedliche* Dateien an. Der Tooltip der Buttons (dazu die Maus kurz über den Button halten) verrät genau, was dieser dann angezeigt.
+Die Buttons zwischen den zwei Listen zeigen *alle*, *alle gleichen* oder *unterschiedliche* Dateien an. Der Tooltip der Buttons (dazu die Maus kurz über den Button halten) verrät genau, was dieser dann anzeigt.
 
 Unter den Tabellen kann die angezeigte Liste der Dateien in einer Datei für einen späteren Vergleich gespeichert werden ("Dateiliste in einer Datei"). Der Button mit den zwei gedrehten Pfeilen schlägt einen Dateinamen vor (unterschiedliche Vorschläge bei mehrmaligem Klick).
 
-Die Dateilisten sind MD5-Hashes aller Dateien eines Ordners oder ZIP-Datei. Damit kann man Dateien auf Veränderung überprüfen.
+Die Dateilisten sind MD5-Hashes aller Dateien eines Ordners (und deren Unterordner) oder ZIP-Datei. Damit kann man Dateien auf Veränderung überprüfen.
 
 Mögliche Szenarien zum Finden von gleichen und unterschiedlichen Dateien:
-- Ich vergleiche direkt zwei Ordner
-- Ich vergleiche direkt zwei ZIP-Dateien
-- Ich vergleiche einen Ordner mit einer ZIP-Datei
+- Ich vergleiche direkt zwei Ordner.
+- Ich vergleiche direkt zwei ZIP-Dateien.
+- Ich vergleiche einen Ordner mit einer ZIP-Datei.
 - Ich erstelle eine Dateiliste (aus Ordner oder ZIP-Datei) und speichere die Dateiliste (unter der Tabelle) in einer Datei. Anschließend kann ich einen Ordner/eine ZIP-Datei mit der gespeicherten Liste immer wieder vergleichen und sehe was sich inzwischen geändert hat.
-- Ich kann zwei gespeicherte Dateilisten vergleichen und sehe welche Dateien sich unterscheiden
+- Ich kann zwei gespeicherte Dateilisten vergleichen und sehe welche Dateien sich unterscheiden.
 
 <br />
 
@@ -56,18 +57,17 @@ Der Button unten *Dateien vergleichen* startet die Erstellung des Hash für beid
 Unterstützt wird Windows und Linux.
 
 Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version: Java 11. Für Linux-Benutzer wird OpenJDK11 empfohlen. (FX-Runtime bringt das Programm bereits mit und muss nicht installiert werden).
-
 <br />
 
 ## Download
 
 Das Programm wird in drei Paketen angeboten. Diese unterscheiden sich nur im "Zubehör", das Programm selbst ist in allen Paketen identisch:
 
-- **FileRunner-XX.zip**  
+- **FileRunner-4.zip**  
 Das Programmpaket bringt nur das Programm aber kein Java mit. Auf dem Rechner muss eine Java-Laufzeitumgebung ab Java11 installiert sein. Dieses Programmpaket kann auf allen Betriebssystemen verwendet werden. Es bringt Startdateien für Linux und Windows mit.
 
-- **FileRunner-XX__Linux+Java.zip**  
-  **FileRunner-XX__Windows+Java.zip**  
+- **FileRunner-4__Linux+Java.zip**  
+  **FileRunner-4__Windows+Java.zip**  
 Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das angegebene Betriebssystem: Linux oder Windows. Es muss kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung liegt im Ordner "Java" und kommt von jdk.java.net).
 
 
