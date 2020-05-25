@@ -5,7 +5,7 @@
 
 ## Infos über das Programm
 
-Die Hauptintention des Programms ist es, Ordnerinhalte auf Veränderungen zu überprüfen. 
+Die Hauptintention des Programms ist es, Ordner auf Veränderungen hin, zu überprüfen. 
 <br />
 
 Das Programm bietet dazu die Möglichkeit, Listen mit Hashwerten aller Dateien eines Ordners anzulegen. Mit den Hashlisten können die Ordner später dann immer wieder auf Veränderungen kontrolliert werden. Weiter ist es möglich, Ordner auch direkt zu vergleichen oder auch mit dem Inhalt von ZIP-Dateien zu vergleichen.
