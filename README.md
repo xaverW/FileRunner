@@ -15,10 +15,10 @@ Das Programm bietet dazu die Möglichkeit, Listen mit Hashwerten aller Dateien e
 
 Eine Dateiliste 
 - kann eine mit dem Programm erstellte Liste mit Hashwerten von den Dateien eines Ordners sein.
-- können die Dateien in einem Ordner sein.
+- können alle aktuellen Dateien in einem Ordner sein.
 - kann der Inhalt einer Zip-Datei sein.
 
-Zwei dieser Dateilisten können dann direkt verglichen werden. In der rechten und linken Seite des Programms kann je eine Dateiliste (eine Hashliste, ein Ordner oder eine ZIP-Datei) geladen werden. Die Tabelle zeigt dann die enthaltenen Dateien an. 
+Zwei dieser Dateilisten können dann direkt verglichen werden. In der rechten und linken Seite des Programms kann je eine Dateiliste (eine Hashliste, der Inhalt eines Ordner oder der Inhalt einer ZIP-Datei) geladen werden. Die Tabelle zeigt dann die enthaltenen Dateien an. 
 
 Unter "Filter" kann man die Liste der angezeigten Dateien einschränken, z.B. mit ".java" nur Java- oder mit ".jpg" nur JPG-Dateien anzeigen.
 
@@ -56,6 +56,7 @@ Der Button unten *Dateien vergleichen* startet die Erstellung des Hash für beid
 Unterstützt wird Windows und Linux.
 
 Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version: Java 11. Für Linux-Benutzer wird OpenJDK11 empfohlen. (FX-Runtime bringt das Programm bereits mit und muss nicht installiert werden).
+
 <br />
 
 ## Download
@@ -69,10 +70,12 @@ Das Programmpaket bringt nur das Programm aber kein Java mit. Auf dem Rechner mu
   **FileRunner-4__Windows+Java.zip**  
 Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das angegebene Betriebssystem: Linux oder Windows. Es muss kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung liegt im Ordner "Java" und kommt von jdk.java.net).
 
-
-## Links
-
 zum Download: [github.com/xaverW/FileRunner/releases](https://github.com/xaverW/FileRunner/releases)  
+
+<br />
+
+## Website
+
 zur Website: [www.p2tools.de/filerunner/](https://www.p2tools.de/filerunner/)
 
 
