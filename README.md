@@ -3,15 +3,15 @@
 
 # FileRunner
 
-## Infos über das Programm
+Die Hauptintention des Programms ist es, Ordnerinhalte auf Veränderungen zu überprüfen. 
 
-Die Hauptintention des Programms ist es, Ordner auf Veränderungen hin, zu überprüfen. 
-<br />
+## Infos
 
-Das Programm bietet dazu die Möglichkeit, Listen mit Hashwerten aller Dateien eines Ordners anzulegen. Mit den Hashlisten können die Ordner später dann immer wieder auf Veränderungen kontrolliert werden. Weiter ist es möglich, Ordner auch direkt zu vergleichen oder auch mit dem Inhalt von ZIP-Dateien zu vergleichen.
-<br />
+Das Programm bietet dazu die Möglichkeit, Listen mit Hashwerten aller Dateien eines Ordners anzulegen. Mit den Hashlisten können die Ordner dann immer wieder auf Veränderungen kontrolliert werden. Es ist auch möglich, zwei Ordner direkt zu vergleichen oder auch einen Ordner mit dem Inhalt einer ZIP-Dateien zu vergleichen.
 
-**Dateilisten vergleichen**
+Weiter ist es auch möglich, zwei Dateien direkt oder eine Datei mit einem Hashwert zu vergleichen.
+
+### Dateilisten vergleichen
 
 Eine Dateiliste 
 - kann eine mit dem Programm erstellte Liste mit Hashwerten von den Dateien eines Ordners sein.
@@ -35,9 +35,7 @@ Mögliche Szenarien zum Finden von gleichen und unterschiedlichen Dateien:
 - Ich erstelle eine Dateiliste (aus Ordner oder ZIP-Datei) und speichere die Dateiliste (unter der Tabelle) in einer Datei. Anschließend kann ich einen Ordner/eine ZIP-Datei mit der gespeicherten Liste immer wieder vergleichen und sehe was sich inzwischen geändert hat.
 - Ich kann zwei gespeicherte Dateilisten vergleichen und sehe welche Dateien sich unterscheiden.
 
-<br />
-
-**Dateien vergleichen**
+### Dateien vergleichen
 
 Es können auch zwei Dateien direkt verglichen werden (oder eine Datei direkt gegen einen Hash kontrolliert werden). Dabei sind lokale Dateien und auch URLs möglich. Als Hash kann man ein Hashfile (z.B. datei.txt.md5) oder den Hash direkt angeben.
 
