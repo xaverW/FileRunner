@@ -4,7 +4,7 @@
 # FileRunner
 
 Die Hauptintention des Programms ist es, Ordnerinhalte auf Veränderungen zu überprüfen. 
-
+<br />
 ## Infos
 
 Das Programm bietet dazu die Möglichkeit, Listen mit Hashwerten aller Dateien eines Ordners anzulegen. Mit den Hashlisten können die Ordner dann immer wieder auf Veränderungen kontrolliert werden. Es ist auch möglich, zwei Ordner direkt zu vergleichen oder auch einen Ordner mit dem Inhalt einer ZIP-Dateien zu vergleichen.
