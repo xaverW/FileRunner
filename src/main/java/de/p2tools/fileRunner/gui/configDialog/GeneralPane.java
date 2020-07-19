@@ -21,14 +21,15 @@ import de.p2tools.fileRunner.gui.HelpText;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Tab;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class GeneralPane extends AnchorPane {
+public class GeneralPane extends Tab {
 
     private final ProgData progData;
     final GridPane gridPane = new GridPane();
@@ -38,16 +39,14 @@ public class GeneralPane extends AnchorPane {
         this.stage = stage;
         progData = ProgData.getInstance();
 
-        AnchorPane.setTopAnchor(gridPane, 20.0);
-        AnchorPane.setRightAnchor(gridPane, 20.0);
-        AnchorPane.setBottomAnchor(gridPane, 20.0);
-        AnchorPane.setLeftAnchor(gridPane, 20.0);
-
-        getChildren().addAll(gridPane);
+        setText("Allgemein");
+        setClosable(false);
+        setContent(gridPane);
         makeConfig();
     }
 
     private void makeConfig() {
+        gridPane.setPadding(new Insets(20));
         gridPane.setHgap(15);
         gridPane.setVgap(15);
 

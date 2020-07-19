@@ -45,8 +45,8 @@ public class ProgQuitt {
      *
      * @param showOptionTerminate show options dialog when downloads are running
      */
-    public void beenden(boolean showOptionTerminate) {
-        if (beenden_()) {
+    public void quitt(boolean showOptionTerminate) {
+        if (quitt_()) {
 
             // dann jetzt beenden -> Thüss
             Platform.runLater(() -> {
@@ -57,7 +57,7 @@ public class ProgQuitt {
         }
     }
 
-    private boolean beenden_() {
+    private boolean quitt_() {
         writeTabSettings();
         writeWindowSizes();
 

@@ -19,7 +19,7 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.p2Lib.PConst;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.file.PFileSize;
@@ -48,15 +48,15 @@ public class HashTools {
             FileData fileData;
             while (it.hasNext()) {
                 fileData = it.next();
-                out.write(fileData.getHash() + " " + "*" + fileData.getFileName() + PConst.LINE_SEPARATOR);
+                out.write(fileData.getHash() + " " + "*" + fileData.getFileName() + P2LibConst.LINE_SEPARATOR);
             }
             out.flush();
             ret = true;
         } catch (Exception ex) {
             ret = false;
             PLog.errorLog(986532014, ex, "Fehler beim Schreiben der Hashdatei!");
-            Platform.runLater(() -> PAlert.showErrorAlert("Hashfile schreiben", hashOutFile.toString() + PConst.LINE_SEPARATOR +
-                    "Die Datei konnte nicht gespeichert werden." + PConst.LINE_SEPARATOR +
+            Platform.runLater(() -> PAlert.showErrorAlert("Hashfile schreiben", hashOutFile.toString() + P2LibConst.LINE_SEPARATOR +
+                    "Die Datei konnte nicht gespeichert werden." + P2LibConst.LINE_SEPARATOR +
                     ex.getLocalizedMessage()));
         } finally {
             try {

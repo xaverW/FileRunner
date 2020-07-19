@@ -17,7 +17,7 @@
 package de.p2tools.fileRunner.controller;
 
 import de.p2tools.fileRunner.controller.config.*;
-import de.p2tools.p2Lib.PConst;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.configFile.ConfigFile;
 import de.p2tools.p2Lib.configFile.ReadWriteConfigFile;
 import de.p2tools.p2Lib.tools.ProgramTools;
@@ -30,10 +30,10 @@ import java.util.ArrayList;
 
 public class ProgStart {
 
-    private static final String backupHeader = "Die Einstellungen des Programms sind beschädigt" + PConst.LINE_SEPARATOR +
+    private static final String backupHeader = "Die Einstellungen des Programms sind beschädigt" + P2LibConst.LINE_SEPARATOR +
             "und können nicht geladen werden.";
-    private static final String backupText = "Soll versucht werden, mit gesicherten Einstellungen" + PConst.LINE_SEPARATOR
-            + "des Programms zu starten?" + PConst.LINE_SEPARATORx2
+    private static final String backupText = "Soll versucht werden, mit gesicherten Einstellungen" + P2LibConst.LINE_SEPARATOR
+            + "des Programms zu starten?" + P2LibConst.LINE_SEPARATORx2
             + "(ansonsten startet das Programm mit Standardeinstellungen)";
 
     private static final String TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE = "Programmversion ist aktuell";
@@ -56,7 +56,7 @@ public class ProgStart {
         list.add("Programmpfad: " + ProgInfos.getPathJar());
         list.add("Verzeichnis Einstellungen: " + ProgInfos.getSettingsDirectory_String());
 
-        LogMessage.startMsg(ProgConst.PROGRAMMNAME, list);
+        LogMessage.startMsg(ProgConst.PROGRAMNAME, list);
     }
 
     public boolean loadConfigData() {
@@ -98,7 +98,7 @@ public class ProgStart {
     }
 
     public static void setOrgTitle(ProgData progData) {
-        progData.primaryStage.setTitle(ProgConst.PROGRAMMNAME + " " + ProgramTools.getProgVersion());
+        progData.primaryStage.setTitle(ProgConst.PROGRAMNAME + " " + ProgramTools.getProgVersion());
     }
 
     public void setUpdateTitle() {

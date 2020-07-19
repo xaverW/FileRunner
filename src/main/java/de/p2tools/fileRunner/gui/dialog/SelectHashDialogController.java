@@ -19,7 +19,7 @@ package de.p2tools.fileRunner.gui.dialog;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.worker.GetHash.HashFileEntry;
-import de.p2tools.p2Lib.dialog.PDialogExtra;
+import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -43,7 +43,8 @@ public class SelectHashDialogController extends PDialogExtra {
         this.progData = progData;
         this.list = list;
 
-        init(getvBoxDialog(), true);
+        addOkCancelButtons(btnOk, btnCancel);
+        init(true);
     }
 
 
@@ -60,10 +61,9 @@ public class SelectHashDialogController extends PDialogExtra {
             hashFileEntry = null;
             close();
         });
-        getHboxOk().getChildren().addAll(btnOk, btnCancel);
 
         VBox.setVgrow(tableView, Priority.ALWAYS);
-        getVboxCont().getChildren().add(tableView);
+        getvBoxCont().getChildren().add(tableView);
         initTable();
     }
 

@@ -20,7 +20,7 @@ package de.p2tools.fileRunner.controller.worker;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.p2Lib.alert.PAlert;
-import de.p2tools.p2Lib.dialog.PDialogFileChosser;
+import de.p2tools.p2Lib.dialogs.PDialogFileChosser;
 import de.p2tools.p2Lib.tools.net.PUrlTools;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;

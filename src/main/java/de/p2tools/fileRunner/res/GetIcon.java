@@ -22,16 +22,46 @@ import javafx.scene.image.ImageView;
 
 public class GetIcon {
 
+//    public static ImageView getImageView(String strIcon, int w, int h) {
+//        return new ImageView(getStdImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, w, h));
+//    }
+//
+//    public static Image getImage(String strIcon, String path, int w, int h) {
+//        return getStdImage(strIcon, path, w, h);
+//    }
+//
+//    private static Image getStdImage(String strIcon, String path, int w, int h) {
+//        return new Image(GetIcon.class.getResource(path + strIcon).toExternalForm(),
+//                w, h, false, true);
+//    }
+
+
     public static ImageView getImageView(String strIcon, int w, int h) {
-        return new ImageView(getStdImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, w, h));
+        return new ImageView(getImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, w, h));
+    }
+
+    public static ImageView getImageView(String strIcon) {
+        return new ImageView(getImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, 0, 0));
+    }
+
+    public static Image getImage(String strIcon, int w, int h) {
+        return getImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, w, h);
+    }
+
+    public static Image getImage(String strIcon) {
+        return getImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, 0, 0);
     }
 
     public static Image getImage(String strIcon, String path, int w, int h) {
-        return getStdImage(strIcon, path, w, h);
+        Image icon;
+        icon = getStdImage(strIcon, path, w, h);
+        return icon;
     }
 
     private static Image getStdImage(String strIcon, String path, int w, int h) {
         return new Image(GetIcon.class.getResource(path + strIcon).toExternalForm(),
                 w, h, false, true);
     }
+
+
 }

@@ -17,9 +17,7 @@
 package de.p2tools.fileRunner.controller;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.p2Lib.checkForUpdates.SearchProgInfo;
 import de.p2tools.p2Lib.tools.ProgramTools;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -61,18 +59,20 @@ public class SearchProgramUpdate {
         ProgConfig.SYSTEM_UPDATE_DATE.setValue(FastDateFormat.getInstance("dd.MM.yyyy").format(new Date()));
 
         if (showDailyUpdate) {
-            return new SearchProgInfo(stage).checkUpdate(ProgConst.WEBSITE_PROG_UPDATE,
-                    ProgConfig.SYSTEM_UPDATE_PROGRAM_VERSION.get(),
-                    ProgConfig.SYSTEM_UPDATE_INFOS_NR,
-                    ProgConfig.SYSTEM_UPDATE_SEARCH_PROG_START,
-                    showProgramInformation, showError);
+            // todo
+//            return new SearchProgInfo(stage).checkUpdate(ProgConst.WEBSITE_PROG_UPDATE,
+//                    ProgConfig.SYSTEM_UPDATE_PROGRAM_VERSION.get(),
+//                    ProgConfig.SYSTEM_UPDATE_INFOS_NR,
+//                    ProgConfig.SYSTEM_UPDATE_SEARCH_PROG_START,
+//                    showProgramInformation, showError);
         } else {
-            return new SearchProgInfo(stage).checkUpdate(ProgConst.WEBSITE_PROG_UPDATE,
-                    ProgConfig.SYSTEM_UPDATE_PROGRAM_VERSION.get(),
-                    ProgConfig.SYSTEM_UPDATE_INFOS_NR,
-                    //ProgConfig.SYSTEM_UPDATE_SEARCH_PROG_START,
-                    showProgramInformation, showError);
+//            return new SearchProgInfo(stage).checkUpdate(ProgConst.WEBSITE_PROG_UPDATE,
+//                    ProgConfig.SYSTEM_UPDATE_PROGRAM_VERSION.get(),
+//                    ProgConfig.SYSTEM_UPDATE_INFOS_NR,
+//                    //ProgConfig.SYSTEM_UPDATE_SEARCH_PROG_START,
+//                    showProgramInformation, showError);
         }
+        return false;
     }
 
 

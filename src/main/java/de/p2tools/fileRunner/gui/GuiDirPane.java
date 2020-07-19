@@ -27,7 +27,7 @@ import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
 import de.p2tools.fileRunner.gui.tools.GuiToolsFactory;
 import de.p2tools.fileRunner.gui.tools.Table;
-import de.p2tools.p2Lib.dialog.PDirFileChooser;
+import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
@@ -194,7 +194,8 @@ public class GuiDirPane extends VBox {
         tabFilter.setContent(vBoxSearch);
 
         tabPane.getTabs().addAll(tabDir, tabZip, tabFile, tabFilter);
-
+        tabPane.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> setTab());
+        setTab();
 
         // =======================
         // write hash
@@ -266,6 +267,34 @@ public class GuiDirPane extends VBox {
         setTabFilterText();
     }
 
+    private void setTab() {
+        tabDir.getStyleClass().removeAll("btnTabFile-sel", "btnTabFile");
+        tabFile.getStyleClass().removeAll("btnTabFile-sel", "btnTabFile");
+        tabZip.getStyleClass().removeAll("btnTabFile-sel", "btnTabFile");
+        tabFilter.getStyleClass().removeAll("btnTabFile-sel", "btnTabFile");
+
+        if (tabDir.isSelected()) {
+            tabDir.getStyleClass().add("btnTabFile-sel");
+            tabFile.getStyleClass().add("btnTabFile");
+            tabZip.getStyleClass().add("btnTabFile");
+            tabFilter.getStyleClass().add("btnTabFile");
+        } else if (tabFile.isSelected()) {
+            tabFile.getStyleClass().add("btnTabFile-sel");
+            tabDir.getStyleClass().add("btnTabFile");
+            tabZip.getStyleClass().add("btnTabFile");
+            tabFilter.getStyleClass().add("btnTabFile");
+        } else if (tabZip.isSelected()) {
+            tabZip.getStyleClass().add("btnTabFile-sel");
+            tabDir.getStyleClass().add("btnTabFile");
+            tabFile.getStyleClass().add("btnTabFile");
+            tabFilter.getStyleClass().add("btnTabFile");
+        } else {
+            tabFilter.getStyleClass().add("btnTabFile-sel");
+            tabDir.getStyleClass().add("btnTabFile");
+            tabFile.getStyleClass().add("btnTabFile");
+            tabZip.getStyleClass().add("btnTabFile");
+        }
+    }
 
     private void addListener() {
         progData.worker.addAdListener(new RunListener() {

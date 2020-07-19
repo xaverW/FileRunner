@@ -17,7 +17,7 @@
 
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
-import de.p2tools.p2Lib.dialog.PDialogFileChosser;
+import de.p2tools.p2Lib.dialogs.PDialogFileChosser;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
 

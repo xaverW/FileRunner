@@ -25,7 +25,7 @@ import de.p2tools.fileRunner.gui.GuiFileRunner;
 import de.p2tools.fileRunner.gui.StatusBarController;
 import de.p2tools.fileRunner.gui.configDialog.ConfigDialogController;
 import de.p2tools.fileRunner.gui.dialog.AboutDialogController;
-import de.p2tools.p2Lib.PConst;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -37,8 +37,8 @@ import javafx.scene.layout.*;
 
 public class FileRunnerController extends StackPane {
 
-    Button btnDirRunner = new Button("Ordner" + PConst.LINE_SEPARATOR + "vergleichen");
-    Button btnFileRunner = new Button("Dateien" + PConst.LINE_SEPARATOR + "vergleichen");
+    Button btnDirRunner = new Button("Ordner" + P2LibConst.LINE_SEPARATOR + "vergleichen");
+    Button btnFileRunner = new Button("Dateien" + P2LibConst.LINE_SEPARATOR + "vergleichen");
 
     MenuButton menuButton = new MenuButton("");
     MenuButton menuButton2 = new MenuButton("");
@@ -83,7 +83,7 @@ public class FileRunnerController extends StackPane {
             miConfig.setOnAction(e -> new ConfigDialogController());
 
             final MenuItem miQuitt = new MenuItem("Beenden");
-            miQuitt.setOnAction(e -> new ProgQuitt().beenden(true));
+            miQuitt.setOnAction(e -> new ProgQuitt().quitt(true));
 
             final MenuItem miUpdate = new MenuItem("Gibt es ein Update?");
             miUpdate.setOnAction(event -> new SearchProgramUpdate(progData.primaryStage, progData)

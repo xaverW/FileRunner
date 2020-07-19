@@ -17,13 +17,19 @@
 package de.p2tools.fileRunner.gui.configDialog;
 
 import de.p2tools.fileRunner.controller.config.ProgColorList;
+import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.gui.HelpText;
 import de.p2tools.p2Lib.configFile.pConfData.PColorData;
 import de.p2tools.p2Lib.configFile.pConfData.PColorList;
+import de.p2tools.p2Lib.guiTools.PButton;
+import de.p2tools.p2Lib.guiTools.PColumnConstraints;
+import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
+import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -31,40 +37,56 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class ColorPane extends AnchorPane {
+public class ColorPane extends Tab {
 
     private final Stage stage;
+    private final VBox vBox = new VBox();
+    BooleanProperty propDarkTheme = ProgConfig.SYSTEM_DARK_THEME;
+    private final PToggleSwitch tglDarkTheme = new PToggleSwitch("Dunkles Erscheinungsbild der Programmoberfläche");
 
     public ColorPane(Stage stage) {
         this.stage = stage;
+
+        setText("Farben");
+        setClosable(false);
+        setContent(vBox);
         makeColor();
     }
 
     private void makeColor() {
-        final VBox vBox = new VBox();
+        vBox.setPadding(new Insets(20));
+        vBox.setFillWidth(true);
         vBox.setSpacing(10);
+
+        final GridPane gridPane = new GridPane();
+        gridPane.setHgap(15);
+        gridPane.setVgap(15);
+        gridPane.setPadding(new Insets(0, 0, 10, 0));
+
+        tglDarkTheme.selectedProperty().bindBidirectional(propDarkTheme);
+        final Button btnHelpTheme = PButton.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
+                HelpText.DARK_THEME);
+
+        gridPane.add(tglDarkTheme, 0, 0);
+        gridPane.add(btnHelpTheme, 1, 0);
+        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow(), PColumnConstraints.getCcPrefSize());
+
 
         TableView<PColorData> tableView = new TableView<>();
         VBox.setVgrow(tableView, Priority.ALWAYS);
         initTableColor(tableView);
 
-        Button button = new Button("Alle Farben zurücksetzen");
+        Button button = new Button("Alle _Farben zurücksetzen");
         button.setOnAction(event -> {
             ProgColorList.resetAllColor();
         });
 
         HBox hBox = new HBox();
         hBox.getChildren().add(button);
-        hBox.setPadding(new Insets(5, 5, 5, 5));
+        hBox.setPadding(new Insets(0));
         hBox.setAlignment(Pos.CENTER_RIGHT);
 
-        vBox.getChildren().addAll(tableView, hBox);
-        AnchorPane.setTopAnchor(vBox, 20.0);
-        AnchorPane.setRightAnchor(vBox, 20.0);
-        AnchorPane.setBottomAnchor(vBox, 20.0);
-        AnchorPane.setLeftAnchor(vBox, 20.0);
-
-        this.getChildren().add(vBox);
+        vBox.getChildren().addAll(gridPane, tableView, hBox);
     }
 
     private void initTableColor(TableView<PColorData> tableView) {

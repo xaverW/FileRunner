@@ -18,7 +18,7 @@ package de.p2tools.fileRunner.controller.config;
 
 public class ProgConst {
 
-    public static final String PROGRAMMNAME = "FileRunner";
+    public static final String PROGRAMNAME = "FileRunner";
 
     // config file
     public static final String CONFIG_FILE = "fileRunner.xml";
@@ -26,6 +26,7 @@ public class ProgConst {
     public static final String XML_START = "FileRunner";
 
     public static final String CSS_FILE = "/de/p2tools/fileRunner/fileRunner.css";
+    public static final String CSS_FILE_DARK_THEME = "/de/p2tools/fileRunner/fileRunner-dark.css";
     public static final String LOG_DIR = "Log";
 
     public static final String WEBSITE_P2 = "https://www.p2tools.de";

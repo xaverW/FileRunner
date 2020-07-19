@@ -22,7 +22,8 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.res.GetIcon;
-import de.p2tools.p2Lib.PInit;
+import de.p2tools.p2Lib.P2LibConst;
+import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
 import de.p2tools.p2Lib.tools.duration.PDuration;
@@ -33,8 +34,6 @@ import javafx.stage.Stage;
 public class FileRunner extends Application {
 
     private Stage primaryStage;
-    private FileRunnerController root;
-
     private static final String LOG_TEXT_PROGRAMMSTART = "***Programmstart***";
 
     protected ProgData progData;
@@ -58,25 +57,44 @@ public class FileRunner extends Application {
         losGehts();
     }
 
+    //    private void initP2lib() {
+//        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));
+//        P2LibInit.initLib(primaryStage, ProgConst.PROGRAMNAME,
+//                ProgConst.CSS_FILE, "",
+//                ProgData.debug, ProgData.duration);
+//    }
+    private void initP2lib() {
+        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));
+        P2LibInit.initLib(primaryStage, ProgConst.PROGRAMNAME,
+                "", ProgData.debug, ProgData.duration);
+        P2LibInit.addCssFile(P2LibConst.CSS_GUI);
+        P2LibInit.addCssFile(ProgConst.CSS_FILE);
+    }
+
     private void initRootLayout() {
         try {
-            root = new FileRunnerController();
-            progData.fileRunnerController = root;
-            scene = new Scene(root,
+            addThemeCss(); // damit es für die 2 schon mal stimmt
+            progData.fileRunnerController = new FileRunnerController();
+            scene = new Scene(progData.fileRunnerController,
                     PGuiSize.getWidth(ProgConfig.SYSTEM_GUI_SIZE),
                     PGuiSize.getHeight(ProgConfig.SYSTEM_GUI_SIZE));
 
-            String css = this.getClass().getResource(ProgConst.CSS_FILE).toExternalForm();
-            scene.getStylesheets().add(css);
-            PInit.addP2LibCss(scene);
+            P2LibInit.addP2LibCssToScene(scene);
+            ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
+                addThemeCss();
+                P2LibInit.addP2LibCssToScene(scene);
+                ProgConfig.SYSTEM_THEME_CHANGED.setValue(!ProgConfig.SYSTEM_THEME_CHANGED.get());
+            });
 
             primaryStage.setScene(scene);
             primaryStage.setOnCloseRequest(e -> {
                 e.consume();
-                new ProgQuitt().beenden(true);
+                new ProgQuitt().quitt(true);
             });
 
-            PGuiSize.setPos(ProgConfig.SYSTEM_GUI_SIZE, primaryStage);
+            if (!PGuiSize.setPos(ProgConfig.SYSTEM_GUI_SIZE, primaryStage)) {
+                primaryStage.centerOnScreen();
+            }
             primaryStage.show();
 
         } catch (final Exception e) {
@@ -84,11 +102,12 @@ public class FileRunner extends Application {
         }
     }
 
-    private void initP2lib() {
-        PButton.setHlpImage(GetIcon.getImageView("button-help.png", 16, 16));
-        PInit.initLib(primaryStage, ProgConst.PROGRAMMNAME,
-                ProgConst.CSS_FILE, "",
-                ProgData.debug, ProgData.duration);
+    private void addThemeCss() {
+        if (ProgConfig.SYSTEM_DARK_THEME.get()) {
+            P2LibInit.addCssFile(ProgConst.CSS_FILE_DARK_THEME);
+        } else {
+            P2LibInit.removeCssFile(ProgConst.CSS_FILE_DARK_THEME);
+        }
     }
 
     public void losGehts() {

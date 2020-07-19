@@ -16,7 +16,7 @@
 
 package de.p2tools.fileRunner.gui;
 
-import de.p2tools.p2Lib.PConst;
+import de.p2tools.p2Lib.P2LibConst;
 
 public class HelpText {
 
@@ -25,7 +25,12 @@ public class HelpText {
             "den Standardeinstellungen.";
 
     public static final String FOLLOW_SYMLINK = "Eine symbolische Verknüpfung ist eine Verknüpfung in einem Dateisystem " +
-            "die auf eine andere Datei oder ein anderes Verzeichnis verweist." + PConst.LINE_SEPARATORx2 +
+            "die auf eine andere Datei oder ein anderes Verzeichnis verweist." + P2LibConst.LINE_SEPARATORx2 +
             "In der Tabelle wird der Speicherort des Links angezeigt. " +
             "Wenn der Link aufgelöst werden soll, wird der Pfad auf den der Link zeigt, angezeigt.";
+
+    public static final String DARK_THEME = "Das Programm wird damit mit einer dunklen " +
+            "Programmoberfläche angezeigt. Damit alle Elemente der Programmoberfläche " +
+            "geändert werden, kann ein Programmneustart notwendig sein.";
+    
 }

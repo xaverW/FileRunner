@@ -21,22 +21,19 @@ import de.p2tools.fileRunner.controller.SearchProgramUpdate;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.p2Lib.PConst;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.POpen;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.beans.property.BooleanProperty;
 import javafx.geometry.HPos;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class UpdatePane extends AnchorPane {
+public class UpdatePane extends Tab {
 
     private final Stage stage;
     final GridPane gridPane = new GridPane();
@@ -45,17 +42,14 @@ public class UpdatePane extends AnchorPane {
     public UpdatePane(Stage stage) {
         this.stage = stage;
 
-        AnchorPane.setTopAnchor(gridPane, 20.0);
-        AnchorPane.setRightAnchor(gridPane, 20.0);
-        AnchorPane.setBottomAnchor(gridPane, 20.0);
-        AnchorPane.setLeftAnchor(gridPane, 20.0);
-
-        getChildren().addAll(gridPane);
+        setText("Update");
+        setClosable(false);
+        setContent(gridPane);
         makeConfig();
     }
 
     private void makeConfig() {
-
+        gridPane.setPadding(new Insets(20));
         gridPane.setHgap(15);
         gridPane.setVgap(15);
 
@@ -65,7 +59,7 @@ public class UpdatePane extends AnchorPane {
 
         final Button btnHelp = PButton.helpButton(stage, "Programmupdate suchen",
                 "Beim Programmstart wird geprüft, ob es eine neue Version des Programms gibt. " +
-                        "Ist eine aktualisierte Version vorhanden, dann wird es gemeldet." + PConst.LINE_SEPARATOR +
+                        "Ist eine aktualisierte Version vorhanden, dann wird es gemeldet." + P2LibConst.LINE_SEPARATOR +
                         "Das Programm wird aber nicht ungefragt ersetzt.");
         GridPane.setHalignment(btnHelp, HPos.RIGHT);
 

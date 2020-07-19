@@ -91,6 +91,14 @@
     -fx-control-inner-background: antiquewhite;
 }
 
+.btnTabFile{
+    -fx-text-fill: black;
+ }
+ .btnTabFile-sel{
+    -fx-text-fill: -style-text-color-1;
+ }
+
+
 .btnTab{
     -fx-font-weight: bold;
     -fx-text-alignment: center;
