@@ -194,8 +194,6 @@ public class GuiDirPane extends VBox {
         tabFilter.setContent(vBoxSearch);
 
         tabPane.getTabs().addAll(tabDir, tabZip, tabFile, tabFilter);
-        tabPane.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> setTab());
-        setTab();
 
         // =======================
         // write hash
@@ -265,35 +263,6 @@ public class GuiDirPane extends VBox {
         selIndex.bind(tabPane.getSelectionModel().selectedIndexProperty());
 
         setTabFilterText();
-    }
-
-    private void setTab() {
-        tabDir.getStyleClass().removeAll("btnTabFile-sel", "btnTabFile");
-        tabFile.getStyleClass().removeAll("btnTabFile-sel", "btnTabFile");
-        tabZip.getStyleClass().removeAll("btnTabFile-sel", "btnTabFile");
-        tabFilter.getStyleClass().removeAll("btnTabFile-sel", "btnTabFile");
-
-        if (tabDir.isSelected()) {
-            tabDir.getStyleClass().add("btnTabFile-sel");
-            tabFile.getStyleClass().add("btnTabFile");
-            tabZip.getStyleClass().add("btnTabFile");
-            tabFilter.getStyleClass().add("btnTabFile");
-        } else if (tabFile.isSelected()) {
-            tabFile.getStyleClass().add("btnTabFile-sel");
-            tabDir.getStyleClass().add("btnTabFile");
-            tabZip.getStyleClass().add("btnTabFile");
-            tabFilter.getStyleClass().add("btnTabFile");
-        } else if (tabZip.isSelected()) {
-            tabZip.getStyleClass().add("btnTabFile-sel");
-            tabDir.getStyleClass().add("btnTabFile");
-            tabFile.getStyleClass().add("btnTabFile");
-            tabFilter.getStyleClass().add("btnTabFile");
-        } else {
-            tabFilter.getStyleClass().add("btnTabFile-sel");
-            tabDir.getStyleClass().add("btnTabFile");
-            tabFile.getStyleClass().add("btnTabFile");
-            tabZip.getStyleClass().add("btnTabFile");
-        }
     }
 
     private void addListener() {

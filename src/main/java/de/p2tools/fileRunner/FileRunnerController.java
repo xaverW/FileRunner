@@ -25,7 +25,6 @@ import de.p2tools.fileRunner.gui.GuiFileRunner;
 import de.p2tools.fileRunner.gui.StatusBarController;
 import de.p2tools.fileRunner.gui.configDialog.ConfigDialogController;
 import de.p2tools.fileRunner.gui.dialog.AboutDialogController;
-import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -37,8 +36,8 @@ import javafx.scene.layout.*;
 
 public class FileRunnerController extends StackPane {
 
-    Button btnDirRunner = new Button("Ordner" + P2LibConst.LINE_SEPARATOR + "vergleichen");
-    Button btnFileRunner = new Button("Dateien" + P2LibConst.LINE_SEPARATOR + "vergleichen");
+    Button btnDirRunner = new Button("Ordner " + "vergleichen");
+    Button btnFileRunner = new Button("Dateien " + "vergleichen");
 
     MenuButton menuButton = new MenuButton("");
     MenuButton menuButton2 = new MenuButton("");
@@ -92,14 +91,14 @@ public class FileRunnerController extends StackPane {
             final MenuItem miAbout = new MenuItem("Über dieses Programm");
             miAbout.setOnAction(event -> new AboutDialogController(progData));
 
-            menuButton.getStyleClass().add("btnFunction");
+            menuButton.getStyleClass().add("btnFunctionWide");
             menuButton.setText("");
             menuButton.setGraphic(new Icons().FX_ICON_TOOLBAR_MENUE_TOP);
             menuButton.getItems().addAll(miConfig,
                     new SeparatorMenuItem(), miAbout, miUpdate,
                     new SeparatorMenuItem(), miQuitt);
 
-            menuButton2.getStyleClass().add("btnFunction");
+            menuButton2.getStyleClass().add("btnFunctionWide");
             menuButton2.setText("");
             menuButton2.setGraphic(new Icons().FX_ICON_TOOLBAR_MENUE_TOP);
             menuButton2.setVisible(false);

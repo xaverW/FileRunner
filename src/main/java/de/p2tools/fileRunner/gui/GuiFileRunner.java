@@ -191,16 +191,12 @@ public class GuiFileRunner extends AnchorPane {
                 !pTextField2.getText().isEmpty() &&
                 pTextField1.getText().toLowerCase().equals(pTextField2.getText().toLowerCase())) {
 
-//            pTextField1.setStyle(PTEXTFIELD_LABEL);
-//            pTextField2.setStyle(PTEXTFIELD_LABEL);
             pTextField1.getStyleClass().removeAll("txtHash");
             pTextField2.getStyleClass().removeAll("txtHash");
             pTextField1.getStyleClass().add("txtHashOk");
             pTextField2.getStyleClass().add("txtHashOk");
 
         } else {
-//            pTextField1.setStyle(null);
-//            pTextField2.setStyle(null);
             pTextField1.getStyleClass().removeAll("txtHashOk");
             pTextField2.getStyleClass().removeAll("txtHashOk");
             pTextField1.getStyleClass().add("txtHash");

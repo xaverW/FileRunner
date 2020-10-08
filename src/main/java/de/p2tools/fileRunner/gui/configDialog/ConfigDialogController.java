@@ -49,6 +49,8 @@ public class ConfigDialogController extends PDialogExtra {
         this.stage = getStage();
         btnOk.setOnAction(a -> close());
 
+        ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) -> updateCss());
+
         getvBoxCont().getChildren().add(tabPane);
         VBox.setVgrow(tabPane, Priority.ALWAYS);
         initPanel();
