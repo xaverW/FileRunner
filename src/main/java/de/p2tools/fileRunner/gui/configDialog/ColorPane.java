@@ -24,6 +24,7 @@ import de.p2tools.p2Lib.configFile.pConfData.PColorList;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
+import de.p2tools.p2Lib.tools.PColorFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -229,8 +230,8 @@ public class ColorPane extends Tab {
                     return;
                 }
 
-                PColorData MTC = getTableView().getItems().get(getIndex());
-                setStyle("-fx-background-color:" + MTC.getColorToWeb(MTC.getColorReset()));
+                PColorData pColorData = getTableView().getItems().get(getIndex());
+                setStyle("-fx-background-color:" + PColorFactory.getColorToWeb(pColorData.getResetColor()));
             }
 
         };

@@ -165,10 +165,8 @@ public class GuiFilePane extends VBox {
 
         HBox hBox = new HBox(10);
         hBox.setAlignment(Pos.CENTER_RIGHT);
-//        hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.getChildren().addAll(btnGenHash, btnSaveHash);
         gridPane.add(hBox, 1, ++r);
-//        gridPane.add(hBox, 1, ++r, 2, 1);
 
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
                 PColumnConstraints.getCcComputedSizeAndHgrow(),

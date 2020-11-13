@@ -60,11 +60,11 @@ public class ProgStart {
     }
 
     public boolean loadConfigData() {
-        boolean load = loadConnfig(new ProgInfos().getSettingsFile());
+        boolean load = loadConfig(new ProgInfos().getSettingsFile());
 
         if (!load) {
             // teils geladene Reste entfernen
-            initKonfig();
+            initConfig();
         }
 
         PLog.sysLog("Progstart: Konfig");
@@ -73,12 +73,12 @@ public class ProgStart {
         return true;
     }
 
-    private void initKonfig() {
+    private void initConfig() {
         ProgData progData = ProgData.getInstance();
         // ....
     }
 
-    private boolean loadConnfig(Path xmlFilePath) {
+    private boolean loadConfig(Path xmlFilePath) {
         ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
         configFile.addConfigs(ProgConfig.getInstance());
         configFile.addConfigs(ProgColorList.getConfigsData());

@@ -187,9 +187,11 @@ public class GuiFileRunner extends AnchorPane {
     private void setColor() {
         PTextField pTextField1 = guiFilePane1.getTxtHash();
         PTextField pTextField2 = guiFilePane2.getTxtHash();
-        if (!pTextField1.getText().isEmpty() &&
-                !pTextField2.getText().isEmpty() &&
-                pTextField1.getText().toLowerCase().equals(pTextField2.getText().toLowerCase())) {
+        String hash1 = pTextField1.getText().trim().toLowerCase();
+        String hash2 = pTextField2.getText().trim().toLowerCase();
+
+        if (!hash1.isEmpty() && !hash2.isEmpty() &&
+                hash1.equals(hash2)) {
 
             pTextField1.getStyleClass().removeAll("txtHash");
             pTextField2.getStyleClass().removeAll("txtHash");
