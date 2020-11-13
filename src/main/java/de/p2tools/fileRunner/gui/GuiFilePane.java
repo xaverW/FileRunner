@@ -53,9 +53,9 @@ public class GuiFilePane extends VBox {
 
     private final Button btnGetFile = new Button("");
     private final Button btnGetHashFile = new Button("");
-    private final RadioButton rb0 = new RadioButton("Datei/URL");
-    private final RadioButton rb1 = new RadioButton("Hashdatei");
-    private final RadioButton rb2 = new RadioButton("Hash");
+    private final RadioButton rbFileUrl = new RadioButton("Datei/URL");
+    private final RadioButton rbHashFile = new RadioButton("Hashdatei");
+    private final RadioButton rbHash = new RadioButton("Hash");
 
     private final PComboBoxString pCboFile = new PComboBoxString();
     private final PComboBoxString pCboHashFile = new PComboBoxString();
@@ -107,7 +107,10 @@ public class GuiFilePane extends VBox {
     }
 
     public void clearHash() {
-        txtHash.setText("");
+        if (!rbHash.isSelected()) {
+            //dann ist ein fester Hash vorgegeben, den besser lassen?
+            txtHash.setText("");
+        }
     }
 
     public PTextField getTxtHash() {
@@ -122,16 +125,16 @@ public class GuiFilePane extends VBox {
 
     private void initPane() {
         ToggleGroup tg = new ToggleGroup();
-        tg.getToggles().addAll(rb0, rb1, rb2);
+        tg.getToggles().addAll(rbFileUrl, rbHashFile, rbHash);
         switch (sel.get()) {
             case 0:
-                rb0.setSelected(true);
+                rbFileUrl.setSelected(true);
                 break;
             case 1:
-                rb1.setSelected(true);
+                rbHashFile.setSelected(true);
                 break;
             case 2:
-                rb2.setSelected(true);
+                rbHash.setSelected(true);
                 break;
         }
 
@@ -152,15 +155,15 @@ public class GuiFilePane extends VBox {
         gridPane.setHgap(10);
         VBox.setVgrow(gridPane, Priority.ALWAYS);
 
-        gridPane.add(rb0, 0, r);
+        gridPane.add(rbFileUrl, 0, r);
         gridPane.add(pCboFile, 1, r);
         gridPane.add(btnGetFile, 2, r++);
 
-        gridPane.add(rb1, 0, r);
+        gridPane.add(rbHashFile, 0, r);
         gridPane.add(pCboHashFile, 1, r);
         gridPane.add(btnGetHashFile, 2, r++);
 
-        gridPane.add(rb2, 0, r);
+        gridPane.add(rbHash, 0, r);
         gridPane.add(txtHash, 1, r++);
 
         HBox hBox = new HBox(10);
@@ -186,9 +189,9 @@ public class GuiFilePane extends VBox {
                 }
             }
         });
-        rb0.setOnAction(event -> setVis(true));
-        rb1.setOnAction(event -> setVis(true));
-        rb2.setOnAction(event -> setVis(true));
+        rbFileUrl.setOnAction(event -> setVis(true));
+        rbHashFile.setOnAction(event -> setVis(true));
+        rbHash.setOnAction(event -> setVis(true));
 
         btnGetFile.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, pCboFile));
         btnGetHashFile.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, pCboHashFile));
@@ -196,17 +199,17 @@ public class GuiFilePane extends VBox {
         btnSaveHash.setOnAction(event -> saveHash());
 
         btnGenHash.disableProperty().bind(
-                rb0.selectedProperty().and(pCboFile.getEditor().textProperty().isEqualTo(""))
-                        .or(rb1.selectedProperty().and(pCboHashFile.getEditor().textProperty().isEqualTo("")))
-                        .or(rb2.selectedProperty())
+                rbFileUrl.selectedProperty().and(pCboFile.getEditor().textProperty().isEqualTo(""))
+                        .or(rbHashFile.selectedProperty().and(pCboHashFile.getEditor().textProperty().isEqualTo("")))
+                        .or(rbHash.selectedProperty())
                         .or(isRunning)
         );
         compareNot.bind(btnGenHash.disableProperty());
 
         btnSaveHash.disableProperty().bind(
-                rb0.selectedProperty().and(pCboFile.getEditor().textProperty().isEqualTo(""))
-                        .or(rb1.selectedProperty())
-                        .or(rb2.selectedProperty())
+                rbFileUrl.selectedProperty().and(pCboFile.getEditor().textProperty().isEqualTo(""))
+                        .or(rbHashFile.selectedProperty())
+                        .or(rbHash.selectedProperty())
                         .or(txtHash.textProperty().isEmpty()
                                 .or(isRunning))
         );
@@ -217,17 +220,17 @@ public class GuiFilePane extends VBox {
             txtHash.setText("");
         }
 
-        pCboFile.setDisable(rb0.isSelected() ? false : true);
-        pCboHashFile.setDisable(rb1.isSelected() ? false : true);
-        txtHash.setStateLabel(rb2.isSelected() ? false : true);
+        pCboFile.setDisable(rbFileUrl.isSelected() ? false : true);
+        pCboHashFile.setDisable(rbHashFile.isSelected() ? false : true);
+        txtHash.setStateLabel(rbHash.isSelected() ? false : true);
 
-        if (rb0.isSelected()) {
+        if (rbFileUrl.isSelected()) {
             btnGenHash.setText(textGenHash);
             sel.set(0);
-        } else if (rb1.isSelected()) {
+        } else if (rbHashFile.isSelected()) {
             btnGenHash.setText(textLoadHash);
             sel.set(1);
-        } else if (rb2.isSelected()) {
+        } else if (rbHash.isSelected()) {
             sel.set(2);
 //            txtHash.setText("");
         }
@@ -235,10 +238,10 @@ public class GuiFilePane extends VBox {
     }
 
     public boolean genLoadHash() {
-        if (rb0.isSelected()) {
+        if (rbFileUrl.isSelected()) {
             genHash();
             return true;
-        } else if (rb1.isSelected()) {
+        } else if (rbHashFile.isSelected()) {
             readHash();
             return true;
         } else {
@@ -248,7 +251,7 @@ public class GuiFilePane extends VBox {
 
     private void genHash() {
         txtHash.clear();
-        if (!rb0.isSelected()) {
+        if (!rbFileUrl.isSelected()) {
             return;
         }
 
@@ -266,7 +269,7 @@ public class GuiFilePane extends VBox {
 
     private void readHash() {
         txtHash.clear();
-        if (!rb1.isSelected()) {
+        if (!rbHashFile.isSelected()) {
             return;
         }
 
@@ -283,7 +286,7 @@ public class GuiFilePane extends VBox {
     }
 
     private void saveHash() {
-        if (!rb0.isSelected()) {
+        if (!rbFileUrl.isSelected()) {
             return;
         }
 

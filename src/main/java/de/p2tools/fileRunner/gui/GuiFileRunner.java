@@ -181,9 +181,6 @@ public class GuiFileRunner extends AnchorPane {
         });
     }
 
-    public static String PTEXTFIELD_LABEL =
-            "-fx-control-inner-background: lightgreen;";
-
     private void setColor() {
         PTextField pTextField1 = guiFilePane1.getTxtHash();
         PTextField pTextField2 = guiFilePane2.getTxtHash();
