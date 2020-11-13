@@ -98,10 +98,6 @@ public class GuiFilePane extends VBox {
         setVis(false);
     }
 
-    public boolean getCompareNot() {
-        return compareNot.get();
-    }
-
     public BooleanProperty compareNotProperty() {
         return compareNot;
     }
@@ -189,21 +185,28 @@ public class GuiFilePane extends VBox {
                 }
             }
         });
+
         rbFileUrl.setOnAction(event -> setVis(true));
         rbHashFile.setOnAction(event -> setVis(true));
         rbHash.setOnAction(event -> setVis(true));
+        rbFileUrl.disableProperty().bind(isRunning);
+        rbHashFile.disableProperty().bind(isRunning);
+        rbHash.disableProperty().bind(isRunning);
 
         btnGetFile.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, pCboFile));
         btnGetHashFile.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, pCboHashFile));
+        btnGetFile.disableProperty().bind(isRunning);
+        btnGetHashFile.disableProperty().bind(isRunning);
+
         btnGenHash.setOnAction(event -> genLoadHash());
         btnSaveHash.setOnAction(event -> saveHash());
-
         btnGenHash.disableProperty().bind(
                 rbFileUrl.selectedProperty().and(pCboFile.getEditor().textProperty().isEqualTo(""))
                         .or(rbHashFile.selectedProperty().and(pCboHashFile.getEditor().textProperty().isEqualTo("")))
                         .or(rbHash.selectedProperty())
                         .or(isRunning)
         );
+
         compareNot.bind(btnGenHash.disableProperty());
 
         btnSaveHash.disableProperty().bind(
