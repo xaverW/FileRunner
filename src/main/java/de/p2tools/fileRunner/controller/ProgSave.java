@@ -18,7 +18,7 @@ package de.p2tools.fileRunner.controller;
 
 import de.p2tools.fileRunner.controller.config.*;
 import de.p2tools.p2Lib.configFile.ConfigFile;
-import de.p2tools.p2Lib.configFile.ReadWriteConfigFile;
+import de.p2tools.p2Lib.configFile.WriteConfigFile;
 
 import java.nio.file.Path;
 
@@ -38,7 +38,7 @@ public class ProgSave {
         configFile.addConfigs(ProgColorList.getConfigsData());
         configFile.addConfigs(progData.projectData);
 
-        ReadWriteConfigFile readWriteConfigFile = new ReadWriteConfigFile();
+        WriteConfigFile readWriteConfigFile = new WriteConfigFile();
         readWriteConfigFile.addConfigFile(configFile);
         readWriteConfigFile.writeConfigFile();
     }

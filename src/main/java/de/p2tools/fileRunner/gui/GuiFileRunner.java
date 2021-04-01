@@ -117,7 +117,7 @@ public class GuiFileRunner extends AnchorPane {
         vBoxCont.setPadding(new Insets(25));
         vBoxCont.getChildren().addAll(gridPane);
 
-        btnCheckFile.setTooltip(new Tooltip("Hash für beide Dateien erstellen und die Dateien damit vergeleichen."));
+        btnCheckFile.setTooltip(new Tooltip("Hash für beide Dateien erstellen und die Dateien damit vergleichen."));
         rbMd5.setTooltip(new Tooltip("Es wird ein MD5-Hash erstellt."));
         rbSha1.setTooltip(new Tooltip("Es wird ein SHA-1 Hash erstellt."));
         rbSha256.setTooltip(new Tooltip("Es wird ein SHA-256 Hash erstellt."));
@@ -187,6 +187,9 @@ public class GuiFileRunner extends AnchorPane {
         String hash1 = pTextField1.getText().trim().toLowerCase();
         String hash2 = pTextField2.getText().trim().toLowerCase();
 
+        hash1 = hash1.replaceAll(" ", "");
+        hash2 = hash2.replaceAll(" ", "");
+
         if (!hash1.isEmpty() && !hash2.isEmpty() &&
                 hash1.equals(hash2)) {
 
@@ -221,7 +224,7 @@ public class GuiFileRunner extends AnchorPane {
             guiFilePane1.genLoadHash();
             guiFilePane2.genLoadHash();
         });
-        
+
         rbMd5.disableProperty().bind(isRunning);
         rbSha1.disableProperty().bind(isRunning);
         rbSha256.disableProperty().bind(isRunning);

@@ -19,7 +19,7 @@ package de.p2tools.fileRunner.controller;
 import de.p2tools.fileRunner.controller.config.*;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.configFile.ConfigFile;
-import de.p2tools.p2Lib.configFile.ReadWriteConfigFile;
+import de.p2tools.p2Lib.configFile.ReadConfigFile;
 import de.p2tools.p2Lib.tools.ProgramTools;
 import de.p2tools.p2Lib.tools.log.LogMessage;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -86,7 +86,7 @@ public class ProgStart {
 
         PLog.sysLog("Konfig lesen: " + xmlFilePath.toString());
 
-        ReadWriteConfigFile readWriteConfigFile = new ReadWriteConfigFile();
+        ReadConfigFile readWriteConfigFile = new ReadConfigFile();
         readWriteConfigFile.addConfigFile(configFile);
 
         boolean ret = readWriteConfigFile.readConfigFile(backupHeader, backupText);
