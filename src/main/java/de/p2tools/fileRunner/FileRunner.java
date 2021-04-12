@@ -18,13 +18,13 @@ package de.p2tools.fileRunner;
 import de.p2tools.fileRunner.controller.ProgQuitt;
 import de.p2tools.fileRunner.controller.ProgStart;
 import de.p2tools.fileRunner.controller.SearchProgramUpdate;
+import de.p2tools.fileRunner.controller.config.ProgColorList;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.P2LibInit;
-import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import javafx.application.Application;
@@ -37,7 +37,7 @@ public class FileRunner extends Application {
     private static final String LOG_TEXT_PROGRAMMSTART = "***Programmstart***";
 
     protected ProgData progData;
-    Scene scene = null;
+    private Scene scene = null;
 
     @Override
     public void init() throws Exception {
@@ -57,23 +57,10 @@ public class FileRunner extends Application {
         losGehts();
     }
 
-    private void initP2lib() {
-        PButton.setHlpImage(GetIcon.getImage("button-help.png", 16, 16));
-        P2LibInit.initLib(primaryStage, ProgConst.PROGRAMNAME,
-                "", ProgData.debug, ProgData.duration);
-        P2LibInit.addCssFile(P2LibConst.CSS_GUI);
-        P2LibInit.addCssFile(ProgConst.CSS_FILE);
-    }
-
     private void initRootLayout() {
         try {
 //            addThemeCss(); // damit es da schon mal stimmt
             progData.fileRunnerController = new FileRunnerController();
-            ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
-                addThemeCss();
-                ProgConfig.SYSTEM_THEME_CHANGED.setValue(!ProgConfig.SYSTEM_THEME_CHANGED.get());
-            });
-
             scene = new Scene(progData.fileRunnerController,
                     PGuiSize.getWidth(ProgConfig.SYSTEM_GUI_SIZE),
                     PGuiSize.getHeight(ProgConfig.SYSTEM_GUI_SIZE));
@@ -83,7 +70,13 @@ public class FileRunner extends Application {
                 new ProgQuitt().quitt(true);
             });
 
+            ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
+                addThemeCss();
+                ProgColorList.setColorTheme();
+            });
+            ProgColorList.setColorTheme();
             addThemeCss();
+
             if (!PGuiSize.setPos(ProgConfig.SYSTEM_GUI_SIZE, primaryStage)) {
                 primaryStage.centerOnScreen();
             }
@@ -92,6 +85,12 @@ public class FileRunner extends Application {
         } catch (final Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void initP2lib() {
+        P2LibInit.initLib(primaryStage, ProgConst.PROGRAMNAME, "", ProgData.debug, ProgData.duration);
+        P2LibInit.addCssFile(P2LibConst.CSS_GUI);
+        P2LibInit.addCssFile(ProgConst.CSS_FILE);
     }
 
     private void addThemeCss() {

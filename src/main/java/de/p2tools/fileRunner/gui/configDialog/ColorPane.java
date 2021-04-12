@@ -18,6 +18,7 @@ package de.p2tools.fileRunner.gui.configDialog;
 
 import de.p2tools.fileRunner.controller.config.ProgColorList;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.gui.HelpText;
 import de.p2tools.p2Lib.configFile.pConfData.PColorData;
 import de.p2tools.p2Lib.configFile.pConfData.PColorList;
@@ -76,6 +77,9 @@ public class ColorPane extends Tab {
         TableView<PColorData> tableView = new TableView<>();
         VBox.setVgrow(tableView, Priority.ALWAYS);
         initTableColor(tableView);
+        tglDarkTheme.selectedProperty().addListener((u, o, n) -> {
+            tableView.refresh();
+        });
 
         Button button = new Button("Alle _Farben zurücksetzen");
         button.setOnAction(event -> {
@@ -90,27 +94,34 @@ public class ColorPane extends Tab {
         vBox.getChildren().addAll(gridPane, tableView, hBox);
     }
 
-    private void initTableColor(TableView<PColorData> tableView) {
+    public void close() {
+        tglDarkTheme.selectedProperty().unbindBidirectional(propDarkTheme);
+    }
 
+    private void initTableColor(TableView<PColorData> tableView) {
         final TableColumn<PColorData, String> textColumn = new TableColumn<>("Beschreibung");
         textColumn.setCellValueFactory(new PropertyValueFactory<>("text"));
+        textColumn.getStyleClass().add("alignCenterLeft");
 
         final TableColumn<PColorData, String> changeColumn = new TableColumn<>("Farbe");
         changeColumn.setCellFactory(cellFactoryChange);
-        changeColumn.getStyleClass().add("center");
-
-        final TableColumn<PColorData, String> resetColumn = new TableColumn<>("Reset");
-        resetColumn.setCellFactory(cellFactoryReset);
-        resetColumn.getStyleClass().add("center");
+        changeColumn.getStyleClass().add("alignCenter");
 
         final TableColumn<PColorData, Color> colorColumn = new TableColumn<>("Farbe");
         colorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
         colorColumn.setCellFactory(cellFactoryColor);
+        colorColumn.getStyleClass().add("alignCenter");
 
         final TableColumn<PColorData, Color> colorOrgColumn = new TableColumn<>("Original");
-        colorOrgColumn.setCellValueFactory(new PropertyValueFactory<>("colorReset"));
+        colorOrgColumn.setCellValueFactory(new PropertyValueFactory<>("resetColor"));
         colorOrgColumn.setCellFactory(cellFactoryColorReset);
+        colorOrgColumn.getStyleClass().add("alignCenter");
 
+        final TableColumn<PColorData, String> resetColumn = new TableColumn<>("Reset");
+        resetColumn.setCellFactory(cellFactoryReset);
+        resetColumn.getStyleClass().add("alignCenter");
+
+        tableView.setMinHeight(ProgConst.MIN_TABLE_HEIGHT);
         tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
         tableView.getColumns().addAll(textColumn, changeColumn, colorColumn, colorOrgColumn, resetColumn);
@@ -194,8 +205,6 @@ public class ColorPane extends Tab {
             = (final TableColumn<PColorData, Color> param) -> {
 
         final TableCell<PColorData, Color> cell = new TableCell<PColorData, Color>() {
-
-
             @Override
             public void updateItem(Color item, boolean empty) {
                 super.updateItem(item, empty);
@@ -206,10 +215,9 @@ public class ColorPane extends Tab {
                     return;
                 }
 
-                PColorData MTC = getTableView().getItems().get(getIndex());
-                setStyle("-fx-background-color:" + MTC.getColorToWeb());
+                PColorData pColorData = getTableView().getItems().get(getIndex());
+                setStyle("-fx-background-color:" + pColorData.getColorSelectedToWeb());
             }
-
         };
 
         return cell;
@@ -238,5 +246,4 @@ public class ColorPane extends Tab {
 
         return cell;
     };
-
 }

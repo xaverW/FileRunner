@@ -25,10 +25,19 @@ import javafx.scene.paint.Color;
 public class ProgColorList extends PColorList {
 
     public static PColorData FILE_LINK = addNewKey("file-link",
-            Color.rgb(190, 0, 0), "Datei ist eine Verknüpfung");
+            Color.rgb(0, 0, 0),
+            Color.rgb(190, 0, 255), "Datei ist eine Verknüpfung");
 
     public static PColorData FILE_LINK_BG = addNewKey("file-ling-bg",
+            Color.rgb(0, 240, 0),
             Color.rgb(240, 240, 255), "Hintergrund einer Dateiverknüpfung");
+
+    public static void setColorTheme() {
+        final boolean dark = ProgConfig.SYSTEM_DARK_THEME.get();
+        for (int i = 0; i < getColorList().size(); ++i) {
+            getColorList().get(i).setColorTheme(dark);
+        }
+    }
 
     public static PData getConfigsData() {
         return PColorList.getPData();

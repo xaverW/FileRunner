@@ -32,13 +32,14 @@ public class ConfigDialogController extends PDialogExtra {
     private TabPane tabPane = new TabPane();
     private Button btnOk = new Button("Ok");
 
-    private final ProgData daten;
+    private final ProgData progData;
     private Stage stage;
+    private ColorPane colorPane;
 
     public ConfigDialogController() {
         super(ProgData.getInstance().primaryStage, ProgConfig.SYSTEM_CONFIG_DIALOG_SIZE, "Einstellungen",
                 true, false, DECO.NONE);
-        this.daten = ProgData.getInstance();
+        this.progData = ProgData.getInstance();
 
         addOkButton(btnOk);
         init(true);
@@ -49,7 +50,7 @@ public class ConfigDialogController extends PDialogExtra {
         this.stage = getStage();
         btnOk.setOnAction(a -> close());
 
-        ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) -> updateCss());
+        ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> updateCss());
 
         getvBoxCont().getChildren().add(tabPane);
         VBox.setVgrow(tabPane, Priority.ALWAYS);
@@ -57,6 +58,7 @@ public class ConfigDialogController extends PDialogExtra {
     }
 
     public void close() {
+        colorPane.close();
         super.close();
     }
 
@@ -65,10 +67,11 @@ public class ConfigDialogController extends PDialogExtra {
         try {
             tabPane.getTabs().add(new GeneralPane(stage));
             tabPane.getTabs().add(new UpdatePane(stage));
-            tabPane.getTabs().add(new ColorPane(stage));
+
+            colorPane = new ColorPane(stage);
+            tabPane.getTabs().add(colorPane);
         } catch (final Exception ex) {
             PLog.errorLog(874102058, ex);
         }
     }
-
 }

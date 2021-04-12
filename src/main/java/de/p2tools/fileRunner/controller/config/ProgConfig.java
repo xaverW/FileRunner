@@ -35,7 +35,6 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty SYSTEM_PROG_PLAY_FILE = addStr("system-prog-open-media", "");
     public static StringProperty SYSTEM_LOG_DIR = addStr("system-log-dir", "");
     public static BooleanProperty SYSTEM_DARK_THEME = addBool("system-dark-theme", false);
-    public static BooleanProperty SYSTEM_THEME_CHANGED = addBool("system-theme-changed");
 
     // Fenstereinstellungen
     public static StringProperty SYSTEM_GUI_SIZE = addStr("system-gui-size", "1000:900");

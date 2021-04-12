@@ -38,4 +38,5 @@ public class ProgConst {
     public static final String P2_ICON_PATH = "/de/p2tools/fileRunner/icon/";
     public static final String PFAD_PROGRAMM_ICONS = "/de/p2tools/fileRunner/icon/program/";
 
+    public static final int MIN_TABLE_HEIGHT = 200;
 }
