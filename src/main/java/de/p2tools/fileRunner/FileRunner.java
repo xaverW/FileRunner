@@ -71,8 +71,8 @@ public class FileRunner extends Application {
             });
 
             ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
-                addThemeCss();
                 ProgColorList.setColorTheme();
+                addThemeCss();
             });
             ProgColorList.setColorTheme();
             addThemeCss();
