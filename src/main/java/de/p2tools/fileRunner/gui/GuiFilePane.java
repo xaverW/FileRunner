@@ -140,7 +140,13 @@ public class GuiFilePane extends VBox {
         btnGetHashFile.setTooltip(new Tooltip("Datei mit Hash-Werten auswählen."));
         btnSaveHash.setTooltip(new Tooltip("Hash der Datei 2 speichern."));
 
+        pCboFile.getEditor().textProperty().addListener((ob, o, n) -> {
+            txtHash.clear();
+        });
         pCboFile.setMaxWidth(Double.MAX_VALUE);
+        pCboHashFile.getEditor().textProperty().addListener((ob, o, n) -> {
+            txtHash.clear();
+        });
         pCboHashFile.setMaxWidth(Double.MAX_VALUE);
 
         int r = 0;
@@ -240,24 +246,16 @@ public class GuiFilePane extends VBox {
 
     }
 
-    public boolean genLoadHash() {
+    public void genLoadHash() {
         if (rbFileUrl.isSelected()) {
             genHash();
-            return true;
         } else if (rbHashFile.isSelected()) {
             readHash();
-            return true;
-        } else {
-            return false;
         }
     }
 
     private void genHash() {
         txtHash.clear();
-        if (!rbFileUrl.isSelected()) {
-            return;
-        }
-
         if (pCboFile.getSelValue().trim().isEmpty()) {
             PAlert.showErrorAlert("Hash erstellen", "Es ist keine Datei angegeben!");
             return;
@@ -272,10 +270,6 @@ public class GuiFilePane extends VBox {
 
     private void readHash() {
         txtHash.clear();
-        if (!rbHashFile.isSelected()) {
-            return;
-        }
-
         if (pCboHashFile.getSelValue().trim().isEmpty()) {
             PAlert.showErrorAlert("Hash einlesen", "Es ist keine Datei angegeben!");
             return;

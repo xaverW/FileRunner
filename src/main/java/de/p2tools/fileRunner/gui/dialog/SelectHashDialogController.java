@@ -38,7 +38,7 @@ public class SelectHashDialogController extends PDialogExtra {
 
     public SelectHashDialogController(ProgData progData, ObservableList<HashFileEntry> list) {
         super(progData.primaryStage, ProgConfig.SYSTEM_SELECT_HASH_DIALOG_SIZE,
-                "Hash auswählen", true, true);
+                "Hash auswählen", true, true, DECO.SMALL);
 
         this.progData = progData;
         this.list = list;
