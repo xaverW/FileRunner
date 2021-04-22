@@ -92,7 +92,12 @@ public class ReadHashFile {
                 PLog.errorLog(620301973, ex, "load hashfile: " + fileStr);
             }
 
-            if (!hashList.isEmpty()) {
+            if (hashList.size() == 1) {
+                //dann gibts eh nur einen
+                HashFileEntry entry = hashList.get(0);
+                stringProperty.setValue(entry.getHash());
+            } else if (hashList.size() > 1) {
+                //dann den Hash auswählen
                 Platform.runLater(() -> {
                     SelectHashDialogController hashDialog = new SelectHashDialogController(ProgData.getInstance(), hashList);
                     HashFileEntry entry = hashDialog.getHashFileEntry();

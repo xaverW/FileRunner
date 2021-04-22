@@ -9,9 +9,11 @@ Die Hauptintention des Programms ist es, Ordnerinhalte auf Veränderungen zu üb
 
 ## Infos
 
-Das Programm bietet dazu die Möglichkeit, Listen mit Hashwerten aller Dateien eines Ordners anzulegen. Mit den Hashlisten können die Ordner dann immer wieder auf Veränderungen kontrolliert werden. Es ist auch möglich, zwei Ordner direkt zu vergleichen oder auch einen Ordner mit dem Inhalt einer ZIP-Dateien zu vergleichen.
+Das Programm bietet dazu die Möglichkeit, Listen mit Hashwerten aller Dateien eines Ordners anzulegen. Der Ordner kann dann immer wieder mit dieser Hashliste verglichen werden um so geänderte Dateien in dem Ordner zu finden. Mit den Hashlisten können die Ordner dann immer wieder auf Veränderungen kontrolliert werden.
 
-Weiter ist es auch möglich, zwei Dateien direkt oder eine Datei mit einem Hashwert zu vergleichen.
+Es ist auch möglich, zwei Ordner direkt zu vergleichen oder auch einen Ordner oder eine Hashliste mit dem Inhalt einer ZIP-Datei (bzw. dem darin enthaltenen Ordner) zu vergleichen.
+
+Weiter können auch zwei Dateien direkt oder eine Datei mit einem Hashwert verglichen werden.
 
 ### Dateilisten vergleichen
 
@@ -26,9 +28,9 @@ Unter "Filter" kann man die Liste der angezeigten Dateien einschränken, z.B. mi
 
 Die Buttons zwischen den zwei Listen zeigen *alle*, *alle gleichen* oder *unterschiedliche* Dateien an. Der Tooltip der Buttons (dazu die Maus kurz über den Button halten) verrät genau, was dieser dann anzeigt.
 
-Unter den Tabellen kann die angezeigte Liste der Dateien in einer Datei für einen späteren Vergleich gespeichert werden ("Dateiliste in einer Datei"). Der Button mit den zwei gedrehten Pfeilen schlägt einen Dateinamen vor (unterschiedliche Vorschläge bei mehrmaligem Klick).
+Unter den Tabellen kann die angezeigte Liste der Dateien in einer Datei für einen späteren Vergleich gesichert werden ("Dateiliste in einer Datei"). Der Button mit den zwei gedrehten Pfeilen schlägt einen Dateinamen vor (unterschiedliche Vorschläge bei mehrmaligem Klick).
 
-Die Dateilisten sind MD5-Hashes aller Dateien eines Ordners (und deren Unterordner) oder ZIP-Datei. Damit kann man Dateien auf Veränderung überprüfen.
+Die Dateilisten sind MD5-Hashes aller Dateien eines Ordners (und deren Unterordner). Damit kann man Dateien auf Veränderung überprüfen.
 
 Mögliche Szenarien zum Finden von gleichen und unterschiedlichen Dateien:
 - Ich vergleiche direkt zwei Ordner.
@@ -63,11 +65,11 @@ Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version:
 
 Das Programm wird in drei Paketen angeboten. Diese unterscheiden sich nur im "Zubehör", das Programm selbst ist in allen Paketen identisch:
 
-- **FileRunner-4.zip**  
+- **FileRunner-XX.zip**  
 Das Programmpaket bringt nur das Programm aber kein Java mit. Auf dem Rechner muss eine Java-Laufzeitumgebung ab Java11 installiert sein. Dieses Programmpaket kann auf allen Betriebssystemen verwendet werden. Es bringt Startdateien für Linux und Windows mit.
 
-- **FileRunner-4__Linux+Java.zip**  
-  **FileRunner-4__Windows+Java.zip**  
+- **FileRunner-XX__Linux+Java.zip**  
+  **FileRunner-XX__Windows+Java.zip**  
 Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das angegebene Betriebssystem: Linux oder Windows. Es muss kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung liegt im Ordner "Java" und kommt von jdk.java.net).
 
 zum Download: [github.com/xaverW/FileRunner/releases](https://github.com/xaverW/FileRunner/releases)  

@@ -2,6 +2,15 @@
 
 <br />
 
+**Release 5**
+
+* Dark-Theme: Kann in den Einstellungen eingestellt werden
+* Optimierung des GUI
+* ...
+
+<br />
+<br />
+
 **Release 4**
 
 * Wechsel auf Java11
