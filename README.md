@@ -11,7 +11,7 @@ Die Hauptintention des Programms ist es, Ordnerinhalte auf Veränderungen zu üb
 
 Das Programm bietet dazu die Möglichkeit, Listen mit Hashwerten aller Dateien eines Ordners anzulegen. Der Ordner kann dann immer wieder mit dieser Hashliste verglichen werden um so geänderte Dateien in dem Ordner zu finden. Mit den Hashlisten können die Ordner dann immer wieder auf Veränderungen kontrolliert werden.
 
-Es ist auch möglich, zwei Ordner direkt zu vergleichen oder auch einen Ordner oder eine Hashliste mit dem Inhalt einer ZIP-Datei (bzw. dem darin enthaltenen Ordner) zu vergleichen.
+Es ist auch möglich, zwei Ordner direkt zu vergleichen. Es kann auch ein Ordner oder eine Hashliste mit dem Inhalt einer ZIP-Datei (bzw. dem darin enthaltenen Ordner) vergleichen werden.
 
 Weiter können auch zwei Dateien direkt oder eine Datei mit einem Hashwert verglichen werden.
 
