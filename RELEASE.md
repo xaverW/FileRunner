@@ -2,6 +2,14 @@
 
 <br />
 
+**Release 6**
+
+* Update-Dialog: Suche nach einem Programmupdate
+* ...
+
+<br />
+<br />
+
 **Release 5**
 
 * Dark-Theme: Kann in den Einstellungen eingestellt werden

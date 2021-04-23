@@ -17,7 +17,6 @@
 package de.p2tools.fileRunner;
 
 import de.p2tools.fileRunner.controller.ProgQuitt;
-import de.p2tools.fileRunner.controller.SearchProgramUpdate;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
@@ -84,18 +83,13 @@ public class FileRunnerController extends StackPane {
             final MenuItem miQuitt = new MenuItem("Beenden");
             miQuitt.setOnAction(e -> new ProgQuitt().quitt(true));
 
-            final MenuItem miUpdate = new MenuItem("Gibt es ein Update?");
-            miUpdate.setOnAction(event -> new SearchProgramUpdate(progData.primaryStage, progData)
-                    .checkVersion(false));
-
             final MenuItem miAbout = new MenuItem("Über dieses Programm");
             miAbout.setOnAction(event -> new AboutDialogController(progData));
 
             menuButton.getStyleClass().add("btnFunctionWide");
             menuButton.setText("");
             menuButton.setGraphic(new Icons().FX_ICON_TOOLBAR_MENUE_TOP);
-            menuButton.getItems().addAll(miConfig,
-                    new SeparatorMenuItem(), miAbout, miUpdate,
+            menuButton.getItems().addAll(miConfig, miAbout,
                     new SeparatorMenuItem(), miQuitt);
 
             menuButton2.getStyleClass().add("btnFunctionWide");

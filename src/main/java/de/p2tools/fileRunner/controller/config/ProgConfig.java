@@ -60,10 +60,10 @@ public class ProgConfig extends PDataProgConfig {
     // Configdialog
 
     // Programupdate
-    public static IntegerProperty SYSTEM_UPDATE_PROGRAM_VERSION = addInt("system-update-program-version", 0);
-    public static BooleanProperty SYSTEM_UPDATE_SEARCH_PROG_START = addBool("system-update-search-prog-update", true);
-    public static StringProperty SYSTEM_UPDATE_DATE = addStr("system-update-date");
-    public static IntegerProperty SYSTEM_UPDATE_INFOS_NR = addInt("system-update-info-nr", 0);
+    public static IntegerProperty SYSTEM_UPDATE_VERSION_SHOWN = addInt("system-update-version-shown", 0);
+    public static BooleanProperty SYSTEM_UPDATE_SEARCH_PROG_START = addBool("system-update-search-prog-start", true);
+    public static StringProperty SYSTEM_UPDATE_SEARCH_DATE = addStr("system-update-search-date");
+    public static IntegerProperty SYSTEM_UPDATE_INFOS_NR_SHOWN = addInt("system-update-info-nr-shown", 0);
 
     private static ProgConfig instance;
 

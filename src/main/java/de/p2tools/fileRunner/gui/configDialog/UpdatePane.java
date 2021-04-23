@@ -66,7 +66,7 @@ public class UpdatePane extends Tab {
         //jetzt suchen
         Button btnNow = new Button("Jetzt suchen");
         btnNow.setMaxWidth(Double.MAX_VALUE);
-        btnNow.setOnAction(event -> new SearchProgramUpdate(stage, ProgData.getInstance()).checkVersion());
+        btnNow.setOnAction(event -> new SearchProgramUpdate(stage, ProgData.getInstance()).searchUpdate());
 
         // Website
         Hyperlink hyperlink = new Hyperlink(ProgConst.WEBSITE_FILE_RUNNER);

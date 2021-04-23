@@ -112,7 +112,11 @@ public class FileRunner extends Application {
         ProgStart.setOrgTitle(progData);
 
         PDuration.onlyPing("Gui steht!");
-        new SearchProgramUpdate(primaryStage, progData).checkProgramUpdate();
+        Thread th = new Thread(() -> {
+            new SearchProgramUpdate(primaryStage, progData).searchUpdateProgStart();
+        });
+        th.setName("checkProgUpdate");
+        th.start();
     }
 
 }

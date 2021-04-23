@@ -31,6 +31,7 @@ public class ProgConst {
 
     public static final String WEBSITE_P2 = "https://www.p2tools.de";
     public static final String WEBSITE_FILE_RUNNER = "https://www.p2tools.de/filerunner/";
+    public static final String WEBSITE_FILE_RUNNER_HELP = "https://www.p2tools.de/filerunner/manual.html";
     public static final String WEBSITE_PROG_UPDATE = "https://www.p2tools.de/extra/filerunner-info.xml";
 
     public static final String P2_ICON = "P2.png";

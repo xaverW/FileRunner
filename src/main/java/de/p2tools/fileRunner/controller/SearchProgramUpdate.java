@@ -17,7 +17,10 @@
 package de.p2tools.fileRunner.controller;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
+import de.p2tools.p2Lib.checkForUpdates.SearchProgUpdate;
+import de.p2tools.p2Lib.checkForUpdates.UpdateSearchData;
 import de.p2tools.p2Lib.tools.ProgramTools;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -45,71 +48,51 @@ public class SearchProgramUpdate {
      *
      * @return
      */
-    public boolean checkVersion() {
-        return checkVersion(true, true, true);
+    public boolean searchUpdate() {
+        return checkVersion(true);
     }
-
-    public boolean checkVersion(boolean showDailyUpdate) {
-        return checkVersion(showDailyUpdate, true, true);
-    }
-
-    private boolean checkVersion(boolean showDailyUpdate, boolean showError, boolean showProgramInformation) {
-        // prüft auf neue Version,
-        ProgConfig.SYSTEM_UPDATE_PROGRAM_VERSION.setValue(ProgramTools.getProgVersionInt());
-        ProgConfig.SYSTEM_UPDATE_DATE.setValue(FastDateFormat.getInstance("dd.MM.yyyy").format(new Date()));
-
-        if (showDailyUpdate) {
-            // todo
-//            return new SearchProgInfo(stage).checkUpdate(ProgConst.WEBSITE_PROG_UPDATE,
-//                    ProgConfig.SYSTEM_UPDATE_PROGRAM_VERSION.get(),
-//                    ProgConfig.SYSTEM_UPDATE_INFOS_NR,
-//                    ProgConfig.SYSTEM_UPDATE_SEARCH_PROG_START,
-//                    showProgramInformation, showError);
-        } else {
-//            return new SearchProgInfo(stage).checkUpdate(ProgConst.WEBSITE_PROG_UPDATE,
-//                    ProgConfig.SYSTEM_UPDATE_PROGRAM_VERSION.get(),
-//                    ProgConfig.SYSTEM_UPDATE_INFOS_NR,
-//                    //ProgConfig.SYSTEM_UPDATE_SEARCH_PROG_START,
-//                    showProgramInformation, showError);
-        }
-        return false;
-    }
-
 
     /**
      * check if program update is available and show the
      * the result in the program title
      */
-    public void checkProgramUpdate() {
+    public void searchUpdateProgStart() {
         PDuration.onlyPing("checkProgUpdate");
-
-        if (!ProgConfig.SYSTEM_UPDATE_SEARCH_PROG_START.get() ||
-                ProgConfig.SYSTEM_UPDATE_PROGRAM_VERSION.get() == ProgramTools.getProgVersionInt() /*Start mit neuer Version*/
-                        && ProgConfig.SYSTEM_UPDATE_DATE.get().equals(FastDateFormat.getInstance("dd.MM.yyyy").format(new Date()))) {
-
+        if (!ProgConfig.SYSTEM_UPDATE_SEARCH_PROG_START.get()) {
             // will der User nicht --oder-- keine neue Version und heute schon gemacht
             PLog.sysLog("Kein Update-Check");
             return;
         }
 
-        Thread th = new Thread(() -> {
-            try {
-                if (checkVersion(true, false, false)) {
-                    // gab eine neue Version
-                    Platform.runLater(() -> ProgStart.setUpdateTitle(progData));
-                } else {
-                    Platform.runLater(() -> ProgStart.setNoUpdateTitle(progData));
-                }
-
-                sleep(10_000);
-                Platform.runLater(() -> ProgStart.setOrgTitle(progData));
-
-            } catch (final Exception ex) {
-                PLog.errorLog(794612801, ex);
-                Platform.runLater(() -> ProgStart.setOrgTitle(progData));
+        try {
+            if (checkVersion(false)) {
+                // gab eine neue Version
+                Platform.runLater(() -> ProgStart.setUpdateTitle(progData));
+            } else {
+                Platform.runLater(() -> ProgStart.setNoUpdateTitle(progData));
             }
-        });
-        th.setName("checkProgUpdate");
-        th.start();
+            sleep(10_000);
+        } catch (final Exception ex) {
+            PLog.errorLog(794612801, ex);
+        }
+        Platform.runLater(() -> ProgStart.setOrgTitle(progData));
     }
+
+    private boolean checkVersion(boolean showProgramInformation) {
+        // prüft auf neue Version,
+//        ProgConfig.SYSTEM_UPDATE_VERSION_SHOWN.setValue(ProgramTools.getProgVersionInt());
+        ProgConfig.SYSTEM_UPDATE_SEARCH_DATE.setValue(FastDateFormat.getInstance("dd.MM.yyyy").format(new Date()));
+
+        UpdateSearchData updateSearchData = new UpdateSearchData(ProgConst.WEBSITE_PROG_UPDATE,
+                ProgramTools.getProgVersionInt(),
+                ProgramTools.getBuildInt(),
+                ProgConfig.SYSTEM_UPDATE_VERSION_SHOWN,
+                null,
+                ProgConfig.SYSTEM_UPDATE_INFOS_NR_SHOWN,
+                ProgConfig.SYSTEM_UPDATE_SEARCH_PROG_START);
+
+        boolean ret = new SearchProgUpdate(stage).checkAllUpdates(updateSearchData, null, showProgramInformation);
+        return ret;
+    }
+
 }
