@@ -30,6 +30,12 @@ public class ProgConfig extends PDataProgConfig {
 
     private static final ArrayList<Config> arrayList = new ArrayList<>();
 
+    // Configs der Programmversion
+    public static StringProperty SYSTEM_PROG_VERSION = addStr("system-prog-version");
+    public static StringProperty SYSTEM_PROG_BUILD_NO = addStr("system-prog-build-no");
+    public static StringProperty SYSTEM_PROG_BUILD_DATE = addStr("system-prog-build-date");
+    
+
     public static StringProperty SYSTEM_PROG_OPEN_DIR = addStr("system-prog-open-dir", "");
     public static StringProperty SYSTEM_PROG_OPEN_URL = addStr("system-prog-open-uri", "");
     public static StringProperty SYSTEM_PROG_PLAY_FILE = addStr("system-prog-open-media", "");

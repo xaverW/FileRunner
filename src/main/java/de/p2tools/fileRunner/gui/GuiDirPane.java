@@ -36,6 +36,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class GuiDirPane extends VBox {
@@ -194,6 +195,7 @@ public class GuiDirPane extends VBox {
         tabFilter.setContent(vBoxSearch);
 
         tabPane.getTabs().addAll(tabDir, tabZip, tabFile, tabFilter);
+        tabPane.setMinHeight(Region.USE_PREF_SIZE);
 
         // =======================
         // write hash

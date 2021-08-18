@@ -21,18 +21,17 @@ import de.p2tools.fileRunner.controller.data.Icons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class GuiDirRunner extends AnchorPane {
-
     private final SplitPane splitPane = new SplitPane();
+//    private final HBox splitHbox = new HBox();
+
     private final VBox vBoxBtn = new VBox(10);
+    private final ScrollPane scrollPane = new ScrollPane();
 
     private final ToggleButton tglShowAll = new ToggleButton("");
     private final ToggleButton tglShowSame = new ToggleButton("");
@@ -47,17 +46,22 @@ public class GuiDirRunner extends AnchorPane {
     private final GuiDirPane guiDirPane1;
     private final GuiDirPane guiDirPane2;
 
-    private double orgX, orgDiv0, orgDiv1, orgSize;
+    private final int SHOW_ALL = 0;
+    private final int SHOW_PANE_1 = 1;
+    private final int SHOW_PANE_2 = 2;
+    private int show = SHOW_PANE_1;
+    private boolean dragged = false;
 
+    private double orgX, orgDiv0, orgDiv1, orgSize;
 
     public GuiDirRunner() {
         progData = ProgData.getInstance();
 
-        AnchorPane.setLeftAnchor(splitPane, 0.0);
-        AnchorPane.setBottomAnchor(splitPane, 0.0);
-        AnchorPane.setRightAnchor(splitPane, 0.0);
-        AnchorPane.setTopAnchor(splitPane, 0.0);
-        getChildren().addAll(splitPane);
+        AnchorPane.setLeftAnchor(scrollPane, 0.0);
+        AnchorPane.setBottomAnchor(scrollPane, 0.0);
+        AnchorPane.setRightAnchor(scrollPane, 0.0);
+        AnchorPane.setTopAnchor(scrollPane, 0.0);
+        getChildren().addAll(scrollPane);
 
         guiDirPane1 = new GuiDirPane(progData, this, fileDataFilter1, true);
         guiDirPane2 = new GuiDirPane(progData, this, fileDataFilter2, false);
@@ -70,34 +74,61 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void initCont() {
-
         vBoxBtn.getStyleClass().add("pane-border");
+//        vBoxBtn.setStyle("-fx-border-color: red;");
+
         vBoxBtn.setAlignment(Pos.CENTER);
         vBoxBtn.setPadding(new Insets(10));
+//        vBoxBtn.setMaxWidth(Region.USE_PREF_SIZE);
+
         Region spacer = new Region();
         spacer.setMinSize(10, 10);
         vBoxBtn.getChildren().addAll(tglShowAll, tglShowSame, tglShowDiffAll, spacer, tglShowDiff, tglShowOnly1, tglShowOnly2);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
+
+//        HBox.setHgrow(guiDirPane1, Priority.ALWAYS);
+//        HBox.setHgrow(guiDirPane2, Priority.ALWAYS);
+
         splitPane.getItems().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
+        scrollPane.setContent(splitPane);
+//        splitHbox.getChildren().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
+//        scrollPane.setContent(splitHbox);
+
+        scrollPane.setFitToHeight(true);
+        scrollPane.setFitToWidth(true);
+
+        vBoxBtn.setOnMouseClicked(e -> {
+            if (!dragged) {
+                setVis();
+            }
+            System.out.println("dragged=false");
+            dragged = false;
+        });
 
         vBoxBtn.setOnMousePressed(e -> {
-            orgX = e.getSceneX();
-            orgDiv0 = splitPane.getDividers().get(0).getPosition();
-            orgDiv1 = splitPane.getDividers().get(1).getPosition();
-            orgSize = splitPane.getWidth();
+            dragged = false;
+            if (splitPane.getItems().size() == 3) {
+                orgX = e.getSceneX();
+                orgDiv0 = splitPane.getDividers().get(0).getPosition();
+                orgDiv1 = splitPane.getDividers().get(1).getPosition();
+                orgSize = splitPane.getWidth();
+            }
         });
 
         vBoxBtn.setOnMouseDragged(e -> {
-            double offsetX = e.getSceneX() - orgX;
-            double move = offsetX / orgSize;
+            dragged = true;
+            if (splitPane.getItems().size() == 3) {
+                double offsetX = e.getSceneX() - orgX;
+                double move = offsetX / orgSize;
 
-            double ddiv0 = orgDiv0 + move;
-            double ddiv1 = orgDiv1 + move;
+                double ddiv0 = orgDiv0 + move;
+                double ddiv1 = orgDiv1 + move;
 
-            splitPane.getDividers().get(0).setPosition(ddiv0);
-            splitPane.getDividers().get(1).setPosition(ddiv1);
-
+                splitPane.getDividers().get(0).setPosition(ddiv0);
+                splitPane.getDividers().get(1).setPosition(ddiv1);
+//            System.out.println("dragged: " + ddiv0 + " " + ddiv1 + " " + move);
+            }
         });
 
         // =================================
@@ -122,6 +153,62 @@ public class GuiDirRunner extends AnchorPane {
         tglShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 enthalten sind."));
         tglShowOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 enthalten sind."));
     }
+
+    private synchronized void setVis() {
+        switch (show) {
+            case SHOW_ALL:
+                splitPane.getItems().clear();
+                splitPane.getItems().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
+
+                show = SHOW_PANE_1;
+                break;
+
+            case SHOW_PANE_1:
+                orgDiv0 = splitPane.getDividers().get(0).getPosition();
+                orgDiv1 = splitPane.getDividers().get(1).getPosition();
+                splitPane.getItems().clear();
+                splitPane.getItems().addAll(guiDirPane1, vBoxBtn);
+
+                splitPane.getDividers().get(0).setPosition(orgDiv0 + orgDiv1);
+                show = SHOW_PANE_2;
+                break;
+
+            case SHOW_PANE_2:
+                orgDiv0 = splitPane.getDividers().get(0).getPosition();
+                splitPane.getItems().clear();
+                splitPane.getItems().addAll(vBoxBtn, guiDirPane2);
+
+                splitPane.getDividers().get(0).setPosition(1 - orgDiv0);
+                show = SHOW_ALL;
+                break;
+        }
+    }
+
+//    private synchronized void setVis() {
+//        double v;
+//        switch (show) {
+//            case SHOW_ALL:
+//                splitHbox.getChildren().clear();
+//                splitHbox.getChildren().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
+//
+//                show = SHOW_PANE_1;
+//                break;
+//
+//            case SHOW_PANE_1:
+//                splitHbox.getChildren().clear();
+//                splitHbox.getChildren().addAll(guiDirPane1, vBoxBtn);
+//
+//                show = SHOW_PANE_2;
+//                break;
+//
+//            case SHOW_PANE_2:
+//                splitHbox.getChildren().clear();
+//                splitHbox.getChildren().addAll(vBoxBtn, guiDirPane2);
+//
+//                show = SHOW_ALL;
+//                break;
+//        }
+//    }
 
     private void addListener() {
         tglShowAll.setOnAction(e -> {
@@ -160,13 +247,6 @@ public class GuiDirRunner extends AnchorPane {
         });
     }
 
-//    private void changeTextFilter() {
-//        fileDataFilter1.setSearchStr(pCboSearch1.getSelectionModel().getSelectedItem());
-//        fileDataFilter2.setSearchStr(pCboSearch2.getSelectionModel().getSelectedItem());
-//        progData.fileDataList1.setPred(fileDataFilter1);
-//        progData.fileDataList2.setPred(fileDataFilter2);
-//    }
-
     public void clearFilter() {
         tglShowAll.setSelected(true);
 
@@ -181,5 +261,4 @@ public class GuiDirRunner extends AnchorPane {
         guiDirPane1.saveTable();
         guiDirPane2.saveTable();
     }
-
 }

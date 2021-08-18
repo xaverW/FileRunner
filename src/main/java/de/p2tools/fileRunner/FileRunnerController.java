@@ -33,7 +33,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.*;
 
-public class FileRunnerController extends StackPane {
+public class FileRunnerController extends BorderPane {
 
     Button btnDirRunner = new Button("Ordner " + "vergleichen");
     Button btnFileRunner = new Button("Dateien " + "vergleichen");
@@ -41,7 +41,7 @@ public class FileRunnerController extends StackPane {
     MenuButton menuButton = new MenuButton("");
     MenuButton menuButton2 = new MenuButton("");
 
-    BorderPane borderPane = new BorderPane();
+    //    BorderPane borderPane = new BorderPane();
     StackPane stackPaneCont = new StackPane();
     private StatusBarController statusBarController;
 
@@ -97,7 +97,6 @@ public class FileRunnerController extends StackPane {
             menuButton2.setGraphic(new Icons().FX_ICON_TOOLBAR_MENUE_TOP);
             menuButton2.setVisible(false);
 
-
             // Panes
             progData.guiDirRunner = new GuiDirRunner();
             progData.guiFileRunner = new GuiFileRunner();
@@ -107,15 +106,11 @@ public class FileRunnerController extends StackPane {
             statusBarController = new StatusBarController(progData);
 
             // ProgGUI
-            borderPane.setTop(hBoxMenueButton);
-            borderPane.setCenter(stackPaneCont);
-            borderPane.setBottom(statusBarController);
-
+            this.setTop(hBoxMenueButton);
+            this.setCenter(stackPaneCont);
+            this.setBottom(statusBarController);
             this.setPadding(new Insets(0));
-            this.getChildren().addAll(borderPane);
-
             selPanelDirRunner();
-
         } catch (Exception ex) {
             PLog.errorLog(645120321, ex);
         }
