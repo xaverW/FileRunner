@@ -19,7 +19,7 @@ package de.p2tools.fileRunner.gui;
 import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.Icons;
+import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.p2Lib.guiTools.Listener;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
@@ -83,7 +83,7 @@ public class StatusBarController extends AnchorPane {
         textPane.setStyle("-fx-background-color: -fx-background ;");
 
         hBox = getHbox();
-        btnStop.setGraphic(new Icons().ICON_BUTTON_STOP);
+        btnStop.setGraphic(new ProgIcons().ICON_BUTTON_STOP);
         hBox.getChildren().addAll(lblProgress, progressBar, btnStop);
         progressBar.setPrefWidth(200);
         workerPane.getChildren().add(hBox);

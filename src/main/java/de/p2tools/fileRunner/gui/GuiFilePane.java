@@ -21,7 +21,7 @@ import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.Icons;
+import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
 import de.p2tools.p2Lib.alert.PAlert;
@@ -134,9 +134,9 @@ public class GuiFilePane extends VBox {
                 break;
         }
 
-        btnGetFile.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnGetFile.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
         btnGetFile.setTooltip(new Tooltip("Datei zum Erstellen des Hash auswählen."));
-        btnGetHashFile.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
+        btnGetHashFile.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
         btnGetHashFile.setTooltip(new Tooltip("Datei mit Hash-Werten auswählen."));
         btnSaveHash.setTooltip(new Tooltip("Hash der Datei 2 speichern."));
 

@@ -21,7 +21,7 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.config.ProgInfos;
-import de.p2tools.fileRunner.controller.data.Icons;
+import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
@@ -74,7 +74,7 @@ public class AboutDialogController extends PDialogExtra {
 
     public void make3() {
         btnOk.setOnAction(a -> close());
-        btnCheck.setOnAction(a -> new SearchProgramUpdate(this.getStage(), progData).searchUpdate());
+        btnCheck.setOnAction(a -> new SearchProgramUpdate(progData, this.getStage()).searchNewProgramVersion(true));
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
@@ -97,7 +97,7 @@ public class AboutDialogController extends PDialogExtra {
         gridPane.add(iv, 0, row, 1, 3);
 
         // top
-        Text text1 = new Text(ProgConst.PROGRAMNAME);
+        Text text1 = new Text(ProgConst.PROGRAM_NAME);
         text1.setFont(Font.font(null, FontWeight.BOLD, 40));
         gridPane.add(text1, 1, row);
         GridPane.setValignment(text1, VPos.TOP);
@@ -147,10 +147,10 @@ public class AboutDialogController extends PDialogExtra {
 
 
         PHyperlink hyperlinkWeb = new PHyperlink(ProgConst.WEBSITE_FILE_RUNNER,
-                ProgConfig.SYSTEM_PROG_OPEN_URL, new Icons().ICON_BUTTON_FILE_OPEN);
+                ProgConfig.SYSTEM_PROG_OPEN_URL, new ProgIcons().ICON_BUTTON_FILE_OPEN);
 
         PHyperlink hyperlinkHelp = new PHyperlink(ProgConst.WEBSITE_FILE_RUNNER_HELP,
-                ProgConfig.SYSTEM_PROG_OPEN_URL, new Icons().ICON_BUTTON_FILE_OPEN);
+                ProgConfig.SYSTEM_PROG_OPEN_URL, new ProgIcons().ICON_BUTTON_FILE_OPEN);
 
         text = new Text("Website:");
         text.setFont(new Font(15));

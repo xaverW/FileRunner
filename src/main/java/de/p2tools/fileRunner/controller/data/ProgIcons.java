@@ -20,7 +20,7 @@ package de.p2tools.fileRunner.controller.data;
 import de.p2tools.fileRunner.res.GetIcon;
 import javafx.scene.image.ImageView;
 
-public class Icons {
+public class ProgIcons {
 
     public final ImageView ICON_TAB_SEARCH = GetIcon.getImageView("tab-search.png", 16, 16);
     public final ImageView ICON_TAB_DIR_FILE = GetIcon.getImageView("tab-dir-file.png", 16, 16);

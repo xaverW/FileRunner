@@ -20,7 +20,7 @@ package de.p2tools.fileRunner.gui;
 import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.Icons;
+import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
@@ -225,15 +225,15 @@ public class GuiDirPane extends VBox {
         btnReadZip.setMinWidth(btnReadZip.getPrefWidth());
         btnReadHash.setMinWidth(btnReadHash.getPrefWidth());
 
-        btnSelectDir.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnSelectZip.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnSelectHash.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnProposeHashName.setGraphic(new Icons().ICON_BUTTON_GUI_GEN_NAME);
-        btnSelectHashList.setGraphic(new Icons().ICON_BUTTON_FILE_OPEN);
-        btnReadDir.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
-        btnReadZip.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
-        btnReadHash.setGraphic(new Icons().ICON_BUTTON_GEN_HASH);
-        btnClearFilter.setGraphic(new Icons().ICON_BUTTON_GUI_CLEAR);
+        btnSelectDir.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
+        btnSelectZip.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
+        btnSelectHash.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
+        btnProposeHashName.setGraphic(new ProgIcons().ICON_BUTTON_GUI_GEN_NAME);
+        btnSelectHashList.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
+        btnReadDir.setGraphic(new ProgIcons().ICON_BUTTON_GEN_HASH);
+        btnReadZip.setGraphic(new ProgIcons().ICON_BUTTON_GEN_HASH);
+        btnReadHash.setGraphic(new ProgIcons().ICON_BUTTON_GEN_HASH);
+        btnClearFilter.setGraphic(new ProgIcons().ICON_BUTTON_GUI_CLEAR);
 
         btnReadDir.setTooltip(new Tooltip("Verzeichnis einlesen."));
         btnReadZip.setTooltip(new Tooltip("Zipdatei einlesen."));
@@ -356,7 +356,7 @@ public class GuiDirPane extends VBox {
             tabFilter.setGraphic(null);
             tabFilter.setStyle("-fx-font-weight: normal;");
         } else {
-            tabFilter.setGraphic(new Icons().ICON_TAB_SEARCH);
+            tabFilter.setGraphic(new ProgIcons().ICON_TAB_SEARCH);
             tabFilter.setStyle("-fx-font-weight: bold; -fx-underline: true;");
         }
     }
@@ -364,19 +364,19 @@ public class GuiDirPane extends VBox {
     private void setTabDirFile(DIR_ZIP_HASH dir_zip_hash) {
         switch (dir_zip_hash) {
             case DIR:
-                tabDir.setGraphic(new Icons().ICON_TAB_DIR_FILE);
+                tabDir.setGraphic(new ProgIcons().ICON_TAB_DIR_FILE);
                 tabZip.setGraphic(null);
                 tabFile.setGraphic(null);
                 break;
             case ZIP:
                 tabDir.setGraphic(null);
-                tabZip.setGraphic(new Icons().ICON_TAB_DIR_FILE);
+                tabZip.setGraphic(new ProgIcons().ICON_TAB_DIR_FILE);
                 tabFile.setGraphic(null);
                 break;
             case HASH:
                 tabDir.setGraphic(null);
                 tabZip.setGraphic(null);
-                tabFile.setGraphic(new Icons().ICON_TAB_DIR_FILE);
+                tabFile.setGraphic(new ProgIcons().ICON_TAB_DIR_FILE);
                 break;
         }
     }

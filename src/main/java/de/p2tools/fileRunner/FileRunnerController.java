@@ -16,9 +16,9 @@
 
 package de.p2tools.fileRunner;
 
-import de.p2tools.fileRunner.controller.ProgQuitt;
+import de.p2tools.fileRunner.controller.ProgQuittFactory;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.Icons;
+import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
 import de.p2tools.fileRunner.gui.StatusBarController;
@@ -81,20 +81,20 @@ public class FileRunnerController extends BorderPane {
             miConfig.setOnAction(e -> new ConfigDialogController());
 
             final MenuItem miQuitt = new MenuItem("Beenden");
-            miQuitt.setOnAction(e -> new ProgQuitt().quitt(true));
+            miQuitt.setOnAction(e -> ProgQuittFactory.quit());
 
             final MenuItem miAbout = new MenuItem("Über dieses Programm");
             miAbout.setOnAction(event -> new AboutDialogController(progData));
 
             menuButton.getStyleClass().add("btnFunctionWide");
             menuButton.setText("");
-            menuButton.setGraphic(new Icons().FX_ICON_TOOLBAR_MENUE_TOP);
+            menuButton.setGraphic(new ProgIcons().FX_ICON_TOOLBAR_MENUE_TOP);
             menuButton.getItems().addAll(miConfig, miAbout,
                     new SeparatorMenuItem(), miQuitt);
 
             menuButton2.getStyleClass().add("btnFunctionWide");
             menuButton2.setText("");
-            menuButton2.setGraphic(new Icons().FX_ICON_TOOLBAR_MENUE_TOP);
+            menuButton2.setGraphic(new ProgIcons().FX_ICON_TOOLBAR_MENUE_TOP);
             menuButton2.setVisible(false);
 
             // Panes

@@ -21,70 +21,120 @@ import de.p2tools.fileRunner.controller.SearchProgramUpdate;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
+import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
-import de.p2tools.p2Lib.guiTools.POpen;
-import de.p2tools.p2Lib.tools.log.PLog;
+import de.p2tools.p2Lib.guiTools.PHyperlink;
+import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import javafx.beans.property.BooleanProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class UpdatePane extends Tab {
+import java.util.Collection;
+
+public class UpdatePane {
+
+    private final ProgData progData;
+    private final PToggleSwitch tglSearch = new PToggleSwitch("einmal am Tag nach einer neuen Programmversion suchen");
+    private final PToggleSwitch tglSearchBeta = new PToggleSwitch("auch nach neuen Vorabversionen suchen");
+    private final CheckBox chkDaily = new CheckBox("Zwischenschritte (Dailys) mit einbeziehen");
+    private final Button btnNow = new Button("_Jetzt suchen");
+    private Button btnHelpBeta;
+
+    BooleanProperty propUpdateSearch = ProgConfig.SYSTEM_UPDATE_SEARCH_ACT;
+    BooleanProperty propUpdateBetaSearch = ProgConfig.SYSTEM_UPDATE_SEARCH_BETA;
+    BooleanProperty propUpdateDailySearch = ProgConfig.SYSTEM_UPDATE_SEARCH_DAILY;
 
     private final Stage stage;
-    final GridPane gridPane = new GridPane();
-    BooleanProperty searchProgStart = ProgConfig.SYSTEM_UPDATE_SEARCH_PROG_START;
 
     public UpdatePane(Stage stage) {
         this.stage = stage;
-
-        setText("Update");
-        setClosable(false);
-        setContent(gridPane);
-        makeConfig();
+        progData = ProgData.getInstance();
     }
 
-    private void makeConfig() {
+    public void close() {
+        tglSearch.selectedProperty().unbindBidirectional(propUpdateSearch);
+        tglSearchBeta.selectedProperty().unbindBidirectional(propUpdateBetaSearch);
+        chkDaily.selectedProperty().unbindBidirectional(propUpdateDailySearch);
+    }
+
+    public void makePane(Collection<TitledPane> result) {
+        final GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(20));
         gridPane.setHgap(15);
         gridPane.setVgap(15);
 
-        //einmal am Tag Update suchen
-        final CheckBox tglSearch = new CheckBox("einmal am Tag nach einer neuen Programmversion suchen");
-        tglSearch.selectedProperty().bindBidirectional(searchProgStart);
+        TitledPane tpConfig = new TitledPane("Programmupdate", gridPane);
+        result.add(tpConfig);
 
+        //einmal am Tag Update suchen
+        tglSearch.selectedProperty().bindBidirectional(propUpdateSearch);
         final Button btnHelp = PButton.helpButton(stage, "Programmupdate suchen",
                 "Beim Programmstart wird geprüft, ob es eine neue Version des Programms gibt. " +
-                        "Ist eine aktualisierte Version vorhanden, dann wird es gemeldet." + P2LibConst.LINE_SEPARATOR +
+                        "Ist eine aktualisierte Version vorhanden, dann wird das gemeldet."
+                        + P2LibConst.LINE_SEPARATOR +
                         "Das Programm wird aber nicht ungefragt ersetzt.");
-        GridPane.setHalignment(btnHelp, HPos.RIGHT);
+
+        tglSearchBeta.selectedProperty().bindBidirectional(propUpdateBetaSearch);
+        chkDaily.selectedProperty().bindBidirectional(propUpdateDailySearch);
+        btnHelpBeta = PButton.helpButton(stage, "Vorabversionen suchen",
+                "Beim Programmstart wird geprüft, ob es eine neue Vorabversion des Programms gibt. " +
+                        P2LibConst.LINE_SEPARATORx2 +
+                        "Das sind \"Zwischenschritte\" auf dem Weg zur nächsten Version. Hier ist die " +
+                        "Entwicklung noch nicht abgeschlossen und das Programm kann noch Fehler enthalten. Wer Lust hat " +
+                        "einen Blick auf die nächste Version zu werfen, ist eingeladen, die Vorabversionen zu testen." +
+                        P2LibConst.LINE_SEPARATORx2 +
+                        "Ist eine aktualisierte Vorabversion vorhanden, dann wird das gemeldet."
+                        + P2LibConst.LINE_SEPARATOR +
+                        "Das Programm wird aber nicht ungefragt ersetzt.");
 
         //jetzt suchen
-        Button btnNow = new Button("Jetzt suchen");
-        btnNow.setMaxWidth(Double.MAX_VALUE);
-        btnNow.setOnAction(event -> new SearchProgramUpdate(stage, ProgData.getInstance()).searchUpdate());
+        btnNow.setOnAction(event -> new SearchProgramUpdate(progData, stage).searchNewProgramVersion(true));
+        checkBeta();
+        tglSearch.selectedProperty().addListener((ob, ol, ne) -> checkBeta());
+        tglSearchBeta.selectedProperty().addListener((ob, ol, ne) -> checkBeta());
 
-        // Website
-        Hyperlink hyperlink = new Hyperlink(ProgConst.WEBSITE_FILE_RUNNER);
-        hyperlink.setOnAction(a -> {
-            try {
-                POpen.openURL(ProgConst.WEBSITE_FILE_RUNNER);
-            } catch (Exception e) {
-                PLog.errorLog(932012478, e);
-            }
-        });
+        PHyperlink hyperlink = new PHyperlink(ProgConst.URL_WEBSITE,
+                ProgConfig.SYSTEM_PROG_OPEN_URL, new ProgIcons().ICON_BUTTON_FILE_OPEN);
+        HBox hBoxHyper = new HBox();
+        hBoxHyper.setAlignment(Pos.CENTER_LEFT);
+        hBoxHyper.setPadding(new Insets(10, 0, 0, 0));
+        hBoxHyper.setSpacing(10);
+        hBoxHyper.getChildren().addAll(new Label("Infos auch auf der Website:"), hyperlink);
 
-        gridPane.add(tglSearch, 0, 0, 2, 1);
-        gridPane.add(btnHelp, 3, 0);
-        gridPane.add(btnNow, 0, 1);
-        gridPane.add(new Label("Infos auch auf der Website:"), 0, 2);
-        gridPane.add(hyperlink, 1, 2);
+        int row = 0;
+        gridPane.add(tglSearch, 0, row);
+        gridPane.add(btnHelp, 1, row);
 
-        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
-                PColumnConstraints.getCcComputedSizeAndHgrow());
+        gridPane.add(tglSearchBeta, 0, ++row);
+        gridPane.add(btnHelpBeta, 1, row);
+        gridPane.add(chkDaily, 0, ++row, 2, 1);
+        GridPane.setHalignment(chkDaily, HPos.RIGHT);
+
+        gridPane.add(btnNow, 0, ++row);
+
+        gridPane.add(new Label(" "), 0, ++row);
+        gridPane.add(hBoxHyper, 0, ++row);
+
+        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow(),
+                PColumnConstraints.getCcPrefSize());
+        gridPane.getRowConstraints().addAll(PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcPrefSize(),
+                PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcVgrow(), PColumnConstraints.getRcPrefSize());
+    }
+
+    private void checkBeta() {
+        tglSearchBeta.setDisable(!tglSearch.isSelected());
+        btnHelpBeta.setDisable(!tglSearch.isSelected());
+
+        chkDaily.setDisable(!tglSearchBeta.isSelected() || tglSearchBeta.isDisabled());
     }
 }

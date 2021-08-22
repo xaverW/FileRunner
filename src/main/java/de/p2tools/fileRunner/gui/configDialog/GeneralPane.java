@@ -16,8 +16,10 @@
 
 package de.p2tools.fileRunner.gui.configDialog;
 
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.gui.HelpText;
+import de.p2tools.p2Lib.dialogs.accordion.PAccordionPane;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import javafx.geometry.HPos;
@@ -25,30 +27,48 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class GeneralPane extends Tab {
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class GeneralPane extends PAccordionPane {
 
     private final ProgData progData;
-    final GridPane gridPane = new GridPane();
     private final Stage stage;
+    private UpdatePane updatePane;
 
     public GeneralPane(Stage stage) {
+        super(stage, ProgConfig.CONFIG_DIALOG_ACCORDION, ProgConfig.SYSTEM_CONFIG_DIALOG_CONFIG);
         this.stage = stage;
         progData = ProgData.getInstance();
 
-        setText("Allgemein");
-        setClosable(false);
-        setContent(gridPane);
-        makeConfig();
+        init();
     }
 
-    private void makeConfig() {
+    public void close() {
+        super.close();
+        updatePane.close();
+    }
+
+    public Collection<TitledPane> createPanes() {
+        Collection<TitledPane> result = new ArrayList<>();
+        makeConfig(result);
+        updatePane = new UpdatePane(stage);
+        updatePane.makePane(result);
+        return result;
+    }
+
+    private void makeConfig(Collection<TitledPane> result) {
+        final GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(20));
         gridPane.setHgap(15);
         gridPane.setVgap(15);
+
+        TitledPane tpConfig = new TitledPane("Allgemein", gridPane);
+        result.add(tpConfig);
 
         final CheckBox chkFollowLink1 = new CheckBox("In Tabelle 1");
         final CheckBox chkFollowLink2 = new CheckBox("In Tabelle 2");

@@ -19,80 +19,101 @@ package de.p2tools.fileRunner.controller;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.p2Lib.checkForUpdates.SearchProgUpdate;
-import de.p2tools.p2Lib.checkForUpdates.UpdateSearchData;
+import de.p2tools.p2Lib.checkForActInfos.FoundAll;
+import de.p2tools.p2Lib.checkForActInfos.FoundSearchData;
 import de.p2tools.p2Lib.tools.ProgramTools;
-import de.p2tools.p2Lib.tools.duration.PDuration;
-import de.p2tools.p2Lib.tools.log.PLog;
+import de.p2tools.p2Lib.tools.date.PDate;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.time.FastDateFormat;
-
-import java.util.Date;
 
 import static java.lang.Thread.sleep;
 
 public class SearchProgramUpdate {
 
+    private static final String TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE = "Programmversion ist aktuell";
+    private static final String TITLE_TEXT_PROGRAMMUPDATE_EXISTS = "Ein Programmupdate ist verfügbar";
     private final ProgData progData;
-    private final Stage stage;
+    private Stage stage;
+    private String title = "";
 
-    public SearchProgramUpdate(Stage stage, ProgData progData) {
-        this.stage = stage;
+    public SearchProgramUpdate(ProgData progData) {
         this.progData = progData;
+        this.stage = progData.primaryStage;
+    }
+
+    public SearchProgramUpdate(ProgData progData, Stage stage) {
+        this.progData = progData;
+        this.stage = stage;
     }
 
     /**
-     * check if there is a newer program version available
-     * and show always the result or error
-     *
      * @return
      */
-    public boolean searchUpdate() {
-        return checkVersion(true);
-    }
-
-    /**
-     * check if program update is available and show the
-     * the result in the program title
-     */
-    public void searchUpdateProgStart() {
-        PDuration.onlyPing("checkProgUpdate");
-        if (!ProgConfig.SYSTEM_UPDATE_SEARCH_PROG_START.get()) {
-            // will der User nicht --oder-- keine neue Version und heute schon gemacht
-            PLog.sysLog("Kein Update-Check");
-            return;
+    public void searchNewProgramVersion(boolean showAllways) {
+        final String SEARCH_URL;
+        final String SEARCH_URL_DOWNLOAD;
+        if (ProgData.debug) {
+            SEARCH_URL = "http://p2.localhost:8080";
+            SEARCH_URL_DOWNLOAD = "http://p2.localhost:8080/download/";
+        } else {
+            SEARCH_URL = "https://www.p2tools.de";
+            SEARCH_URL_DOWNLOAD = "https://www.p2tools.de/download/";
         }
 
+        final PDate pd = new PDate(ProgramTools.getCompileDate());
+        String buildDate = pd.get_yyyy_MM_dd();
+
+        FoundSearchData foundSearchData = new FoundSearchData(
+                stage,
+                SEARCH_URL,
+                SEARCH_URL_DOWNLOAD,
+
+                ProgConfig.SYSTEM_UPDATE_SEARCH_ACT,
+                ProgConfig.SYSTEM_UPDATE_SEARCH_BETA,
+                ProgConfig.SYSTEM_UPDATE_SEARCH_DAILY,
+
+                ProgConfig.SYSTEM_UPDATE_LAST_INFO,
+                ProgConfig.SYSTEM_UPDATE_LAST_ACT,
+                ProgConfig.SYSTEM_UPDATE_LAST_BETA,
+                ProgConfig.SYSTEM_UPDATE_LAST_DAILY,
+
+                ProgConst.URL_WEBSITE,
+                ProgConst.URL_WEBSITE_DOWNLOAD,
+                ProgConst.PROGRAM_NAME,
+                ProgramTools.getProgVersion(),
+                buildDate,
+                showAllways
+        );
+
+        new Thread(() -> {
+            FoundAll.foundAll(foundSearchData);
+            setTitleInfo(foundSearchData.foundNewVersionProperty().getValue());
+        }).start();
+    }
+
+    private void setTitleInfo(boolean newVersion) {
+        title = progData.primaryStage.getTitle();
+        if (newVersion) {
+            Platform.runLater(() -> setUpdateTitle());
+        } else {
+            Platform.runLater(() -> setNoUpdateTitle());
+        }
         try {
-            if (checkVersion(false)) {
-                // gab eine neue Version
-                Platform.runLater(() -> ProgStart.setUpdateTitle(progData));
-            } else {
-                Platform.runLater(() -> ProgStart.setNoUpdateTitle(progData));
-            }
             sleep(10_000);
-        } catch (final Exception ex) {
-            PLog.errorLog(794612801, ex);
+        } catch (Exception ignore) {
         }
-        Platform.runLater(() -> ProgStart.setOrgTitle(progData));
+        Platform.runLater(() -> setOrgTitle());
     }
 
-    private boolean checkVersion(boolean showProgramInformation) {
-        // prüft auf neue Version,
-//        ProgConfig.SYSTEM_UPDATE_VERSION_SHOWN.setValue(ProgramTools.getProgVersionInt());
-        ProgConfig.SYSTEM_UPDATE_SEARCH_DATE.setValue(FastDateFormat.getInstance("dd.MM.yyyy").format(new Date()));
-
-        UpdateSearchData updateSearchData = new UpdateSearchData(ProgConst.WEBSITE_PROG_UPDATE,
-                ProgramTools.getProgVersionInt(),
-                ProgramTools.getBuildInt(),
-                ProgConfig.SYSTEM_UPDATE_VERSION_SHOWN,
-                null,
-                ProgConfig.SYSTEM_UPDATE_INFOS_NR_SHOWN,
-                ProgConfig.SYSTEM_UPDATE_SEARCH_PROG_START);
-
-        boolean ret = new SearchProgUpdate(stage).checkAllUpdates(updateSearchData, null, showProgramInformation);
-        return ret;
+    private void setUpdateTitle() {
+        progData.primaryStage.setTitle(TITLE_TEXT_PROGRAMMUPDATE_EXISTS);
     }
 
+    private void setNoUpdateTitle() {
+        progData.primaryStage.setTitle(TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE);
+    }
+
+    private void setOrgTitle() {
+        progData.primaryStage.setTitle(title);
+    }
 }

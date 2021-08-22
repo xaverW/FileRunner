@@ -22,49 +22,27 @@ import de.p2tools.p2Lib.guiTools.PGuiSize;
 import de.p2tools.p2Lib.tools.log.LogMessage;
 import javafx.application.Platform;
 
-public class ProgQuitt {
-    final ProgData progData;
+public class ProgQuittFactory {
 
-    public ProgQuitt() {
-        progData = ProgData.getInstance();
-    }
-
-
-    private void writeWindowSizes() {
-        // Hauptfenster
-        PGuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, progData.primaryStage);
-    }
-
-    private void writeTabSettings() {
-        // Tabelleneinstellungen merken
-        progData.guiDirRunner.saveTable();
+    private ProgQuittFactory() {
     }
 
     /**
      * Quit the application
-     *
-     * @param showOptionTerminate show options dialog when downloads are running
      */
-    public void quitt(boolean showOptionTerminate) {
-        if (quitt_()) {
+    public static void quit() {
+        //Tabelleneinstellungen merken
+        ProgData.getInstance().guiDirRunner.saveTable();
+        //Hauptfenster
+        PGuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, ProgData.getInstance().primaryStage);
 
-            // dann jetzt beenden -> Thüss
-            Platform.runLater(() -> {
-                Platform.exit();
-                System.exit(0);
-            });
-
-        }
-    }
-
-    private boolean quitt_() {
-        writeTabSettings();
-        writeWindowSizes();
-
-        new ProgSave().save();
+        new ProgSaveFactory().save();
         LogMessage.endMsg();
 
-        return true;
+        //dann jetzt beenden -> Tschüss
+        Platform.runLater(() -> {
+            Platform.exit();
+            System.exit(0);
+        });
     }
-
 }

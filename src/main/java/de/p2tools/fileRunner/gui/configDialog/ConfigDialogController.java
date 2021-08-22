@@ -20,11 +20,13 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.p2Lib.dialogs.dialog.PDialogExtra;
 import de.p2tools.p2Lib.tools.log.PLog;
+import javafx.beans.property.IntegerProperty;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 
 public class ConfigDialogController extends PDialogExtra {
@@ -33,7 +35,9 @@ public class ConfigDialogController extends PDialogExtra {
     private Button btnOk = new Button("Ok");
 
     private final ProgData progData;
-    private Stage stage;
+    IntegerProperty propSelectedTab = ProgConfig.SYSTEM_CONFIG_DIALOG_TAB;
+
+    private GeneralPane generalPane;
     private ColorPane colorPane;
 
     public ConfigDialogController() {
@@ -41,35 +45,49 @@ public class ConfigDialogController extends PDialogExtra {
                 true, false, DECO.NONE);
         this.progData = ProgData.getInstance();
 
-        addOkButton(btnOk);
         init(true);
     }
 
     @Override
     public void make() {
-        this.stage = getStage();
+        VBox.setVgrow(tabPane, Priority.ALWAYS);
+        getvBoxCont().getChildren().add(tabPane);
+        getvBoxCont().setPadding(new Insets(0));
+
+        addOkButton(btnOk);
         btnOk.setOnAction(a -> close());
 
         ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> updateCss());
-
-        getvBoxCont().getChildren().add(tabPane);
-        VBox.setVgrow(tabPane, Priority.ALWAYS);
         initPanel();
     }
 
     public void close() {
+        generalPane.close();
         colorPane.close();
+
         super.close();
     }
 
 
     private void initPanel() {
         try {
-            tabPane.getTabs().add(new GeneralPane(stage));
-            tabPane.getTabs().add(new UpdatePane(stage));
+            generalPane = new GeneralPane(getStage());
+            Tab tab = new Tab("Allgemein");
+            tab.setClosable(false);
+            tab.setContent(generalPane);
+            tabPane.getTabs().add(tab);
 
-            colorPane = new ColorPane(stage);
-            tabPane.getTabs().add(colorPane);
+            colorPane = new ColorPane(getStage());
+            tab = new Tab("Farben");
+            tab.setClosable(false);
+            tab.setContent(colorPane);
+            tabPane.getTabs().add(tab);
+
+            tabPane.getSelectionModel().select(propSelectedTab.get());
+            tabPane.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+                // readOnlyBinding!!
+                propSelectedTab.setValue(newValue);
+            });
         } catch (final Exception ex) {
             PLog.errorLog(874102058, ex);
         }

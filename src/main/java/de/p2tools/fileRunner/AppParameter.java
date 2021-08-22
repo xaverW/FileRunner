@@ -17,7 +17,7 @@
 
 package de.p2tools.fileRunner;
 
-import de.p2tools.fileRunner.controller.ProgStart;
+import de.p2tools.fileRunner.controller.ProgStartFactory;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.p2Lib.tools.log.LogMessage;
@@ -56,7 +56,7 @@ public class AppParameter {
 
             if (hasOption(line, ProgParameter.VERSION)) {
                 EventQueue.invokeLater(() -> {
-                    ProgStart.startMsg();
+                    ProgStartFactory.startMsg();
                     LogMessage.endMsg();
                     System.exit(0);
                 });
@@ -152,7 +152,7 @@ public class AppParameter {
 
     private static void printHelp(final Options allowed) {
         final HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp(ProgConst.PROGRAMNAME, allowed);
+        formatter.printHelp(ProgConst.PROGRAM_NAME, allowed);
 
     }
 

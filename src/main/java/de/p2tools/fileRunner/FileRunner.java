@@ -15,14 +15,12 @@
  */
 package de.p2tools.fileRunner;
 
-import de.p2tools.fileRunner.controller.ProgQuitt;
-import de.p2tools.fileRunner.controller.ProgStart;
-import de.p2tools.fileRunner.controller.SearchProgramUpdate;
+import de.p2tools.fileRunner.controller.ProgQuittFactory;
+import de.p2tools.fileRunner.controller.ProgStartFactory;
 import de.p2tools.fileRunner.controller.config.ProgColorList;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.res.GetIcon;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.P2LibInit;
 import de.p2tools.p2Lib.guiTools.PGuiSize;
@@ -46,29 +44,34 @@ public class FileRunner extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        boolean firstProgramStart;
 
         PDuration.counterStart(LOG_TEXT_PROGRAMMSTART);
         progData = ProgData.getInstance();
         progData.primaryStage = primaryStage;
-        new ProgStart(progData).loadConfigData();
 
         initP2lib();
+        firstProgramStart = ProgStartFactory.workBeforeGui(progData);
         initRootLayout();
-        losGehts();
+        ProgStartFactory.workAfterGui(progData, firstProgramStart);
+        PDuration.onlyPing("Gui steht!");
+        PDuration.counterStop(LOG_TEXT_PROGRAMMSTART);
+    }
+
+    private void initP2lib() {
+        P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME, "", ProgData.debug, ProgData.duration);
+        P2LibInit.addCssFile(P2LibConst.CSS_GUI);
+        P2LibInit.addCssFile(ProgConst.CSS_FILE);
     }
 
     private void initRootLayout() {
         try {
 //            addThemeCss(); // damit es da schon mal stimmt
             progData.fileRunnerController = new FileRunnerController();
+
             scene = new Scene(progData.fileRunnerController,
                     PGuiSize.getWidth(ProgConfig.SYSTEM_GUI_SIZE),
                     PGuiSize.getHeight(ProgConfig.SYSTEM_GUI_SIZE));
-            primaryStage.setScene(scene);
-            primaryStage.setOnCloseRequest(e -> {
-                e.consume();
-                new ProgQuitt().quitt(true);
-            });
 
             ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
                 ProgColorList.setColorTheme();
@@ -77,6 +80,11 @@ public class FileRunner extends Application {
             ProgColorList.setColorTheme();
             addThemeCss();
 
+            primaryStage.setScene(scene);
+            primaryStage.setOnCloseRequest(e -> {
+                e.consume();
+                ProgQuittFactory.quit();
+            });
             if (!PGuiSize.setPos(ProgConfig.SYSTEM_GUI_SIZE, primaryStage)) {
                 primaryStage.centerOnScreen();
             }
@@ -85,12 +93,6 @@ public class FileRunner extends Application {
         } catch (final Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void initP2lib() {
-        P2LibInit.initLib(primaryStage, ProgConst.PROGRAMNAME, "", ProgData.debug, ProgData.duration);
-        P2LibInit.addCssFile(P2LibConst.CSS_GUI);
-        P2LibInit.addCssFile(ProgConst.CSS_FILE);
     }
 
     private void addThemeCss() {
@@ -103,20 +105,4 @@ public class FileRunner extends Application {
         }
         P2LibInit.addP2LibCssToScene(scene);
     }
-
-    public void losGehts() {
-        PDuration.counterStop(LOG_TEXT_PROGRAMMSTART);
-        primaryStage.getIcons().add(GetIcon.getImage(ProgConst.P2_ICON_32, ProgConst.P2_ICON_PATH, 32, 32));
-
-        PDuration.onlyPing("Erster Start");
-        ProgStart.setOrgTitle(progData);
-
-        PDuration.onlyPing("Gui steht!");
-        Thread th = new Thread(() -> {
-            new SearchProgramUpdate(primaryStage, progData).searchUpdateProgStart();
-        });
-        th.setName("checkProgUpdate");
-        th.start();
-    }
-
 }

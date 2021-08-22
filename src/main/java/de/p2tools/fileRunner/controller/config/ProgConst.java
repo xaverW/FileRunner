@@ -18,8 +18,7 @@ package de.p2tools.fileRunner.controller.config;
 
 public class ProgConst {
 
-    public static final String PROGRAMNAME = "FileRunner";
-
+    public static final String PROGRAM_NAME = "FileRunner";
     // config file
     public static final String CONFIG_FILE = "fileRunner.xml";
     public static final String CONFIG_DIRECTORY = "p2FileRunner"; // im Homeverzeichnis
@@ -38,6 +37,11 @@ public class ProgConst {
     public static final String P2_ICON_32 = "P2_32.png";
     public static final String P2_ICON_PATH = "/de/p2tools/fileRunner/icon/";
     public static final String PFAD_PROGRAMM_ICONS = "/de/p2tools/fileRunner/icon/program/";
+
+    public static final String URL_WEBSITE = "https://www.p2tools.de/";
+    public static final String URL_WEBSITE_DOWNLOAD = "https://www.p2tools.de/filerunner/download.html";
+
+    public static final double CONFIG_DIALOG_SET_DIVIDER = 0.2;
 
     public static final int MIN_TABLE_HEIGHT = 200;
 }

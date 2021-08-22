@@ -16,17 +16,19 @@
 
 package de.p2tools.fileRunner.controller;
 
-import de.p2tools.fileRunner.controller.config.*;
+import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConst;
+import de.p2tools.fileRunner.controller.config.ProgData;
+import de.p2tools.fileRunner.controller.config.ProgInfos;
 import de.p2tools.p2Lib.configFile.ConfigFile;
 import de.p2tools.p2Lib.configFile.WriteConfigFile;
-import de.p2tools.p2Lib.tools.ProgramTools;
 
 import java.nio.file.Path;
 
-public class ProgSave {
+public class ProgSaveFactory {
     final ProgData progData;
 
-    public ProgSave() {
+    public ProgSaveFactory() {
         progData = ProgData.getInstance();
     }
 
@@ -34,14 +36,7 @@ public class ProgSave {
     public void save() {
         final Path xmlFilePath = new ProgInfos().getSettingsFile();
         ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
-
-        ProgConfig.SYSTEM_PROG_VERSION.set(ProgramTools.getProgVersion());
-        ProgConfig.SYSTEM_PROG_BUILD_NO.set(ProgramTools.getBuild());
-        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(ProgramTools.getCompileDate());
-
-        configFile.addConfigs(ProgConfig.getInstance());
-        configFile.addConfigs(ProgColorList.getConfigsData());
-        configFile.addConfigs(progData.projectData);
+        ProgConfig.addConfigData(configFile);
 
         WriteConfigFile readWriteConfigFile = new WriteConfigFile();
         readWriteConfigFile.addConfigFile(configFile);

@@ -22,6 +22,7 @@ import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.gui.HelpText;
 import de.p2tools.p2Lib.configFile.pConfData.PColorData;
 import de.p2tools.p2Lib.configFile.pConfData.PColorList;
+import de.p2tools.p2Lib.dialogs.accordion.PAccordionPane;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
@@ -39,26 +40,41 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class ColorPane extends Tab {
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class ColorPane extends PAccordionPane {
 
     private final Stage stage;
-    private final VBox vBox = new VBox();
     BooleanProperty propDarkTheme = ProgConfig.SYSTEM_DARK_THEME;
     private final PToggleSwitch tglDarkTheme = new PToggleSwitch("Dunkles Erscheinungsbild der Programmoberfläche");
 
     public ColorPane(Stage stage) {
+        super(stage, ProgConfig.CONFIG_DIALOG_ACCORDION, ProgConfig.SYSTEM_CONFIG_DIALOG_COLOR);
         this.stage = stage;
 
-        setText("Farben");
-        setClosable(false);
-        setContent(vBox);
-        makeColor();
+        init();
     }
 
-    private void makeColor() {
+    public void close() {
+        super.close();
+        tglDarkTheme.selectedProperty().unbindBidirectional(propDarkTheme);
+    }
+
+    public Collection<TitledPane> createPanes() {
+        Collection<TitledPane> result = new ArrayList<>();
+        makeColor(result);
+        return result;
+    }
+
+    private void makeColor(Collection<TitledPane> result) {
+        final VBox vBox = new VBox();
         vBox.setPadding(new Insets(20));
         vBox.setFillWidth(true);
         vBox.setSpacing(10);
+
+        TitledPane tpConfig = new TitledPane("Farben", vBox);
+        result.add(tpConfig);
 
         final GridPane gridPane = new GridPane();
         gridPane.setHgap(15);
@@ -94,9 +110,6 @@ public class ColorPane extends Tab {
         vBox.getChildren().addAll(gridPane, tableView, hBox);
     }
 
-    public void close() {
-        tglDarkTheme.selectedProperty().unbindBidirectional(propDarkTheme);
-    }
 
     private void initTableColor(TableView<PColorData> tableView) {
         final TableColumn<PColorData, String> textColumn = new TableColumn<>("Beschreibung");
