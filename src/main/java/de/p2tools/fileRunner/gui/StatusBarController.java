@@ -149,7 +149,7 @@ public class StatusBarController extends AnchorPane {
         lblProgress.setText(event.getText());
     }
 
-    public void setStatusbar() {
+    private void setStatusbar() {
         setStatusbarIndex(statusbarIndex);
     }
 
