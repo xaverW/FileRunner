@@ -28,10 +28,10 @@ public class ProgConst {
     public static final String CSS_FILE_DARK_THEME = "/de/p2tools/fileRunner/fileRunner-dark.css";
     public static final String LOG_DIR = "Log";
 
-    public static final String WEBSITE_P2 = "https://www.p2tools.de";
+    public static final String URL_WEBSITE_P2TOOLS = "https://www.p2tools.de";
     public static final String WEBSITE_FILE_RUNNER = "https://www.p2tools.de/filerunner/";
     public static final String WEBSITE_FILE_RUNNER_HELP = "https://www.p2tools.de/filerunner/manual.html";
-    public static final String WEBSITE_PROG_UPDATE = "https://www.p2tools.de/extra/filerunner-info.xml";
+    public static final String URL_WEBSITE_DONATE = "https://www.p2tools.de/donate.html";
 
     public static final String P2_ICON = "P2.png";
     public static final String P2_ICON_32 = "P2_32.png";

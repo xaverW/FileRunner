@@ -17,6 +17,7 @@
 package de.p2tools.fileRunner;
 
 import de.p2tools.fileRunner.controller.ProgQuittFactory;
+import de.p2tools.fileRunner.controller.SearchProgramUpdate;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
@@ -86,10 +87,13 @@ public class FileRunnerController extends BorderPane {
             final MenuItem miAbout = new MenuItem("Über dieses Programm");
             miAbout.setOnAction(event -> new AboutDialogController(progData));
 
+            final MenuItem miSearchUpdate = new MenuItem("Gibts ein Update?");
+            miSearchUpdate.setOnAction(a -> new SearchProgramUpdate(progData, progData.primaryStage).searchNewProgramVersion(true));
+
             menuButton.getStyleClass().add("btnFunctionWide");
             menuButton.setText("");
             menuButton.setGraphic(new ProgIcons().FX_ICON_TOOLBAR_MENUE_TOP);
-            menuButton.getItems().addAll(miConfig, miAbout,
+            menuButton.getItems().addAll(miConfig, miSearchUpdate, miAbout,
                     new SeparatorMenuItem(), miQuitt);
 
             menuButton2.getStyleClass().add("btnFunctionWide");
