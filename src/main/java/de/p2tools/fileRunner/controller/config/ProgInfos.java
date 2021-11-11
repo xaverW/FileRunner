@@ -66,7 +66,7 @@ public class ProgInfos {
         return logDir;
     }
 
-    public Path getSettingsFile() {
+    public static Path getSettingsFile() {
         return SettingsDirectory.getSettingsFile(ProgData.configDir,
                 ProgConst.CONFIG_DIRECTORY,
                 ProgConst.CONFIG_FILE);

@@ -39,6 +39,7 @@ public class ProgConst {
     public static final String PFAD_PROGRAMM_ICONS = "/de/p2tools/fileRunner/icon/program/";
 
     public static final String URL_WEBSITE = "https://www.p2tools.de/";
+    public static final String URL_WEBSITE_HELP = "https://www.p2tools.de/filerunner/manual.html";
     public static final String URL_WEBSITE_DOWNLOAD = "https://www.p2tools.de/filerunner/download.html";
 
     public static final double CONFIG_DIALOG_SET_DIVIDER = 0.2;
