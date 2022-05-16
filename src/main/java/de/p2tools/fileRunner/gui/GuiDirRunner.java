@@ -28,7 +28,6 @@ import javafx.scene.layout.VBox;
 
 public class GuiDirRunner extends AnchorPane {
     private final SplitPane splitPane = new SplitPane();
-//    private final HBox splitHbox = new HBox();
 
     private final VBox vBoxBtn = new VBox(10);
     private final ScrollPane scrollPane = new ScrollPane();
@@ -45,13 +44,6 @@ public class GuiDirRunner extends AnchorPane {
     private final FileDataFilter fileDataFilter2 = new FileDataFilter();
     private final GuiDirPane guiDirPane1;
     private final GuiDirPane guiDirPane2;
-
-    private final int SHOW_ALL = 0;
-    private final int SHOW_PANE_1 = 1;
-    private final int SHOW_PANE_2 = 2;
-    private int show = SHOW_PANE_1;
-    private boolean dragged = false;
-
     private double orgX, orgDiv0, orgDiv1, orgSize;
 
     public GuiDirRunner() {
@@ -75,60 +67,41 @@ public class GuiDirRunner extends AnchorPane {
 
     private void initCont() {
         vBoxBtn.getStyleClass().add("pane-border");
-//        vBoxBtn.setStyle("-fx-border-color: red;");
-
-        vBoxBtn.setAlignment(Pos.CENTER);
+        vBoxBtn.setAlignment(Pos.TOP_CENTER);
         vBoxBtn.setPadding(new Insets(10));
-//        vBoxBtn.setMaxWidth(Region.USE_PREF_SIZE);
-
+        vBoxBtn.setMaxWidth(Region.USE_PREF_SIZE);
+        Region spacerTop = new Region();
+        spacerTop.setMinSize(10, 150);
         Region spacer = new Region();
         spacer.setMinSize(10, 10);
-        vBoxBtn.getChildren().addAll(tglShowAll, tglShowSame, tglShowDiffAll, spacer, tglShowDiff, tglShowOnly1, tglShowOnly2);
-
+        vBoxBtn.getChildren().addAll(spacerTop, tglShowAll, tglShowSame, tglShowDiffAll, spacer, tglShowDiff, tglShowOnly1, tglShowOnly2);
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
-
-//        HBox.setHgrow(guiDirPane1, Priority.ALWAYS);
-//        HBox.setHgrow(guiDirPane2, Priority.ALWAYS);
 
         splitPane.getItems().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
         scrollPane.setContent(splitPane);
-//        splitHbox.getChildren().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
-//        scrollPane.setContent(splitHbox);
-
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
 
-        vBoxBtn.setOnMouseClicked(e -> {
-            if (!dragged) {
-                setVis();
-            }
-            System.out.println("dragged=false");
-            dragged = false;
+        vBoxBtn.setOnMousePressed(e -> {
+            orgX = e.getSceneX();
+            orgDiv0 = splitPane.getDividers().get(0).getPosition();
+            orgDiv1 = splitPane.getDividers().get(1).getPosition();
+            orgSize = splitPane.getWidth();
         });
 
-        vBoxBtn.setOnMousePressed(e -> {
-            dragged = false;
-            if (splitPane.getItems().size() == 3) {
-                orgX = e.getSceneX();
-                orgDiv0 = splitPane.getDividers().get(0).getPosition();
-                orgDiv1 = splitPane.getDividers().get(1).getPosition();
-                orgSize = splitPane.getWidth();
-            }
+        vBoxBtn.setOnMouseReleased(e -> {
+            vBoxBtn.setMaxWidth(Region.USE_PREF_SIZE);
         });
 
         vBoxBtn.setOnMouseDragged(e -> {
-            dragged = true;
-            if (splitPane.getItems().size() == 3) {
-                double offsetX = e.getSceneX() - orgX;
-                double move = offsetX / orgSize;
+            double offsetX = e.getSceneX() - orgX;
+            double move = offsetX / orgSize;
+            double ddiv0 = orgDiv0 + move;
+            double ddiv1 = orgDiv1 + move;
 
-                double ddiv0 = orgDiv0 + move;
-                double ddiv1 = orgDiv1 + move;
-
-                splitPane.getDividers().get(0).setPosition(ddiv0);
-                splitPane.getDividers().get(1).setPosition(ddiv1);
-//            System.out.println("dragged: " + ddiv0 + " " + ddiv1 + " " + move);
-            }
+            vBoxBtn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+            splitPane.getDividers().get(1).setPosition(ddiv1);
+            splitPane.getDividers().get(0).setPosition(ddiv0);
         });
 
         // =================================
@@ -153,62 +126,6 @@ public class GuiDirRunner extends AnchorPane {
         tglShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 enthalten sind."));
         tglShowOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 enthalten sind."));
     }
-
-    private synchronized void setVis() {
-        switch (show) {
-            case SHOW_ALL:
-                splitPane.getItems().clear();
-                splitPane.getItems().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
-
-                show = SHOW_PANE_1;
-                break;
-
-            case SHOW_PANE_1:
-                orgDiv0 = splitPane.getDividers().get(0).getPosition();
-                orgDiv1 = splitPane.getDividers().get(1).getPosition();
-                splitPane.getItems().clear();
-                splitPane.getItems().addAll(guiDirPane1, vBoxBtn);
-
-                splitPane.getDividers().get(0).setPosition(orgDiv0 + orgDiv1);
-                show = SHOW_PANE_2;
-                break;
-
-            case SHOW_PANE_2:
-                orgDiv0 = splitPane.getDividers().get(0).getPosition();
-                splitPane.getItems().clear();
-                splitPane.getItems().addAll(vBoxBtn, guiDirPane2);
-
-                splitPane.getDividers().get(0).setPosition(1 - orgDiv0);
-                show = SHOW_ALL;
-                break;
-        }
-    }
-
-//    private synchronized void setVis() {
-//        double v;
-//        switch (show) {
-//            case SHOW_ALL:
-//                splitHbox.getChildren().clear();
-//                splitHbox.getChildren().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
-//
-//                show = SHOW_PANE_1;
-//                break;
-//
-//            case SHOW_PANE_1:
-//                splitHbox.getChildren().clear();
-//                splitHbox.getChildren().addAll(guiDirPane1, vBoxBtn);
-//
-//                show = SHOW_PANE_2;
-//                break;
-//
-//            case SHOW_PANE_2:
-//                splitHbox.getChildren().clear();
-//                splitHbox.getChildren().addAll(vBoxBtn, guiDirPane2);
-//
-//                show = SHOW_ALL;
-//                break;
-//        }
-//    }
 
     private void addListener() {
         tglShowAll.setOnAction(e -> {
