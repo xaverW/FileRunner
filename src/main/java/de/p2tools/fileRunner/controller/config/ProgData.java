@@ -64,7 +64,7 @@ public class ProgData {
 
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(1000), ae -> {
-            Listener.notify(Listener.EREIGNIS_TIMER, ProgData.class.getName());
+            Listener.notify(Listener.EVENT_TIMER, ProgData.class.getName());
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.setDelay(Duration.seconds(5));

@@ -31,7 +31,8 @@ public class AboutDialogController extends AboutDialog {
                 PFileUtils.addsPath(ProgConst.P2_ICON_PATH, ProgConst.P2_ICON), ProgConfig.SYSTEM_PROG_OPEN_URL,
                 ProgConfig.SYSTEM_DARK_THEME.getValue(),
                 new String[]{"Einstellungen:"},
-                new String[]{ProgInfos.getSettingsFile().toAbsolutePath().toString()});
+                new String[]{ProgInfos.getSettingsFile().toAbsolutePath().toString()},
+                false);
     }
 
     @Override

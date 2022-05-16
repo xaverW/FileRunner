@@ -34,7 +34,7 @@ public class ProgQuittFactory {
         //Tabelleneinstellungen merken
         ProgData.getInstance().guiDirRunner.saveTable();
         //Hauptfenster
-        PGuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, ProgData.getInstance().primaryStage);
+        PGuiSize.getSizeStage(ProgConfig.SYSTEM_GUI_SIZE, ProgData.getInstance().primaryStage);
 
         new ProgSaveFactory().save();
         LogMessage.endMsg();
