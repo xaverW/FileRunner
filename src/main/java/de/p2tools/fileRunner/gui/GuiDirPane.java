@@ -132,7 +132,6 @@ public class GuiDirPane extends VBox {
     }
 
     private void generatePanel() {
-
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
         scrollPane.setContent(table);
