@@ -25,10 +25,10 @@ import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
-import de.p2tools.fileRunner.gui.tools.GuiToolsFactory;
 import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
+import de.p2tools.p2Lib.tools.file.PFileName;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
@@ -294,10 +294,11 @@ public class GuiDirPane extends VBox {
                 return;
             }
 
-            if (!pCboWriteHash.getEditor().getText().startsWith(file)) {
+            if (pCboWriteHash.getEditor().getText().isEmpty()) {
                 pCboWriteHash.getEditor().setText(file);
             }
-            pCboWriteHash.selectElement(GuiToolsFactory.getNextName(pCboWriteHash.getEditor().getText()));
+            final String nextElement = PFileName.getNextFileNameWithDate(pCboWriteHash.getEditor().getText(), "md5");
+            pCboWriteHash.selectElement(nextElement);
         });
 
 
