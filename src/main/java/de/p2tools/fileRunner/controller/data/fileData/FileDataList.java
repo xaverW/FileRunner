@@ -75,7 +75,8 @@ public class FileDataList extends SimpleListProperty<FileData> {
 
 
         if (!fileDataFilter.getSearchStr().trim().isEmpty()) {
-            predicate = predicate.and(f -> f.getFileName().toLowerCase().contains(fileDataFilter.getSearchStr().toLowerCase()));
+            //todo
+            predicate = predicate.and(f -> f.getPathFileName().toLowerCase().contains(fileDataFilter.getSearchStr().toLowerCase()));
         }
         filteredFileDate.setPredicate(predicate);
     }
@@ -99,12 +100,12 @@ public class FileDataList extends SimpleListProperty<FileData> {
         super.clear();
     }
 
-    public synchronized boolean addHashString(String file, PDate fileDate, PFileSize fileSize, String hash) {
-        return addHashString(file, fileDate, fileSize, hash, false);
+    public synchronized boolean addHashString(String pathFileName, PDate fileDate, PFileSize fileSize, String hash) {
+        return addHashString(pathFileName, fileDate, fileSize, hash, false);
     }
 
-    public synchronized boolean addHashString(String file, PDate fileDate, PFileSize fileSize, String hash, boolean link) {
-        FileData fileData = new FileData(file, fileDate, fileSize, hash, link);
+    public synchronized boolean addHashString(String pathFileName, PDate fileDate, PFileSize fileSize, String hash, boolean link) {
+        FileData fileData = new FileData(pathFileName, fileDate, fileSize, hash, link);
         fileData.setNr(nr++);
         return super.add(fileData);
     }

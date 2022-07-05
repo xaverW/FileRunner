@@ -134,7 +134,7 @@ public class CreateZipHash {
             if (stop) {
                 fileDataList.clear();
             } else {
-                new CompareFileList().compareList(progData.fileDataList1, progData.fileDataList2);
+                new CompareFileList().compareList();
             }
 
             max = 0;

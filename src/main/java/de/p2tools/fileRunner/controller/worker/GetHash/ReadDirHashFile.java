@@ -86,7 +86,7 @@ public class ReadDirHashFile {
             if (stop) {
                 fileDataList.clear();
             } else {
-                new CompareFileList().compareList(progData.fileDataList1, progData.fileDataList2);
+                new CompareFileList().compareList();
             }
             notifyEvent(0, 0, "");
         }

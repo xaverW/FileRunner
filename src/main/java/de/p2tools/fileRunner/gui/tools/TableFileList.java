@@ -28,7 +28,6 @@ import javafx.scene.input.MouseButton;
 
 public class TableFileList {
 
-
     private TableView tableView;
 
     public TableColumn[] initFileRunnerColumn(TableView tableView) {
@@ -44,8 +43,14 @@ public class TableFileList {
         final TableColumn<FileData, Integer> nrColumn = new TableColumn<>("Nr");
         nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
 
+        final TableColumn<FileData, String> pathColumn = new TableColumn<>("Pfad");
+        pathColumn.setCellValueFactory(new PropertyValueFactory<>("path"));
+
         final TableColumn<FileData, String> fileNameColumn = new TableColumn<>("Datei");
         fileNameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName"));
+
+        final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Pfad/Datei");
+        pathFileNameColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));
 
         final TableColumn<PFileSize, String> fileSizeColumn = new TableColumn<>("Größe");
         fileSizeColumn.setCellValueFactory(new PropertyValueFactory<>("fileSize"));
@@ -73,7 +78,7 @@ public class TableFileList {
         });
         addRowFact(tableView);
         return new TableColumn[]{
-                nrColumn, fileNameColumn, fileSizeColumn, fileDateColumn, diff, only
+                nrColumn, pathColumn, fileNameColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only
         };
 
     }

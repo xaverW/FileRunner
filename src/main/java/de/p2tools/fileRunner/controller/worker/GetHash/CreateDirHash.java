@@ -126,7 +126,7 @@ public class CreateDirHash {
             if (stop) {
                 fileDataList.clear();
             } else {
-                new CompareFileList().compareList(progData.fileDataList1, progData.fileDataList2);
+                new CompareFileList().compareList();
             }
             --runThreads;
             if (runThreads == 0) {

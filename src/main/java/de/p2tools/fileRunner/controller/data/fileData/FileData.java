@@ -20,10 +20,23 @@ package de.p2tools.fileRunner.controller.data.fileData;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.file.PFileSize;
 
+import java.io.File;
+
 public class FileData extends FileDataProps {
 
-    public FileData(String file, PDate date, PFileSize fileSize, String hash, boolean link) {
-        setFileName(file);
+    public FileData(String pathFileName, PDate date, PFileSize fileSize, String hash, boolean link) {
+        String path, fileName;
+        if (pathFileName.contains(File.separator)) {
+            path = pathFileName.substring(0, pathFileName.lastIndexOf(File.separator));
+            fileName = pathFileName.substring(pathFileName.lastIndexOf(File.separator) + 1);
+        } else {
+            path = "";
+            fileName = pathFileName;
+        }
+
+        setPath(path);
+        setPathFileName(pathFileName);
+        setFileName(fileName);
         setFileDate(date);
         setFileSize(fileSize);
         setHash(hash);

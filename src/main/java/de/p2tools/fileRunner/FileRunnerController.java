@@ -42,7 +42,6 @@ public class FileRunnerController extends BorderPane {
     MenuButton menuButton = new MenuButton("");
     MenuButton menuButton2 = new MenuButton("");
 
-    //    BorderPane borderPane = new BorderPane();
     StackPane stackPaneCont = new StackPane();
     private StatusBarController statusBarController;
 

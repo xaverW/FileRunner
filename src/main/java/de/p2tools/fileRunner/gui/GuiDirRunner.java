@@ -16,9 +16,11 @@
 
 package de.p2tools.fileRunner.gui;
 
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
+import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -38,6 +40,7 @@ public class GuiDirRunner extends AnchorPane {
     private final ToggleButton tglShowDiffAll = new ToggleButton("");
     private final ToggleButton tglShowOnly1 = new ToggleButton("");
     private final ToggleButton tglShowOnly2 = new ToggleButton("");
+    private final CheckBox chkOnlyFile = new CheckBox("");
 
     private final ProgData progData;
     private final FileDataFilter fileDataFilter1 = new FileDataFilter();
@@ -72,9 +75,14 @@ public class GuiDirRunner extends AnchorPane {
         vBoxBtn.setMaxWidth(Region.USE_PREF_SIZE);
         Region spacerTop = new Region();
         spacerTop.setMinSize(10, 150);
-        Region spacer = new Region();
-        spacer.setMinSize(10, 10);
-        vBoxBtn.getChildren().addAll(spacerTop, tglShowAll, tglShowSame, tglShowDiffAll, spacer, tglShowDiff, tglShowOnly1, tglShowOnly2);
+        Region spacer1 = new Region();
+        spacer1.setMinSize(10, 10);
+        Region spacer2 = new Region();
+        spacer2.setMinSize(10, 10);
+        vBoxBtn.getChildren().addAll(spacerTop, tglShowAll, tglShowSame, tglShowDiffAll,
+                spacer1, tglShowDiff, tglShowOnly1, tglShowOnly2,
+                spacer2, chkOnlyFile);
+
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
 
         splitPane.getItems().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
@@ -125,43 +133,66 @@ public class GuiDirRunner extends AnchorPane {
         tglShowDiff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind, sich aber unterscheiden."));
         tglShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 enthalten sind."));
         tglShowOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 enthalten sind."));
+        chkOnlyFile.setTooltip(new Tooltip("Es werden nur die Dateien (ohne Pfad) verglichen"));
     }
 
     private void addListener() {
+        setTglButton();
         tglShowAll.setOnAction(e -> {
+            setTglButton();
+        });
+        tglShowSame.setOnAction(e -> {
+            setTglButton();
+        });
+        tglShowDiffAll.setOnAction(e -> {
+            setTglButton();
+        });
+        tglShowDiff.setOnAction(e -> {
+            setTglButton();
+        });
+        tglShowOnly1.setOnAction(e -> {
+            setTglButton();
+        });
+        tglShowOnly2.setOnAction(e -> {
+            setTglButton();
+        });
+        chkOnlyFile.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_ONLY_FILE);
+        chkOnlyFile.setOnAction(a -> {
+            new CompareFileList().compareList();
+            setTglButton();
+        });
+    }
+
+    private void setTglButton() {
+        if (tglShowAll.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
             progData.fileDataList1.setPred(fileDataFilter1);
             progData.fileDataList2.setPred(fileDataFilter2);
-        });
-        tglShowSame.setOnAction(e -> {
+        } else if (tglShowSame.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.SAME);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.SAME);
             progData.fileDataList1.setPred(fileDataFilter1);
             progData.fileDataList2.setPred(fileDataFilter2);
-        });
-        tglShowDiffAll.setOnAction(e -> {
+        } else if (tglShowDiffAll.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_ALL);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_ALL);
             progData.fileDataList1.setPred(fileDataFilter1);
             progData.fileDataList2.setPred(fileDataFilter2);
-        });
-        tglShowDiff.setOnAction(e -> {
+        } else if (tglShowDiff.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
             progData.fileDataList1.setPred(fileDataFilter1);
             progData.fileDataList2.setPred(fileDataFilter2);
-        });
-        tglShowOnly1.setOnAction(e -> {
+        } else if (tglShowOnly1.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
             progData.fileDataList1.setPred(fileDataFilter1);
             progData.fileDataList2.setPred(false);
-        });
-        tglShowOnly2.setOnAction(e -> {
+        } else if (tglShowOnly2.isSelected()) {
             progData.fileDataList1.setPred(false);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
             progData.fileDataList2.setPred(fileDataFilter2);
-        });
+        }
     }
 
     public void clearFilter() {

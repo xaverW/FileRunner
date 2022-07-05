@@ -25,6 +25,8 @@ public class FileDataProps {
     public static final String TAG = "FileData";
 
     private int nr = 0;
+    private String path = "";
+    private String pathFileName = "";
     private String fileName = "";
     private PDate fileDate = null;
     private PFileSize fileSize = null;
@@ -43,6 +45,22 @@ public class FileDataProps {
 
     public void setNr(int nr) {
         this.nr = nr;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getPathFileName() {
+        return pathFileName;
+    }
+
+    public void setPathFileName(String pathFileName) {
+        this.pathFileName = pathFileName;
     }
 
     public String getFileName() {

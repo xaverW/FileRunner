@@ -48,7 +48,7 @@ public class HashTools {
             FileData fileData;
             while (it.hasNext()) {
                 fileData = it.next();
-                out.write(fileData.getHash() + " " + "*" + fileData.getFileName() + P2LibConst.LINE_SEPARATOR);
+                out.write(fileData.getHash() + " " + "*" + fileData.getPathFileName() + P2LibConst.LINE_SEPARATOR);
             }
             out.flush();
             ret = true;
@@ -110,13 +110,13 @@ public class HashTools {
     }
 
     public static String getFile(String zeile) {
-        String fil = "";
+        String file = "";
         if (zeile.contains("*")) {
-            fil = zeile.substring(zeile.indexOf("*") + 1);
+            file = zeile.substring(zeile.indexOf("*") + 1);
         } else if (zeile.contains("  ")) {
-            fil = zeile.substring(zeile.indexOf("  ") + 2);
+            file = zeile.substring(zeile.indexOf("  ") + 2);
         }
-        return fil;
+        return file;
     }
 
     public static PDate getDate(String zeile) {
