@@ -21,6 +21,10 @@
     -fx-border-width: 2;
     -fx-border-color: green;
 }
+.txtHashNotOk {
+    -fx-border-width: 2;
+    -fx-border-color: red;
+}
 .txtHash {
     -fx-border-width: 2;
     -fx-border-color: lightgray;

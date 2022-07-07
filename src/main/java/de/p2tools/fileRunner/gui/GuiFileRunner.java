@@ -192,15 +192,27 @@ public class GuiFileRunner extends AnchorPane {
 
         if (!hash1.isEmpty() && !hash2.isEmpty() &&
                 hash1.equals(hash2)) {
-
             pTextField1.getStyleClass().removeAll("txtHash");
             pTextField2.getStyleClass().removeAll("txtHash");
+            pTextField1.getStyleClass().removeAll("txtHashNotOk");
+            pTextField2.getStyleClass().removeAll("txtHashNotOk");
             pTextField1.getStyleClass().add("txtHashOk");
             pTextField2.getStyleClass().add("txtHashOk");
+
+        } else if (!hash1.isEmpty() && !hash2.isEmpty() &&
+                !hash1.equals(hash2)) {
+            pTextField1.getStyleClass().removeAll("txtHash");
+            pTextField2.getStyleClass().removeAll("txtHash");
+            pTextField1.getStyleClass().removeAll("txtHashOk");
+            pTextField2.getStyleClass().removeAll("txtHashOk");
+            pTextField1.getStyleClass().add("txtHashNotOk");
+            pTextField2.getStyleClass().add("txtHashNotOk");
 
         } else {
             pTextField1.getStyleClass().removeAll("txtHashOk");
             pTextField2.getStyleClass().removeAll("txtHashOk");
+            pTextField1.getStyleClass().removeAll("txtHashNotOk");
+            pTextField2.getStyleClass().removeAll("txtHashNotOk");
             pTextField1.getStyleClass().add("txtHash");
             pTextField2.getStyleClass().add("txtHash");
         }
