@@ -21,10 +21,12 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
+import de.p2tools.p2Lib.guiTools.PButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
@@ -79,9 +81,18 @@ public class GuiDirRunner extends AnchorPane {
         spacer1.setMinSize(10, 10);
         Region spacer2 = new Region();
         spacer2.setMinSize(10, 10);
+        Label lblPath = new Label("ohne\nPfad");
         vBoxBtn.getChildren().addAll(spacerTop, tglShowAll, tglShowSame, tglShowDiffAll,
                 spacer1, tglShowDiff, tglShowOnly1, tglShowOnly2,
-                spacer2, chkOnlyFile);
+                spacer2, lblPath, chkOnlyFile);
+
+        Button btnHelp = PButton.helpButton(progData.primaryStage, "Vergleichen", HelpText.COMPARE_BUTTON);
+        VBox vBox = new VBox();
+        VBox.setVgrow(vBox, Priority.ALWAYS);
+        vBox.setMaxHeight(Double.MAX_VALUE);
+        vBox.setAlignment(Pos.BOTTOM_CENTER);
+        vBox.getChildren().add(btnHelp);
+        vBoxBtn.getChildren().add(vBox);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
 

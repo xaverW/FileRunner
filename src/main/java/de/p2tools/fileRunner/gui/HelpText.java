@@ -24,6 +24,19 @@ public class HelpText {
             "nächsten Programmstart wieder hergestellt werden oder das Programm startet mit " +
             "den Standardeinstellungen.";
 
+    public static final String COMPARE_BUTTON = "" +
+            "1. Zeigt alle Dateien" + P2LibConst.LINE_SEPARATOR +
+            "2. Zeigt gleiche Dateien die in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATOR +
+            "3. Zeigt Dateien die sich unterscheiden oder nur in einer Liste enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
+
+            "4. Zeigt Dateien die sich unterscheiden und in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATOR +
+            "5. Zeigt Dateien die nur in der rechten Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
+            "6. Zeigt Dateien die nur in der linken Liste enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
+
+            "7. Ist das geklickt, werden bei dem Dateivergleich die Pfade in denen die Dateien liegen, " +
+            "nicht berücksichtigt. Dateien sind also auch dann gleich, wenn sie in unterschiedlichen " +
+            "Verzeichnissen liegen.";
+
     public static final String FOLLOW_SYMLINK = "Eine symbolische Verknüpfung ist eine Verknüpfung in einem Dateisystem " +
             "die auf eine andere Datei oder ein anderes Verzeichnis verweist." + P2LibConst.LINE_SEPARATORx2 +
             "In der Tabelle wird der Speicherort des Links angezeigt. " +
@@ -32,5 +45,5 @@ public class HelpText {
     public static final String DARK_THEME = "Das Programm wird damit mit einer dunklen " +
             "Programmoberfläche angezeigt. Damit alle Elemente der Programmoberfläche " +
             "geändert werden, kann ein Programmneustart notwendig sein.";
-    
+
 }
