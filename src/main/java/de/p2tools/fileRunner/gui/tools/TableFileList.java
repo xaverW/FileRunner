@@ -43,13 +43,7 @@ public class TableFileList {
         final TableColumn<FileData, Integer> nrColumn = new TableColumn<>("Nr");
         nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
 
-        final TableColumn<FileData, String> pathColumn = new TableColumn<>("Pfad");
-        pathColumn.setCellValueFactory(new PropertyValueFactory<>("path"));
-
-        final TableColumn<FileData, String> fileNameColumn = new TableColumn<>("Datei");
-        fileNameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName"));
-
-        final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Pfad/Datei");
+        final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Datei");
         pathFileNameColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));
 
         final TableColumn<PFileSize, String> fileSizeColumn = new TableColumn<>("Größe");
@@ -67,7 +61,7 @@ public class TableFileList {
         only.setCellFactory(new PCheckBoxCell().cellFactoryBool);
 
         nrColumn.setMaxWidth(1f * Integer.MAX_VALUE * 10);
-        fileNameColumn.setMaxWidth(1f * Integer.MAX_VALUE * 50);
+        pathFileNameColumn.setMaxWidth(1f * Integer.MAX_VALUE * 50);
         fileSizeColumn.setMaxWidth(1f * Integer.MAX_VALUE * 10);
         fileDateColumn.setMaxWidth(1f * Integer.MAX_VALUE * 20);
 
@@ -78,9 +72,8 @@ public class TableFileList {
         });
         addRowFact(tableView);
         return new TableColumn[]{
-                nrColumn, pathColumn, fileNameColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only
+                nrColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only
         };
-
     }
 
     private ContextMenu getMenu() {
