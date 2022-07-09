@@ -84,7 +84,7 @@ public class FileRunnerController extends BorderPane {
             miQuitt.setOnAction(e -> ProgQuittFactory.quit());
 
             final MenuItem miAbout = new MenuItem("Über dieses Programm");
-            miAbout.setOnAction(event -> new AboutDialogController(progData));
+            miAbout.setOnAction(event -> new AboutDialogController(progData).showDialog());
 
             final MenuItem miSearchUpdate = new MenuItem("Gibts ein Update?");
             miSearchUpdate.setOnAction(a -> new SearchProgramUpdate(progData, progData.primaryStage).searchNewProgramVersion(true));
