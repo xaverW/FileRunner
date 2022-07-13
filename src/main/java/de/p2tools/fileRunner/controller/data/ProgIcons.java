@@ -34,6 +34,7 @@ public class ProgIcons {
 
     public final ImageView ICON_BUTTON_GUI_CLEAR = GetIcon.getImageView("button-gui-clear.png", 16, 16);
     public final ImageView ICON_BUTTON_GUI_ALL = GetIcon.getImageView("button-gui-all.png", 24, 24);
+    public final ImageView ICON_BUTTON_GUI_START_ALL = GetIcon.getImageView("button-gui-start-all.png", 16, 16);
     public final ImageView ICON_BUTTON_GUI_SAME = GetIcon.getImageView("button-gui-same.png", 24, 24);
     public final ImageView ICON_BUTTON_GUI_DIFF = GetIcon.getImageView("button-gui-diff.png", 24, 24);
     public final ImageView ICON_BUTTON_GUI_DIFF_ALL = GetIcon.getImageView("button-gui-diff-all.png", 24, 24);

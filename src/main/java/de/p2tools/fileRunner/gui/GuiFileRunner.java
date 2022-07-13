@@ -20,6 +20,7 @@ import de.p2tools.fileRunner.controller.RunEvent;
 import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
+import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PTextField;
@@ -51,7 +52,7 @@ public class GuiFileRunner extends AnchorPane {
     private final RadioButton rbSha256 = new RadioButton("Sha-256");
     private final RadioButton rbSha512 = new RadioButton("Sha-512");
 
-    private final Button btnCheckFile = new Button("Dateien vergleichen");
+    private final Button btnCheckFile = new Button("Beide Dateien einlesen und vergleichen");
 
     private final BooleanProperty isRunning = new SimpleBooleanProperty(false);
     private final ProgData progData;
@@ -117,7 +118,9 @@ public class GuiFileRunner extends AnchorPane {
         vBoxCont.setPadding(new Insets(25));
         vBoxCont.getChildren().addAll(gridPane);
 
-        btnCheckFile.setTooltip(new Tooltip("Hash für beide Dateien erstellen und die Dateien damit vergleichen."));
+        btnCheckFile.setGraphic(new ProgIcons().ICON_BUTTON_GUI_START_ALL);
+        btnCheckFile.setTooltip(new Tooltip("Es werden beide Dateien eingelesen, " +
+                "der Hash wird erstellt und die Dateien damit vergleichen."));
         rbMd5.setTooltip(new Tooltip("Es wird ein MD5-Hash erstellt."));
         rbSha1.setTooltip(new Tooltip("Es wird ein SHA-1 Hash erstellt."));
         rbSha256.setTooltip(new Tooltip("Es wird ein SHA-256 Hash erstellt."));
@@ -164,8 +167,8 @@ public class GuiFileRunner extends AnchorPane {
             ProgConfig.GUI_FILE_HASH_SUFF.set(HashConst.HASH_SHA512_SUFFIX);
         });
 
-        btnCheckFile.disableProperty().bind(guiFilePane1.compareNotProperty()
-                .or(guiFilePane2.compareNotProperty())
+        btnCheckFile.disableProperty().bind(guiFilePane1.disableCompareButtonProperty()
+                .or(guiFilePane2.disableCompareButtonProperty())
                 .or(isRunning));
     }
 

@@ -60,6 +60,7 @@ public class ProgData {
 
         fileDataList1 = new FileDataList();
         fileDataList2 = new FileDataList();
+
         worker = new Worker(this);
 
         Timeline timeline = new Timeline(new KeyFrame(

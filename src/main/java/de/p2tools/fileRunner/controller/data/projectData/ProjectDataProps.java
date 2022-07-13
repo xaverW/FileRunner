@@ -17,6 +17,7 @@
 
 package de.p2tools.fileRunner.controller.data.projectData;
 
+import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.p2Lib.configFile.config.Config;
 import de.p2tools.p2Lib.configFile.config.ConfigBoolProp;
 import de.p2tools.p2Lib.configFile.config.ConfigIntProp;
@@ -65,7 +66,11 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
 
     private final StringProperty writeHash1 = new SimpleStringProperty("");
     private final StringProperty writeHash2 = new SimpleStringProperty("");
+    private final StringProperty writeFileHash1 = new SimpleStringProperty("");
+    private final StringProperty writeFileHash2 = new SimpleStringProperty("");
     private ObservableList<String> writeHashList = FXCollections.observableArrayList();
+    private ObservableList<String> writeFileHashList = FXCollections.observableArrayList();
+    private FileDataList fileDataList;
 
     private final IntegerProperty selTab1 = new SimpleIntegerProperty(0);
     private final IntegerProperty selTab2 = new SimpleIntegerProperty(0);
@@ -111,7 +116,10 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
                 new ConfigStringList("search-list", searchList),
                 new ConfigStringProp("write-hash-1", writeHash1),
                 new ConfigStringProp("write-hash-2", writeHash2),
+                new ConfigStringProp("write-file-hash-1", writeFileHash1),
+                new ConfigStringProp("write-file-hash-2", writeFileHash2),
                 new ConfigStringList("write-hash-list", writeHashList),
+                new ConfigStringList("write-file-hash-list", writeFileHashList),
                 new ConfigIntProp("tab-file-1", selTab1),
                 new ConfigIntProp("tab-file-2", selTab2),
                 new ConfigBoolProp("followLink1", followLink1),
@@ -387,12 +395,44 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
         this.writeHash2.set(writeHash2);
     }
 
+    public String getWriteFileHash1() {
+        return writeFileHash1.get();
+    }
+
+    public StringProperty writeFileHash1Property() {
+        return writeFileHash1;
+    }
+
+    public void setWriteFileHash1(String writeFileHash1) {
+        this.writeFileHash1.set(writeFileHash1);
+    }
+
+    public String getWriteFileHash2() {
+        return writeFileHash2.get();
+    }
+
+    public StringProperty writeFileHash2Property() {
+        return writeFileHash2;
+    }
+
+    public void setWriteFileHash2(String writeFileHash2) {
+        this.writeFileHash2.set(writeFileHash2);
+    }
+
     public ObservableList<String> getWriteHashList() {
         return writeHashList;
     }
 
     public void setWriteHashList(ObservableList<String> writeHashList) {
         this.writeHashList = writeHashList;
+    }
+
+    public ObservableList<String> getWriteFileHashList() {
+        return writeFileHashList;
+    }
+
+    public void setWriteFileHashList(ObservableList<String> writeFileHashList) {
+        this.writeFileHashList = writeFileHashList;
     }
 
     public int getSelTab1() {
