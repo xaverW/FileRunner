@@ -17,52 +17,34 @@
 
 package de.p2tools.fileRunner.controller.worker.compare;
 
-import de.p2tools.fileRunner.controller.RunEvent;
-import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.p2Lib.tools.log.PLog;
 
-import javax.swing.event.EventListenerList;
-
 public class CompareFileList {
     private boolean stop = false;
-    private EventListenerList listeners = new EventListenerList();
-
-    public void addAdListener(RunListener listener) {
-        listeners.add(RunListener.class, listener);
-    }
 
     public void setStop() {
         stop = true;
     }
-    
-    private void notifyEvent(int max, int progress, String text) {
-        RunEvent event;
-        event = new RunEvent(this, progress, max, text);
-        for (RunListener l : listeners.getListeners(RunListener.class)) {
-            l.notify(event);
-        }
-    }
 
     public void compareList() {
+        PLog.sysLog("Die Listen vergleichen");
         ProgData progData = ProgData.getInstance();
         FileDataList fileDataList1 = progData.fileDataList1;
         FileDataList fileDataList2 = progData.fileDataList2;
 
         stop = false;
-        notifyEvent(1, 0, "");
-
         // erst mal alle auf diff/only setzen
         fileDataList1.stream().forEach(fd -> {
             fd.setOnly(true);
-            fd.setDiff(true);
+            fd.setDiff(false);
         });
         fileDataList2.stream().forEach(fd -> {
             fd.setOnly(true);
-            fd.setDiff(true);
+            fd.setDiff(false);
         });
 
         // und jetzt vergleichen
@@ -71,8 +53,6 @@ public class CompareFileList {
         } else {
             compareListPath(fileDataList1, fileDataList2);
         }
-
-        notifyEvent(1, 0, "");
     }
 
     private void compareListFile(FileDataList fileDataList1, FileDataList fileDataList2) {
@@ -88,13 +68,16 @@ public class CompareFileList {
             }
 
             fileDataList2.stream()
-                    .filter(data -> data.getFileName().equals(fd1.getFileName()) &&
-                            data.getHash().equals(fd1.getHash()))
+                    .filter(fd2 -> fd1.getFileName().equals(fd2.getFileName()))
                     .forEach(fd2 -> {
+                        //dann ist schon mal der Name gleich
                         fd1.setOnly(false);
                         fd2.setOnly(false);
-                        fd1.setDiff(false);
-                        fd2.setDiff(false);
+
+                        if (!fd1.getHash().equals(fd2.getHash())) {
+                            fd1.setDiff(true);
+                            fd2.setDiff(true);
+                        }
                     });
         });
     }
@@ -112,14 +95,15 @@ public class CompareFileList {
                     .findFirst().orElse(null);
 
             if (fd2 != null) {
+                //dann gibts schon mal eine mit gleichem Namen
                 fd1.setOnly(false);
                 fd2.setOnly(false);
-                if (fd1.getHash().equals(fd2.getHash())) {
-                    fd1.setDiff(false);
-                    fd2.setDiff(false);
+                if (!fd1.getHash().equals(fd2.getHash())) {
+                    //und dann sind sie auch noch gleich
+                    fd1.setDiff(true);
+                    fd2.setDiff(true);
                 }
             }
-
         });
     }
 }

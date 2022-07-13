@@ -22,6 +22,7 @@ import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.GetHash.*;
+import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.p2Lib.hash.WriteHashFile;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -102,6 +103,11 @@ public class Worker {
         readDirHashFile.setStop();
         createFileHash.setStop();
         readHashFile.setStop();
+    }
+
+    public void compareList() {
+        new CompareFileList().compareList();
+        notifyEvent(new RunEvent(this, 0, 0, ""));
     }
 
     public void createDirHash(File dir, FileDataList fileDataList, int sumThreads, boolean recursiv, boolean followLink) {
