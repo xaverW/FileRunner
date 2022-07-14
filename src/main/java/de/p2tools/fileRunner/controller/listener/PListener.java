@@ -15,22 +15,31 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.fileRunner.controller;
+package de.p2tools.fileRunner.controller.listener;
 
 import javafx.application.Platform;
 
 import java.util.EventListener;
 
-public class RunListener implements EventListener {
+public class PListener implements EventListener {
 
-    public synchronized void notify(RunEvent runEvent) {
+    private final PEventHandler.EVENT event;
+
+    public PListener(PEventHandler.EVENT event) {
+        this.event = event;
+    }
+
+    public synchronized void notify(PRunEvent runEvent) {
         Platform.runLater(() -> ping(runEvent));
     }
 
     /**
      * @param runEvent
      */
-    public void ping(RunEvent runEvent) {
+    public void ping(PRunEvent runEvent) {
     }
 
+    public PEventHandler.EVENT getEvent() {
+        return event;
+    }
 }

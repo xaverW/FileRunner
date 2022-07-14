@@ -17,12 +17,9 @@
 
 package de.p2tools.fileRunner.controller.worker;
 
-import de.p2tools.fileRunner.controller.RunEvent;
-import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.GetHash.*;
-import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.p2Lib.hash.WriteHashFile;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -49,37 +46,6 @@ public class Worker {
         readDirHashFile = new ReadDirHashFile(progData);
         createFileHash = new CreateFileHash();
         readHashFile = new ReadHashFile();
-
-        createDirHash.addAdListener(new RunListener() {
-            @Override
-            public void ping(RunEvent runEvent) {
-                notifyEvent(runEvent);
-            }
-        });
-        createZipHash.addAdListener(new RunListener() {
-            @Override
-            public void ping(RunEvent runEvent) {
-                notifyEvent(runEvent);
-            }
-        });
-        readDirHashFile.addAdListener(new RunListener() {
-            @Override
-            public void ping(RunEvent runEvent) {
-                notifyEvent(runEvent);
-            }
-        });
-        createFileHash.addAdListener(new RunListener() {
-            @Override
-            public void ping(RunEvent runEvent) {
-                notifyEvent(runEvent);
-            }
-        });
-        readHashFile.addAdListener(new RunListener() {
-            @Override
-            public void ping(RunEvent runEvent) {
-                notifyEvent(runEvent);
-            }
-        });
     }
 
     public boolean isWorking() {
@@ -90,24 +56,12 @@ public class Worker {
         return working;
     }
 
-    /**
-     * @param listener
-     */
-    public void addAdListener(RunListener listener) {
-        listeners.add(RunListener.class, listener);
-    }
-
     public void setStop() {
         createDirHash.setStop();
         createZipHash.setStop();
         readDirHashFile.setStop();
         createFileHash.setStop();
         readHashFile.setStop();
-    }
-
-    public void compareList() {
-        new CompareFileList().compareList();
-        notifyEvent(new RunEvent(this, 0, 0, ""));
     }
 
     public void createDirHash(File dir, FileDataList fileDataList, int sumThreads, boolean recursiv, boolean followLink) {
@@ -134,20 +88,7 @@ public class Worker {
         createFileHash.genHash(file, stringProperty);
     }
 
-//    public void createFileHash(String file1, StringProperty stringProperty1, String file2, StringProperty stringProperty2) {
-//        createFileHash.genHash(file1, stringProperty1, file2, stringProperty2);
-//    }
-
     public void writeFileHash(File file, String fileHash, String hash) {
         WriteHashFile.writeFileHash(file, fileHash, hash);
     }
-
-    private void notifyEvent(RunEvent runEvent) {
-        working.setValue(!runEvent.nixLos());
-
-        for (RunListener l : listeners.getListeners(RunListener.class)) {
-            l.notify(runEvent);
-        }
-    }
-
 }

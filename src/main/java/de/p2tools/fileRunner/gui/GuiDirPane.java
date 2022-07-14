@@ -17,14 +17,16 @@
 
 package de.p2tools.fileRunner.gui;
 
-import de.p2tools.fileRunner.controller.RunEvent;
-import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
+import de.p2tools.fileRunner.controller.listener.PEventHandler;
+import de.p2tools.fileRunner.controller.listener.PListener;
+import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
+import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.fileRunner.gui.tools.Table;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
@@ -267,10 +269,12 @@ public class GuiDirPane extends VBox {
     }
 
     private void addListener() {
-        progData.worker.addAdListener(new RunListener() {
+        progData.pEventHandler.addAdListener(new PListener(PEventHandler.EVENT.COMPARE_OF_FILE_LISTS_FINISHED) {
             @Override
-            public void ping(RunEvent runEvent) {
+            public void ping(PRunEvent runEvent) {
+                System.out.println("compareDone");
                 if (runEvent.nixLos()) {
+                    System.out.println("compareDone: refresh");
                     Table.refresh_table(table);
                 }
             }
@@ -301,6 +305,10 @@ public class GuiDirPane extends VBox {
             pCboWriteHash.selectElement(nextElement);
         });
 
+        pCboDir.getEditor().textProperty().addListener((c, o, n) -> {
+            fileDataList.clear();
+            new CompareFileList().compareList();
+        });
 
         btnReadDir.disableProperty().bind(pCboDir.getEditor().textProperty().isNull()
                 .or(pCboDir.getEditor().textProperty().isEqualTo("")));
@@ -308,7 +316,6 @@ public class GuiDirPane extends VBox {
                 .or(pCboZip.getEditor().textProperty().isEqualTo("")));
         btnReadHash.disableProperty().bind(pCboHash.getEditor().textProperty().isNull()
                 .or(pCboHash.getEditor().textProperty().isEqualTo("")));
-
 
         btnReadDir.setOnAction(a -> {
             if (readDirHash((panel1 ? projectData.getSrcDir1() : projectData.getSrcDir2()),
@@ -319,14 +326,12 @@ public class GuiDirPane extends VBox {
             changeTextFilter();
         });
 
-
         btnReadZip.setOnAction(a -> {
             if (readZipHash((panel1 ? projectData.getSrcZip1() : projectData.getSrcZip2()), fileDataList)) {
                 setTabDirFile(DIR_ZIP_HASH.ZIP);
             }
             changeTextFilter();
         });
-
 
         btnReadHash.setOnAction(a -> {
             if (readHashFile((panel1 ? projectData.getSrcHash1() : projectData.getSrcHash2()), fileDataList)) {
@@ -335,9 +340,7 @@ public class GuiDirPane extends VBox {
             changeTextFilter();
         });
 
-
         btnWriteHash.setOnAction(e -> writeHashFile());
-
 
         pCboSearch.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             changeTextFilter();
@@ -418,5 +421,3 @@ public class GuiDirPane extends VBox {
                 fileDataList);
     }
 }
-
-

@@ -21,6 +21,8 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
+import de.p2tools.fileRunner.controller.listener.PEventHandler;
+import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
 
 public class CompareFileList {
@@ -31,7 +33,7 @@ public class CompareFileList {
     }
 
     public void compareList() {
-        PLog.sysLog("Die Listen vergleichen");
+//        PLog.sysLog("Die Listen vergleichen");
         ProgData progData = ProgData.getInstance();
         FileDataList fileDataList1 = progData.fileDataList1;
         FileDataList fileDataList2 = progData.fileDataList2;
@@ -53,6 +55,9 @@ public class CompareFileList {
         } else {
             compareListPath(fileDataList1, fileDataList2);
         }
+
+        progData.pEventHandler.notifyEvent(new PRunEvent(PEventHandler.EVENT.COMPARE_OF_FILE_LISTS_FINISHED,
+                CompareFileList.class));
     }
 
     private void compareListFile(FileDataList fileDataList1, FileDataList fileDataList2) {
@@ -61,7 +66,7 @@ public class CompareFileList {
         //es kann gleiche Dateien in unterschiedlichen Verzeichnissen geben
         //und dummerweise können die auch mehrfach vorkommen :(
 
-        PLog.sysLog("Vergleichen: Ohne Verzeichnis");
+//        PLog.sysLog("Vergleichen: Ohne Verzeichnis");
         fileDataList1.parallelStream().forEach(fd1 -> {
             if (stop) {
                 return;

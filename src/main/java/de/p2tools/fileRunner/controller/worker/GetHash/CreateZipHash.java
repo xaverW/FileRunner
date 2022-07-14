@@ -17,10 +17,10 @@
 
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
-import de.p2tools.fileRunner.controller.RunEvent;
-import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
+import de.p2tools.fileRunner.controller.listener.PEventHandler;
+import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.hash.HashConst;
@@ -29,7 +29,6 @@ import de.p2tools.p2Lib.tools.file.PFileSize;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
 
-import javax.swing.event.EventListenerList;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,7 +44,7 @@ public class CreateZipHash {
 
     private ProgData progData;
     private boolean stop = false;
-    private EventListenerList listeners = new EventListenerList();
+    //    private EventListenerList listeners = new EventListenerList();
     private int max = 0; //anzahl dateien
     private int progress = 0;
 
@@ -53,9 +52,9 @@ public class CreateZipHash {
         this.progData = progData;
     }
 
-    public void addAdListener(RunListener listener) {
-        listeners.add(RunListener.class, listener);
-    }
+//    public void addAdListener(RunListener listener) {
+//        listeners.add(RunListener.class, listener);
+//    }
 
     public void setStop() {
         stop = true;
@@ -77,11 +76,14 @@ public class CreateZipHash {
     }
 
     private void notifyEvent() {
-        RunEvent event;
-        event = new RunEvent(this, progress, max, "");
-        for (RunListener l : listeners.getListeners(RunListener.class)) {
-            l.notify(event);
-        }
+        progData.pEventHandler.notifyEvent(new PRunEvent(PEventHandler.EVENT.GENERATE_COMPARE_FILE_LIST,
+                this, progress, max, ""));
+
+//        RunEvent event;
+//        event = new RunEvent(this, progress, max, "");
+//        for (RunListener l : listeners.getListeners(RunListener.class)) {
+//            l.notify(event);
+//        }
     }
 
     private class CreateHash implements Runnable {
@@ -182,7 +184,5 @@ public class CreateZipHash {
             }
             return ret;
         }
-
-
     }
 }

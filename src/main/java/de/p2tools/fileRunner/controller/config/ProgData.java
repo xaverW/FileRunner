@@ -20,6 +20,7 @@ package de.p2tools.fileRunner.controller.config;
 import de.p2tools.fileRunner.FileRunnerController;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
+import de.p2tools.fileRunner.controller.listener.PEventHandler;
 import de.p2tools.fileRunner.controller.worker.Worker;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
@@ -55,8 +56,11 @@ public class ProgData {
     public GuiDirRunner guiDirRunner = null; // DirTab
     public GuiFileRunner guiFileRunner = null; // FileTab
 
+    public PEventHandler pEventHandler;
+
     private ProgData() {
         projectData = new ProjectData();
+        pEventHandler = new PEventHandler();
 
         fileDataList1 = new FileDataList();
         fileDataList2 = new FileDataList();

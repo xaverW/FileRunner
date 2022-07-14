@@ -16,10 +16,11 @@
 
 package de.p2tools.fileRunner.gui;
 
-import de.p2tools.fileRunner.controller.RunEvent;
-import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
+import de.p2tools.fileRunner.controller.listener.PEventHandler;
+import de.p2tools.fileRunner.controller.listener.PListener;
+import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.p2Lib.guiTools.Listener;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
@@ -110,9 +111,10 @@ public class StatusBarController extends AnchorPane {
         textPane.toFront();
 
         btnStop.setOnAction(e -> progData.worker.setStop());
-        progData.worker.addAdListener(new RunListener() {
+
+        progData.pEventHandler.addAdListener(new PListener(PEventHandler.EVENT.GENERATE_COMPARE_FILE_LIST) {
             @Override
-            public void ping(RunEvent runEvent) {
+            public void ping(PRunEvent runEvent) {
                 if (runEvent.nixLos()) {
                     running = false;
                 } else {
@@ -122,6 +124,19 @@ public class StatusBarController extends AnchorPane {
                 setStatusbar();
             }
         });
+
+//        progData.worker.addAdListener(new RunListener() {
+//            @Override
+//            public void ping(RunEvent runEvent) {
+//                if (runEvent.nixLos()) {
+//                    running = false;
+//                } else {
+//                    running = true;
+//                }
+//                updateProgressBar(runEvent);
+//                setStatusbar();
+//            }
+//        });
 
         Listener.addListener(new Listener(Listener.EVENT_TIMER, StatusBarController.class.getSimpleName()) {
             @Override
@@ -137,7 +152,7 @@ public class StatusBarController extends AnchorPane {
         });
     }
 
-    private void updateProgressBar(RunEvent event) {
+    private void updateProgressBar(PRunEvent event) {
         int max = event.getMax();
         int progress = event.getProgress();
         double prog = 1.0;

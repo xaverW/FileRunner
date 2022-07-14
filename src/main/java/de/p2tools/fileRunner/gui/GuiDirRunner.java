@@ -20,6 +20,7 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
+import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.p2Lib.guiTools.PButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -168,7 +169,7 @@ public class GuiDirRunner extends AnchorPane {
         });
         chkOnlyFile.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_ONLY_FILE);
         chkOnlyFile.setOnAction(a -> {
-            progData.worker.compareList();
+            new CompareFileList().compareList();
             setTglButton();
         });
     }

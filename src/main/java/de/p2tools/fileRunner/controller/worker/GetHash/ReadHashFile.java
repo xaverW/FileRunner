@@ -17,9 +17,9 @@
 
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
-import de.p2tools.fileRunner.controller.RunEvent;
-import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgData;
+import de.p2tools.fileRunner.controller.listener.PEventHandler;
+import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.fileRunner.gui.dialog.SelectHashDialogController;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
@@ -27,7 +27,6 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.swing.event.EventListenerList;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -37,22 +36,25 @@ import java.util.stream.Stream;
 public class ReadHashFile {
 
     private boolean stop = false;
-    private EventListenerList listeners = new EventListenerList();
+//    private EventListenerList listeners = new EventListenerList();
 
-    public void addAdListener(RunListener listener) {
-        listeners.add(RunListener.class, listener);
-    }
+//    public void addAdListener(RunListener listener) {
+//        listeners.add(RunListener.class, listener);
+//    }
 
     public void setStop() {
         stop = true;
     }
 
     private void notifyEvent(int max, int progress, String text) {
-        RunEvent event;
-        event = new RunEvent(this, progress, max, "");
-        for (RunListener l : listeners.getListeners(RunListener.class)) {
-            l.notify(event);
-        }
+        ProgData.getInstance().pEventHandler.notifyEvent(new PRunEvent(PEventHandler.EVENT.GENERATE_COMPARE_FILE_LIST,
+                this, progress, max, ""));
+
+//        RunEvent event;
+//        event = new RunEvent(this, progress, max, "");
+//        for (RunListener l : listeners.getListeners(RunListener.class)) {
+//            l.notify(event);
+//        }
     }
 
     public void readHash(String file, StringProperty stringProperty) {
@@ -138,6 +140,5 @@ public class ReadHashFile {
 
         return null;
     }
-
 }
 

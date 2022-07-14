@@ -16,11 +16,12 @@
 
 package de.p2tools.fileRunner.gui;
 
-import de.p2tools.fileRunner.controller.RunEvent;
-import de.p2tools.fileRunner.controller.RunListener;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
+import de.p2tools.fileRunner.controller.listener.PEventHandler;
+import de.p2tools.fileRunner.controller.listener.PListener;
+import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PTextField;
@@ -222,9 +223,9 @@ public class GuiFileRunner extends AnchorPane {
     }
 
     private void addListener() {
-        progData.worker.addAdListener(new RunListener() {
+        progData.pEventHandler.addAdListener(new PListener(PEventHandler.EVENT.COMPARE_OF_FILE_LISTS_FINISHED) {
             @Override
-            public void ping(RunEvent runEvent) {
+            public void ping(PRunEvent runEvent) {
                 if (runEvent.nixLos()) {
                     isRunning.setValue(false);
                 } else {
@@ -232,6 +233,17 @@ public class GuiFileRunner extends AnchorPane {
                 }
             }
         });
+
+//        progData.worker.addAdListener(new RunListener() {
+//            @Override
+//            public void ping(RunEvent runEvent) {
+//                if (runEvent.nixLos()) {
+//                    isRunning.setValue(false);
+//                } else {
+//                    isRunning.setValue(true);
+//                }
+//            }
+//        });
 
         btnCheckFile.setOnAction(a -> {
             guiFilePane1.clearHash();
