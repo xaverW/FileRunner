@@ -19,7 +19,7 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.listener.PEventHandler;
+import de.p2tools.fileRunner.controller.listener.Events;
 import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.p2Lib.hash.HashConst;
@@ -81,7 +81,7 @@ public class CreateDirHash {
     }
 
     private void notifyEvent() {
-        progData.pEventHandler.notifyEvent(new PRunEvent(PEventHandler.EVENT.GENERATE_COMPARE_FILE_LIST,
+        progData.pEventHandler.notifyGuiEvent(new PRunEvent(Events.EVENT.GENERATE_COMPARE_FILE_LIST,
                 this, progress, max, ""));
     }
 

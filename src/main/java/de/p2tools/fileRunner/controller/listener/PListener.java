@@ -23,13 +23,21 @@ import java.util.EventListener;
 
 public class PListener implements EventListener {
 
-    private final PEventHandler.EVENT event;
+    private final Events.EVENT event;
 
-    public PListener(PEventHandler.EVENT event) {
+    public PListener(Events.EVENT event) {
         this.event = event;
     }
 
+    public Events.EVENT getEvent() {
+        return event;
+    }
+
     public synchronized void notify(PRunEvent runEvent) {
+        ping(runEvent);
+    }
+
+    public synchronized void notifyGui(PRunEvent runEvent) {
         Platform.runLater(() -> ping(runEvent));
     }
 
@@ -37,9 +45,5 @@ public class PListener implements EventListener {
      * @param runEvent
      */
     public void ping(PRunEvent runEvent) {
-    }
-
-    public PEventHandler.EVENT getEvent() {
-        return event;
     }
 }

@@ -21,12 +21,12 @@ import java.util.EventObject;
 
 public class PRunEvent extends EventObject {
     // meldet eine Änderung
-    private PEventHandler.EVENT event;
+    private Events.EVENT event;
     private int progress;
     private int max;
     private String text;
 
-    public PRunEvent(PEventHandler.EVENT event, Object source, int progress, int max, String text) {
+    public PRunEvent(Events.EVENT event, Object source, int progress, int max, String text) {
         super(source);
         this.event = event;
         this.progress = progress;
@@ -34,7 +34,7 @@ public class PRunEvent extends EventObject {
         this.text = text;
     }
 
-    public PRunEvent(PEventHandler.EVENT event, Object source) {
+    public PRunEvent(Events.EVENT event, Object source) {
         super(source);
         this.event = event;
         this.progress = 0;
@@ -42,11 +42,11 @@ public class PRunEvent extends EventObject {
         this.text = "";
     }
 
-    public PEventHandler.EVENT getEvent() {
+    public Events.EVENT getEvent() {
         return event;
     }
 
-    public void setEvent(PEventHandler.EVENT event) {
+    public void setEvent(Events.EVENT event) {
         this.event = event;
     }
 
@@ -65,5 +65,4 @@ public class PRunEvent extends EventObject {
     public boolean nixLos() {
         return max == 0;
     }
-
 }

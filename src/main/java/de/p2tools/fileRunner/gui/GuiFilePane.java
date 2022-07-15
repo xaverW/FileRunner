@@ -21,7 +21,7 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
-import de.p2tools.fileRunner.controller.listener.PEventHandler;
+import de.p2tools.fileRunner.controller.listener.Events;
 import de.p2tools.fileRunner.controller.listener.PListener;
 import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
@@ -223,8 +223,8 @@ public class GuiFilePane extends VBox {
     }
 
     private void addListener() {
-        progData.pEventHandler.addAdListener(
-                new PListener(PEventHandler.EVENT.COMPARE_OF_FILE_LISTS_FINISHED) {
+        progData.pEventHandler.addListener(
+                new PListener(Events.EVENT.COMPARE_OF_FILE_LISTS_FINISHED) {
                     @Override
                     public void ping(PRunEvent runEvent) {
                         if (runEvent.nixLos()) {

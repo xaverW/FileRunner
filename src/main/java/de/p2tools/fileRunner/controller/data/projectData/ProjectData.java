@@ -23,14 +23,14 @@ public class ProjectData extends ProjectDataProps {
     }
 
     public void clearProjectData() {
-        setSrcDir1("");
-        setSrcDir2("");
+//        setSrcDir1("");
+//        setSrcDir2("");
 
-        setSrcHash1("");
-        setSrcHash2("");
+//        setSrcHash1("");
+//        setSrcHash2("");
 
-        setSearch1("");
-        setSearch2("");
+        setFilter1("");
+        setFilter2("");
 
         setWriteHash1("");
         setWriteHash2("");

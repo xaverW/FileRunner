@@ -17,28 +17,19 @@
 
 package de.p2tools.fileRunner.controller.listener;
 
-import java.util.ArrayList;
+public class Events {
+    public enum EVENT {
+        COMPARE_OF_FILE_LISTS_FINISHED(""),
+        GENERATE_COMPARE_FILE_LIST("");
 
-public class PEventHandler {
+        private String text;
 
-    private ArrayList<PListener> listeners = new ArrayList<>();
+        EVENT(String text) {
+            this.text = text;
+        }
 
-    public PEventHandler() {
-    }
-
-    public void addListener(PListener listener) {
-        listeners.add(listener);
-    }
-
-    public void notifyEvent(PRunEvent pRunEvent) {
-        listeners.stream()
-                .filter(pListener -> pListener.getEvent().equals(pRunEvent.getEvent()))
-                .forEach(pListener -> pListener.notify(pRunEvent));
-    }
-
-    public void notifyGuiEvent(PRunEvent pRunEvent) {
-        listeners.stream()
-                .filter(pListener -> pListener.getEvent().equals(pRunEvent.getEvent()))
-                .forEach(pListener -> pListener.notifyGui(pRunEvent));
+        public String getText() {
+            return text;
+        }
     }
 }

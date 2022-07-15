@@ -21,7 +21,7 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.listener.PEventHandler;
+import de.p2tools.fileRunner.controller.listener.Events;
 import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
 
@@ -56,7 +56,7 @@ public class CompareFileList {
             compareListPath(fileDataList1, fileDataList2);
         }
 
-        progData.pEventHandler.notifyEvent(new PRunEvent(PEventHandler.EVENT.COMPARE_OF_FILE_LISTS_FINISHED,
+        progData.pEventHandler.notifyGuiEvent(new PRunEvent(Events.EVENT.COMPARE_OF_FILE_LISTS_FINISHED,
                 CompareFileList.class));
     }
 

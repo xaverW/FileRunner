@@ -18,7 +18,7 @@
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.listener.PEventHandler;
+import de.p2tools.fileRunner.controller.listener.Events;
 import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.fileRunner.gui.dialog.SelectHashDialogController;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -47,7 +47,7 @@ public class ReadHashFile {
     }
 
     private void notifyEvent(int max, int progress, String text) {
-        ProgData.getInstance().pEventHandler.notifyEvent(new PRunEvent(PEventHandler.EVENT.GENERATE_COMPARE_FILE_LIST,
+        ProgData.getInstance().pEventHandler.notifyGuiEvent(new PRunEvent(Events.EVENT.GENERATE_COMPARE_FILE_LIST,
                 this, progress, max, ""));
 
 //        RunEvent event;

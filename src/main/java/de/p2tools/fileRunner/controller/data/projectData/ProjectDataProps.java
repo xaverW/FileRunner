@@ -60,9 +60,9 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
     private ObservableList<String> srcHashList = FXCollections.observableArrayList();
 
 
-    private final StringProperty search1 = new SimpleStringProperty("");
-    private final StringProperty search2 = new SimpleStringProperty("");
-    private ObservableList<String> searchList = FXCollections.observableArrayList();
+    private final StringProperty filter1 = new SimpleStringProperty("");
+    private final StringProperty filter2 = new SimpleStringProperty("");
+    private ObservableList<String> filterList = FXCollections.observableArrayList();
 
     private final StringProperty writeHash1 = new SimpleStringProperty("");
     private final StringProperty writeHash2 = new SimpleStringProperty("");
@@ -111,9 +111,9 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
                 new ConfigStringProp("src-hash-1", srcHash1),
                 new ConfigStringProp("src-hash-2", srcHash2),
                 new ConfigStringList("src-hash-list", srcHashList),
-                new ConfigStringProp("search-1", search1),
-                new ConfigStringProp("search-2", search2),
-                new ConfigStringList("search-list", searchList),
+                new ConfigStringProp("filter-1", filter1),
+                new ConfigStringProp("filter-2", filter2),
+                new ConfigStringList("filter-list", filterList),
                 new ConfigStringProp("write-hash-1", writeHash1),
                 new ConfigStringProp("write-hash-2", writeHash2),
                 new ConfigStringProp("write-file-hash-1", writeFileHash1),
@@ -339,36 +339,36 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
         this.srcHashList = srcHashList;
     }
 
-    public String getSearch1() {
-        return search1.get();
+    public String getFilter1() {
+        return filter1.get();
     }
 
-    public StringProperty search1Property() {
-        return search1;
+    public StringProperty filter1Property() {
+        return filter1;
     }
 
-    public void setSearch1(String search1) {
-        this.search1.set(search1);
+    public void setFilter1(String filter1) {
+        this.filter1.set(filter1);
     }
 
-    public String getSearch2() {
-        return search2.get();
+    public String getFilter2() {
+        return filter2.get();
     }
 
-    public StringProperty search2Property() {
-        return search2;
+    public StringProperty filter2Property() {
+        return filter2;
     }
 
-    public void setSearch2(String search2) {
-        this.search2.set(search2);
+    public void setFilter2(String filter2) {
+        this.filter2.set(filter2);
     }
 
-    public ObservableList<String> getSearchList() {
-        return searchList;
+    public ObservableList<String> getFilterList() {
+        return filterList;
     }
 
-    public void setSearchList(ObservableList<String> searchList) {
-        this.searchList = searchList;
+    public void setFilterList(ObservableList<String> filterList) {
+        this.filterList = filterList;
     }
 
     public String getWriteHash1() {

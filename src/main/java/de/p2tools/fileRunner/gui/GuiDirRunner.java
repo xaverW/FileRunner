@@ -60,14 +60,27 @@ public class GuiDirRunner extends AnchorPane {
         AnchorPane.setTopAnchor(scrollPane, 0.0);
         getChildren().addAll(scrollPane);
 
-        guiDirPane1 = new GuiDirPane(progData, this, fileDataFilter1, true);
-        guiDirPane2 = new GuiDirPane(progData, this, fileDataFilter2, false);
+        guiDirPane1 = new GuiDirPane(progData, fileDataFilter1, true);
+        guiDirPane2 = new GuiDirPane(progData, fileDataFilter2, false);
 
         initCont();
         addListener();
     }
 
     public void isShown() {
+    }
+
+    public void resetFilter() {
+        tglShowAll.setSelected(true);
+        fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
+        fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
+        progData.fileDataList1.setPred(fileDataFilter1);
+        progData.fileDataList2.setPred(fileDataFilter2);
+    }
+
+    public void saveTable() {
+        guiDirPane1.saveTable();
+        guiDirPane2.saveTable();
     }
 
     private void initCont() {
@@ -204,20 +217,5 @@ public class GuiDirRunner extends AnchorPane {
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
             progData.fileDataList2.setPred(fileDataFilter2);
         }
-    }
-
-    public void clearFilter() {
-        tglShowAll.setSelected(true);
-
-        fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
-        fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
-
-        progData.fileDataList1.setPred(fileDataFilter1);
-        progData.fileDataList2.setPred(fileDataFilter2);
-    }
-
-    public void saveTable() {
-        guiDirPane1.saveTable();
-        guiDirPane2.saveTable();
     }
 }
