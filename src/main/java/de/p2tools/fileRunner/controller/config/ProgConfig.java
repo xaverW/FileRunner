@@ -79,7 +79,7 @@ public class ProgConfig extends PDataProgConfig {
 
     public static StringProperty GUI_FILE_HASH = addStr("gui-file-hash", HashConst.HASH_MD5);
     public static StringProperty GUI_FILE_HASH_SUFF = addStr("gui-file-hash-suff", HashConst.HASH_MD5_SUFFIX);
-    public static BooleanProperty CONFIG_COMPARE_ONLY_FILE = addBool("config-compare-only-file", Boolean.FALSE);
+    public static BooleanProperty CONFIG_COMPARE_WITH_PATH = addBool("config-compare-with-path", Boolean.TRUE);
 
     private static ProgConfig instance;
 

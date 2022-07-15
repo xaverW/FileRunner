@@ -22,6 +22,7 @@ import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.p2Lib.guiTools.PButton;
+import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitchOnly;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -42,7 +43,8 @@ public class GuiDirRunner extends AnchorPane {
     private final ToggleButton tglShowDiffAll = new ToggleButton("");
     private final ToggleButton tglShowOnly1 = new ToggleButton("");
     private final ToggleButton tglShowOnly2 = new ToggleButton("");
-    private final CheckBox chkOnlyFile = new CheckBox("");
+    private Label lblPath = new Label("ohne\nPfad");
+    private final PToggleSwitchOnly tglWithPath = new PToggleSwitchOnly();
 
     private final ProgData progData;
     private final FileDataFilter fileDataFilter1 = new FileDataFilter();
@@ -93,11 +95,10 @@ public class GuiDirRunner extends AnchorPane {
         Region spacer1 = new Region();
         spacer1.setMinSize(10, 10);
         Region spacer2 = new Region();
-        spacer2.setMinSize(10, 10);
-        Label lblPath = new Label("ohne\nPfad");
+        spacer2.setMinSize(10, 25);
         vBoxBtn.getChildren().addAll(spacerTop, tglShowAll, tglShowSame, tglShowDiffAll,
                 spacer1, tglShowDiff, tglShowOnly1, tglShowOnly2,
-                spacer2, lblPath, chkOnlyFile);
+                spacer2, lblPath, tglWithPath);
 
         Button btnHelp = PButton.helpButton(progData.primaryStage, "Vergleichen", HelpText.COMPARE_BUTTON);
         VBox vBox = new VBox();
@@ -157,7 +158,7 @@ public class GuiDirRunner extends AnchorPane {
         tglShowDiff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind, sich aber unterscheiden."));
         tglShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 enthalten sind."));
         tglShowOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 enthalten sind."));
-        chkOnlyFile.setTooltip(new Tooltip("Es werden nur die Dateien (ohne Pfad) verglichen"));
+        tglWithPath.setTooltip(new Tooltip("Es werden die Dateien mit oder ohne Pfad verglichen"));
     }
 
     private void addListener() {
@@ -180,11 +181,26 @@ public class GuiDirRunner extends AnchorPane {
         tglShowOnly2.setOnAction(e -> {
             setTglButton();
         });
-        chkOnlyFile.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_ONLY_FILE);
-        chkOnlyFile.setOnAction(a -> {
+
+        tglWithPath.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_WITH_PATH);
+        tglWithPath.selectedProperty().addListener((v, o, n) -> {
+            setTextPath();
             new CompareFileList().compareList();
             setTglButton();
         });
+        lblPath.setMinWidth(lblPath.getPrefWidth());
+        lblPath.setAlignment(Pos.CENTER_RIGHT);
+        lblPath.setPadding(new Insets(0, 0, 5, 0));
+
+        setTextPath();
+    }
+
+    private void setTextPath() {
+        if (tglWithPath.isSelected()) {
+            lblPath.setText("mit\nPfad");
+        } else {
+            lblPath.setText("ohne\nPfad");
+        }
     }
 
     private void setTglButton() {

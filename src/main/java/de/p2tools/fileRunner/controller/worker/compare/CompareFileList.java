@@ -50,10 +50,10 @@ public class CompareFileList {
         });
 
         // und jetzt vergleichen
-        if (ProgConfig.CONFIG_COMPARE_ONLY_FILE.getValue()) {
-            compareListFile(fileDataList1, fileDataList2);
-        } else {
+        if (ProgConfig.CONFIG_COMPARE_WITH_PATH.getValue()) {
             compareListPath(fileDataList1, fileDataList2);
+        } else {
+            compareListFile(fileDataList1, fileDataList2);
         }
 
         progData.pEventHandler.notifyGuiEvent(new PRunEvent(Events.EVENT.COMPARE_OF_FILE_LISTS_FINISHED,
