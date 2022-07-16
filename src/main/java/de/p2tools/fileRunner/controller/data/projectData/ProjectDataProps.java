@@ -47,6 +47,9 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
     private final StringProperty compFileHash2 = new SimpleStringProperty("");
 
     // compare dir
+    private final StringProperty lastUsedDir1 = new SimpleStringProperty("");
+    private final StringProperty lastUsedDir2 = new SimpleStringProperty("");
+
     private final StringProperty srcDir1 = new SimpleStringProperty("");
     private final StringProperty srcDir2 = new SimpleStringProperty("");
     private ObservableList<String> srcDirList = FXCollections.observableArrayList();
@@ -102,6 +105,8 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
                 new ConfigStringProp("comp-file-hash-2", compFileHash2),
 
                 // comp dir
+                new ConfigStringProp("last-used-dir-1", lastUsedDir1),
+                new ConfigStringProp("last-used-dir-2", lastUsedDir2),
                 new ConfigStringProp("src-dir-1", srcDir1),
                 new ConfigStringProp("src-dir-2", srcDir2),
                 new ConfigStringList("src-dir-list", srcDirList),
@@ -243,6 +248,31 @@ public class ProjectDataProps extends PDataSample<ProjectData> {
 
     //===============================================================
     // compare dir
+
+    public String getLastUsedDir1() {
+        return lastUsedDir1.get();
+    }
+
+    public StringProperty lastUsedDir1Property() {
+        return lastUsedDir1;
+    }
+
+    public void setLastUsedDir1(String lastUsedDir1) {
+        this.lastUsedDir1.set(lastUsedDir1);
+    }
+
+    public String getLastUsedDir2() {
+        return lastUsedDir2.get();
+    }
+
+    public StringProperty lastUsedDir2Property() {
+        return lastUsedDir2;
+    }
+
+    public void setLastUsedDir2(String lastUsedDir2) {
+        this.lastUsedDir2.set(lastUsedDir2);
+    }
+
     public String getSrcDir1() {
         return srcDir1.get();
     }
