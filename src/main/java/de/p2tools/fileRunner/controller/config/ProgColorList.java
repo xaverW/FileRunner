@@ -24,21 +24,29 @@ import javafx.scene.paint.Color;
 
 public class ProgColorList extends PColorList {
 
+    //diff
+    public static PColorData FILE_IS_DIFF = addNewKey("file-diff",
+            Color.rgb(0, 0, 0),
+            Color.rgb(0, 0, 0), "Dateien sind unterschiedlich, Schriftfarbe");
+    public static PColorData FILE_IS_DIFF_BG = addNewKey("file-diff-bg",
+            Color.rgb(255, 230, 230),
+            Color.rgb(218, 195, 195), "Dateien sind unterschiedlich, Tabellenzeile");
+
+    //only
+    public static PColorData FILE_IS_ONLY = addNewKey("file-only",
+            Color.rgb(0, 0, 0),
+            Color.rgb(0, 0, 0), "Datei ist nur in einem Verzeichnis, Schriftfarbe");
+    public static PColorData FILE_IS_ONLY_BG = addNewKey("file-only-bg",
+            Color.rgb(255, 247, 216),
+            Color.rgb(217, 211, 189), "Datei ist nur in einem Verzeichnis, Tabellenzeile");
+
+    //link
     public static PColorData FILE_LINK = addNewKey("file-link",
             Color.rgb(0, 0, 0),
-            Color.rgb(190, 0, 255), "Datei ist eine Verknüpfung");
-
-    public static PColorData FILE_LINK_BG = addNewKey("file-ling-bg",
-            Color.rgb(0, 240, 0),
-            Color.rgb(240, 240, 255), "Hintergrund einer Dateiverknüpfung");
-
-    public static PColorData FILE_IS_DIFF_BG = addNewKey("file-is-diff-bg",
-            Color.rgb(255, 230, 230),
-            Color.rgb(0, 0, 0), "Hintergrund einer einer Tabellenzeile wenn die Datei unterschiedlich ist");
-
-    public static PColorData FILE_IS_ONLY_BG = addNewKey("file-is-only-bg",
-            Color.rgb(255, 247, 216),
-            Color.rgb(0, 0, 1), "Hintergrund einer Tabellenzeile wenn die Datei nur in dem Verzeichnis ist");
+            Color.rgb(0, 0, 0), "Datei ist eine Dateiverknüpfung, Schriftfarbe");
+    public static PColorData FILE_LINK_BG = addNewKey("file-link-bg",
+            Color.rgb(223, 240, 255),
+            Color.rgb(216, 236, 255), "Datei ist eine Dateiverknüpfung, Tabellenzeile");
 
     public static void setColorTheme() {
         final boolean dark = ProgConfig.SYSTEM_DARK_THEME.get();
@@ -50,5 +58,4 @@ public class ProgColorList extends PColorList {
     public static PData getConfigsData() {
         return PColorList.getPData();
     }
-
 }

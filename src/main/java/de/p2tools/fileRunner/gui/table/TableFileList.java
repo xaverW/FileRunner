@@ -103,9 +103,6 @@ public class TableFileList {
                 }
                 FileData fileData = getTableView().getItems().get(getIndex());
                 setText(fileData.getPathFileName());
-                final boolean only = fileData.isOnly();
-                final boolean diff = fileData.isDiff();
-                setCellStyle(this, diff, only);
             }
         };
         return cell;
@@ -127,7 +124,18 @@ public class TableFileList {
                         for (int i = 0; i < getChildren().size(); i++) {
                             getChildren().get(i).setStyle(ProgColorList.FILE_LINK.getCssFont());
                         }
-
+                    } else if (film.isDiff()) {
+                        // Datei ist ein Symlink
+                        setStyle(ProgColorList.FILE_IS_DIFF_BG.getCssBackground());
+                        for (int i = 0; i < getChildren().size(); i++) {
+                            getChildren().get(i).setStyle(ProgColorList.FILE_IS_DIFF.getCssFont());
+                        }
+                    } else if (film.isOnly()) {
+                        // Datei ist ein Symlink
+                        setStyle(ProgColorList.FILE_IS_ONLY_BG.getCssBackground());
+                        for (int i = 0; i < getChildren().size(); i++) {
+                            getChildren().get(i).setStyle(ProgColorList.FILE_IS_ONLY.getCssFont());
+                        }
                     } else {
                         for (int i = 0; i < getChildren().size(); i++) {
                             getChildren().get(i).setStyle("");
@@ -135,23 +143,6 @@ public class TableFileList {
                     }
                 }
             }
-
         });
-
-    }
-
-    private void setCellStyle(TableCell<FileData, String> cell, boolean diff, boolean only) {
-        TableRow<FileData> currentRow = cell.getTableRow();
-        if (currentRow == null) {
-            return;
-        }
-
-        if (diff) {
-            currentRow.setStyle(ProgColorList.FILE_IS_DIFF_BG.getCssBackgroundAndSel());
-        } else if (only) {
-            currentRow.setStyle(ProgColorList.FILE_IS_ONLY_BG.getCssBackgroundAndSel());
-        } else {
-            currentRow.setStyle("");
-        }
     }
 }

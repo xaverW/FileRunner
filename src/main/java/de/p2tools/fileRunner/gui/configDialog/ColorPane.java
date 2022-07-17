@@ -98,6 +98,8 @@ public class ColorPane extends PAccordionPane {
         initTableColor(tableView);
         tglDarkTheme.selectedProperty().addListener((u, o, n) -> {
             tableView.refresh();
+            ProgData.getInstance().pEventHandler.notifyGuiEvent(new PRunEvent(Events.EVENT.COLORS_CHANGED,
+                    ColorPane.class));
         });
 
         Button button = new Button("Alle _Farben zurücksetzen");
