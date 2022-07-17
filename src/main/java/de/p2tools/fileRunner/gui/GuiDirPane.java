@@ -27,7 +27,7 @@ import de.p2tools.fileRunner.controller.listener.PListener;
 import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
-import de.p2tools.fileRunner.gui.tools.Table;
+import de.p2tools.fileRunner.gui.table.Table;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.tools.file.PFileName;
@@ -265,6 +265,14 @@ public class GuiDirPane extends VBox {
 
     private void addListener() {
         progData.pEventHandler.addListener(new PListener(Events.EVENT.COMPARE_OF_FILE_LISTS_FINISHED) {
+            @Override
+            public void ping(PRunEvent runEvent) {
+                if (runEvent.nixLos()) {
+                    Table.refresh_table(table);
+                }
+            }
+        });
+        progData.pEventHandler.addListener(new PListener(Events.EVENT.COLORS_CHANGED) {
             @Override
             public void ping(PRunEvent runEvent) {
                 if (runEvent.nixLos()) {

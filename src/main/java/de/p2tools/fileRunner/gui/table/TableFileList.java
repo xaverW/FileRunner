@@ -15,7 +15,7 @@
  */
 
 
-package de.p2tools.fileRunner.gui.tools;
+package de.p2tools.fileRunner.gui.table;
 
 import de.p2tools.fileRunner.controller.config.ProgColorList;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
@@ -25,6 +25,7 @@ import de.p2tools.p2Lib.tools.file.PFileSize;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.util.Callback;
 
 public class TableFileList {
 
@@ -45,6 +46,7 @@ public class TableFileList {
 
         final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Datei");
         pathFileNameColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));
+        pathFileNameColumn.setCellFactory(cellFactoryStart);
 
         final TableColumn<PFileSize, String> fileSizeColumn = new TableColumn<>("Größe");
         fileSizeColumn.setCellValueFactory(new PropertyValueFactory<>("fileSize"));
@@ -85,6 +87,30 @@ public class TableFileList {
         return contextMenu;
     }
 
+    private Callback<TableColumn<FileData, String>, TableCell<FileData, String>> cellFactoryStart
+            = (final TableColumn<FileData, String> param) -> {
+
+        final TableCell<FileData, String> cell = new TableCell<>() {
+
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+                FileData fileData = getTableView().getItems().get(getIndex());
+                setText(fileData.getPathFileName());
+                final boolean only = fileData.isOnly();
+                final boolean diff = fileData.isDiff();
+                setCellStyle(this, diff, only);
+            }
+        };
+        return cell;
+    };
+
     private void addRowFact(TableView<FileData> table) {
 
         table.setRowFactory(tableview -> new TableRow<>() {
@@ -112,5 +138,20 @@ public class TableFileList {
 
         });
 
+    }
+
+    private void setCellStyle(TableCell<FileData, String> cell, boolean diff, boolean only) {
+        TableRow<FileData> currentRow = cell.getTableRow();
+        if (currentRow == null) {
+            return;
+        }
+
+        if (diff) {
+            currentRow.setStyle(ProgColorList.FILE_IS_DIFF_BG.getCssBackgroundAndSel());
+        } else if (only) {
+            currentRow.setStyle(ProgColorList.FILE_IS_ONLY_BG.getCssBackgroundAndSel());
+        } else {
+            currentRow.setStyle("");
+        }
     }
 }

@@ -32,6 +32,14 @@ public class ProgColorList extends PColorList {
             Color.rgb(0, 240, 0),
             Color.rgb(240, 240, 255), "Hintergrund einer Dateiverknüpfung");
 
+    public static PColorData FILE_IS_DIFF_BG = addNewKey("file-is-diff-bg",
+            Color.rgb(255, 230, 230),
+            Color.rgb(0, 0, 0), "Hintergrund einer einer Tabellenzeile wenn die Datei unterschiedlich ist");
+
+    public static PColorData FILE_IS_ONLY_BG = addNewKey("file-is-only-bg",
+            Color.rgb(255, 247, 216),
+            Color.rgb(0, 0, 1), "Hintergrund einer Tabellenzeile wenn die Datei nur in dem Verzeichnis ist");
+
     public static void setColorTheme() {
         final boolean dark = ProgConfig.SYSTEM_DARK_THEME.get();
         for (int i = 0; i < getColorList().size(); ++i) {

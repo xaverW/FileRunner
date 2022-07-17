@@ -19,6 +19,9 @@ package de.p2tools.fileRunner.gui.configDialog;
 import de.p2tools.fileRunner.controller.config.ProgColorList;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
+import de.p2tools.fileRunner.controller.config.ProgData;
+import de.p2tools.fileRunner.controller.listener.Events;
+import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.fileRunner.gui.HelpText;
 import de.p2tools.p2Lib.configFile.pConfData.PColorData;
 import de.p2tools.p2Lib.configFile.pConfData.PColorList;
@@ -100,6 +103,8 @@ public class ColorPane extends PAccordionPane {
         Button button = new Button("Alle _Farben zurücksetzen");
         button.setOnAction(event -> {
             ProgColorList.resetAllColor();
+            ProgData.getInstance().pEventHandler.notifyGuiEvent(new PRunEvent(Events.EVENT.COLORS_CHANGED,
+                    ColorPane.class));
         });
 
         HBox hBox = new HBox();
@@ -170,6 +175,8 @@ public class ColorPane extends PAccordionPane {
                 colorPicker.setOnAction(a -> {
                     Color fxColor = colorPicker.getValue();
                     pColorData.setColor(fxColor);
+                    ProgData.getInstance().pEventHandler.notifyGuiEvent(new PRunEvent(Events.EVENT.COLORS_CHANGED,
+                            ColorPane.class));
                 });
                 hbox.getChildren().addAll(colorPicker);
                 setGraphic(hbox);
@@ -204,6 +211,8 @@ public class ColorPane extends PAccordionPane {
                 final Button button = new Button("Reset");
                 button.setOnAction(a -> {
                     pColorData.resetColor();
+                    ProgData.getInstance().pEventHandler.notifyGuiEvent(new PRunEvent(Events.EVENT.COLORS_CHANGED,
+                            ColorPane.class));
                 });
 
                 hbox.getChildren().add(button);

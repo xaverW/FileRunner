@@ -20,7 +20,8 @@ package de.p2tools.fileRunner.controller.listener;
 public class Events {
     public enum EVENT {
         COMPARE_OF_FILE_LISTS_FINISHED(""),
-        GENERATE_COMPARE_FILE_LIST("");
+        GENERATE_COMPARE_FILE_LIST(""),
+        COLORS_CHANGED("");
 
         private String text;
 

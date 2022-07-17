@@ -14,7 +14,7 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.fileRunner.gui.tools;
+package de.p2tools.fileRunner.gui.table;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.p2Lib.configFile.pData.PDataSample;
