@@ -77,8 +77,8 @@ public class GeneralPane extends PAccordionPane {
         final Button btnHelpFollowLink = PButton.helpButton(stage, "Verknüpfung folgen", HelpText.FOLLOW_SYMLINK);
         GridPane.setHalignment(btnHelpFollowLink, HPos.RIGHT);
 
-        chkFollowLink1.selectedProperty().bindBidirectional(progData.projectData.followLink1Property());
-        chkFollowLink2.selectedProperty().bindBidirectional(progData.projectData.followLink2Property());
+        chkFollowLink1.selectedProperty().bindBidirectional(ProgConfig.followLink1);
+        chkFollowLink2.selectedProperty().bindBidirectional(ProgConfig.followLink2);
 
         int row = 0;
         gridPane.add(lblFollow, 0, row, 2, 1);

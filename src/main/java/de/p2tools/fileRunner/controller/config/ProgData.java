@@ -19,7 +19,6 @@ package de.p2tools.fileRunner.controller.config;
 
 import de.p2tools.fileRunner.FileRunnerController;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
 import de.p2tools.fileRunner.controller.listener.PEventHandler;
 import de.p2tools.fileRunner.controller.worker.Worker;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
@@ -47,7 +46,6 @@ public class ProgData {
 
     // zentrale Klassen
     public Worker worker;
-    public ProjectData projectData;
 
     // Gui
     public Stage primaryStage = null;
@@ -59,12 +57,9 @@ public class ProgData {
     public PEventHandler pEventHandler;
 
     private ProgData() {
-        projectData = new ProjectData();
         pEventHandler = new PEventHandler();
-
         fileDataList1 = new FileDataList();
         fileDataList2 = new FileDataList();
-
         worker = new Worker(this);
 
         Timeline timeline = new Timeline(new KeyFrame(
@@ -85,6 +80,4 @@ public class ProgData {
     public synchronized static final ProgData getInstance() {
         return instance == null ? instance = new ProgData() : instance;
     }
-
-
 }

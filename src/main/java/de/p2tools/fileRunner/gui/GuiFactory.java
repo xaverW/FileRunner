@@ -17,6 +17,7 @@
 
 package de.p2tools.fileRunner.gui;
 
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
@@ -62,9 +63,9 @@ public class GuiFactory {
             //ist eine Datei -> Verzeichnis der Datei
             f = f.getParentFile();
             if (panel1) {
-                ProgData.getInstance().projectData.setLastUsedDir1(f.getPath());
+                ProgConfig.lastUsedDir1.setValue(f.getPath());
             } else {
-                ProgData.getInstance().projectData.setLastUsedDir2(f.getPath());
+                ProgConfig.lastUsedDir2.set(f.getPath());
             }
 
             System.out.println(f.getPath());
@@ -72,17 +73,17 @@ public class GuiFactory {
         } else if (f.isDirectory() && f.getParentFile() != null) {
             //ist Verzeichnis und nicht root -> Parent
             if (panel1) {
-                ProgData.getInstance().projectData.setLastUsedDir1(f.getParent());
+                ProgConfig.lastUsedDir1.set(f.getParent());
             } else {
-                ProgData.getInstance().projectData.setLastUsedDir2(f.getParent());
+                ProgConfig.lastUsedDir2.set(f.getParent());
             }
             System.out.println(f.getParent());
         } else if (f.isDirectory()) {
             //ist Verzeichnis und ROOT -> dann bleibt ROOT
             if (panel1) {
-                ProgData.getInstance().projectData.setLastUsedDir1(f.getPath());
+                ProgConfig.lastUsedDir1.set(f.getPath());
             } else {
-                ProgData.getInstance().projectData.setLastUsedDir2(f.getPath());
+                ProgConfig.lastUsedDir2.set(f.getPath());
             }
             System.out.println(f.getPath());
         }

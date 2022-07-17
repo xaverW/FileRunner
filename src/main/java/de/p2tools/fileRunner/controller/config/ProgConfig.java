@@ -23,6 +23,7 @@ import de.p2tools.p2Lib.configFile.pData.PDataProgConfig;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.ProgramTools;
 import javafx.beans.property.*;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,6 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty SYSTEM_PROG_BUILD_DATE = addStr("system-prog-build-date");
     public static StringProperty SYSTEM_DOWNLOAD_DIR_NEW_VERSION = addStr("system-download-dir-new-version", "");
 
-
     //Programmupdate
     public static StringProperty SYSTEM_UPDATE_DATE = addStr("system-update-date"); // Datum der letzten Prüfung
     public static BooleanProperty SYSTEM_UPDATE_SEARCH_ACT = addBool("system-update-search-act", true); //Infos und Programm
@@ -48,7 +48,6 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty SYSTEM_UPDATE_LAST_BETA = addStr("system-update-last-beta");
     public static StringProperty SYSTEM_UPDATE_LAST_DAILY = addStr("system-update-last-daily");
 
-
     public static StringProperty SYSTEM_PROG_OPEN_URL = addStr("system-prog-open-uri", "");
     public static StringProperty SYSTEM_LOG_DIR = addStr("system-log-dir", "");
     public static BooleanProperty SYSTEM_DARK_THEME = addBool("system-dark-theme", false);
@@ -57,7 +56,6 @@ public class ProgConfig extends PDataProgConfig {
     public static BooleanProperty CONFIG_DIALOG_ACCORDION = addBool("config_dialog-accordion", Boolean.TRUE);
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_CONFIG = new SimpleIntegerProperty(-1);
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_COLOR = new SimpleIntegerProperty(-1);
-
 
     // Fenstereinstellungen
     public static StringProperty SYSTEM_GUI_SIZE = addStr("system-gui-size", "1000:900");
@@ -81,6 +79,54 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty GUI_FILE_HASH_SUFF = addStr("gui-file-hash-suff", HashConst.HASH_MD5_SUFFIX);
     public static BooleanProperty CONFIG_COMPARE_WITH_PATH = addBool("config-compare-with-path", Boolean.TRUE);
 
+    //ProjectData
+    public static IntegerProperty compFileSel1 = addInt("comp-file-sel-1", 0);
+    public static IntegerProperty compFileSel2 = addInt("comp-file-sel-2", 0);
+
+    public static StringProperty compFileSrcFile1 = addStr("compFileSrcFile1");
+    public static StringProperty compFileSrcFile2 = addStr("compFileSrcFile2");
+    public static ObservableList<String> compFileSrcFileList = addList("compFileSrcFileList");
+
+
+    public static StringProperty compFileHashFile1 = addStr("compFileHashFile1");
+    public static StringProperty compFileHashFile2 = addStr("compFileHashFile2");
+    public static ObservableList<String> compFileHashFileList = addList("compFileHashFileList");
+
+    public static StringProperty compFileHash1 = addStr("compFileHash1");
+    public static StringProperty compFileHash2 = addStr("compFileHash2");
+
+    // compare dir
+    public static StringProperty lastUsedDir1 = addStr("lastUsedDir1");
+    public static StringProperty lastUsedDir2 = addStr("lastUsedDir2");
+
+    public static StringProperty srcDir1 = addStr("srcDir1");
+    public static StringProperty srcDir2 = addStr("srcDir2");
+    public static ObservableList<String> srcDirList = addList("srcDirList");
+
+    public static StringProperty srcZip1 = addStr("srcZip1");
+    public static StringProperty srcZip2 = addStr("srcZip2");
+    public static ObservableList<String> srcZipList = addList("srcZipList");
+
+    public static StringProperty srcHash1 = addStr("srcHash1");
+    public static StringProperty srcHash2 = addStr("srcHash2");
+    public static ObservableList<String> srcHashList = addList("srcHashList");
+
+    public static StringProperty filter1 = addStr("filter1");
+    public static StringProperty filter2 = addStr("filter2");
+    public static ObservableList<String> filterList = addList("filterList");
+
+    public static StringProperty writeHash1 = addStr("writeHash1");
+    public static StringProperty writeHash2 = addStr("writeHash2");
+    public static StringProperty writeFileHash1 = addStr("writeFileHash1");
+    public static StringProperty writeFileHash2 = addStr("writeFileHash2");
+    public static ObservableList<String> writeHashList = addList("writeHashList");
+    public static ObservableList<String> writeFileHashList = addList("writeFileHashList");
+
+    public static IntegerProperty selTab1 = addInt("selTab1", 0);
+    public static IntegerProperty selTab2 = addInt("selTab2", 0);
+    public static BooleanProperty followLink1 = addBool("followLink1", false);
+    public static BooleanProperty followLink2 = addBool("followLink2", false);
+
     private static ProgConfig instance;
 
     private ProgConfig() {
@@ -99,7 +145,6 @@ public class ProgConfig extends PDataProgConfig {
 
         configFile.addConfigs(ProgConfig.getInstance());
         configFile.addConfigs(ProgColorList.getConfigsData());
-        configFile.addConfigs(ProgData.getInstance().projectData);
     }
 
 
@@ -125,5 +170,9 @@ public class ProgConfig extends PDataProgConfig {
 
     private static BooleanProperty addBool(String key) {
         return addBoolProp(arrayList, key, true);
+    }
+
+    private static ObservableList<String> addList(String key) {
+        return addListProp(arrayList, key);
     }
 }

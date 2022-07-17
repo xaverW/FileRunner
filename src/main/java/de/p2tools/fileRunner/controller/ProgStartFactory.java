@@ -59,7 +59,7 @@ public class ProgStartFactory {
 
     public static boolean workBeforeGui(ProgData progData) {
         boolean load = ProgLoadFactory.loadProgConfigData();
-        progData.projectData.clearProjectData();
+        clearProjectData();
         return load;
     }
 
@@ -82,6 +82,15 @@ public class ProgStartFactory {
         } else {
             ProgData.getInstance().primaryStage.setTitle(ProgConst.PROGRAM_NAME + " " + ProgramTools.getProgVersion());
         }
+    }
+
+    private static void clearProjectData() {
+        ProgConfig.filter1.set("");
+        ProgConfig.filter2.set("");
+        ProgConfig.writeHash1.set("");
+        ProgConfig.writeHash2.set("");
+        ProgConfig.selTab1.set(0);
+        ProgConfig.selTab2.set(0);
     }
 
     private static void checkProgUpdate(ProgData progData) {

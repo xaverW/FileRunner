@@ -20,7 +20,6 @@ package de.p2tools.fileRunner.gui;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
-import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
 import de.p2tools.fileRunner.controller.listener.Events;
 import de.p2tools.fileRunner.controller.listener.PListener;
 import de.p2tools.fileRunner.controller.listener.PRunEvent;
@@ -73,26 +72,22 @@ public class GuiFilePane extends VBox {
     private final BooleanProperty isRunning = new SimpleBooleanProperty(false);
     private final BooleanProperty disableCompareButton = new SimpleBooleanProperty(false);
     private final StringProperty writeHash;
-
-    private final ProjectData projectData;
     private final ProgData progData;
 
     public GuiFilePane(ProgData progData, boolean panel1) {
         this.progData = progData;
-        this.projectData = progData.projectData;
-
         if (panel1) {
-            sel = projectData.compFileSel1Property();
-            srcFile = projectData.compFileSrcFile1Property();
-            hashFile = projectData.compFileHashFile1Property();
-            hash = projectData.compFileHash1Property();
-            writeHash = projectData.writeFileHash1Property();
+            sel = ProgConfig.compFileSel1;
+            srcFile = ProgConfig.compFileSrcFile1;
+            hashFile = ProgConfig.compFileHashFile1;
+            hash = ProgConfig.compFileHash1;
+            writeHash = ProgConfig.writeFileHash1;
         } else {
-            sel = projectData.compFileSel2Property();
-            srcFile = projectData.compFileSrcFile2Property();
-            hashFile = projectData.compFileHashFile2Property();
-            hash = projectData.compFileHash2Property();
-            writeHash = projectData.writeFileHash2Property();
+            sel = ProgConfig.compFileSel2;
+            srcFile = ProgConfig.compFileSrcFile2;
+            hashFile = ProgConfig.compFileHashFile2;
+            hash = ProgConfig.compFileHash2;
+            writeHash = ProgConfig.writeFileHash2;
         }
 
         initProjectData();
@@ -118,8 +113,8 @@ public class GuiFilePane extends VBox {
     }
 
     private void initProjectData() {
-        cboGenHashFromFile.init(projectData.getCompFileSrcFileList(), srcFile);
-        cboReadHashFromFile.init(projectData.getCompFileHashFileList(), hashFile);
+        cboGenHashFromFile.init(ProgConfig.compFileSrcFileList, srcFile);
+        cboReadHashFromFile.init(ProgConfig.compFileHashFileList, hashFile);
         txtHash.textProperty().bindBidirectional(hash);
     }
 
@@ -174,7 +169,7 @@ public class GuiFilePane extends VBox {
 
         cboWriteHash.setEditable(true);
         cboWriteHash.setMaxWidth(Double.MAX_VALUE);
-        cboWriteHash.init(projectData.getWriteFileHashList(), writeHash);
+        cboWriteHash.init(ProgConfig.writeFileHashList, writeHash);
 
         cboWriteHash.disableProperty().bind(
                 rbFileOrUrl.selectedProperty().and(cboGenHashFromFile.getEditor().textProperty().isEqualTo(""))
@@ -234,16 +229,6 @@ public class GuiFilePane extends VBox {
                         }
                     }
                 });
-//        progData.worker.addAdListener(new RunListener() {
-//            @Override
-//            public void ping(RunEvent runEvent) {
-//                if (runEvent.nixLos()) {
-//                    isRunning.setValue(false);
-//                } else {
-//                    isRunning.setValue(true);
-//                }
-//            }
-//        });
 
         rbFileOrUrl.setOnAction(event -> setVis(true));
         rbFileOrUrl.disableProperty().bind(isRunning);

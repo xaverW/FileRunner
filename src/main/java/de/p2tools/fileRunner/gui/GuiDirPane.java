@@ -17,11 +17,11 @@
 
 package de.p2tools.fileRunner.gui;
 
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.data.projectData.ProjectData;
 import de.p2tools.fileRunner.controller.listener.Events;
 import de.p2tools.fileRunner.controller.listener.PListener;
 import de.p2tools.fileRunner.controller.listener.PRunEvent;
@@ -73,7 +73,7 @@ public class GuiDirPane extends VBox {
     private final Tab tabFile = new Tab("Hashdatei");
     private final Tab tabFilter = new Tab("Filter");
 
-    private final ProjectData projectData;
+    //    private final ProjectData projectData;
     private final ProgData progData;
     private final FileDataFilter fileDataFilter;
 
@@ -97,32 +97,31 @@ public class GuiDirPane extends VBox {
         this.fileDataFilter = fileDataFilter;
         this.panel1 = panel1;
 
-        this.projectData = progData.projectData;
         if (panel1) {
             fileDataList = progData.fileDataList1;
             TABLE = Table.TABLE.FILELIST1;
 
-            srcDir = projectData.srcDir1Property();
-            srcZip = projectData.srcZip1Property();
-            srcHash = projectData.srcHash1Property();
-            filter = projectData.filter1Property();
-            writeHash = projectData.writeHash1Property();
+            srcDir = ProgConfig.srcDir1;
+            srcZip = ProgConfig.srcZip1;
+            srcHash = ProgConfig.srcHash1;
+            filter = ProgConfig.filter1;
+            writeHash = ProgConfig.writeHash1;
 
-            selTab = projectData.getSelTab1();
-            selIndex = projectData.selTab1Property();
+            selTab = ProgConfig.selTab1.get();
+            selIndex = ProgConfig.selTab1;
 
         } else {
             fileDataList = progData.fileDataList2;
             TABLE = Table.TABLE.FILELIST2;
 
-            srcDir = projectData.srcDir2Property();
-            srcZip = projectData.srcZip2Property();
-            srcHash = projectData.srcHash2Property();
-            filter = projectData.filter2Property();
-            writeHash = projectData.writeHash2Property();
+            srcDir = ProgConfig.srcDir2;
+            srcZip = ProgConfig.srcZip2;
+            srcHash = ProgConfig.srcHash2;
+            filter = ProgConfig.filter2;
+            writeHash = ProgConfig.writeHash2;
 
-            selTab = projectData.getSelTab2();
-            selIndex = projectData.selTab2Property();
+            selTab = ProgConfig.selTab2.get();
+            selIndex = ProgConfig.selTab2;
         }
         generatePanel();
         initTable();
@@ -214,7 +213,6 @@ public class GuiDirPane extends VBox {
         getChildren().addAll(tabPane, scrollPane,
                 new Label("Hashdatei schreiben"), hBoxWriteHash, hBoxWrite);
 
-
         // =================================
         lblWriteHash.setVisible(false);
         lblWriteHash.setPadding(new Insets(10));
@@ -253,11 +251,11 @@ public class GuiDirPane extends VBox {
     }
 
     private void initProjectData() {
-        pCboDir.init(projectData.getSrcDirList(), srcDir);
-        pCboZip.init(projectData.getSrcZipList(), srcZip);
-        pCboHash.init(projectData.getSrcHashList(), srcHash);
-        pCboFilter.init(projectData.getFilterList(), filter);
-        pCboWriteHash.init(projectData.getWriteHashList(), writeHash);
+        pCboDir.init(ProgConfig.srcDirList, srcDir);
+        pCboZip.init(ProgConfig.srcZipList, srcZip);
+        pCboHash.init(ProgConfig.srcHashList, srcHash);
+        pCboFilter.init(ProgConfig.filterList, filter);
+        pCboWriteHash.init(ProgConfig.writeHashList, writeHash);
 
         tabPane.getSelectionModel().select(selTab);
         selIndex.bind(tabPane.getSelectionModel().selectedIndexProperty());
@@ -279,7 +277,7 @@ public class GuiDirPane extends VBox {
             String dir = "";
             if (pCboDir.getEditor().getText().isEmpty()) {
                 dir = PDirFileChooser.DirChooser(progData.primaryStage, pCboDir,
-                        panel1 ? projectData.getLastUsedDir1() : projectData.getLastUsedDir2());
+                        panel1 ? ProgConfig.lastUsedDir1.getValueSafe() : ProgConfig.lastUsedDir2.getValueSafe());
             } else {
                 dir = PDirFileChooser.DirChooser(progData.primaryStage, pCboDir);
             }
@@ -289,7 +287,7 @@ public class GuiDirPane extends VBox {
             String dir = "";
             if (pCboZip.getEditor().getText().isEmpty()) {
                 dir = PDirFileChooser.FileChooser(progData.primaryStage, pCboZip,
-                        panel1 ? projectData.getLastUsedDir1() : projectData.getLastUsedDir2());
+                        panel1 ? ProgConfig.lastUsedDir1.getValueSafe() : ProgConfig.lastUsedDir2.getValueSafe());
             } else {
                 dir = PDirFileChooser.FileChooser(progData.primaryStage, pCboZip);
             }
@@ -299,7 +297,7 @@ public class GuiDirPane extends VBox {
             String dir = "";
             if (pCboHash.getEditor().getText().isEmpty()) {
                 dir = PDirFileChooser.FileChooser(progData.primaryStage, pCboHash,
-                        panel1 ? projectData.getLastUsedDir1() : projectData.getLastUsedDir2());
+                        panel1 ? ProgConfig.lastUsedDir1.getValueSafe() : ProgConfig.lastUsedDir2.getValueSafe());
             } else {
                 dir = PDirFileChooser.FileChooser(progData.primaryStage, pCboHash);
             }
@@ -311,9 +309,9 @@ public class GuiDirPane extends VBox {
             String file;
             file = fileDataList.getSourceDir();
             if (file.isEmpty() && tabDir.isSelected()) {
-                file = (panel1 ? projectData.getSrcDir1() : projectData.getSrcDir2());
+                file = (panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe());
             } else if (file.isEmpty() && tabFile.isSelected()) {
-                file = (panel1 ? projectData.getSrcHash1() : projectData.getSrcHash2());
+                file = (panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe());
             }
 
             if (file.isEmpty()) {
@@ -328,16 +326,9 @@ public class GuiDirPane extends VBox {
         });
 
         pCboDir.getEditor().textProperty().addListener((c, o, n) -> {
-//            setLastUsedDir(n);
             fileDataList.clear();
             new CompareFileList().compareList();
         });
-//        pCboZip.getEditor().textProperty().addListener((c, o, n) -> {
-//            setLastUsedDir(n);
-//        });
-//        pCboHash.getEditor().textProperty().addListener((c, o, n) -> {
-//            setLastUsedDir(n);
-//        });
 
         btnReadDir.disableProperty().bind(pCboDir.getEditor().textProperty().isNull()
                 .or(pCboDir.getEditor().textProperty().isEqualTo("")));
@@ -369,74 +360,28 @@ public class GuiDirPane extends VBox {
                 or(pCboWriteHash.getEditor().textProperty().isEmpty()));
     }
 
-//    private void setLastUsedDir(String dir) {
-//        if (dir.isEmpty()) {
-//            return;
-//        }
-//
-//        File f = new File(dir);
-//        if (!f.exists()) {
-//            System.out.println("Datei gibts nicht: " + dir);
-//            return;
-//        }
-//
-//        if (f.isFile() && f.getParentFile() != null) {
-//            //ist eine Datei -> Verzeichnis der Datei
-//            f = f.getParentFile();
-//            projectData.setLastUsedDir(f.getPath());
-//            System.out.println(f.getPath());
-//
-//        } else if (f.isDirectory() && f.getParentFile() != null) {
-//            //ist Verzeichnis und nicht root -> Parent
-//            projectData.setLastUsedDir(f.getParent());
-//            System.out.println(f.getParent());
-//        } else if (f.isDirectory()) {
-//            //ist Verzeichnis und ROOT -> dann bleibt ROOT
-//            projectData.setLastUsedDir(f.getPath());
-//            System.out.println(f.getPath());
-//        }
-//    }
-
     private void readDir() {
-        if (GuiFactory.readDirHash((panel1 ? projectData.getSrcDir1() : projectData.getSrcDir2()),
+        if (GuiFactory.readDirHash((panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
                 fileDataList,
-                (panel1 ? projectData.isFollowLink1() : projectData.isFollowLink2()))) {
+                (panel1 ? ProgConfig.followLink1.get() : ProgConfig.followLink2.get()))) {
             setTabDirFile(DIR_ZIP_HASH.DIR);
         }
         changeTextFilter();
     }
 
-//    private boolean readDirHash(String hashDir, FileDataList fileDataList, boolean followLink) {
-//        boolean ret = HashFactory.readDirHash(hashDir, fileDataList, followLink);
-//        progData.guiDirRunner.resetFilter();
-//        return ret;
-//    }
-
     private void readZip() {
-        if (GuiFactory.readZipHash((panel1 ? projectData.getSrcZip1() : projectData.getSrcZip2()), fileDataList)) {
+        if (GuiFactory.readZipHash((panel1 ? ProgConfig.srcZip1.getValueSafe() : ProgConfig.srcZip2.getValueSafe()), fileDataList)) {
             setTabDirFile(DIR_ZIP_HASH.ZIP);
         }
         changeTextFilter();
     }
-//
-//    private boolean readZipHash(String hashZip, FileDataList fileDataList) {
-//        boolean ret = HashFactory.readZipHash(hashZip, fileDataList);
-//        progData.guiDirRunner.resetFilter();
-//        return ret;
-//    }
 
     private void readHashfile() {
-        if (GuiFactory.readHashFile((panel1 ? projectData.getSrcHash1() : projectData.getSrcHash2()), fileDataList)) {
+        if (GuiFactory.readHashFile((panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe()), fileDataList)) {
             setTabDirFile(DIR_ZIP_HASH.HASH);
         }
         changeTextFilter();
     }
-
-//    private boolean readHashFile(String hashFile, FileDataList fileDataList) {
-//        boolean ret = HashFactory.readHashFile(hashFile, fileDataList);
-//        progData.guiDirRunner.resetFilter();
-//        return ret;
-//    }
 
     private void changeTextFilter() {
         fileDataFilter.setSearchStr(pCboFilter.getSelectionModel().getSelectedItem());
@@ -479,7 +424,7 @@ public class GuiDirPane extends VBox {
 
     private void writeHashFile() {
         HashFactory.writeHashFile(lblWriteHash,
-                (panel1 ? projectData.getWriteHash1().trim() : projectData.getWriteHash2().trim()),
+                (panel1 ? ProgConfig.writeHash1.getValueSafe().trim() : ProgConfig.writeHash2.getValueSafe().trim()),
                 fileDataList);
     }
 }
