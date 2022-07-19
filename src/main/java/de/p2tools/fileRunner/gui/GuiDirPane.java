@@ -337,6 +337,14 @@ public class GuiDirPane extends VBox {
             fileDataList.clear();
             new CompareFileList().compareList();
         });
+        pCboZip.getEditor().textProperty().addListener((c, o, n) -> {
+            fileDataList.clear();
+            new CompareFileList().compareList();
+        });
+        pCboHash.getEditor().textProperty().addListener((c, o, n) -> {
+            fileDataList.clear();
+            new CompareFileList().compareList();
+        });
 
         btnReadDir.disableProperty().bind(pCboDir.getEditor().textProperty().isNull()
                 .or(pCboDir.getEditor().textProperty().isEqualTo("")));
