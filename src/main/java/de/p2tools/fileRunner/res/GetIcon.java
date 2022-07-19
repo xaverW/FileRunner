@@ -37,19 +37,19 @@ public class GetIcon {
 
 
     public static ImageView getImageView(String strIcon, int w, int h) {
-        return new ImageView(getImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, w, h));
+        return new ImageView(getImage(strIcon, ProgConst.PATH_PROGRAM_ICONS, w, h));
     }
 
     public static ImageView getImageView(String strIcon) {
-        return new ImageView(getImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, 0, 0));
+        return new ImageView(getImage(strIcon, ProgConst.PATH_PROGRAM_ICONS, 0, 0));
     }
 
     public static Image getImage(String strIcon, int w, int h) {
-        return getImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, w, h);
+        return getImage(strIcon, ProgConst.PATH_PROGRAM_ICONS, w, h);
     }
 
     public static Image getImage(String strIcon) {
-        return getImage(strIcon, ProgConst.PFAD_PROGRAMM_ICONS, 0, 0);
+        return getImage(strIcon, ProgConst.PATH_PROGRAM_ICONS, 0, 0);
     }
 
     public static Image getImage(String strIcon, String path, int w, int h) {

@@ -33,10 +33,8 @@ public class ProgConst {
     public static final String WEBSITE_FILE_RUNNER_HELP = "https://www.p2tools.de/filerunner/manual.html";
     public static final String URL_WEBSITE_DONATE = "https://www.p2tools.de/donate.html";
 
-    public static final String P2_ICON = "P2.png";
-    public static final String P2_ICON_32 = "P2_32.png";
-    public static final String P2_ICON_PATH = "/de/p2tools/fileRunner/icon/";
-    public static final String PFAD_PROGRAMM_ICONS = "/de/p2tools/fileRunner/icon/program/";
+    public static final String PATH_PROGRAM_ICONS = "/de/p2tools/fileRunner/icon/program/";
+    public static final String PATH_PROGRAM_ICON = "/de/p2tools/fileRunner/icon/P2.png";
 
     public static final String URL_WEBSITE = "https://www.p2tools.de/";
     public static final String URL_WEBSITE_HELP = "https://www.p2tools.de/filerunner/manual.html";

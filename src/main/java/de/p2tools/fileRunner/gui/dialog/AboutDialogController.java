@@ -22,13 +22,13 @@ import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.config.ProgInfos;
 import de.p2tools.p2Lib.dialogs.AboutDialog;
-import de.p2tools.p2Lib.tools.file.PFileUtils;
 
 public class AboutDialogController extends AboutDialog {
 
     public AboutDialogController(ProgData progData) {
         super(progData.primaryStage, ProgConst.PROGRAM_NAME, ProgConst.URL_WEBSITE, ProgConst.URL_WEBSITE_HELP,
-                PFileUtils.addsPath(ProgConst.P2_ICON_PATH, ProgConst.P2_ICON), ProgConfig.SYSTEM_PROG_OPEN_URL,
+                ProgConst.PATH_PROGRAM_ICON,
+                ProgConfig.SYSTEM_PROG_OPEN_URL,
                 ProgConfig.SYSTEM_DARK_THEME.getValue(),
                 new String[]{"Einstellungen:"},
                 new String[]{ProgInfos.getSettingsFile().toAbsolutePath().toString()},
