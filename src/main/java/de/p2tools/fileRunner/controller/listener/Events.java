@@ -17,20 +17,15 @@
 
 package de.p2tools.fileRunner.controller.listener;
 
+import de.p2tools.p2Lib.tools.events.Event;
+
 public class Events {
-    public enum EVENT {
-        COMPARE_OF_FILE_LISTS_FINISHED(""),
-        GENERATE_COMPARE_FILE_LIST(""),
-        COLORS_CHANGED("");
 
-        private String text;
+    public static int COMPARE_OF_FILE_LISTS_FINISHED = 0;
+    public static int GENERATE_COMPARE_FILE_LIST = 1;
+    public static int COLORS_CHANGED = 2;
 
-        EVENT(String text) {
-            this.text = text;
-        }
-
-        public String getText() {
-            return text;
-        }
+    public static Event event(int i) {
+        return new Event(i, "");
     }
 }

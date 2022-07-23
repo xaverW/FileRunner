@@ -21,7 +21,6 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.listener.Events;
-import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.fileRunner.gui.HelpText;
 import de.p2tools.p2Lib.configFile.pConfData.PColorData;
 import de.p2tools.p2Lib.dialogs.accordion.PAccordionPane;
@@ -29,6 +28,7 @@ import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.PColorFactory;
+import de.p2tools.p2Lib.tools.events.RunEvent;
 import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -97,14 +97,14 @@ public class ColorPane extends PAccordionPane {
         initTableColor(tableView);
         tglDarkTheme.selectedProperty().addListener((u, o, n) -> {
             tableView.refresh();
-            ProgData.getInstance().pEventHandler.notifyGuiEvent(new PRunEvent(Events.EVENT.COLORS_CHANGED,
+            ProgData.getInstance().pEventHandler.notifyGuiEvent(new RunEvent(Events.event(Events.COLORS_CHANGED),
                     ColorPane.class));
         });
 
         Button button = new Button("Alle _Farben zurücksetzen");
         button.setOnAction(event -> {
             ProgColorList.resetAllColor();
-            ProgData.getInstance().pEventHandler.notifyGuiEvent(new PRunEvent(Events.EVENT.COLORS_CHANGED,
+            ProgData.getInstance().pEventHandler.notifyGuiEvent(new RunEvent(Events.event(Events.COLORS_CHANGED),
                     ColorPane.class));
         });
 
@@ -177,6 +177,8 @@ public class ColorPane extends PAccordionPane {
                 checkBox.setSelected(pColorData.isUse());
                 checkBox.setOnAction(a -> {
                     pColorData.setUse(checkBox.isSelected());
+                    ProgData.getInstance().pEventHandler.notifyGuiEvent(new RunEvent(Events.event(Events.COLORS_CHANGED),
+                            ColorPane.class));
                 });
 
                 hbox.getChildren().add(checkBox);
@@ -216,47 +218,10 @@ public class ColorPane extends PAccordionPane {
                 colorPicker.setOnAction(a -> {
                     Color fxColor = colorPicker.getValue();
                     pColorData.setColor(fxColor);
-                    ProgData.getInstance().pEventHandler.notifyGuiEvent(new PRunEvent(Events.EVENT.COLORS_CHANGED,
+                    ProgData.getInstance().pEventHandler.notifyGuiEvent(new RunEvent(Events.event(Events.COLORS_CHANGED),
                             ColorPane.class));
                 });
                 hbox.getChildren().addAll(colorPicker);
-                setGraphic(hbox);
-            }
-        };
-
-        return cell;
-    };
-
-    private Callback<TableColumn<PColorData, String>, TableCell<PColorData, String>> cellFactoryReset
-            = (final TableColumn<PColorData, String> param) -> {
-
-        final TableCell<PColorData, String> cell = new TableCell<PColorData, String>() {
-
-            @Override
-            public void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty) {
-                    setGraphic(null);
-                    setText(null);
-                    return;
-                }
-
-                PColorData pColorData = getTableView().getItems().get(getIndex());
-
-                final HBox hbox = new HBox();
-                hbox.setSpacing(5);
-                hbox.setAlignment(Pos.CENTER);
-                hbox.setPadding(new Insets(0, 2, 0, 2));
-
-                final Button button = new Button("Reset");
-                button.setOnAction(a -> {
-                    pColorData.resetColor();
-                    ProgData.getInstance().pEventHandler.notifyGuiEvent(new PRunEvent(Events.EVENT.COLORS_CHANGED,
-                            ColorPane.class));
-                });
-
-                hbox.getChildren().add(button);
                 setGraphic(hbox);
             }
         };
@@ -309,4 +274,41 @@ public class ColorPane extends PAccordionPane {
 
         return cell;
     };
+    private Callback<TableColumn<PColorData, String>, TableCell<PColorData, String>> cellFactoryReset
+            = (final TableColumn<PColorData, String> param) -> {
+
+        final TableCell<PColorData, String> cell = new TableCell<PColorData, String>() {
+
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                PColorData pColorData = getTableView().getItems().get(getIndex());
+
+                final HBox hbox = new HBox();
+                hbox.setSpacing(5);
+                hbox.setAlignment(Pos.CENTER);
+                hbox.setPadding(new Insets(0, 2, 0, 2));
+
+                final Button button = new Button("Reset");
+                button.setOnAction(a -> {
+                    pColorData.resetColor();
+                    ProgData.getInstance().pEventHandler.notifyGuiEvent(new RunEvent(Events.event(Events.COLORS_CHANGED),
+                            ColorPane.class));
+                });
+
+                hbox.getChildren().add(button);
+                setGraphic(hbox);
+            }
+        };
+
+        return cell;
+    };
+
 }

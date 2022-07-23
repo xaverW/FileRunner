@@ -19,9 +19,9 @@ package de.p2tools.fileRunner.gui;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.listener.Events;
-import de.p2tools.fileRunner.controller.listener.PListener;
-import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.p2Lib.guiTools.Listener;
+import de.p2tools.p2Lib.tools.events.PListener;
+import de.p2tools.p2Lib.tools.events.RunEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -112,9 +112,9 @@ public class StatusBarController extends AnchorPane {
 
         btnStop.setOnAction(e -> progData.worker.setStop());
 
-        progData.pEventHandler.addListener(new PListener(Events.EVENT.GENERATE_COMPARE_FILE_LIST) {
+        progData.pEventHandler.addListener(new PListener(Events.event(Events.GENERATE_COMPARE_FILE_LIST)) {
             @Override
-            public void ping(PRunEvent runEvent) {
+            public void ping(RunEvent runEvent) {
                 if (runEvent.nixLos()) {
                     running = false;
                 } else {
@@ -152,7 +152,7 @@ public class StatusBarController extends AnchorPane {
         });
     }
 
-    private void updateProgressBar(PRunEvent event) {
+    private void updateProgressBar(RunEvent event) {
         int max = event.getMax();
         int progress = event.getProgress();
         double prog = 1.0;

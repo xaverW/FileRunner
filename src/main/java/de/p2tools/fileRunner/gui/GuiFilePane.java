@@ -21,14 +21,14 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.listener.Events;
-import de.p2tools.fileRunner.controller.listener.PListener;
-import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.guiTools.PTextField;
+import de.p2tools.p2Lib.tools.events.PListener;
+import de.p2tools.p2Lib.tools.events.RunEvent;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import de.p2tools.p2Lib.tools.net.PUrlTools;
 import javafx.beans.property.BooleanProperty;
@@ -219,9 +219,9 @@ public class GuiFilePane extends VBox {
 
     private void addListener() {
         progData.pEventHandler.addListener(
-                new PListener(Events.EVENT.COMPARE_OF_FILE_LISTS_FINISHED) {
+                new PListener(Events.event(Events.COMPARE_OF_FILE_LISTS_FINISHED)) {
                     @Override
-                    public void ping(PRunEvent runEvent) {
+                    public void ping(RunEvent runEvent) {
                         if (runEvent.nixLos()) {
                             isRunning.setValue(false);
                         } else {
