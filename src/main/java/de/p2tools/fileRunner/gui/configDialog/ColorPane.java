@@ -24,7 +24,6 @@ import de.p2tools.fileRunner.controller.listener.Events;
 import de.p2tools.fileRunner.controller.listener.PRunEvent;
 import de.p2tools.fileRunner.gui.HelpText;
 import de.p2tools.p2Lib.configFile.pConfData.PColorData;
-import de.p2tools.p2Lib.configFile.pConfData.PColorList;
 import de.p2tools.p2Lib.dialogs.accordion.PAccordionPane;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
@@ -119,6 +118,10 @@ public class ColorPane extends PAccordionPane {
 
 
     private void initTableColor(TableView<PColorData> tableView) {
+        final TableColumn<PColorData, String> useColumn = new TableColumn<>("Verwenden");
+        useColumn.setCellFactory(cellFactoryUse);
+        useColumn.getStyleClass().add("alignCenter");
+
         final TableColumn<PColorData, String> textColumn = new TableColumn<>("Beschreibung");
         textColumn.setCellValueFactory(new PropertyValueFactory<>("text"));
         textColumn.getStyleClass().add("alignCenterLeft");
@@ -144,9 +147,45 @@ public class ColorPane extends PAccordionPane {
         tableView.setMinHeight(ProgConst.MIN_TABLE_HEIGHT);
         tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-        tableView.getColumns().addAll(textColumn, changeColumn, colorColumn, colorOrgColumn, resetColumn);
-        tableView.setItems(PColorList.getColorList());
+        tableView.getColumns().addAll(useColumn, textColumn, changeColumn, colorColumn, colorOrgColumn, resetColumn);
+        tableView.setItems(ProgColorList.getInstance());
     }
+
+    private Callback<TableColumn<PColorData, String>, TableCell<PColorData, String>> cellFactoryUse
+            = (final TableColumn<PColorData, String> param) -> {
+
+        final TableCell<PColorData, String> cell = new TableCell<PColorData, String>() {
+
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                PColorData pColorData = getTableView().getItems().get(getIndex());
+
+                final HBox hbox = new HBox();
+                hbox.setSpacing(5);
+                hbox.setAlignment(Pos.CENTER);
+                hbox.setPadding(new Insets(0, 2, 0, 2));
+
+                final CheckBox checkBox = new CheckBox("");
+                checkBox.setSelected(pColorData.isUse());
+                checkBox.setOnAction(a -> {
+                    pColorData.setUse(checkBox.isSelected());
+                });
+
+                hbox.getChildren().add(checkBox);
+                setGraphic(hbox);
+            }
+        };
+
+        return cell;
+    };
 
     private Callback<TableColumn<PColorData, String>, TableCell<PColorData, String>> cellFactoryChange
             = (final TableColumn<PColorData, String> param) -> {
