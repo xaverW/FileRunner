@@ -76,14 +76,8 @@ public class CreateZipHash {
     }
 
     private void notifyEvent() {
-        progData.pEventHandler.notifyGuiEvent(new RunEvent(Events.event(Events.GENERATE_COMPARE_FILE_LIST),
-                this, progress, max, ""));
-
-//        RunEvent event;
-//        event = new RunEvent(this, progress, max, "");
-//        for (RunListener l : listeners.getListeners(RunListener.class)) {
-//            l.notify(event);
-//        }
+        progData.pEventHandler.notifyListenerGui(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
+                progress, max, ""));
     }
 
     private class CreateHash implements Runnable {

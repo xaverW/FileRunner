@@ -115,11 +115,14 @@ public class TableFileList {
             public void updateItem(FileData film, boolean empty) {
                 super.updateItem(film, empty);
 
-                if (film == null || empty) {
-                    setStyle("");
-                } else {
+                setStyle("");
+                for (int i = 0; i < getChildren().size(); i++) {
+                    getChildren().get(i).setStyle("");
+                }
+
+                if (film != null && !empty) {
                     if (film.isLink()) {
-                        // Datei ist ein Symlink
+                        //Datei ist ein Symlink
                         if (ProgColorList.FILE_LINK_BG.isUse()) {
                             setStyle(ProgColorList.FILE_LINK_BG.getCssBackground());
                         }
@@ -127,14 +130,10 @@ public class TableFileList {
                             for (int i = 0; i < getChildren().size(); i++) {
                                 getChildren().get(i).setStyle(ProgColorList.FILE_LINK.getCssFont());
                             }
-                        } else {
-                            for (int i = 0; i < getChildren().size(); i++) {
-                                getChildren().get(i).setStyle("");
-                            }
                         }
 
                     } else if (film.isDiff()) {
-                        // Datei ist ein Symlink
+                        //Datei ist ein Symlink
                         if (ProgColorList.FILE_IS_DIFF_BG.isUse()) {
                             setStyle(ProgColorList.FILE_IS_DIFF_BG.getCssBackground());
                         }
@@ -142,14 +141,10 @@ public class TableFileList {
                             for (int i = 0; i < getChildren().size(); i++) {
                                 getChildren().get(i).setStyle(ProgColorList.FILE_IS_DIFF.getCssFont());
                             }
-                        } else {
-                            for (int i = 0; i < getChildren().size(); i++) {
-                                getChildren().get(i).setStyle("");
-                            }
                         }
 
                     } else if (film.isOnly()) {
-                        // Datei ist ein Symlink
+                        //Datei ist ein Symlink
                         if (ProgColorList.FILE_IS_ONLY_BG.isUse()) {
                             setStyle(ProgColorList.FILE_IS_ONLY_BG.getCssBackground());
                         }
@@ -157,25 +152,16 @@ public class TableFileList {
                             for (int i = 0; i < getChildren().size(); i++) {
                                 getChildren().get(i).setStyle(ProgColorList.FILE_IS_ONLY.getCssFont());
                             }
-                        } else {
-                            for (int i = 0; i < getChildren().size(); i++) {
-                                getChildren().get(i).setStyle("");
-                            }
                         }
 
-
                     } else {
-                        // Datei ist gleich
+                        //dann ist die Datei gleich
                         if (ProgColorList.FILE_IS_OK_BG.isUse()) {
                             setStyle(ProgColorList.FILE_IS_OK_BG.getCssBackground());
                         }
                         if (ProgColorList.FILE_IS_OK.isUse()) {
                             for (int i = 0; i < getChildren().size(); i++) {
                                 getChildren().get(i).setStyle(ProgColorList.FILE_IS_OK.getCssFont());
-                            }
-                        } else {
-                            for (int i = 0; i < getChildren().size(); i++) {
-                                getChildren().get(i).setStyle("");
                             }
                         }
                     }

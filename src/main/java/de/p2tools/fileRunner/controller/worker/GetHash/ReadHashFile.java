@@ -36,25 +36,14 @@ import java.util.stream.Stream;
 public class ReadHashFile {
 
     private boolean stop = false;
-//    private EventListenerList listeners = new EventListenerList();
-
-//    public void addAdListener(RunListener listener) {
-//        listeners.add(RunListener.class, listener);
-//    }
 
     public void setStop() {
         stop = true;
     }
 
     private void notifyEvent(int max, int progress, String text) {
-        ProgData.getInstance().pEventHandler.notifyGuiEvent(new RunEvent(Events.event(Events.GENERATE_COMPARE_FILE_LIST),
-                this, progress, max, ""));
-
-//        RunEvent event;
-//        event = new RunEvent(this, progress, max, "");
-//        for (RunListener l : listeners.getListeners(RunListener.class)) {
-//            l.notify(event);
-//        }
+        ProgData.getInstance().pEventHandler.notifyListenerGui(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
+                progress, max, ""));
     }
 
     public void readHash(String file, StringProperty stringProperty) {

@@ -34,7 +34,6 @@ public class CompareFileList {
     }
 
     public void compareList() {
-//        PLog.sysLog("Die Listen vergleichen");
         ProgData progData = ProgData.getInstance();
         FileDataList fileDataList1 = progData.fileDataList1;
         FileDataList fileDataList2 = progData.fileDataList2;
@@ -57,8 +56,7 @@ public class CompareFileList {
             compareListFile(fileDataList1, fileDataList2);
         }
 
-        progData.pEventHandler.notifyGuiEvent(new RunEvent(Events.event(Events.COMPARE_OF_FILE_LISTS_FINISHED),
-                CompareFileList.class));
+        progData.pEventHandler.notifyListenerGui(new RunEvent(Events.COMPARE_OF_FILE_LISTS_FINISHED));
     }
 
     private void compareListFile(FileDataList fileDataList1, FileDataList fileDataList2) {

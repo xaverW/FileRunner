@@ -24,46 +24,44 @@ import javafx.scene.paint.Color;
 public class ProgColorList extends PColorList {
 
     //OK
+    public static PColorData FILE_IS_OK_BG = addNewKey("file-is-ok-bg",
+            Color.rgb(240, 255, 236),
+            Color.rgb(240, 255, 236),
+            false, "Datei ist gleich, Tabellenzeile");
     public static PColorData FILE_IS_OK = addNewKey("file-is-ok",
             Color.rgb(0, 0, 0),
             Color.rgb(0, 0, 0),
             false, "Datei ist gleich, Schriftfarbe");
 
-    public static PColorData FILE_IS_OK_BG = addNewKey("file-is-ok-bg",
-            Color.rgb(240, 255, 236),
-            Color.rgb(240, 255, 236),
-            false, "Datei ist gleich, Tabellenzeile");
-
     //diff
+    public static PColorData FILE_IS_DIFF_BG = addNewKey("file-diff-bg",
+            Color.rgb(255, 230, 230),
+            Color.rgb(218, 195, 195),
+            true, "Dateien sind unterschiedlich, Tabellenzeile");
     public static PColorData FILE_IS_DIFF = addNewKey("file-diff",
             Color.rgb(0, 0, 0),
             Color.rgb(0, 0, 0),
             true, "Dateien sind unterschiedlich, Schriftfarbe");
 
-    public static PColorData FILE_IS_DIFF_BG = addNewKey("file-diff-bg",
-            Color.rgb(255, 230, 230),
-            Color.rgb(218, 195, 195),
-            true, "Dateien sind unterschiedlich, Tabellenzeile");
     //only
+    public static PColorData FILE_IS_ONLY_BG = addNewKey("file-only-bg",
+            Color.rgb(255, 247, 216),
+            Color.rgb(217, 211, 189),
+            true, "Datei ist nur in einem Verzeichnis, Tabellenzeile");
     public static PColorData FILE_IS_ONLY = addNewKey("file-only",
             Color.rgb(0, 0, 0),
             Color.rgb(0, 0, 0),
             true, "Datei ist nur in einem Verzeichnis, Schriftfarbe");
 
-    public static PColorData FILE_IS_ONLY_BG = addNewKey("file-only-bg",
-            Color.rgb(255, 247, 216),
-            Color.rgb(217, 211, 189),
-            true, "Datei ist nur in einem Verzeichnis, Tabellenzeile");
     //link
-    public static PColorData FILE_LINK = addNewKey("file-link",
-            Color.rgb(0, 0, 0),
-            Color.rgb(0, 0, 0),
-            true, "Datei ist eine Dateiverknüpfung, Schriftfarbe");
-
     public static PColorData FILE_LINK_BG = addNewKey("file-link-bg",
             Color.rgb(223, 240, 255),
             Color.rgb(216, 236, 255),
             true, "Datei ist eine Dateiverknüpfung, Tabellenzeile");
+    public static PColorData FILE_LINK = addNewKey("file-link",
+            Color.rgb(0, 0, 0),
+            Color.rgb(0, 0, 0),
+            true, "Datei ist eine Dateiverknüpfung, Schriftfarbe");
 
     public synchronized static PColorList getInstance() {
         return PColorList.getInst();

@@ -81,8 +81,8 @@ public class CreateDirHash {
     }
 
     private void notifyEvent() {
-        progData.pEventHandler.notifyGuiEvent(new RunEvent(Events.event(Events.GENERATE_COMPARE_FILE_LIST),
-                this, progress, max, ""));
+        progData.pEventHandler.notifyListenerGui(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
+                progress, max, ""));
     }
 
     private class CreateHash implements Runnable {

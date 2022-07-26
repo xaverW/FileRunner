@@ -20,6 +20,7 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.listener.Events;
 import de.p2tools.p2Lib.guiTools.Listener;
+import de.p2tools.p2Lib.tools.events.Event;
 import de.p2tools.p2Lib.tools.events.PListener;
 import de.p2tools.p2Lib.tools.events.RunEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -112,31 +113,20 @@ public class StatusBarController extends AnchorPane {
 
         btnStop.setOnAction(e -> progData.worker.setStop());
 
-        progData.pEventHandler.addListener(new PListener(Events.event(Events.GENERATE_COMPARE_FILE_LIST)) {
-            @Override
-            public void ping(RunEvent runEvent) {
-                if (runEvent.nixLos()) {
-                    running = false;
-                } else {
-                    running = true;
+        progData.pEventHandler.addListener(new PListener(Events.GENERATE_COMPARE_FILE_LIST) {
+            public <T extends Event> void ping(T runEvent) {
+                if (runEvent.getClass().equals(RunEvent.class)) {
+                    RunEvent runE = (RunEvent) runEvent;
+                    if (runE.nixLos()) {
+                        running = false;
+                    } else {
+                        running = true;
+                    }
+                    updateProgressBar(runE);
+                    setStatusbar();
                 }
-                updateProgressBar(runEvent);
-                setStatusbar();
             }
         });
-
-//        progData.worker.addAdListener(new RunListener() {
-//            @Override
-//            public void ping(RunEvent runEvent) {
-//                if (runEvent.nixLos()) {
-//                    running = false;
-//                } else {
-//                    running = true;
-//                }
-//                updateProgressBar(runEvent);
-//                setStatusbar();
-//            }
-//        });
 
         Listener.addListener(new Listener(Listener.EVENT_TIMER, StatusBarController.class.getSimpleName()) {
             @Override

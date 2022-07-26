@@ -24,6 +24,7 @@ import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PTextField;
 import de.p2tools.p2Lib.hash.HashConst;
+import de.p2tools.p2Lib.tools.events.Event;
 import de.p2tools.p2Lib.tools.events.PListener;
 import de.p2tools.p2Lib.tools.events.RunEvent;
 import de.p2tools.p2Lib.tools.net.PUrlTools;
@@ -223,27 +224,18 @@ public class GuiFileRunner extends AnchorPane {
     }
 
     private void addListener() {
-        progData.pEventHandler.addListener(new PListener(Events.event(Events.COMPARE_OF_FILE_LISTS_FINISHED)) {
-            @Override
-            public void ping(RunEvent runEvent) {
-                if (runEvent.nixLos()) {
-                    isRunning.setValue(false);
-                } else {
-                    isRunning.setValue(true);
+        progData.pEventHandler.addListener(new PListener(Events.COMPARE_OF_FILE_LISTS_FINISHED) {
+            public <T extends Event> void ping(T runEvent) {
+                if (runEvent.getClass().equals(RunEvent.class)) {
+                    RunEvent runE = (RunEvent) runEvent;
+                    if (runE.nixLos()) {
+                        isRunning.setValue(false);
+                    } else {
+                        isRunning.setValue(true);
+                    }
                 }
             }
         });
-
-//        progData.worker.addAdListener(new RunListener() {
-//            @Override
-//            public void ping(RunEvent runEvent) {
-//                if (runEvent.nixLos()) {
-//                    isRunning.setValue(false);
-//                } else {
-//                    isRunning.setValue(true);
-//                }
-//            }
-//        });
 
         btnCheckFile.setOnAction(a -> {
             guiFilePane1.clearHash();

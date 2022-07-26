@@ -28,6 +28,7 @@ import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.fileRunner.gui.table.Table;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
+import de.p2tools.p2Lib.tools.events.Event;
 import de.p2tools.p2Lib.tools.events.PListener;
 import de.p2tools.p2Lib.tools.events.RunEvent;
 import de.p2tools.p2Lib.tools.file.PFileName;
@@ -264,20 +265,20 @@ public class GuiDirPane extends VBox {
     }
 
     private void addListener() {
-        progData.pEventHandler.addListener(new PListener(Events.event(Events.COMPARE_OF_FILE_LISTS_FINISHED)) {
-            @Override
-            public void ping(RunEvent runEvent) {
-                if (runEvent.nixLos()) {
-                    Table.refresh_table(table);
+        progData.pEventHandler.addListener(new PListener(Events.COMPARE_OF_FILE_LISTS_FINISHED) {
+
+            public <T extends Event> void ping(T runEvent) {
+                if (runEvent.getClass().equals(RunEvent.class)) {
+                    RunEvent runE = (RunEvent) runEvent;
+                    if (runE.nixLos()) {
+                        Table.refresh_table(table);
+                    }
                 }
             }
         });
-        progData.pEventHandler.addListener(new PListener(Events.event(Events.COLORS_CHANGED)) {
-            @Override
-            public void ping(RunEvent runEvent) {
-                if (runEvent.nixLos()) {
-                    Table.refresh_table(table);
-                }
+        progData.pEventHandler.addListener(new PListener(Events.COLORS_CHANGED) {
+            public void ping(Event event) {
+                Table.refresh_table(table);
             }
         });
 

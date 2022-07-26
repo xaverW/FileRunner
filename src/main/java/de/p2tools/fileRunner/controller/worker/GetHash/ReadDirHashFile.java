@@ -53,8 +53,8 @@ public class ReadDirHashFile {
     }
 
     private void notifyEvent(int max, int progress, String text) {
-        progData.pEventHandler.notifyGuiEvent(new RunEvent(Events.event(Events.GENERATE_COMPARE_FILE_LIST),
-                this, progress, max, ""));
+        progData.pEventHandler.notifyListenerGui(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
+                progress, max, ""));
     }
 
     private class HashFileRead implements Runnable {
