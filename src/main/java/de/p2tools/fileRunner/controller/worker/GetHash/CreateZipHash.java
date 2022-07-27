@@ -76,7 +76,7 @@ public class CreateZipHash {
     }
 
     private void notifyEvent() {
-        progData.pEventHandler.notifyListenerGui(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
+        progData.pEventHandler.notifyListener(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
                 progress, max, ""));
     }
 

@@ -56,7 +56,7 @@ public class CompareFileList {
             compareListFile(fileDataList1, fileDataList2);
         }
 
-        progData.pEventHandler.notifyListenerGui(new RunEvent(Events.COMPARE_OF_FILE_LISTS_FINISHED));
+        progData.pEventHandler.notifyListener(new RunEvent(Events.COMPARE_OF_FILE_LISTS_FINISHED));
     }
 
     private void compareListFile(FileDataList fileDataList1, FileDataList fileDataList2) {

@@ -48,7 +48,7 @@ public class CreateFileHash {
     }
 
     private void notifyEvent() {
-        ProgData.getInstance().pEventHandler.notifyListenerGui(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
+        ProgData.getInstance().pEventHandler.notifyListener(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
                 progress, max, ""));
     }
 

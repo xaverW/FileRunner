@@ -114,7 +114,7 @@ public class StatusBarController extends AnchorPane {
         btnStop.setOnAction(e -> progData.worker.setStop());
 
         progData.pEventHandler.addListener(new PListener(Events.GENERATE_COMPARE_FILE_LIST) {
-            public <T extends Event> void ping(T runEvent) {
+            public <T extends Event> void pingGui(T runEvent) {
                 if (runEvent.getClass().equals(RunEvent.class)) {
                     RunEvent runE = (RunEvent) runEvent;
                     if (runE.nixLos()) {

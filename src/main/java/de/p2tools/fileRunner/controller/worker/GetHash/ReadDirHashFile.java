@@ -53,7 +53,7 @@ public class ReadDirHashFile {
     }
 
     private void notifyEvent(int max, int progress, String text) {
-        progData.pEventHandler.notifyListenerGui(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
+        progData.pEventHandler.notifyListener(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
                 progress, max, ""));
     }
 

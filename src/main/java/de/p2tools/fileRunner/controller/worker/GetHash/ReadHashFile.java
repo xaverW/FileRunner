@@ -42,7 +42,7 @@ public class ReadHashFile {
     }
 
     private void notifyEvent(int max, int progress, String text) {
-        ProgData.getInstance().pEventHandler.notifyListenerGui(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
+        ProgData.getInstance().pEventHandler.notifyListener(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
                 progress, max, ""));
     }
 

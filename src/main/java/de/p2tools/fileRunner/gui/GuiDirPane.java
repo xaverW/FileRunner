@@ -266,8 +266,7 @@ public class GuiDirPane extends VBox {
 
     private void addListener() {
         progData.pEventHandler.addListener(new PListener(Events.COMPARE_OF_FILE_LISTS_FINISHED) {
-
-            public <T extends Event> void ping(T runEvent) {
+            public <T extends Event> void pingGui(T runEvent) {
                 if (runEvent.getClass().equals(RunEvent.class)) {
                     RunEvent runE = (RunEvent) runEvent;
                     if (runE.nixLos()) {
@@ -277,7 +276,7 @@ public class GuiDirPane extends VBox {
             }
         });
         progData.pEventHandler.addListener(new PListener(Events.COLORS_CHANGED) {
-            public void ping(Event event) {
+            public void pingGui(Event event) {
                 Table.refresh_table(table);
             }
         });
