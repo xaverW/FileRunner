@@ -19,7 +19,6 @@ package de.p2tools.fileRunner.gui;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.listener.Events;
-import de.p2tools.p2Lib.guiTools.Listener;
 import de.p2tools.p2Lib.tools.events.Event;
 import de.p2tools.p2Lib.tools.events.PListener;
 import de.p2tools.p2Lib.tools.events.RunEvent;
@@ -127,10 +126,8 @@ public class StatusBarController extends AnchorPane {
                 }
             }
         });
-
-        Listener.addListener(new Listener(Listener.EVENT_TIMER, StatusBarController.class.getSimpleName()) {
-            @Override
-            public void ping() {
+        progData.pEventHandler.addListener(new PListener(Events.TIMER) {
+            public void pingGui(Event event) {
                 try {
                     if (!running) {
                         setStatusbar();

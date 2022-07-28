@@ -20,10 +20,11 @@ package de.p2tools.fileRunner.controller.listener;
 import de.p2tools.p2Lib.tools.events.Event;
 
 public class Events {
-
-    public static int COMPARE_OF_FILE_LISTS_FINISHED = 0;
-    public static int GENERATE_COMPARE_FILE_LIST = 1;
-    public static int COLORS_CHANGED = 2;
+    private static int count = 0;
+    public static int COMPARE_OF_FILE_LISTS_FINISHED = count;
+    public static int GENERATE_COMPARE_FILE_LIST = ++count;
+    public static int COLORS_CHANGED = ++count;
+    public static int TIMER = ++count;
 
     public static Event event(int i) {
         return new Event(i, "");
