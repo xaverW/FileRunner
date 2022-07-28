@@ -21,7 +21,7 @@ import de.p2tools.fileRunner.controller.SearchProgramUpdate;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.ProgIcons;
+import de.p2tools.fileRunner.icon.ProgIcons;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
@@ -104,7 +104,7 @@ public class UpdatePane {
         tglSearchBeta.selectedProperty().addListener((ob, ol, ne) -> checkBeta());
 
         PHyperlink hyperlink = new PHyperlink(ProgConst.URL_WEBSITE,
-                ProgConfig.SYSTEM_PROG_OPEN_URL, new ProgIcons().ICON_BUTTON_FILE_OPEN);
+                ProgConfig.SYSTEM_PROG_OPEN_URL, ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
         HBox hBoxHyper = new HBox();
         hBoxHyper.setAlignment(Pos.CENTER_LEFT);
         hBoxHyper.setPadding(new Insets(10, 0, 0, 0));

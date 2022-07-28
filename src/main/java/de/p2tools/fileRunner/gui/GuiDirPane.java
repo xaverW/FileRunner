@@ -17,15 +17,15 @@
 
 package de.p2tools.fileRunner.gui;
 
+import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.listener.Events;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.fileRunner.gui.table.Table;
+import de.p2tools.fileRunner.icon.ProgIcons;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.tools.events.Event;
@@ -222,15 +222,15 @@ public class GuiDirPane extends VBox {
         btnReadZip.setMinWidth(btnReadZip.getPrefWidth());
         btnReadHash.setMinWidth(btnReadHash.getPrefWidth());
 
-        btnSelectDir.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
-        btnSelectZipfile.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
-        btnSelectHashfile.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
-        btnProposeHashName.setGraphic(new ProgIcons().ICON_BUTTON_GUI_GEN_NAME);
-        btnSelectHashListFileForSaving.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
-        btnReadDir.setGraphic(new ProgIcons().ICON_BUTTON_GEN_HASH);
-        btnReadZip.setGraphic(new ProgIcons().ICON_BUTTON_GEN_HASH);
-        btnReadHash.setGraphic(new ProgIcons().ICON_BUTTON_GEN_HASH);
-        btnClearFilter.setGraphic(new ProgIcons().ICON_BUTTON_GUI_CLEAR);
+        btnSelectDir.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnSelectZipfile.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnSelectHashfile.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnProposeHashName.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_GEN_NAME.getImageView());
+        btnSelectHashListFileForSaving.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnReadDir.setGraphic(ProgIcons.Icons.ICON_BUTTON_GEN_HASH.getImageView());
+        btnReadZip.setGraphic(ProgIcons.Icons.ICON_BUTTON_GEN_HASH.getImageView());
+        btnReadHash.setGraphic(ProgIcons.Icons.ICON_BUTTON_GEN_HASH.getImageView());
+        btnClearFilter.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_CLEAR.getImageView());
 
         btnReadDir.setTooltip(new Tooltip("Verzeichnis einlesen."));
         btnReadZip.setTooltip(new Tooltip("Zipdatei einlesen."));
@@ -407,19 +407,19 @@ public class GuiDirPane extends VBox {
     private void setTabDirFile(DIR_ZIP_HASH dir_zip_hash) {
         switch (dir_zip_hash) {
             case DIR:
-                tabDir.setGraphic(new ProgIcons().ICON_TAB_DIR_FILE);
+                tabDir.setGraphic(ProgIcons.Icons.ICON_TAB_DIR_FILE.getImageView());
                 tabZip.setGraphic(null);
                 tabFile.setGraphic(null);
                 break;
             case ZIP:
                 tabDir.setGraphic(null);
-                tabZip.setGraphic(new ProgIcons().ICON_TAB_DIR_FILE);
+                tabZip.setGraphic(ProgIcons.Icons.ICON_TAB_DIR_FILE.getImageView());
                 tabFile.setGraphic(null);
                 break;
             case HASH:
                 tabDir.setGraphic(null);
                 tabZip.setGraphic(null);
-                tabFile.setGraphic(new ProgIcons().ICON_TAB_DIR_FILE);
+                tabFile.setGraphic(ProgIcons.Icons.ICON_TAB_DIR_FILE.getImageView());
                 break;
         }
     }
@@ -429,7 +429,7 @@ public class GuiDirPane extends VBox {
             tabFilter.setGraphic(null);
             tabFilter.setStyle("-fx-font-weight: normal;");
         } else {
-            tabFilter.setGraphic(new ProgIcons().ICON_TAB_SEARCH);
+            tabFilter.setGraphic(ProgIcons.Icons.ICON_TAB_SEARCH.getImageView());
             tabFilter.setStyle("-fx-font-weight: bold; -fx-underline: true;");
         }
     }

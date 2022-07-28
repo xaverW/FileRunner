@@ -17,11 +17,11 @@
 
 package de.p2tools.fileRunner.gui;
 
+import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.ProgIcons;
-import de.p2tools.fileRunner.controller.listener.Events;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
+import de.p2tools.fileRunner.icon.ProgIcons;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
@@ -134,9 +134,9 @@ public class GuiFilePane extends VBox {
                 break;
         }
 
-        btnSelectFile.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
+        btnSelectFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
         btnSelectFile.setTooltip(new Tooltip("Datei zum Erstellen des Hash auswählen."));
-        btnSelectHashFile.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
+        btnSelectHashFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
         btnSelectHashFile.setTooltip(new Tooltip("Datei mit Hash-Werten auswählen."));
         btnSaveHash.setTooltip(new Tooltip("Hash der Datei 2 speichern."));
         btnSaveHash.disableProperty().bind(cboWriteHash.getEditor().textProperty().isEmpty().or(txtHash.textProperty().isEmpty()));
@@ -144,7 +144,7 @@ public class GuiFilePane extends VBox {
         cboGenHashFromFile.setMaxWidth(Double.MAX_VALUE);
         cboReadHashFromFile.setMaxWidth(Double.MAX_VALUE);
 
-        btnReadFileAndGenHash.setGraphic(new ProgIcons().ICON_BUTTON_GEN_HASH);
+        btnReadFileAndGenHash.setGraphic(ProgIcons.Icons.ICON_BUTTON_GEN_HASH.getImageView());
         btnReadFileAndGenHash.setTooltip(new Tooltip("Datei einlesen und Hash erstellen."));
         btnReadFileAndGenHash.disableProperty().bind(cboGenHashFromFile.getEditor().textProperty().isNull()
                 .or(cboGenHashFromFile.getEditor().textProperty().isEqualTo("")));
@@ -155,16 +155,16 @@ public class GuiFilePane extends VBox {
                         .or(isRunning)
         );
 
-        btnReadHashFile.setGraphic(new ProgIcons().ICON_BUTTON_GEN_HASH);
+        btnReadHashFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_GEN_HASH.getImageView());
         btnReadHashFile.setTooltip(new Tooltip("Hash aus Datei lesen."));
         btnReadHashFile.disableProperty().bind(cboReadHashFromFile.getEditor().textProperty().isNull()
                 .or(cboReadHashFromFile.getEditor().textProperty().isEqualTo("")));
 
-        btnSelectHashFileForStoring.setGraphic(new ProgIcons().ICON_BUTTON_FILE_OPEN);
+        btnSelectHashFileForStoring.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
         btnSelectHashFileForStoring.setTooltip(new Tooltip("Datei zum Speichern auswählen."));
         btnSelectHashFileForStoring.disableProperty().bind(cboWriteHash.disableProperty());
 
-        btnProposeStoringHashFileName.setGraphic(new ProgIcons().ICON_BUTTON_GUI_GEN_NAME);
+        btnProposeStoringHashFileName.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_GEN_NAME.getImageView());
         btnProposeStoringHashFileName.setTooltip(new Tooltip("Einen Dateinamen vorschlagen."));
         btnProposeStoringHashFileName.disableProperty().bind(cboWriteHash.disableProperty());
 

@@ -19,12 +19,12 @@ package de.p2tools.fileRunner;
 import de.p2tools.fileRunner.controller.ProgQuittFactory;
 import de.p2tools.fileRunner.controller.SearchProgramUpdate;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
 import de.p2tools.fileRunner.gui.StatusBarController;
 import de.p2tools.fileRunner.gui.configDialog.ConfigDialogController;
 import de.p2tools.fileRunner.gui.dialog.AboutDialogController;
+import de.p2tools.fileRunner.icon.ProgIcons;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -91,13 +91,13 @@ public class FileRunnerController extends BorderPane {
 
             menuButton.getStyleClass().add("btnFunctionWide");
             menuButton.setText("");
-            menuButton.setGraphic(new ProgIcons().FX_ICON_TOOLBAR_MENUE_TOP);
+            menuButton.setGraphic(ProgIcons.Icons.FX_ICON_TOOLBAR_MENUE_TOP.getImageView());
             menuButton.getItems().addAll(miConfig, miSearchUpdate, miAbout,
                     new SeparatorMenuItem(), miQuitt);
 
             menuButton2.getStyleClass().add("btnFunctionWide");
             menuButton2.setText("");
-            menuButton2.setGraphic(new ProgIcons().FX_ICON_TOOLBAR_MENUE_TOP);
+            menuButton2.setGraphic(ProgIcons.Icons.FX_ICON_TOOLBAR_MENUE_TOP.getImageView());
             menuButton2.setVisible(false);
 
             // Panes

@@ -16,10 +16,10 @@
 
 package de.p2tools.fileRunner.gui;
 
+import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.ProgIcons;
-import de.p2tools.fileRunner.controller.listener.Events;
+import de.p2tools.fileRunner.icon.ProgIcons;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PTextField;
@@ -120,7 +120,7 @@ public class GuiFileRunner extends AnchorPane {
         vBoxCont.setPadding(new Insets(25));
         vBoxCont.getChildren().addAll(gridPane);
 
-        btnCheckFile.setGraphic(new ProgIcons().ICON_BUTTON_GUI_START_ALL);
+        btnCheckFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_START_ALL.getImageView());
         btnCheckFile.setTooltip(new Tooltip("Es werden beide Dateien eingelesen, " +
                 "der Hash wird erstellt und die Dateien damit vergleichen."));
         rbMd5.setTooltip(new Tooltip("Es wird ein MD5-Hash erstellt."));

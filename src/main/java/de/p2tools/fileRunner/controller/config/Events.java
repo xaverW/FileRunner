@@ -15,7 +15,7 @@
  */
 
 
-package de.p2tools.fileRunner.controller.listener;
+package de.p2tools.fileRunner.controller.config;
 
 import de.p2tools.p2Lib.tools.events.Event;
 

@@ -19,7 +19,6 @@ package de.p2tools.fileRunner.controller.config;
 
 import de.p2tools.fileRunner.FileRunnerController;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.listener.Events;
 import de.p2tools.fileRunner.controller.worker.Worker;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;

@@ -18,9 +18,9 @@ package de.p2tools.fileRunner.gui;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.ProgIcons;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
+import de.p2tools.fileRunner.icon.ProgIcons;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitchOnly;
 import javafx.geometry.Insets;
@@ -145,12 +145,12 @@ public class GuiDirRunner extends AnchorPane {
         });
         tg.getToggles().addAll(tglShowAll, tglShowSame, tglShowDiffAll, tglShowDiff, tglShowOnly1, tglShowOnly2);
         tglShowAll.setSelected(true);
-        tglShowAll.setGraphic(new ProgIcons().ICON_BUTTON_GUI_ALL);
-        tglShowSame.setGraphic(new ProgIcons().ICON_BUTTON_GUI_SAME);
-        tglShowDiffAll.setGraphic(new ProgIcons().ICON_BUTTON_GUI_DIFF_ALL);
-        tglShowDiff.setGraphic(new ProgIcons().ICON_BUTTON_GUI_DIFF);
-        tglShowOnly1.setGraphic(new ProgIcons().ICON_BUTTON_GUI_ONLY_1);
-        tglShowOnly2.setGraphic(new ProgIcons().ICON_BUTTON_GUI_ONLY_2);
+        tglShowAll.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ALL.getImageView());
+        tglShowSame.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_SAME.getImageView());
+        tglShowDiffAll.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_DIFF_ALL.getImageView());
+        tglShowDiff.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_DIFF.getImageView());
+        tglShowOnly1.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ONLY_1.getImageView());
+        tglShowOnly2.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ONLY_2.getImageView());
 
         tglShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
         tglShowSame.setTooltip(new Tooltip("Alle gleichen Dateien anzeigen."));

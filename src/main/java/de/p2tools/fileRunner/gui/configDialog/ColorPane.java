@@ -16,11 +16,7 @@
 
 package de.p2tools.fileRunner.gui.configDialog;
 
-import de.p2tools.fileRunner.controller.config.ProgColorList;
-import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.fileRunner.controller.config.ProgConst;
-import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.listener.Events;
+import de.p2tools.fileRunner.controller.config.*;
 import de.p2tools.fileRunner.gui.HelpText;
 import de.p2tools.p2Lib.configFile.pConfData.PColorData;
 import de.p2tools.p2Lib.dialogs.accordion.PAccordionPane;

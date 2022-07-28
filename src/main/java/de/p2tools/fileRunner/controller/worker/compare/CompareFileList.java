@@ -17,11 +17,11 @@
 
 package de.p2tools.fileRunner.controller.worker.compare;
 
+import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.listener.Events;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.tools.events.RunEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
