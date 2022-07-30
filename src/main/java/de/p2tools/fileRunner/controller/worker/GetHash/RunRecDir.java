@@ -23,15 +23,15 @@ import javafx.application.Platform;
 
 import java.io.File;
 
-public class RunRekDir {
+public class RunRecDir {
     private File dir;
     private boolean stop = false;
-    private boolean rekur = false;
+    private boolean recur = false;
     private boolean altert = false;
 
-    public int rekDir(File dir, boolean rekur) {
+    public int recDir(File dir, boolean recur) {
         this.dir = dir;
-        this.rekur = rekur;
+        this.recur = recur;
         return runDir(this.dir);
     }
 
@@ -63,7 +63,7 @@ public class RunRekDir {
                         if (list[i].isFile()) {
                             ++r;
                             work(list[i]);
-                        } else if (list[i].isDirectory() && rekur) {
+                        } else if (list[i].isDirectory() && recur) {
                             r += runDir(list[i]);
                         }
                     }

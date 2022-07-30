@@ -325,6 +325,10 @@ public class GuiDirPane extends VBox {
             pCboWriteHash.selectElement(nextElement);
         });
 
+        ProgConfig.CONFIG_COMPARE_WITH_PATH.addListener((v, o, n) -> {
+            fileDataList.clear();
+            new CompareFileList().compareList();
+        });
         pCboDir.getEditor().textProperty().addListener((c, o, n) -> {
             fileDataList.clear();
             new CompareFileList().compareList();
@@ -370,7 +374,7 @@ public class GuiDirPane extends VBox {
 
     private void readDir() {
         if (GuiFactory.readDirHash((panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
-                fileDataList,
+                fileDataList, ProgConfig.CONFIG_COMPARE_WITH_PATH.getValue(),
                 (panel1 ? ProgConfig.followLink1.get() : ProgConfig.followLink2.get()))) {
             setTabDirFile(DIR_ZIP_HASH.DIR);
         }

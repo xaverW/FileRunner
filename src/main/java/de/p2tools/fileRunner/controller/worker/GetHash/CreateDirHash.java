@@ -41,12 +41,11 @@ public class CreateDirHash {
 
     private ProgData progData;
     private boolean stop = false;
-    //    private EventListenerList listeners = new EventListenerList();
     private int max = 0; //anzahl dateien
     private int progress = 0;
     private int threads = 0;
     private int anzThread = 1;
-    private boolean rekursiv = true;
+    private boolean recursiv = true;
     private boolean followLink = false;
     private int runThreads = 0;
 
@@ -54,17 +53,13 @@ public class CreateDirHash {
         this.progData = progData;
     }
 
-//    public void addAdListener(RunListener listener) {
-//        listeners.add(RunListener.class, listener);
-//    }
-
     public void setStop() {
         stop = true;
     }
 
-    public void createHash(File file, FileDataList fileDataList, int anzThread, boolean rekursiv, boolean followLink) {
+    public void createHash(File file, FileDataList fileDataList, int anzThread, boolean recursiv, boolean followLink) {
         this.anzThread = anzThread;
-        this.rekursiv = rekursiv;
+        this.recursiv = recursiv;
         this.followLink = followLink;
 
         max = 0;
@@ -133,8 +128,7 @@ public class CreateDirHash {
         private void runDirFindFiles() {
             //Verzeichnis ablaufen und Dateien suchen
             try {
-                new RunRekDir() {
-
+                new RunRecDir() {
                     @Override
                     void work(File file) {
                         if (stop) {
@@ -143,7 +137,7 @@ public class CreateDirHash {
                         addGetFile(file);
                     }
 
-                }.rekDir(searchDir, rekursiv);
+                }.recDir(searchDir, recursiv);
             } catch (Exception ex) {
                 PLog.errorLog(975102364, ex, "CreateHash.run - " + searchDir.getAbsolutePath());
             }
@@ -209,7 +203,6 @@ public class CreateDirHash {
             File ret = null;
             if (file != null) {
                 listeFile.add(file);
-                //PLog.sysLog(file.getAbsolutePath());
                 ++max;
             } else {
                 ret = listeFile.poll();

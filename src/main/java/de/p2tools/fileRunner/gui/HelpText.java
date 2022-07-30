@@ -25,17 +25,27 @@ public class HelpText {
             "den Standardeinstellungen.";
 
     public static final String COMPARE_BUTTON = "" +
-            "1. Zeigt alle Dateien" + P2LibConst.LINE_SEPARATOR +
+            "1. Zeigt alle Dateien" + P2LibConst.LINE_SEPARATORx2 +
+
             "2. Zeigt gleiche Dateien die in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATOR +
-            "3. Zeigt Dateien die sich unterscheiden oder nur in einer Liste enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
+            "3. Zeigt Dateien die sich unterscheiden oder nur in einer Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
+            "4. Zeigt Dateien die sich unterscheiden und in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
 
-            "4. Zeigt Dateien die sich unterscheiden und in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATOR +
             "5. Zeigt Dateien die nur in der rechten Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
-            "6. Zeigt Dateien die nur in der linken Liste enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
+            "6. Zeigt Dateien die nur in der linken Liste enthalten sind";
 
-            "7. Ist das geklickt, werden bei dem Dateivergleich die Pfade in denen die Dateien liegen, " +
-            "nicht berücksichtigt. Dateien sind also auch dann gleich, wenn sie in unterschiedlichen " +
-            "Verzeichnissen liegen.";
+    public static final String READ_DIR_RECURSIVE_HASH = "" +
+            "Wird \"Unterverzeichnis ...\" ausgewählt, werden beim Durchsuchen auch Unterverzeichnisse " +
+            "durchsucht. Andernfalls werden nur Dateien im angegebenen " +
+            "Suchverzeichnis verglichen." + P2LibConst.LINE_SEPARATORx2 +
+            
+            "Ist \"mit dem Hashwert vergleichen\" aktiv, werden die Dateien auch " +
+            "nur über den Hash der Datei verglichen. " +
+            "D.h. Dateien sind gleich wenn der Hash gleich ist, auch " +
+            "dann wenn sie in unterschiedlichen Verzeichnissen liegen oder " +
+            "unterschiedliche Dateinamen haben. Bei ausgeschalteter Option muss die " +
+            "Datei gleich sein, der Dateiname muss gleich sein und sie muss auch im " +
+            "gleich Verzeichnis liegen (Unterverzeichnis des Suchverzeichnisses).";
 
     public static final String FOLLOW_SYMLINK = "Eine symbolische Verknüpfung ist eine Verknüpfung in einem Dateisystem " +
             "die auf eine andere Datei oder ein anderes Verzeichnis verweist." + P2LibConst.LINE_SEPARATORx2 +

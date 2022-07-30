@@ -92,8 +92,12 @@ public class GuiDirRunner extends AnchorPane {
         spacerTop.setMinSize(10, 150);
         Region spacer1 = new Region();
         spacer1.setMinSize(10, 10);
-        vBoxBtn.getChildren().addAll(spacerTop, tglShowAll, tglShowSame, tglShowDiffAll,
-                spacer1, tglShowDiff, tglShowOnly1, tglShowOnly2);
+        Region spacer2 = new Region();
+        spacer2.setMinSize(10, 10);
+
+        vBoxBtn.getChildren().addAll(spacerTop, tglShowAll, spacer1,
+                tglShowSame, tglShowDiffAll, tglShowDiff, spacer2,
+                tglShowOnly1, tglShowOnly2);
 
         Button btnHelp = PButton.helpButton(progData.primaryStage, "Vergleichen", HelpText.COMPARE_BUTTON);
         VBox vBox = new VBox();
@@ -109,13 +113,13 @@ public class GuiDirRunner extends AnchorPane {
 
         //== Unten ==
         Label lblPath = new Label("Auch Unterverzeichnisse durchsuchen:");
-        final PToggleSwitchOnly tglWithPath = new PToggleSwitchOnly();
-        tglWithPath.setTooltip(new Tooltip("Es werden auch Dateien in Unterverzeichnissen verglichen"));
-        tglWithPath.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_WITH_PATH);
-        tglWithPath.selectedProperty().addListener((v, o, n) -> {
-//            new CompareFileList().compareList();
-//            setTglButton();
-        });
+        final PToggleSwitchOnly tglSubDir = new PToggleSwitchOnly();
+        tglSubDir.setTooltip(new Tooltip("Es werden auch Dateien in Unterverzeichnissen verglichen"));
+        tglSubDir.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_WITH_PATH);
+//        tglSubDir.selectedProperty().addListener((v, o, n) -> {
+////            new CompareFileList().compareList();
+////            setTglButton();
+//        });
         Label lblHash = new Label("Dateien nur mit dem Hashwert vergleichen:");
         final PToggleSwitchOnly tglHash = new PToggleSwitchOnly();
         tglHash.setTooltip(new Tooltip("Dateien werden über ihren Hashwert verglichen, unabhängig vom Dateinamen " +
@@ -126,13 +130,13 @@ public class GuiDirRunner extends AnchorPane {
 //            setTglButton();
         });
 
-        Button btnHelpPathHash = PButton.helpButton(progData.primaryStage, "", "");
+        Button btnHelpPathHash = PButton.helpButton(progData.primaryStage, "", HelpText.READ_DIR_RECURSIVE_HASH);
 
         HBox hBox = new HBox(10);
         hBox.getStyleClass().add("extra-pane");
         hBox.setPadding(new Insets(10));
         hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().addAll(lblPath, tglWithPath, new Label("   "),
+        hBox.getChildren().addAll(lblPath, tglSubDir, new Label("   "),
                 lblHash, tglHash, PGuiTools.getHBoxGrower(), btnHelpPathHash);
 
         //== add all ==
