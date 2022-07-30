@@ -59,7 +59,7 @@ public class ProgConfig extends PDataProgConfig {
 
     // Fenstereinstellungen
     public static StringProperty SYSTEM_GUI_SIZE = addStr("system-gui-size", "1000:900");
-    public static StringProperty SYSTEM_CONFIG_DIALOG_SIZE = addStr("system-config-dialog-size", "750:500");
+    public static StringProperty SYSTEM_CONFIG_DIALOG_SIZE = addStr("system-config-dialog-size", "900:650");
     public static StringProperty SYSTEM_SELECT_HASH_DIALOG_SIZE = addStr("system-select-hash-dialog-size", "500:500");
 
     // GuiDirRunner
@@ -78,6 +78,7 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty GUI_FILE_HASH = addStr("gui-file-hash", HashConst.HASH_MD5);
     public static StringProperty GUI_FILE_HASH_SUFF = addStr("gui-file-hash-suff", HashConst.HASH_MD5_SUFFIX);
     public static BooleanProperty CONFIG_COMPARE_WITH_PATH = addBool("config-compare-with-path", Boolean.TRUE);
+    public static BooleanProperty CONFIG_COMPARE_ONLY_WITH_HASH = addBool("config-compare-only-with-hash", Boolean.FALSE);
 
     //ProjectData
     public static IntegerProperty compFileSel1 = addInt("comp-file-sel-1", 0);

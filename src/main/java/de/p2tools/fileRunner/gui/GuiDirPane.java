@@ -64,9 +64,7 @@ public class GuiDirPane extends VBox {
     private final Button btnReadDir = new Button("");
     private final Button btnReadZip = new Button("");
     private final Button btnReadHash = new Button("");
-    private final Button btnWriteHash = new Button("Liste in Datei schreiben");
-
-    private final Label lblWriteHash = new Label("Ok");
+    private final Button btnWriteHash = new Button("");
 
     private final TabPane tabPane = new TabPane();
     private final Tab tabDir = new Tab("Verzeichnis");
@@ -74,7 +72,6 @@ public class GuiDirPane extends VBox {
     private final Tab tabFile = new Tab("Hashdatei");
     private final Tab tabFilter = new Tab("Filter");
 
-    //    private final ProjectData projectData;
     private final ProgData progData;
     private final FileDataFilter fileDataFilter;
 
@@ -201,23 +198,16 @@ public class GuiDirPane extends VBox {
         HBox.setHgrow(pCboWriteHash, Priority.ALWAYS);
         pCboWriteHash.setMaxWidth(Double.MAX_VALUE);
         pCboWriteHash.setEditable(true);
-        hBoxWriteHash.getChildren().addAll(pCboWriteHash, btnSelectHashListFileForSaving, btnProposeHashName);
-
-        HBox hBoxWrite = new HBox(10);
-        hBoxWrite.setAlignment(Pos.CENTER_RIGHT);
-        hBoxWrite.getChildren().addAll(lblWriteHash, btnWriteHash);
+        hBoxWriteHash.getChildren().addAll(pCboWriteHash, btnSelectHashListFileForSaving, btnProposeHashName, btnWriteHash);
 
         // ================================
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
 
         setPadding(new Insets(10));
         getChildren().addAll(tabPane, scrollPane,
-                new Label("Hashdatei schreiben"), hBoxWriteHash, hBoxWrite);
+                new Label("Hashdatei schreiben"), hBoxWriteHash/*, hBoxWrite*/);
 
         // =================================
-        lblWriteHash.setVisible(false);
-        lblWriteHash.setPadding(new Insets(10));
-
         btnReadDir.setMinWidth(btnReadDir.getPrefWidth());
         btnReadZip.setMinWidth(btnReadZip.getPrefWidth());
         btnReadHash.setMinWidth(btnReadHash.getPrefWidth());
@@ -225,8 +215,10 @@ public class GuiDirPane extends VBox {
         btnSelectDir.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
         btnSelectZipfile.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
         btnSelectHashfile.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
-        btnProposeHashName.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_GEN_NAME.getImageView());
         btnSelectHashListFileForSaving.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnProposeHashName.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_GEN_NAME.getImageView());
+        btnWriteHash.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_SAVE.getImageView());
+
         btnReadDir.setGraphic(ProgIcons.Icons.ICON_BUTTON_GEN_HASH.getImageView());
         btnReadZip.setGraphic(ProgIcons.Icons.ICON_BUTTON_GEN_HASH.getImageView());
         btnReadHash.setGraphic(ProgIcons.Icons.ICON_BUTTON_GEN_HASH.getImageView());
@@ -239,8 +231,8 @@ public class GuiDirPane extends VBox {
         btnSelectZipfile.setTooltip(new Tooltip("Zipdatei auswählen."));
         btnSelectHashfile.setTooltip(new Tooltip("Hashdatei auswählen"));
         btnSelectHashListFileForSaving.setTooltip(new Tooltip("Datei zum Speichern auswählen."));
-        btnWriteHash.setTooltip(new Tooltip("Hashliste in Datei schreiben."));
         btnProposeHashName.setTooltip(new Tooltip("Einen Dateinamen vorschlagen."));
+        btnWriteHash.setTooltip(new Tooltip("Hashliste in Datei schreiben."));
         btnClearFilter.setTooltip(new Tooltip("Filter löschen."));
     }
 
@@ -439,7 +431,7 @@ public class GuiDirPane extends VBox {
     }
 
     private void writeHashFile() {
-        HashFactory.writeHashFile(lblWriteHash,
+        HashFactory.writeHashFile(btnWriteHash,
                 (panel1 ? ProgConfig.writeHash1.getValueSafe().trim() : ProgConfig.writeHash2.getValueSafe().trim()),
                 fileDataList);
     }

@@ -25,12 +25,7 @@ import de.p2tools.p2Lib.tools.net.PUrlTools;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
+import javafx.scene.control.Button;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -97,7 +92,7 @@ public class HashFactory {
         return ret;
     }
 
-    public static void writeHashFile(Label lbl, String fileStr, FileDataList fileDataList) {
+    public static void writeHashFile(Button button, String fileStr, FileDataList fileDataList) {
         ProgData progData = ProgData.getInstance();
         File file;
 
@@ -113,8 +108,6 @@ public class HashFactory {
             }
         }
         if (progData.worker.writeDirHashFile(file, fileDataList)) {
-
-            lbl.setVisible(true);
             final Animation animation = new Transition() {
                 {
                     setCycleDuration(Duration.millis(2000));
@@ -123,10 +116,12 @@ public class HashFactory {
 
                 @Override
                 protected void interpolate(double frac) {
-                    Color vColor = Color.web("#90ee90", 1 - frac);
-                    lbl.setBackground(new Background(new BackgroundFill(vColor, CornerRadii.EMPTY, Insets.EMPTY)));
+//                    Color vColor = Color.web("#90ee90", 1 - frac);
+//                    button.setBackground(new Background(new BackgroundFill(vColor, CornerRadii.EMPTY, Insets.EMPTY)));
+                    button.setStyle("-fx-border-color: green;");
                     if (frac == 1) {
-                        lbl.setVisible(false);
+//                        button.setBackground(new Button().getBackground());
+                        button.setStyle("-fx-border-color: ;");
                     }
                 }
             };

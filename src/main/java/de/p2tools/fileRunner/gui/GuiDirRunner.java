@@ -19,17 +19,14 @@ package de.p2tools.fileRunner.gui;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
-import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.fileRunner.icon.ProgIcons;
 import de.p2tools.p2Lib.guiTools.PButton;
+import de.p2tools.p2Lib.guiTools.PGuiTools;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitchOnly;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 public class GuiDirRunner extends AnchorPane {
     private final SplitPane splitPane = new SplitPane();
@@ -43,8 +40,6 @@ public class GuiDirRunner extends AnchorPane {
     private final ToggleButton tglShowDiffAll = new ToggleButton("");
     private final ToggleButton tglShowOnly1 = new ToggleButton("");
     private final ToggleButton tglShowOnly2 = new ToggleButton("");
-    private Label lblPath = new Label("ohne\nPfad");
-    private final PToggleSwitchOnly tglWithPath = new PToggleSwitchOnly();
 
     private final ProgData progData;
     private final FileDataFilter fileDataFilter1 = new FileDataFilter();
@@ -66,6 +61,8 @@ public class GuiDirRunner extends AnchorPane {
         guiDirPane2 = new GuiDirPane(progData, fileDataFilter2, false);
 
         initCont();
+        initSplit();
+        addToggleGroup();
         addListener();
     }
 
@@ -86,6 +83,7 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void initCont() {
+        //== Oben ==
         vBoxBtn.getStyleClass().add("pane-border");
         vBoxBtn.setAlignment(Pos.TOP_CENTER);
         vBoxBtn.setPadding(new Insets(10));
@@ -94,11 +92,8 @@ public class GuiDirRunner extends AnchorPane {
         spacerTop.setMinSize(10, 150);
         Region spacer1 = new Region();
         spacer1.setMinSize(10, 10);
-        Region spacer2 = new Region();
-        spacer2.setMinSize(10, 25);
         vBoxBtn.getChildren().addAll(spacerTop, tglShowAll, tglShowSame, tglShowDiffAll,
-                spacer1, tglShowDiff, tglShowOnly1, tglShowOnly2,
-                spacer2, lblPath, tglWithPath);
+                spacer1, tglShowDiff, tglShowOnly1, tglShowOnly2);
 
         Button btnHelp = PButton.helpButton(progData.primaryStage, "Vergleichen", HelpText.COMPARE_BUTTON);
         VBox vBox = new VBox();
@@ -109,12 +104,47 @@ public class GuiDirRunner extends AnchorPane {
         vBoxBtn.getChildren().add(vBox);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
-
         splitPane.getItems().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
-        scrollPane.setContent(splitPane);
+
+
+        //== Unten ==
+        Label lblPath = new Label("Auch Unterverzeichnisse durchsuchen:");
+        final PToggleSwitchOnly tglWithPath = new PToggleSwitchOnly();
+        tglWithPath.setTooltip(new Tooltip("Es werden auch Dateien in Unterverzeichnissen verglichen"));
+        tglWithPath.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_WITH_PATH);
+        tglWithPath.selectedProperty().addListener((v, o, n) -> {
+//            new CompareFileList().compareList();
+//            setTglButton();
+        });
+        Label lblHash = new Label("Dateien nur mit dem Hashwert vergleichen:");
+        final PToggleSwitchOnly tglHash = new PToggleSwitchOnly();
+        tglHash.setTooltip(new Tooltip("Dateien werden über ihren Hashwert verglichen, unabhängig vom Dateinamen " +
+                "oder Verzeichnis"));
+        tglHash.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH);
+        tglHash.selectedProperty().addListener((v, o, n) -> {
+//            new CompareFileList().compareList();
+//            setTglButton();
+        });
+
+        Button btnHelpPathHash = PButton.helpButton(progData.primaryStage, "", "");
+
+        HBox hBox = new HBox(10);
+        hBox.getStyleClass().add("extra-pane");
+        hBox.setPadding(new Insets(10));
+        hBox.setAlignment(Pos.CENTER);
+        hBox.getChildren().addAll(lblPath, tglWithPath, new Label("   "),
+                lblHash, tglHash, PGuiTools.getHBoxGrower(), btnHelpPathHash);
+
+        //== add all ==
+        VBox vBoxAll = new VBox();
+        VBox.setVgrow(splitPane, Priority.ALWAYS);
+        vBoxAll.getChildren().addAll(splitPane, hBox);
+        scrollPane.setContent(vBoxAll);
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
+    }
 
+    private void initSplit() {
         vBoxBtn.setOnMousePressed(e -> {
             orgX = e.getSceneX();
             orgDiv0 = splitPane.getDividers().get(0).getPosition();
@@ -136,8 +166,9 @@ public class GuiDirRunner extends AnchorPane {
             splitPane.getDividers().get(1).setPosition(ddiv1);
             splitPane.getDividers().get(0).setPosition(ddiv0);
         });
+    }
 
-        // =================================
+    private void addToggleGroup() {
         ToggleGroup tg = new ToggleGroup();
         tg.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
             if (newVal == null)
@@ -158,7 +189,6 @@ public class GuiDirRunner extends AnchorPane {
         tglShowDiff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind, sich aber unterscheiden."));
         tglShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 enthalten sind."));
         tglShowOnly2.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 enthalten sind."));
-        tglWithPath.setTooltip(new Tooltip("Es werden die Dateien mit oder ohne Pfad verglichen"));
     }
 
     private void addListener() {
@@ -181,26 +211,6 @@ public class GuiDirRunner extends AnchorPane {
         tglShowOnly2.setOnAction(e -> {
             setTglButton();
         });
-
-        tglWithPath.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_WITH_PATH);
-        tglWithPath.selectedProperty().addListener((v, o, n) -> {
-            setTextPath();
-            new CompareFileList().compareList();
-            setTglButton();
-        });
-        lblPath.setMinWidth(lblPath.getPrefWidth());
-        lblPath.setAlignment(Pos.CENTER_RIGHT);
-        lblPath.setPadding(new Insets(0, 0, 5, 0));
-
-        setTextPath();
-    }
-
-    private void setTextPath() {
-        if (tglWithPath.isSelected()) {
-            lblPath.setText("mit\nPfad");
-        } else {
-            lblPath.setText("ohne\nPfad");
-        }
     }
 
     private void setTglButton() {
