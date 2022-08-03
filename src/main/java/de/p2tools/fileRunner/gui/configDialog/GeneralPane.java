@@ -41,7 +41,7 @@ public class GeneralPane extends PAccordionPane {
     private UpdatePane updatePane;
 
     public GeneralPane(Stage stage) {
-        super(stage, ProgConfig.CONFIG_DIALOG_ACCORDION, ProgConfig.SYSTEM_CONFIG_DIALOG_CONFIG);
+        super(stage, ProgConfig.CONFIG_DIALOG_ACCORDION, ProgConfig.SYSTEM_CONFIG_DIALOG_GENERAL);
         this.stage = stage;
         progData = ProgData.getInstance();
 

@@ -38,6 +38,7 @@ public class ConfigDialogController extends PDialogExtra {
     IntegerProperty propSelectedTab = ProgConfig.SYSTEM_CONFIG_DIALOG_TAB;
 
     private GeneralPane generalPane;
+    private ConfigPaneController configPaneController;
     private ColorPane colorPane;
 
     public ConfigDialogController() {
@@ -63,6 +64,7 @@ public class ConfigDialogController extends PDialogExtra {
 
     public void close() {
         generalPane.close();
+        configPaneController.close();
         colorPane.close();
 
         super.close();
@@ -75,6 +77,12 @@ public class ConfigDialogController extends PDialogExtra {
             Tab tab = new Tab("Allgemein");
             tab.setClosable(false);
             tab.setContent(generalPane);
+            tabPane.getTabs().add(tab);
+
+            configPaneController = new ConfigPaneController(getStage());
+            tab = new Tab("Programme");
+            tab.setClosable(false);
+            tab.setContent(configPaneController);
             tabPane.getTabs().add(tab);
 
             colorPane = new ColorPane(getStage());

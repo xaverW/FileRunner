@@ -38,7 +38,7 @@ public class HelpText {
             "Wird \"Unterverzeichnis ...\" ausgewählt, werden beim Durchsuchen auch Unterverzeichnisse " +
             "durchsucht. Andernfalls werden nur Dateien im angegebenen " +
             "Suchverzeichnis verglichen." + P2LibConst.LINE_SEPARATORx2 +
-            
+
             "Ist \"mit dem Hashwert vergleichen\" aktiv, werden die Dateien auch " +
             "nur über den Hash der Datei verglichen. " +
             "D.h. Dateien sind gleich wenn der Hash gleich ist, auch " +
@@ -56,4 +56,17 @@ public class HelpText {
             "Programmoberfläche angezeigt. Damit alle Elemente der Programmoberfläche " +
             "geändert werden, kann ein Programmneustart notwendig sein.";
 
+    public static final String FILEMANAGER =
+            "In der Ansicht \"Downloads\" kann man über das Kontextmenü den Downloadordner " +
+                    "(Zielordner) des jeweiligen Downloads öffnen. Normalerweise wird dafür der " +
+                    "Dateimanager des Betriebssystems gefunden und geöffnet. Klappt das nicht, kann " +
+                    "hier ein Programm dafür angegeben werden." +
+                    "\n";
+
+    public static final String WEBBROWSER =
+            "Wenn das Programm versucht, einen Link zu öffnen (z.B. \"Anleitung im Web\" im " +
+                    "Programm-Menü unter \"Hilfe\") und der Standardbrowser nicht startet, " +
+                    "kann damit ein Programm (Firefox, Chromium, …) ausgewählt und fest " +
+                    "zugeordnet werden." +
+                    "\n";
 }

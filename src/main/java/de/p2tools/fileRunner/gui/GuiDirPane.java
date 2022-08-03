@@ -20,18 +20,22 @@ package de.p2tools.fileRunner.gui;
 import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
+import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.fileRunner.gui.table.Table;
 import de.p2tools.fileRunner.icon.ProgIcons;
+import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
+import de.p2tools.p2Lib.guiTools.POpen;
 import de.p2tools.p2Lib.tools.events.Event;
 import de.p2tools.p2Lib.tools.events.PListener;
 import de.p2tools.p2Lib.tools.events.RunEvent;
 import de.p2tools.p2Lib.tools.file.PFileName;
+import de.p2tools.p2Lib.tools.file.PFileUtils;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
@@ -42,10 +46,12 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+import java.util.Optional;
+
 public class GuiDirPane extends VBox {
 
     private final ScrollPane scrollPane = new ScrollPane();
-    private final TableView table = new TableView();
+    private final TableView<FileData> tableView = new TableView();
 
     private final PComboBoxString pCboDir = new PComboBoxString();
     private final PComboBoxString pCboZip = new PComboBoxString();
@@ -127,10 +133,37 @@ public class GuiDirPane extends VBox {
         addListener();
     }
 
+    private Optional<FileData> getSel() {
+        return getSel(true);
+    }
+
+    private Optional<FileData> getSel(boolean show) {
+        final int selectedTableRow = tableView.getSelectionModel().getSelectedIndex();
+        if (selectedTableRow >= 0) {
+            return Optional.of(tableView.getSelectionModel().getSelectedItem());
+        } else {
+            if (show) {
+                PAlert.showInfoNoSelection();
+            }
+            return Optional.empty();
+        }
+    }
+
+    public void openSelDir() {
+        final Optional<FileData> fileData = getSel(true);
+        if (!fileData.isPresent()) {
+            return;
+        }
+
+        String s = fileData.get().getPath();
+        String path = PFileUtils.addsPath(srcDir.getValueSafe(), s);
+        POpen.openDir(path, ProgConfig.SYSTEM_PROG_OPEN_DIR, ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+    }
+
     private void generatePanel() {
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
-        scrollPane.setContent(table);
+        scrollPane.setContent(tableView);
 
         //=======================
         // dir
@@ -237,10 +270,10 @@ public class GuiDirPane extends VBox {
     }
 
     private void initTable() {
-        new Table().setTable(table, TABLE);
-        table.setItems(fileDataList.getSortedFileData());
+        new Table().setTable(tableView, TABLE);
+        tableView.setItems(fileDataList.getSortedFileData());
         changeTextFilter();
-        fileDataList.getSortedFileData().comparatorProperty().bind(table.comparatorProperty());
+        fileDataList.getSortedFileData().comparatorProperty().bind(tableView.comparatorProperty());
     }
 
     private void initProjectData() {
@@ -262,14 +295,14 @@ public class GuiDirPane extends VBox {
                 if (runEvent.getClass().equals(RunEvent.class)) {
                     RunEvent runE = (RunEvent) runEvent;
                     if (runE.nixLos()) {
-                        Table.refresh_table(table);
+                        Table.refresh_table(tableView);
                     }
                 }
             }
         });
         progData.pEventHandler.addListener(new PListener(Events.COLORS_CHANGED) {
             public void pingGui(Event event) {
-                Table.refresh_table(table);
+                Table.refresh_table(tableView);
             }
         });
 
@@ -431,7 +464,7 @@ public class GuiDirPane extends VBox {
     }
 
     public void saveTable() {
-        new Table().saveTable(table, TABLE);
+        new Table().saveTable(tableView, TABLE);
     }
 
     private void writeHashFile() {

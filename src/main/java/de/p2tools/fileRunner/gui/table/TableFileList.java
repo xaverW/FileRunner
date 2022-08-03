@@ -18,21 +18,29 @@
 package de.p2tools.fileRunner.gui.table;
 
 import de.p2tools.fileRunner.controller.config.ProgColorList;
+import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
+import de.p2tools.fileRunner.icon.ProgIcons;
 import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.file.PFileSize;
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 public class TableFileList {
 
     private TableView tableView;
+    private Table.TABLE eTable;
 
-    public TableColumn[] initFileRunnerColumn(TableView tableView) {
+    public TableColumn[] initFileRunnerColumn(TableView tableView, Table.TABLE eTable) {
         this.tableView = tableView;
+        this.eTable = eTable;
 
         tableView.getColumns().clear();
 
@@ -46,7 +54,12 @@ public class TableFileList {
 
         final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Datei");
         pathFileNameColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));
-        pathFileNameColumn.setCellFactory(cellFactoryStart);
+//        pathFileNameColumn.setCellFactory(cellFactoryStart);
+
+        final TableColumn<FileData, String> buttonColumn = new TableColumn<>("");
+        buttonColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));
+        buttonColumn.setCellFactory(cellFactoryButton);
+        buttonColumn.getStyleClass().add("alignCenter");
 
         final TableColumn<PFileSize, String> fileSizeColumn = new TableColumn<>("Größe");
         fileSizeColumn.setCellValueFactory(new PropertyValueFactory<>("fileSize"));
@@ -74,35 +87,68 @@ public class TableFileList {
         });
         addRowFact(tableView);
         return new TableColumn[]{
-                nrColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only
+                nrColumn, pathFileNameColumn, buttonColumn, fileSizeColumn, fileDateColumn, diff, only
         };
     }
 
     private ContextMenu getMenu() {
         final ContextMenu contextMenu = new ContextMenu();
 
-        MenuItem resetTable = new MenuItem("Tabelle zurücksetzen");
-        resetTable.setOnAction(a -> new Table().resetTable(tableView, Table.TABLE.FILELIST1));
-        contextMenu.getItems().addAll(resetTable);
+        MenuItem miOpenDirectory = new MenuItem("Ordner öffnen");
+        if (eTable.equals(Table.TABLE.FILELIST1)) {
+            miOpenDirectory.setOnAction((ActionEvent event) ->
+                    ProgData.getInstance().guiDirRunner.getGuiDirPane(1).openSelDir());
+        } else {
+            miOpenDirectory.setOnAction((ActionEvent event) ->
+                    ProgData.getInstance().guiDirRunner.getGuiDirPane(2).openSelDir());
+        }
+        contextMenu.getItems().addAll(miOpenDirectory);
+
+        MenuItem miResetTable = new MenuItem("Tabelle zurücksetzen");
+        miResetTable.setOnAction(a -> new Table().resetTable(tableView, Table.TABLE.FILELIST1));
+        contextMenu.getItems().addAll(miResetTable);
+
         return contextMenu;
     }
 
-    private Callback<TableColumn<FileData, String>, TableCell<FileData, String>> cellFactoryStart
+    private Callback<TableColumn<FileData, String>, TableCell<FileData, String>> cellFactoryButton
             = (final TableColumn<FileData, String> param) -> {
 
-        final TableCell<FileData, String> cell = new TableCell<>() {
+        final TableCell<FileData, String> cell = new TableCell<FileData, String>() {
 
             @Override
             public void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
 
-                if (empty) {
+                if (item == null || empty) {
                     setGraphic(null);
                     setText(null);
                     return;
                 }
+
                 FileData fileData = getTableView().getItems().get(getIndex());
                 setText(fileData.getPathFileName());
+
+                final HBox hbox = new HBox();
+                hbox.setSpacing(5);
+                hbox.setAlignment(Pos.CENTER);
+                hbox.setPadding(new Insets(0, 2, 0, 2));
+
+                final Button btnOpenDirectory;
+                btnOpenDirectory = new Button();
+                btnOpenDirectory.setTooltip(new Tooltip("Ordner öffnen"));
+                btnOpenDirectory.setGraphic(ProgIcons.Icons.IMAGE_TABLE_OPEN_DIR.getImageView());
+                btnOpenDirectory.setOnAction((ActionEvent event) -> {
+                    if (eTable.equals(Table.TABLE.FILELIST1)) {
+                        ProgData.getInstance().guiDirRunner.getGuiDirPane(1).openSelDir();
+                    } else {
+                        ProgData.getInstance().guiDirRunner.getGuiDirPane(2).openSelDir();
+                    }
+                });
+
+                hbox.getChildren().addAll(btnOpenDirectory);
+                setGraphic(hbox);
+                setText("");
             }
         };
         return cell;

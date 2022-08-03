@@ -69,6 +69,14 @@ public class GuiDirRunner extends AnchorPane {
     public void isShown() {
     }
 
+    public GuiDirPane getGuiDirPane(int no) {
+        if (no == 1) {
+            return guiDirPane1;
+        } else {
+            return guiDirPane2;
+        }
+    }
+
     public void resetFilter() {
         tglShowAll.setSelected(true);
         fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);

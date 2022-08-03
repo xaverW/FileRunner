@@ -76,11 +76,11 @@ public class Table {
         }
     }
 
-    private void initColumn(TABLE eTable, TableView<PDataSample> table) {
+    private void initColumn(TableView<PDataSample> table, TABLE eTable) {
         switch (eTable) {
             case FILELIST1:
             case FILELIST2:
-                tArray = new TableFileList().initFileRunnerColumn(table);
+                tArray = new TableFileList().initFileRunnerColumn(table, eTable);
                 break;
 
         }
@@ -170,7 +170,7 @@ public class Table {
         try {
 
             initConf(eTable);
-            initColumn(eTable, table);
+            initColumn(table, eTable);
 
 
             maxSpalten = table.getColumns().size();

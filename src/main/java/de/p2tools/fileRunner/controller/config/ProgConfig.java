@@ -36,6 +36,7 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty SYSTEM_PROG_BUILD_NO = addStr("system-prog-build-no");
     public static StringProperty SYSTEM_PROG_BUILD_DATE = addStr("system-prog-build-date");
     public static StringProperty SYSTEM_DOWNLOAD_DIR_NEW_VERSION = addStr("system-download-dir-new-version", "");
+    public static StringProperty SYSTEM_PROG_OPEN_DIR = addStr("system-prog-open-dir");
 
     //Programmupdate
     public static StringProperty SYSTEM_UPDATE_DATE = addStr("system-update-date"); // Datum der letzten Prüfung
@@ -54,6 +55,7 @@ public class ProgConfig extends PDataProgConfig {
 
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_TAB = new SimpleIntegerProperty(0);
     public static BooleanProperty CONFIG_DIALOG_ACCORDION = addBool("config_dialog-accordion", Boolean.TRUE);
+    public static IntegerProperty SYSTEM_CONFIG_DIALOG_GENERAL = new SimpleIntegerProperty(-1);
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_CONFIG = new SimpleIntegerProperty(-1);
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_COLOR = new SimpleIntegerProperty(-1);
 
