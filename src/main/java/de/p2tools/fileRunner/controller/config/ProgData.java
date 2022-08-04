@@ -41,8 +41,8 @@ public class ProgData {
     // Infos
     public static String configDir; // Verzeichnis zum Speichern der Programmeinstellungen
 
-    public FileDataList fileDataList1;
-    public FileDataList fileDataList2;
+    public FileDataList fileDataList_1;
+    public FileDataList fileDataList_2;
 
     // zentrale Klassen
     public Worker worker;
@@ -58,8 +58,8 @@ public class ProgData {
 
     private ProgData() {
         pEventHandler = new PEventHandler();
-        fileDataList1 = new FileDataList();
-        fileDataList2 = new FileDataList();
+        fileDataList_1 = new FileDataList();
+        fileDataList_2 = new FileDataList();
         worker = new Worker(this);
 
         Timeline timeline = new Timeline(new KeyFrame(

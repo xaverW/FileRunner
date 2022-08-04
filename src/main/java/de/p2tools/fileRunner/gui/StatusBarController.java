@@ -185,11 +185,11 @@ public class StatusBarController extends AnchorPane {
     }
 
     private void setFileRunner() {
-        int tbl1Size = progData.fileDataList1.getFilteredFileData().size();
-        int tbl2Size = progData.fileDataList2.getFilteredFileData().size();
+        int tbl1Size = progData.fileDataList_1.getFilteredFileData().size();
+        int tbl2Size = progData.fileDataList_2.getFilteredFileData().size();
 
-        String src1 = progData.fileDataList1.getSourceDir();
-        String src2 = progData.fileDataList2.getSourceDir();
+        String src1 = progData.fileDataList_1.getSourceDir();
+        String src2 = progData.fileDataList_2.getSourceDir();
 
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.GERMANY);
         final String anzListeStr1 = numberFormat.format(tbl1Size);

@@ -38,9 +38,11 @@ import de.p2tools.p2Lib.tools.file.PFileName;
 import de.p2tools.p2Lib.tools.file.PFileUtils;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -51,7 +53,7 @@ import java.util.Optional;
 public class GuiDirPane extends VBox {
 
     private final ScrollPane scrollPane = new ScrollPane();
-    private final TableView<FileData> tableView = new TableView();
+    private final TableView<FileData> tableViewDir = new TableView();
 
     private final PComboBoxString pCboDir = new PComboBoxString();
     private final PComboBoxString pCboZip = new PComboBoxString();
@@ -81,8 +83,11 @@ public class GuiDirPane extends VBox {
     private final ProgData progData;
     private final FileDataFilter fileDataFilter;
 
-    private FileDataList fileDataList;
+    private FileDataList fileDataListDir;
+    private FileDataList fileDataListZip;
+    private FileDataList fileDataListHash;
     private Table.TABLE TABLE;
+    private Table.TAB TAB;
     private final boolean panel1;
 
     private final StringProperty srcDir;
@@ -91,7 +96,7 @@ public class GuiDirPane extends VBox {
     private final StringProperty filter;
     private final StringProperty writeHash;
     private final int selTab;
-    private final IntegerProperty selIndex;
+    private final IntegerProperty selTabIndex;
 
 
     enum DIR_ZIP_HASH {DIR, ZIP, HASH}
@@ -102,8 +107,9 @@ public class GuiDirPane extends VBox {
         this.panel1 = panel1;
 
         if (panel1) {
-            fileDataList = progData.fileDataList1;
-            TABLE = Table.TABLE.FILELIST1;
+            fileDataListDir = progData.fileDataList_1;
+            TABLE = Table.TABLE.FILELIST_1;
+            TAB = Table.TAB.TAB_DIR;
 
             srcDir = ProgConfig.srcDir1;
             srcZip = ProgConfig.srcZip1;
@@ -112,11 +118,12 @@ public class GuiDirPane extends VBox {
             writeHash = ProgConfig.writeHash1;
 
             selTab = ProgConfig.selTab1.get();
-            selIndex = ProgConfig.selTab1;
+            selTabIndex = ProgConfig.selTab1;
 
         } else {
-            fileDataList = progData.fileDataList2;
-            TABLE = Table.TABLE.FILELIST2;
+            fileDataListDir = progData.fileDataList_2;
+            TABLE = Table.TABLE.FILELIST_2;
+            TAB = Table.TAB.TAB_DIR;
 
             srcDir = ProgConfig.srcDir2;
             srcZip = ProgConfig.srcZip2;
@@ -125,8 +132,9 @@ public class GuiDirPane extends VBox {
             writeHash = ProgConfig.writeHash2;
 
             selTab = ProgConfig.selTab2.get();
-            selIndex = ProgConfig.selTab2;
+            selTabIndex = ProgConfig.selTab2;
         }
+
         generatePanel();
         initTable();
         initProjectData();
@@ -138,9 +146,9 @@ public class GuiDirPane extends VBox {
     }
 
     private Optional<FileData> getSel(boolean show) {
-        final int selectedTableRow = tableView.getSelectionModel().getSelectedIndex();
+        final int selectedTableRow = tableViewDir.getSelectionModel().getSelectedIndex();
         if (selectedTableRow >= 0) {
-            return Optional.of(tableView.getSelectionModel().getSelectedItem());
+            return Optional.of(tableViewDir.getSelectionModel().getSelectedItem());
         } else {
             if (show) {
                 PAlert.showInfoNoSelection();
@@ -163,7 +171,7 @@ public class GuiDirPane extends VBox {
     private void generatePanel() {
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
-        scrollPane.setContent(tableView);
+        scrollPane.setContent(tableViewDir);
 
         //=======================
         // dir
@@ -270,10 +278,39 @@ public class GuiDirPane extends VBox {
     }
 
     private void initTable() {
-        new Table().setTable(tableView, TABLE);
-        tableView.setItems(fileDataList.getSortedFileData());
+        new Table().setTable(tableViewDir, TABLE);
+        tableViewDir.setItems(fileDataListDir.getSortedFileData());
         changeTextFilter();
-        fileDataList.getSortedFileData().comparatorProperty().bind(tableView.comparatorProperty());
+        fileDataListDir.getSortedFileData().comparatorProperty().bind(tableViewDir.comparatorProperty());
+
+
+        tableViewDir.setOnMousePressed(m -> {
+            if (m.getButton().equals(MouseButton.SECONDARY)) {
+                tableViewDir.setContextMenu(getMenu());
+            }
+        });
+    }
+
+    private ContextMenu getMenu() {
+        final ContextMenu contextMenu = new ContextMenu();
+
+        if (tabPane.getSelectionModel().getSelectedIndex() == 0) {
+            MenuItem miOpenDirectory = new MenuItem("Ordner öffnen");
+            if (TABLE.equals(Table.TABLE.FILELIST_1)) {
+                miOpenDirectory.setOnAction((ActionEvent event) ->
+                        ProgData.getInstance().guiDirRunner.getGuiDirPane(1).openSelDir());
+            } else {
+                miOpenDirectory.setOnAction((ActionEvent event) ->
+                        ProgData.getInstance().guiDirRunner.getGuiDirPane(2).openSelDir());
+            }
+            contextMenu.getItems().addAll(miOpenDirectory);
+        }
+
+        MenuItem miResetTable = new MenuItem("Tabelle zurücksetzen");
+        miResetTable.setOnAction(a -> new Table().resetTable(tableViewDir, TABLE));
+        contextMenu.getItems().addAll(miResetTable);
+
+        return contextMenu;
     }
 
     private void initProjectData() {
@@ -284,7 +321,18 @@ public class GuiDirPane extends VBox {
         pCboWriteHash.init(ProgConfig.writeHashList, writeHash);
 
         tabPane.getSelectionModel().select(selTab);
-        selIndex.bind(tabPane.getSelectionModel().selectedIndexProperty());
+        selTabIndex.bind(tabPane.getSelectionModel().selectedIndexProperty());
+//        tabPane.getSelectionModel().selectedIndexProperty().addListener((v, o, n) -> {
+//            switch (tabPane.getSelectionModel().getSelectedIndex()) {
+//                case 0:
+//                    tableViewDir.set
+//                    break;
+//                case 1:
+//                    break;
+//                case 2:
+//                    break;
+//            }
+//        });
 
         setTabFilterText();
     }
@@ -295,14 +343,14 @@ public class GuiDirPane extends VBox {
                 if (runEvent.getClass().equals(RunEvent.class)) {
                     RunEvent runE = (RunEvent) runEvent;
                     if (runE.nixLos()) {
-                        Table.refresh_table(tableView);
+                        Table.refresh_table(tableViewDir);
                     }
                 }
             }
         });
         progData.pEventHandler.addListener(new PListener(Events.COLORS_CHANGED) {
             public void pingGui(Event event) {
-                Table.refresh_table(tableView);
+                Table.refresh_table(tableViewDir);
             }
         });
 
@@ -340,7 +388,7 @@ public class GuiDirPane extends VBox {
 
         btnProposeHashName.setOnAction(event -> {
             String file;
-            file = fileDataList.getSourceDir();
+            file = fileDataListDir.getSourceDir();
             if (file.isEmpty() && tabDir.isSelected()) {
                 file = (panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe());
             } else if (file.isEmpty() && tabFile.isSelected()) {
@@ -359,19 +407,19 @@ public class GuiDirPane extends VBox {
         });
 
         ProgConfig.CONFIG_COMPARE_WITH_PATH.addListener((v, o, n) -> {
-            fileDataList.clear();
+            fileDataListDir.clear();
             new CompareFileList().compareList();
         });
         pCboDir.getEditor().textProperty().addListener((c, o, n) -> {
-            fileDataList.clear();
+            fileDataListDir.clear();
             new CompareFileList().compareList();
         });
         pCboZip.getEditor().textProperty().addListener((c, o, n) -> {
-            fileDataList.clear();
+            fileDataListDir.clear();
             new CompareFileList().compareList();
         });
         pCboHash.getEditor().textProperty().addListener((c, o, n) -> {
-            fileDataList.clear();
+            fileDataListDir.clear();
             new CompareFileList().compareList();
         });
 
@@ -401,13 +449,13 @@ public class GuiDirPane extends VBox {
         btnClearFilter.disableProperty().bind(pCboFilter.valueProperty().isNull()
                 .or(pCboFilter.valueProperty().isEqualTo("")));
         btnClearFilter.setOnAction(a -> pCboFilter.getSelectionModel().select(""));
-        btnWriteHash.disableProperty().bind(fileDataList.emptyProperty().
+        btnWriteHash.disableProperty().bind(fileDataListDir.emptyProperty().
                 or(pCboWriteHash.getEditor().textProperty().isEmpty()));
     }
 
     private void readDir() {
         if (GuiFactory.readDirHash((panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
-                fileDataList, ProgConfig.CONFIG_COMPARE_WITH_PATH.getValue(),
+                fileDataListDir, ProgConfig.CONFIG_COMPARE_WITH_PATH.getValue(),
                 (panel1 ? ProgConfig.followLink1.get() : ProgConfig.followLink2.get()))) {
             setTabDirFile(DIR_ZIP_HASH.DIR);
         }
@@ -415,14 +463,14 @@ public class GuiDirPane extends VBox {
     }
 
     private void readZip() {
-        if (GuiFactory.readZipHash((panel1 ? ProgConfig.srcZip1.getValueSafe() : ProgConfig.srcZip2.getValueSafe()), fileDataList)) {
+        if (GuiFactory.readZipHash((panel1 ? ProgConfig.srcZip1.getValueSafe() : ProgConfig.srcZip2.getValueSafe()), fileDataListDir)) {
             setTabDirFile(DIR_ZIP_HASH.ZIP);
         }
         changeTextFilter();
     }
 
     private void readHashfile() {
-        if (GuiFactory.readHashFile((panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe()), fileDataList)) {
+        if (GuiFactory.readHashFile((panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe()), fileDataListDir)) {
             setTabDirFile(DIR_ZIP_HASH.HASH);
         }
         changeTextFilter();
@@ -430,7 +478,7 @@ public class GuiDirPane extends VBox {
 
     private void changeTextFilter() {
         fileDataFilter.setSearchStr(pCboFilter.getSelectionModel().getSelectedItem());
-        fileDataList.setPred(fileDataFilter);
+        fileDataListDir.setPred(fileDataFilter);
     }
 
     private void setTabDirFile(DIR_ZIP_HASH dir_zip_hash) {
@@ -464,12 +512,12 @@ public class GuiDirPane extends VBox {
     }
 
     public void saveTable() {
-        new Table().saveTable(tableView, TABLE);
+        new Table().saveTable(tableViewDir, TABLE);
     }
 
     private void writeHashFile() {
         HashFactory.writeHashFile(btnWriteHash,
                 (panel1 ? ProgConfig.writeHash1.getValueSafe().trim() : ProgConfig.writeHash2.getValueSafe().trim()),
-                fileDataList);
+                fileDataListDir);
     }
 }

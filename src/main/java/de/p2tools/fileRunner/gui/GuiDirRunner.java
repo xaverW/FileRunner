@@ -81,8 +81,8 @@ public class GuiDirRunner extends AnchorPane {
         tglShowAll.setSelected(true);
         fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
         fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
-        progData.fileDataList1.setPred(fileDataFilter1);
-        progData.fileDataList2.setPred(fileDataFilter2);
+        progData.fileDataList_1.setPred(fileDataFilter1);
+        progData.fileDataList_2.setPred(fileDataFilter2);
     }
 
     public void saveTable() {
@@ -229,31 +229,31 @@ public class GuiDirRunner extends AnchorPane {
         if (tglShowAll.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
-            progData.fileDataList1.setPred(fileDataFilter1);
-            progData.fileDataList2.setPred(fileDataFilter2);
+            progData.fileDataList_1.setPred(fileDataFilter1);
+            progData.fileDataList_2.setPred(fileDataFilter2);
         } else if (tglShowSame.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.SAME);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.SAME);
-            progData.fileDataList1.setPred(fileDataFilter1);
-            progData.fileDataList2.setPred(fileDataFilter2);
+            progData.fileDataList_1.setPred(fileDataFilter1);
+            progData.fileDataList_2.setPred(fileDataFilter2);
         } else if (tglShowDiffAll.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_ALL);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_ALL);
-            progData.fileDataList1.setPred(fileDataFilter1);
-            progData.fileDataList2.setPred(fileDataFilter2);
+            progData.fileDataList_1.setPred(fileDataFilter1);
+            progData.fileDataList_2.setPred(fileDataFilter2);
         } else if (tglShowDiff.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
-            progData.fileDataList1.setPred(fileDataFilter1);
-            progData.fileDataList2.setPred(fileDataFilter2);
+            progData.fileDataList_1.setPred(fileDataFilter1);
+            progData.fileDataList_2.setPred(fileDataFilter2);
         } else if (tglShowOnly1.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
-            progData.fileDataList1.setPred(fileDataFilter1);
-            progData.fileDataList2.setPred(false);
+            progData.fileDataList_1.setPred(fileDataFilter1);
+            progData.fileDataList_2.setPred(false);
         } else if (tglShowOnly2.isSelected()) {
-            progData.fileDataList1.setPred(false);
+            progData.fileDataList_1.setPred(false);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
-            progData.fileDataList2.setPred(fileDataFilter2);
+            progData.fileDataList_2.setPred(fileDataFilter2);
         }
     }
 }

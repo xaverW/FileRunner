@@ -35,8 +35,8 @@ public class CompareFileList {
 
     public void compareList() {
         ProgData progData = ProgData.getInstance();
-        FileDataList fileDataList1 = progData.fileDataList1;
-        FileDataList fileDataList2 = progData.fileDataList2;
+        FileDataList fileDataList1 = progData.fileDataList_1;
+        FileDataList fileDataList2 = progData.fileDataList_2;
 
         stop = false;
         // erst mal alle auf diff/only setzen

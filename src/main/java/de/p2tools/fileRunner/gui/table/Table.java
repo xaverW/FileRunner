@@ -25,7 +25,11 @@ import javafx.scene.control.TableView;
 
 public class Table {
     public enum TABLE {
-        FILELIST1, FILELIST2
+        FILELIST_1, FILELIST_2
+    }
+
+    public enum TAB {
+        TAB_DIR, TAB_ZIP, TAB_HASH
     }
 
     private static final String SORT_ASCENDING = "ASCENDING";
@@ -47,134 +51,14 @@ public class Table {
     private StringProperty confVis; //Spalte ist sichtbar
     private StringProperty confOrder; //"Reihenfolge" der Spalten
 
-    public static void refresh_table(TableView table) {
-        for (int i = 0; i < table.getColumns().size(); i++) {
-            ((TableColumn) (table.getColumns().get(i))).setVisible(false);
-            ((TableColumn) (table.getColumns().get(i))).setVisible(true);
-        }
-    }
-
-    private void initConf(TABLE eTable) {
-        switch (eTable) {
-
-            case FILELIST1:
-                confWidth = ProgConfig.GUI_FILERUNNER_TABLE1_WIDTH;
-                confSort = ProgConfig.GUI_FILERUNNER_TABLE1_SORT;
-                confUpDown = ProgConfig.GUI_FILERUNNER_TABLE1_UPDOWN;
-                confVis = ProgConfig.GUI_FILERUNNER_TABLE1_VIS;
-                confOrder = ProgConfig.GUI_FILERUNNER_TABLE1_ORDER;
-                break;
-
-            case FILELIST2:
-                confWidth = ProgConfig.GUI_FILERUNNER_TABLE2_WIDTH;
-                confSort = ProgConfig.GUI_FILERUNNER_TABLE2_SORT;
-                confUpDown = ProgConfig.GUI_FILERUNNER_TABLE2_UPDOWN;
-                confVis = ProgConfig.GUI_FILERUNNER_TABLE2_VIS;
-                confOrder = ProgConfig.GUI_FILERUNNER_TABLE2_ORDER;
-                break;
-
-        }
-    }
-
-    private void initColumn(TableView<PDataSample> table, TABLE eTable) {
-        switch (eTable) {
-            case FILELIST1:
-            case FILELIST2:
-                tArray = new TableFileList().initFileRunnerColumn(table, eTable);
-                break;
-
-        }
-        String order = confOrder.get();
-        String[] arOrder = order.split(",");
-        if (confOrder.get().isEmpty() || arOrder.length != tArray.length) {
-            // dann gibts keine Einstellungen oder die Anzahl der Spalten hat sich geändert
-            for (TableColumn tc : tArray) {
-                table.getColumns().add(tc);
-            }
-        } else {
-            for (int i = 0; i < arOrder.length; ++i) {
-                String s = arOrder[i];
-                for (TableColumn tc : tArray) {
-                    if (s.equals(tc.getText())) {
-                        if (!table.getColumns().contains(tc)) {
-                            //aus Fehlern wird man klug :(
-                            table.getColumns().add(tc);
-                        }
-                    }
-                }
-            }
-        }
-        table.getColumns().stream().forEach(c -> c.setSortable(true));
-        table.getColumns().stream().forEach(c -> c.setVisible(true));
-
-    }
-
-    public void saveTable(TableView ta, TABLE eTable) {
-        // Tabellendaten sichern
-
-        TableView<PDataSample> table = ta;
-
-        initConf(eTable);
-        maxSpalten = table.getColumns().size();
-
-        table.getColumns().stream().forEach(c -> {
-            width += c.getWidth() + ",";
-            vis += String.valueOf(c.isVisible()) + ",";
-        });
-
-        table.getSortOrder().stream().forEach(so -> {
-            sort += so.getText() + ",";
-        });
-
-        if (table.getSortOrder().size() > 0) {
-            table.getSortOrder().stream().forEach(so -> {
-                upDown += (so.getSortType().equals(TableColumn.SortType.ASCENDING) ? SORT_ASCENDING : SORT_DESCENDING) + ",";
-            });
-        }
-
-        table.getColumns().stream().forEach(c -> {
-            order += c.getText() + ",";
-        });
-
-        confWidth.set(width);
-        confVis.set(vis);
-        confSort.set(sort);
-        confUpDown.set(upDown);
-        confOrder.set(order);
-
-    }
-
-
-    public void resetTable(TableView ta, TABLE eTable) {
-        reset(ta, eTable);
-        setTable(ta, eTable);
-    }
-
-    private void reset(TableView ta, TABLE eTable) {
-        initConf(eTable);
-        maxSpalten = ta.getColumns().size();
-        switch (eTable) {
-
-            case FILELIST1:
-            case FILELIST2:
-                resetGuiFileRunner();
-                break;
-
-        }
-    }
-
-
     public void setTable(TableView ta, TABLE eTable) {
         // Tabelle setzen
         TableView<PDataSample> table = ta;
         try {
-
             initConf(eTable);
             initColumn(table, eTable);
 
-
             maxSpalten = table.getColumns().size();
-
             breite = getDoubleArray(maxSpalten);
             visAr = getBoolArray(maxSpalten);
 
@@ -219,8 +103,102 @@ public class Table {
 
     }
 
+    public static void refresh_table(TableView table) {
+        for (int i = 0; i < table.getColumns().size(); i++) {
+            ((TableColumn) (table.getColumns().get(i))).setVisible(false);
+            ((TableColumn) (table.getColumns().get(i))).setVisible(true);
+        }
+    }
+
+    public void saveTable(TableView ta, TABLE eTable) {
+        // Tabellendaten sichern
+        TableView<PDataSample> table = ta;
+        initConf(eTable);
+        maxSpalten = table.getColumns().size();
+
+        table.getColumns().stream().forEach(c -> {
+            width += c.getWidth() + ",";
+            vis += String.valueOf(c.isVisible()) + ",";
+        });
+        table.getSortOrder().stream().forEach(so -> {
+            sort += so.getText() + ",";
+        });
+        if (table.getSortOrder().size() > 0) {
+            table.getSortOrder().stream().forEach(so -> {
+                upDown += (so.getSortType().equals(TableColumn.SortType.ASCENDING) ? SORT_ASCENDING : SORT_DESCENDING) + ",";
+            });
+        }
+        table.getColumns().stream().forEach(c -> {
+            order += c.getText() + ",";
+        });
+
+        confWidth.set(width);
+        confVis.set(vis);
+        confSort.set(sort);
+        confUpDown.set(upDown);
+        confOrder.set(order);
+    }
+
+    public void resetTable(TableView ta, TABLE eTable) {
+        reset(ta, eTable);
+        setTable(ta, eTable);
+    }
+
+    private void initConf(TABLE eTable) {
+        switch (eTable) {
+            case FILELIST_1:
+                confWidth = ProgConfig.GUI_FILERUNNER_TABLE1_WIDTH;
+                confSort = ProgConfig.GUI_FILERUNNER_TABLE1_SORT;
+                confUpDown = ProgConfig.GUI_FILERUNNER_TABLE1_UPDOWN;
+                confVis = ProgConfig.GUI_FILERUNNER_TABLE1_VIS;
+                confOrder = ProgConfig.GUI_FILERUNNER_TABLE1_ORDER;
+                break;
+
+            case FILELIST_2:
+                confWidth = ProgConfig.GUI_FILERUNNER_TABLE2_WIDTH;
+                confSort = ProgConfig.GUI_FILERUNNER_TABLE2_SORT;
+                confUpDown = ProgConfig.GUI_FILERUNNER_TABLE2_UPDOWN;
+                confVis = ProgConfig.GUI_FILERUNNER_TABLE2_VIS;
+                confOrder = ProgConfig.GUI_FILERUNNER_TABLE2_ORDER;
+                break;
+
+        }
+    }
+
+    private void initColumn(TableView<PDataSample> table, TABLE eTable) {
+        tArray = new TableFileList().initFileRunnerColumn(table, eTable);
+        String order = confOrder.get();
+        String[] arOrder = order.split(",");
+        if (confOrder.get().isEmpty() || arOrder.length != tArray.length) {
+            // dann gibts keine Einstellungen oder die Anzahl der Spalten hat sich geändert
+            for (TableColumn tc : tArray) {
+                table.getColumns().add(tc);
+            }
+        } else {
+            for (int i = 0; i < arOrder.length; ++i) {
+                String s = arOrder[i];
+                for (TableColumn tc : tArray) {
+                    if (s.equals(tc.getText())) {
+                        if (!table.getColumns().contains(tc)) {
+                            //aus Fehlern wird man klug :(
+                            table.getColumns().add(tc);
+                        }
+                    }
+                }
+            }
+        }
+        table.getColumns().stream().forEach(c -> c.setSortable(true));
+        table.getColumns().stream().forEach(c -> c.setVisible(true));
+    }
+
+    private void reset(TableView ta, TABLE eTable) {
+        initConf(eTable);
+        maxSpalten = ta.getColumns().size();
+        resetGuiFileRunner();
+    }
+
+
     private boolean arrLesen(String s, double[] arr) {
-        String sub;
         String[] sarr = s.split(",");
         if (maxSpalten != sarr.length) {
             // dann hat sich die Anzahl der Spalten der Tabelle geändert: Versionswechsel
@@ -238,7 +216,6 @@ public class Table {
     }
 
     private boolean arrLesen(String s, boolean[] arr) {
-        String sub;
         String[] sarr = s.split(",");
         if (maxSpalten != sarr.length) {
             // dann hat sich die Anzahl der Spalten der Tabelle geändert: Versionswechsel
@@ -308,6 +285,4 @@ public class Table {
         confUpDown.set("");
         confOrder.set("");
     }
-
-
 }
