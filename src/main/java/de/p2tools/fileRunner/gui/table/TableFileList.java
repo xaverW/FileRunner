@@ -28,22 +28,30 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class TableFileList {
+public class TableFileList extends PTable<FileData> {
 
-    private static TableView tableView;
-//    private static Table.TABLE eTable;
-//    private static Table.TAB eTab = Table.TAB.TAB_DIR;
+    public TableFileList(Table.TABLE_ENUM table_enum) {
+        super(table_enum);
+        this.table_enum = table_enum;
+        initFileRunnerColumn();
+    }
 
-    public TableColumn[] initFileRunnerColumn(TableView tableView, Table.TABLE eTable) {
-        this.tableView = tableView;
-//        this.eTable = eTable;
+    public Table.TABLE_ENUM getETable() {
+        return table_enum;
+    }
 
-        tableView.getColumns().clear();
+    public void resetTable() {
+        initFileRunnerColumn();
+        Table.resetTable(this);
+    }
 
-        tableView.setTableMenuButtonVisible(true);
-        tableView.setEditable(false);
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+    private void initFileRunnerColumn() {
+        getColumns().clear();
+
+        setTableMenuButtonVisible(true);
+        setEditable(false);
+        getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
         final TableColumn<FileData, Integer> nrColumn = new TableColumn<>("Nr");
         nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
@@ -51,14 +59,7 @@ public class TableFileList {
         final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Datei");
         pathFileNameColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));
 
-//        final TableColumn<FileData, String> buttonColumn = new TableColumn<>("");
-//        buttonColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));
-//        if (eTab.equals(Table.TAB.TAB_DIR)) {
-//            buttonColumn.setCellFactory(cellFactoryButton);
-//        }
-//        buttonColumn.getStyleClass().add("alignCenter");
-
-        final TableColumn<PFileSize, String> fileSizeColumn = new TableColumn<>("Größe");
+        final TableColumn<FileData, PFileSize> fileSizeColumn = new TableColumn<>("Größe");
         fileSizeColumn.setCellValueFactory(new PropertyValueFactory<>("fileSize"));
 
         final TableColumn<FileData, PDate> fileDateColumn = new TableColumn<>("Geändert");
@@ -77,89 +78,12 @@ public class TableFileList {
         fileSizeColumn.setMaxWidth(1f * Integer.MAX_VALUE * 10);
         fileDateColumn.setMaxWidth(1f * Integer.MAX_VALUE * 20);
 
-//        tableView.setOnMousePressed(m -> {
-//            if (m.getButton().equals(MouseButton.SECONDARY)) {
-//                tableView.setContextMenu(getMenu());
-//            }
-//        });
-        addRowFact(tableView);
-        return new TableColumn[]{
-                nrColumn, pathFileNameColumn/*, buttonColumn*/, fileSizeColumn, fileDateColumn, diff, only
-        };
+        addRowFact();
+        getColumns().addAll(nrColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only);
     }
 
-//    public void setETab(Table.TAB eTab) {
-//        this.eTab = eTab;
-//    }
-
-//    private ContextMenu getMenu() {
-//        final ContextMenu contextMenu = new ContextMenu();
-//
-//        if (eTab.equals(Table.TAB.TAB_DIR)) {
-//            MenuItem miOpenDirectory = new MenuItem("Ordner öffnen");
-//            if (eTable.equals(Table.TABLE.FILELIST_1)) {
-//                miOpenDirectory.setOnAction((ActionEvent event) ->
-//                        ProgData.getInstance().guiDirRunner.getGuiDirPane(1).openSelDir());
-//            } else {
-//                miOpenDirectory.setOnAction((ActionEvent event) ->
-//                        ProgData.getInstance().guiDirRunner.getGuiDirPane(2).openSelDir());
-//            }
-//            contextMenu.getItems().addAll(miOpenDirectory);
-//        }
-//
-//        MenuItem miResetTable = new MenuItem("Tabelle zurücksetzen");
-//        miResetTable.setOnAction(a -> new Table().resetTable(tableView, eTable));
-//        contextMenu.getItems().addAll(miResetTable);
-//
-//        return contextMenu;
-//    }
-
-//    private Callback<TableColumn<FileData, String>, TableCell<FileData, String>> cellFactoryButton
-//            = (final TableColumn<FileData, String> param) -> {
-//
-//        final TableCell<FileData, String> cell = new TableCell<FileData, String>() {
-//
-//            @Override
-//            public void updateItem(String item, boolean empty) {
-//                super.updateItem(item, empty);
-//
-//                if (item == null || empty) {
-//                    setGraphic(null);
-//                    setText(null);
-//                    return;
-//                }
-//
-//                FileData fileData = getTableView().getItems().get(getIndex());
-//                setText(fileData.getPathFileName());
-//
-//                final HBox hbox = new HBox();
-//                hbox.setSpacing(5);
-//                hbox.setAlignment(Pos.CENTER);
-//                hbox.setPadding(new Insets(0, 2, 0, 2));
-//
-//                final Button btnOpenDirectory;
-//                btnOpenDirectory = new Button();
-//                btnOpenDirectory.setTooltip(new Tooltip("Ordner öffnen"));
-//                btnOpenDirectory.setGraphic(ProgIcons.Icons.IMAGE_TABLE_OPEN_DIR.getImageView());
-//                btnOpenDirectory.setOnAction((ActionEvent event) -> {
-//                    if (eTable.equals(Table.TABLE.FILELIST_1)) {
-//                        ProgData.getInstance().guiDirRunner.getGuiDirPane(1).openSelDir();
-//                    } else {
-//                        ProgData.getInstance().guiDirRunner.getGuiDirPane(2).openSelDir();
-//                    }
-//                });
-//
-//                hbox.getChildren().addAll(btnOpenDirectory);
-//                setGraphic(hbox);
-//                setText("");
-//            }
-//        };
-//        return cell;
-//    };
-
-    private void addRowFact(TableView<FileData> table) {
-
-        table.setRowFactory(tableview -> new TableRow<>() {
+    private void addRowFact() {
+        setRowFactory(tableview -> new TableRow<>() {
             @Override
             public void updateItem(FileData film, boolean empty) {
                 super.updateItem(film, empty);

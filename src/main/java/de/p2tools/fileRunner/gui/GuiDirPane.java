@@ -26,11 +26,13 @@ import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.HashFactory;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.fileRunner.gui.table.Table;
+import de.p2tools.fileRunner.gui.table.TableFileList;
 import de.p2tools.fileRunner.icon.ProgIcons;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.guiTools.POpen;
+import de.p2tools.p2Lib.guiTools.PTableFactory;
 import de.p2tools.p2Lib.tools.events.Event;
 import de.p2tools.p2Lib.tools.events.PListener;
 import de.p2tools.p2Lib.tools.events.RunEvent;
@@ -48,12 +50,13 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+import java.nio.file.Path;
 import java.util.Optional;
 
 public class GuiDirPane extends VBox {
 
     private final ScrollPane scrollPane = new ScrollPane();
-    private final TableView<FileData> tableViewDir = new TableView();
+    private final TableFileList tableView;
 
     private final PComboBoxString pCboDir = new PComboBoxString();
     private final PComboBoxString pCboZip = new PComboBoxString();
@@ -86,8 +89,7 @@ public class GuiDirPane extends VBox {
     private FileDataList fileDataListDir;
     private FileDataList fileDataListZip;
     private FileDataList fileDataListHash;
-    private Table.TABLE TABLE;
-    private Table.TAB TAB;
+    private Table.TABLE_ENUM table_enum;
     private final boolean panel1;
 
     private final StringProperty srcDir;
@@ -107,9 +109,9 @@ public class GuiDirPane extends VBox {
         this.panel1 = panel1;
 
         if (panel1) {
+            tableView = new TableFileList(Table.TABLE_ENUM.FILELIST_1);
             fileDataListDir = progData.fileDataList_1;
-            TABLE = Table.TABLE.FILELIST_1;
-            TAB = Table.TAB.TAB_DIR;
+            table_enum = Table.TABLE_ENUM.FILELIST_1;
 
             srcDir = ProgConfig.srcDir1;
             srcZip = ProgConfig.srcZip1;
@@ -121,9 +123,9 @@ public class GuiDirPane extends VBox {
             selTabIndex = ProgConfig.selTab1;
 
         } else {
+            tableView = new TableFileList(Table.TABLE_ENUM.FILELIST_2);
             fileDataListDir = progData.fileDataList_2;
-            TABLE = Table.TABLE.FILELIST_2;
-            TAB = Table.TAB.TAB_DIR;
+            table_enum = Table.TABLE_ENUM.FILELIST_2;
 
             srcDir = ProgConfig.srcDir2;
             srcZip = ProgConfig.srcZip2;
@@ -135,8 +137,8 @@ public class GuiDirPane extends VBox {
             selTabIndex = ProgConfig.selTab2;
         }
 
-        generatePanel();
         initTable();
+        generatePanel();
         initProjectData();
         addListener();
     }
@@ -146,9 +148,9 @@ public class GuiDirPane extends VBox {
     }
 
     private Optional<FileData> getSel(boolean show) {
-        final int selectedTableRow = tableViewDir.getSelectionModel().getSelectedIndex();
+        final int selectedTableRow = tableView.getSelectionModel().getSelectedIndex();
         if (selectedTableRow >= 0) {
-            return Optional.of(tableViewDir.getSelectionModel().getSelectedItem());
+            return Optional.of(tableView.getSelectionModel().getSelectedItem());
         } else {
             if (show) {
                 PAlert.showInfoNoSelection();
@@ -158,20 +160,88 @@ public class GuiDirPane extends VBox {
     }
 
     public void openSelDir() {
+        String path = getSelFilePath();
+        if (path.isEmpty()) {
+            return;
+        }
+
+        POpen.openDir(path, ProgConfig.SYSTEM_PROG_OPEN_DIR, ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+    }
+
+    public void copySelFile() {
         final Optional<FileData> fileData = getSel(true);
         if (!fileData.isPresent()) {
             return;
         }
 
+        String fileName = fileData.get().getFileName();
+        String srcFile = getSelFilePath();
+        if (srcFile.isEmpty()) {
+            return;
+        }
+        srcFile = PFileUtils.addsPath(srcFile, fileName);
+
+        String destDir;
+        if (table_enum.equals(Table.TABLE_ENUM.FILELIST_1)) {
+            destDir = ProgConfig.lastUsedDir2.getValueSafe();
+        } else {
+            destDir = ProgConfig.lastUsedDir1.getValueSafe();
+        }
+        destDir = PDirFileChooser.DirChooser(progData.primaryStage, destDir);
+        String destFile = PFileUtils.addsPath(destDir, fileName);
+
+        Path srcPath = Path.of(srcFile);
+        Path destPath = Path.of(destFile);
+        PFileUtils.copyFile(srcPath, destPath, true);
+    }
+
+    public void copyAllSelFiles() {
+        if (tableView.getSelectionModel().getSelectedItems().size() < 1) {
+            //dann ist nichts markiert
+            return;
+        }
+
+        String destDir;
+        if (table_enum.equals(Table.TABLE_ENUM.FILELIST_1)) {
+            destDir = ProgConfig.lastUsedDir2.getValueSafe();
+        } else {
+            destDir = ProgConfig.lastUsedDir1.getValueSafe();
+        }
+        destDir = PDirFileChooser.DirChooser(progData.primaryStage, destDir);
+
+        for (FileData selected : tableView.getSelectionModel().getSelectedItems()) {
+            String fileName = selected.getFileName();
+
+            String s = selected.getPath();
+            String srcFile = PFileUtils.addsPath(srcDir.getValueSafe(), s);
+            if (srcFile.isEmpty()) {
+                return;
+            }
+            srcFile = PFileUtils.addsPath(srcFile, fileName);
+
+            String destFile = PFileUtils.addsPath(destDir, fileName);
+
+            Path srcPath = Path.of(srcFile);
+            Path destPath = Path.of(destFile);
+            PFileUtils.copyFile(srcPath, destPath, true);
+        }
+    }
+
+    private String getSelFilePath() {
+        final Optional<FileData> fileData = getSel(true);
+        if (!fileData.isPresent()) {
+            return "";
+        }
+
         String s = fileData.get().getPath();
         String path = PFileUtils.addsPath(srcDir.getValueSafe(), s);
-        POpen.openDir(path, ProgConfig.SYSTEM_PROG_OPEN_DIR, ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+        return path;
     }
 
     private void generatePanel() {
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
-        scrollPane.setContent(tableViewDir);
+        scrollPane.setContent(tableView);
 
         //=======================
         // dir
@@ -278,15 +348,15 @@ public class GuiDirPane extends VBox {
     }
 
     private void initTable() {
-        new Table().setTable(tableViewDir, TABLE);
-        tableViewDir.setItems(fileDataListDir.getSortedFileData());
+        Table.setTable(tableView);
+        tableView.setItems(fileDataListDir.getSortedFileData());
         changeTextFilter();
-        fileDataListDir.getSortedFileData().comparatorProperty().bind(tableViewDir.comparatorProperty());
+        fileDataListDir.getSortedFileData().comparatorProperty().bind(tableView.comparatorProperty());
 
 
-        tableViewDir.setOnMousePressed(m -> {
+        tableView.setOnMousePressed(m -> {
             if (m.getButton().equals(MouseButton.SECONDARY)) {
-                tableViewDir.setContextMenu(getMenu());
+                tableView.setContextMenu(getMenu());
             }
         });
     }
@@ -296,18 +366,34 @@ public class GuiDirPane extends VBox {
 
         if (tabPane.getSelectionModel().getSelectedIndex() == 0) {
             MenuItem miOpenDirectory = new MenuItem("Ordner öffnen");
-            if (TABLE.equals(Table.TABLE.FILELIST_1)) {
+            if (table_enum.equals(Table.TABLE_ENUM.FILELIST_1)) {
                 miOpenDirectory.setOnAction((ActionEvent event) ->
-                        ProgData.getInstance().guiDirRunner.getGuiDirPane(1).openSelDir());
+                        openSelDir());
             } else {
                 miOpenDirectory.setOnAction((ActionEvent event) ->
-                        ProgData.getInstance().guiDirRunner.getGuiDirPane(2).openSelDir());
+                        openSelDir());
             }
             contextMenu.getItems().addAll(miOpenDirectory);
         }
 
+        if (tabPane.getSelectionModel().getSelectedIndex() == 0) {
+
+            if (tableView.getSelectionModel().getSelectedItems().size() == 1) {
+                MenuItem miCopyFile = new MenuItem("Datei kopieren");
+                miCopyFile.setOnAction((ActionEvent event) ->
+                        copySelFile());
+                contextMenu.getItems().addAll(miCopyFile);
+
+            } else if (tableView.getSelectionModel().getSelectedItems().size() > 1) {
+                MenuItem miCopyFile = new MenuItem("Markierte Dateien kopieren");
+                miCopyFile.setOnAction((ActionEvent event) ->
+                        copyAllSelFiles());
+                contextMenu.getItems().addAll(miCopyFile);
+            }
+        }
+
         MenuItem miResetTable = new MenuItem("Tabelle zurücksetzen");
-        miResetTable.setOnAction(a -> new Table().resetTable(tableViewDir, TABLE));
+        miResetTable.setOnAction(a -> tableView.resetTable());
         contextMenu.getItems().addAll(miResetTable);
 
         return contextMenu;
@@ -322,17 +408,6 @@ public class GuiDirPane extends VBox {
 
         tabPane.getSelectionModel().select(selTab);
         selTabIndex.bind(tabPane.getSelectionModel().selectedIndexProperty());
-//        tabPane.getSelectionModel().selectedIndexProperty().addListener((v, o, n) -> {
-//            switch (tabPane.getSelectionModel().getSelectedIndex()) {
-//                case 0:
-//                    tableViewDir.set
-//                    break;
-//                case 1:
-//                    break;
-//                case 2:
-//                    break;
-//            }
-//        });
 
         setTabFilterText();
     }
@@ -343,14 +418,14 @@ public class GuiDirPane extends VBox {
                 if (runEvent.getClass().equals(RunEvent.class)) {
                     RunEvent runE = (RunEvent) runEvent;
                     if (runE.nixLos()) {
-                        Table.refresh_table(tableViewDir);
+                        PTableFactory.refreshTable(tableView);
                     }
                 }
             }
         });
         progData.pEventHandler.addListener(new PListener(Events.COLORS_CHANGED) {
             public void pingGui(Event event) {
-                Table.refresh_table(tableViewDir);
+                PTableFactory.refreshTable(tableView);
             }
         });
 
@@ -512,7 +587,7 @@ public class GuiDirPane extends VBox {
     }
 
     public void saveTable() {
-        new Table().saveTable(tableViewDir, TABLE);
+        Table.saveTable(tableView, table_enum);
     }
 
     private void writeHashFile() {
