@@ -29,8 +29,8 @@ public class GuiFactory {
     private GuiFactory() {
     }
 
-    public static boolean readDirHash(String hashDir, FileDataList fileDataList, boolean recursive, boolean followLink) {
-        boolean ret = HashFactory.readDirHash(hashDir, fileDataList, recursive, followLink);
+    public static boolean readDirHash(String hashDir, FileDataList fileDataList, boolean followLink) {
+        boolean ret = HashFactory.readDirHash(hashDir, fileDataList, followLink);
         ProgData.getInstance().guiDirRunner.resetFilter();
         return ret;
     }

@@ -118,7 +118,6 @@ public class GuiDirRunner extends AnchorPane {
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
         splitPane.getItems().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
 
-
         //== Unten ==
         Label lblPath = new Label("Auch Unterverzeichnisse durchsuchen:");
         final PToggleSwitchOnly tglSubDir = new PToggleSwitchOnly();
@@ -128,15 +127,16 @@ public class GuiDirRunner extends AnchorPane {
 ////            new CompareFileList().compareList();
 ////            setTglButton();
 //        });
+
         Label lblHash = new Label("Dateien nur mit dem Hashwert vergleichen:");
         final PToggleSwitchOnly tglHash = new PToggleSwitchOnly();
         tglHash.setTooltip(new Tooltip("Dateien werden über ihren Hashwert verglichen, unabhängig vom Dateinamen " +
                 "oder Verzeichnis"));
         tglHash.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH);
-        tglHash.selectedProperty().addListener((v, o, n) -> {
+//        tglHash.selectedProperty().addListener((v, o, n) -> {
 //            new CompareFileList().compareList();
 //            setTglButton();
-        });
+//        });
 
         Button btnHelpPathHash = PButton.helpButton(progData.primaryStage, "", HelpText.READ_DIR_RECURSIVE_HASH);
 

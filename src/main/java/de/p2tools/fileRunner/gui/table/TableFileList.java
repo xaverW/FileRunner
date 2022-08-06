@@ -22,11 +22,9 @@ import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.file.PFileSize;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 
 public class TableFileList extends PTable<FileData> {
 
@@ -53,8 +51,12 @@ public class TableFileList extends PTable<FileData> {
         getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-        final TableColumn<FileData, Integer> nrColumn = new TableColumn<>("Nr");
-        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
+//        final TableColumn<FileData, Integer> nrColumn = new TableColumn<>("Nr");
+//        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
+
+        final TableColumn<FileData, Integer> idColumn = new TableColumn<>("FileId");
+        idColumn.setCellFactory(callbackFileId);
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("fileId"));
 
         final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Datei");
         pathFileNameColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));
@@ -73,14 +75,40 @@ public class TableFileList extends PTable<FileData> {
         only.setCellValueFactory(new PropertyValueFactory<>("only"));
         only.setCellFactory(new PCheckBoxCell().cellFactoryBool);
 
-        nrColumn.setMaxWidth(1f * Integer.MAX_VALUE * 10);
-        pathFileNameColumn.setMaxWidth(1f * Integer.MAX_VALUE * 50);
-        fileSizeColumn.setMaxWidth(1f * Integer.MAX_VALUE * 10);
-        fileDateColumn.setMaxWidth(1f * Integer.MAX_VALUE * 20);
+//        nrColumn.setPrefWidth(50);
+        idColumn.setPrefWidth(75);
+        pathFileNameColumn.setPrefWidth(250);
+        fileSizeColumn.setPrefWidth(75);
+        fileDateColumn.setPrefWidth(100);
 
         addRowFact();
-        getColumns().addAll(nrColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only);
+        getColumns().addAll(/*nrColumn,*/ idColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only);
     }
+
+    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> callbackFileId =
+            (final TableColumn<FileData, Integer> param) -> {
+
+                final TableCell<FileData, Integer> cell = new TableCell<>() {
+
+                    @Override
+                    public void updateItem(Integer item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        }
+
+                        if (item == 0) {
+                            setText("");
+                        } else {
+                            setText(item.toString());
+                        }
+                    }
+                };
+                return cell;
+            };
 
     private void addRowFact() {
         setRowFactory(tableview -> new TableRow<>() {

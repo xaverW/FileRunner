@@ -64,8 +64,8 @@ public class Worker {
         readHashFile.setStop();
     }
 
-    public void createDirHash(File dir, FileDataList fileDataList, int sumThreads, boolean recursive, boolean followLink) {
-        createDirHash.createHash(dir, fileDataList, sumThreads, recursive, followLink);
+    public void createDirHash(File dir, FileDataList fileDataList, int sumThreads, boolean followLink) {
+        createDirHash.createHash(dir, fileDataList, sumThreads, followLink);
     }
 
     public void createZipHash(File zipFile, FileDataList fileDataList) {

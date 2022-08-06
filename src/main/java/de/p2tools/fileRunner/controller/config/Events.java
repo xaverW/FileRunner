@@ -21,6 +21,7 @@ import de.p2tools.p2Lib.tools.events.Event;
 
 public class Events {
     private static int count = 0;
+
     public static int COMPARE_OF_FILE_LISTS_FINISHED = count;
     public static int GENERATE_COMPARE_FILE_LIST = ++count;
     public static int COLORS_CHANGED = ++count;

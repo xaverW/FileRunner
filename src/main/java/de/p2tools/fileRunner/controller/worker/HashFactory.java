@@ -35,7 +35,7 @@ public class HashFactory {
     private HashFactory() {
     }
 
-    public static boolean readDirHash(String hashDir, FileDataList fileDataList, boolean recurcive, boolean followLink) {
+    public static boolean readDirHash(String hashDir, FileDataList fileDataList, boolean followLink) {
         ProgData progData = ProgData.getInstance();
         boolean ret = false;
         if (hashDir.isEmpty()) {
@@ -47,7 +47,7 @@ public class HashFactory {
             PDialogFileChosser.showErrorAlert("Verzeichnis einlesen", "Verzeichnis existiert nicht!");
         } else {
             ret = true;
-            progData.worker.createDirHash(dir, fileDataList, 1, recurcive, followLink);
+            progData.worker.createDirHash(dir, fileDataList, 1, followLink);
             fileDataList.setSourceDir(hashDir);
         }
 

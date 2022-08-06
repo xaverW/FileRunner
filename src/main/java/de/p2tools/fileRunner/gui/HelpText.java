@@ -37,7 +37,9 @@ public class HelpText {
     public static final String READ_DIR_RECURSIVE_HASH = "" +
             "Wird \"Unterverzeichnis ...\" ausgewählt, werden beim Durchsuchen auch Unterverzeichnisse " +
             "durchsucht. Andernfalls werden nur Dateien im angegebenen " +
-            "Suchverzeichnis verglichen." + P2LibConst.LINE_SEPARATORx2 +
+            "Suchverzeichnis verglichen." + P2LibConst.LINE_SEPARATOR +
+            "Zip-Dateien und Hash-Dateien werden immer komplett gelesen."
+            + P2LibConst.LINE_SEPARATORx2 +
 
             "Ist \"mit dem Hashwert vergleichen\" aktiv, werden die Dateien auch " +
             "nur über den Hash der Datei verglichen. " +
@@ -45,7 +47,7 @@ public class HelpText {
             "dann wenn sie in unterschiedlichen Verzeichnissen liegen oder " +
             "unterschiedliche Dateinamen haben. Bei ausgeschalteter Option muss die " +
             "Datei gleich sein, der Dateiname muss gleich sein und sie muss auch im " +
-            "gleich Verzeichnis liegen (Unterverzeichnis des Suchverzeichnisses).";
+            "gleichen Verzeichnis liegen (Unterverzeichnis des Suchverzeichnisses).";
 
     public static final String FOLLOW_SYMLINK = "Eine symbolische Verknüpfung ist eine Verknüpfung in einem Dateisystem " +
             "die auf eine andere Datei oder ein anderes Verzeichnis verweist." + P2LibConst.LINE_SEPARATORx2 +

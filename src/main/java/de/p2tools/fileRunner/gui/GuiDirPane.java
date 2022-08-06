@@ -419,6 +419,7 @@ public class GuiDirPane extends VBox {
                     RunEvent runE = (RunEvent) runEvent;
                     if (runE.nixLos()) {
                         PTableFactory.refreshTable(tableView);
+                        tableView.sort();
                     }
                 }
             }
@@ -485,6 +486,9 @@ public class GuiDirPane extends VBox {
             fileDataListDir.clear();
             new CompareFileList().compareList();
         });
+        ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH.addListener((v, o, n) -> {
+            new CompareFileList().compareList();
+        });
         pCboDir.getEditor().textProperty().addListener((c, o, n) -> {
             fileDataListDir.clear();
             new CompareFileList().compareList();
@@ -530,8 +534,7 @@ public class GuiDirPane extends VBox {
 
     private void readDir() {
         if (GuiFactory.readDirHash((panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
-                fileDataListDir, ProgConfig.CONFIG_COMPARE_WITH_PATH.getValue(),
-                (panel1 ? ProgConfig.followLink1.get() : ProgConfig.followLink2.get()))) {
+                fileDataListDir, (panel1 ? ProgConfig.followLink1.get() : ProgConfig.followLink2.get()))) {
             setTabDirFile(DIR_ZIP_HASH.DIR);
         }
         changeTextFilter();

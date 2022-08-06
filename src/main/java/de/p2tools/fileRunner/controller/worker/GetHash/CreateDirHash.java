@@ -18,6 +18,7 @@
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.config.Events;
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
@@ -57,9 +58,9 @@ public class CreateDirHash {
         stop = true;
     }
 
-    public void createHash(File file, FileDataList fileDataList, int anzThread, boolean recursiv, boolean followLink) {
+    public void createHash(File file, FileDataList fileDataList, int anzThread, boolean followLink) {
         this.anzThread = anzThread;
-        this.recursiv = recursiv;
+        this.recursiv = ProgConfig.CONFIG_COMPARE_WITH_PATH.getValue();
         this.followLink = followLink;
 
         max = 0;

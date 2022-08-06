@@ -28,6 +28,7 @@ import de.p2tools.p2Lib.tools.log.PLog;
 
 public class CompareFileList {
     private boolean stop = false;
+    private int id = 0;
 
     public void setStop() {
         stop = true;
@@ -43,60 +44,91 @@ public class CompareFileList {
         fileDataList1.stream().forEach(fd -> {
             fd.setOnly(true);
             fd.setDiff(false);
+            fd.setFileId(0);
         });
         fileDataList2.stream().forEach(fd -> {
             fd.setOnly(true);
             fd.setDiff(false);
+            fd.setFileId(0);
         });
 
         // und jetzt vergleichen
-        if (ProgConfig.CONFIG_COMPARE_WITH_PATH.getValue()) {
-            compareListPath(fileDataList1, fileDataList2);
+        if (ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH.getValue()) {
+            compareWithHash(fileDataList1, fileDataList2);
         } else {
-            compareListFile(fileDataList1, fileDataList2);
+            compareWithPath(fileDataList1, fileDataList2);
         }
 
         progData.pEventHandler.notifyListener(new RunEvent(Events.COMPARE_OF_FILE_LISTS_FINISHED));
     }
 
-    private void compareListFile(FileDataList fileDataList1, FileDataList fileDataList2) {
-        //Dateien ohne Pfad vergleichen
+    private void compareWithHash(FileDataList fileDataList1, FileDataList fileDataList2) {
+        //Dateien nur über den Hash vergleichen
         //hier müssen beide Listen immer ganz durchgesucht werden, denn
         //es kann gleiche Dateien in unterschiedlichen Verzeichnissen geben
         //und dummerweise können die auch mehrfach vorkommen :(
 
         PLog.sysLog("Vergleichen ohne Verzeichnis:" + P2LibConst.LINE_SEPARATOR
                 + fileDataList1.getSourceDir() + P2LibConst.LINE_SEPARATOR + fileDataList2.getSourceDir());
+
+
+        fileDataList1.stream().forEach(fd1 -> {
+            //erst mal Doppelte in List1 suchen
+            if (stop) {
+                return;
+            }
+
+            if (fd1.getFileId() == 0) {
+                //sonst ist er schon markiert
+
+                fileDataList1.stream().forEach(f1 -> {
+                    if (!f1.equals(fd1) && f1.getHash().equals(fd1.getHash())) {
+                        //die "gleichen" sind ja immer gleich :)
+                        //also nur andere gleiche suchen
+                        if (fd1.getFileId() == 0) {
+                            //dann ists der erste Treffer
+                            int id = getNextId();
+                            fd1.setFileId(id);
+                        }
+                        f1.setFileId(fd1.getFileId());
+                    }
+                });
+            }
+        });
+
         fileDataList1.parallelStream().forEach(fd1 -> {
             if (stop) {
                 return;
             }
 
             fileDataList2.stream()
-                    .filter(fd2 -> fd1.getFileName().equals(fd2.getFileName()))
+                    .filter(fd2 -> fd1.getHash().equals(fd2.getHash()))
+                    //dann ist der Hash gleich
                     .forEach(fd2 -> {
-                        //dann ist schon mal der Name gleich
                         fd1.setOnly(false);
                         fd2.setOnly(false);
-
-                        if (!fd1.getHash().equals(fd2.getHash())) {
-                            fd1.setDiff(true);
-                            fd2.setDiff(true);
+                        fd1.setDiff(false);
+                        fd2.setDiff(false);
+                        if (fd1.getFileId() == 0) {
+                            int id = getNextId();
+                            fd1.setFileId(id);
                         }
+                        fd2.setFileId(fd1.getFileId());
                     });
         });
     }
 
-    private void compareListPath(FileDataList fileDataList1, FileDataList fileDataList2) {
+    private void compareWithPath(FileDataList fileDataList1, FileDataList fileDataList2) {
         //und hier Dateien mit Pfad vergleichen
         PLog.sysLog("Vergleichen mit Verzeichnis:" + P2LibConst.LINE_SEPARATOR
                 + fileDataList1.getSourceDir() + P2LibConst.LINE_SEPARATOR + fileDataList2.getSourceDir());
+
         fileDataList1.parallelStream().forEach(fd1 -> {
             if (stop) {
                 return;
             }
 
-            FileData fd2 = null;
+            FileData fd2;
             fd2 = fileDataList2.stream().filter(data -> data.getPathFileName().equals(fd1.getPathFileName()))
                     .findFirst().orElse(null);
 
@@ -104,12 +136,25 @@ public class CompareFileList {
                 //dann gibts schon mal eine mit gleichem Namen
                 fd1.setOnly(false);
                 fd2.setOnly(false);
-                if (!fd1.getHash().equals(fd2.getHash())) {
-                    //und dann sind sie auch noch gleich
+
+                if (fd1.getHash().equals(fd2.getHash())) {
+                    //sind gleich
+                    if (fd1.getFileId() == 0) {
+                        int id = getNextId();
+                        fd1.setFileId(id);
+                    }
+                    fd2.setFileId(id);
+
+                } else {
+                    //nicht gleich
                     fd1.setDiff(true);
                     fd2.setDiff(true);
                 }
             }
         });
+    }
+
+    private synchronized int getNextId() {
+        return ++id;
     }
 }
