@@ -51,10 +51,7 @@ public class TableFileList extends PTable<FileData> {
         getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-//        final TableColumn<FileData, Integer> nrColumn = new TableColumn<>("Nr");
-//        nrColumn.setCellValueFactory(new PropertyValueFactory<>("nr"));
-
-        final TableColumn<FileData, Integer> idColumn = new TableColumn<>("FileId");
+        final TableColumn<FileData, Integer> idColumn = new TableColumn<>("FileID");
         idColumn.setCellFactory(callbackFileId);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("fileId"));
 
@@ -75,14 +72,13 @@ public class TableFileList extends PTable<FileData> {
         only.setCellValueFactory(new PropertyValueFactory<>("only"));
         only.setCellFactory(new PCheckBoxCell().cellFactoryBool);
 
-//        nrColumn.setPrefWidth(50);
         idColumn.setPrefWidth(75);
         pathFileNameColumn.setPrefWidth(250);
         fileSizeColumn.setPrefWidth(75);
         fileDateColumn.setPrefWidth(100);
 
         addRowFact();
-        getColumns().addAll(/*nrColumn,*/ idColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only);
+        getColumns().addAll(idColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only);
     }
 
     private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> callbackFileId =

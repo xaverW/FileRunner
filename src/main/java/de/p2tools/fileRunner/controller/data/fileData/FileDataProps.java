@@ -25,7 +25,6 @@ public class FileDataProps extends PDataSample<FileData> {
 
     public static final String TAG = "FileData";
 
-    private int nr = 0;
     private int fileId = 0;
     private String path = "";
     private String pathFileName = "";
@@ -39,14 +38,6 @@ public class FileDataProps extends PDataSample<FileData> {
 
     public String getTag() {
         return TAG;
-    }
-
-    public int getNr() {
-        return nr;
-    }
-
-    public void setNr(int nr) {
-        this.nr = nr;
     }
 
     public int getFileId() {

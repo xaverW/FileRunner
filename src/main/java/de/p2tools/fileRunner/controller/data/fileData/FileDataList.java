@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 
 public class FileDataList extends SimpleListProperty<FileData> {
-    private int nr = 1;
-
     private String sourceDir = "";
     private final FilteredList<FileData> filteredFileDate;
     private final SortedList<FileData> sortedFileData;
@@ -95,7 +93,6 @@ public class FileDataList extends SimpleListProperty<FileData> {
 
     @Override
     public void clear() {
-        nr = 1;
         sourceDir = "";
         super.clear();
     }
@@ -106,20 +103,15 @@ public class FileDataList extends SimpleListProperty<FileData> {
 
     public synchronized boolean addHashString(String pathFileName, PDate fileDate, PFileSize fileSize, String hash, boolean link) {
         FileData fileData = new FileData(pathFileName, fileDate, fileSize, hash, link);
-        fileData.setNr(nr++);
         return super.add(fileData);
     }
 
     public synchronized boolean add(FileData fileData) {
-        fileData.setNr(nr++);
         return super.add(fileData);
     }
 
 
     public synchronized boolean addAll(ArrayList<FileData> d) {
-        d.forEach(fileData -> fileData.setNr(nr++));
         return super.addAll(d);
     }
-
-
 }
