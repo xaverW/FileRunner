@@ -22,6 +22,7 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.tools.events.RunEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
 
@@ -31,13 +32,13 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 
-public class ReadDirHashFile {
+public class DirHash_ReadHashFile {
 
 
     private boolean stop = false;
     private final ProgData progData;
 
-    public ReadDirHashFile(ProgData progData) {
+    public DirHash_ReadHashFile(ProgData progData) {
         this.progData = progData;
     }
 
@@ -82,21 +83,35 @@ public class ReadDirHashFile {
         }
 
         private void laden() {
+            FileData fileData;
+            String line;
+            String firstLine = "";
             LineNumberReader in = null;
             ArrayList<FileData> tmp = new ArrayList<>();
+
             try {
                 in = new LineNumberReader(new InputStreamReader(new FileInputStream(hashFile)));
-                String zeile;
-                while (!stop && (zeile = in.readLine()) != null) {
+                while (!stop && (line = in.readLine()) != null) {
                     try {
-                        if (zeile.isEmpty()) {
+                        if (line.isEmpty()) {
+                            continue;
+                        }
+                        if (firstLine.isEmpty() && DirHashFileFactory.hasLineBreak(line)) {
+                            //dann ist schon die zweite Zeile oder
+                            //es gibt eine zweite Zeile
+                            firstLine = line;
                             continue;
                         }
 
-                        final FileData fileData = HashTools.getFileData(zeile);
+                        if (firstLine.isEmpty()) {
+                            fileData = DirHashFileFactory.getFileData(line);
+                        } else {
+                            fileData = DirHashFileFactory.getFileData(firstLine + P2LibConst.LINE_SEPARATOR + line);
+                            firstLine = "";
+                        }
                         tmp.add(fileData);
                     } catch (Exception ex) {
-                        PLog.errorLog(704125890, ex, new String[]{"Kann die Zeile in der Hashdatei nicht verarbeiten:", zeile});
+                        PLog.errorLog(704125890, ex, new String[]{"Kann die Zeile in der Hashdatei nicht verarbeiten:", line});
                     }
                 }
                 in.close();

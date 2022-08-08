@@ -69,14 +69,6 @@ public class GuiDirRunner extends AnchorPane {
     public void isShown() {
     }
 
-    public GuiDirPane getGuiDirPane(int no) {
-        if (no == 1) {
-            return guiDirPane1;
-        } else {
-            return guiDirPane2;
-        }
-    }
-
     public void resetFilter() {
         tglShowAll.setSelected(true);
         fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
@@ -123,20 +115,12 @@ public class GuiDirRunner extends AnchorPane {
         final PToggleSwitchOnly tglSubDir = new PToggleSwitchOnly();
         tglSubDir.setTooltip(new Tooltip("Es werden auch Dateien in Unterverzeichnissen verglichen"));
         tglSubDir.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_WITH_PATH);
-//        tglSubDir.selectedProperty().addListener((v, o, n) -> {
-////            new CompareFileList().compareList();
-////            setTglButton();
-//        });
 
         Label lblHash = new Label("Dateien nur mit dem Hashwert vergleichen:");
         final PToggleSwitchOnly tglHash = new PToggleSwitchOnly();
         tglHash.setTooltip(new Tooltip("Dateien werden über ihren Hashwert verglichen, unabhängig vom Dateinamen " +
                 "oder Verzeichnis"));
         tglHash.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH);
-//        tglHash.selectedProperty().addListener((v, o, n) -> {
-//            new CompareFileList().compareList();
-//            setTglButton();
-//        });
 
         Button btnHelpPathHash = PButton.helpButton(progData.primaryStage, "", HelpText.READ_DIR_RECURSIVE_HASH);
 

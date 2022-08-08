@@ -35,10 +35,9 @@ import java.net.URL;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 
-public class CreateFileHash {
+public class FileHash_CreateFileHashFile {
 
     private boolean stop = false;
-    //    private EventListenerList listeners = new EventListenerList();
     private int max = 0;
     private int progress = 0;
     private int threads = 0;
@@ -56,7 +55,6 @@ public class CreateFileHash {
         stop = false;
 
         max += 100;
-//        progress = 0;
         threads += 1;
         notifyEvent();
 

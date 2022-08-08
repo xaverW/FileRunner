@@ -37,8 +37,7 @@ import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.util.LinkedList;
 
-public class CreateDirHash {
-
+public class DirHash_CreateDirHash {
 
     private ProgData progData;
     private boolean stop = false;
@@ -50,7 +49,7 @@ public class CreateDirHash {
     private boolean followLink = false;
     private int runThreads = 0;
 
-    public CreateDirHash(ProgData progData) {
+    public DirHash_CreateDirHash(ProgData progData) {
         this.progData = progData;
     }
 
@@ -129,7 +128,7 @@ public class CreateDirHash {
         private void runDirFindFiles() {
             //Verzeichnis ablaufen und Dateien suchen
             try {
-                new RunRecDir() {
+                new DirHash_RunRecDir() {
                     @Override
                     void work(File file) {
                         if (stop) {
@@ -168,7 +167,7 @@ public class CreateDirHash {
                     while (!stop && srcStream.read(buffer) > -1) {
                     }
 
-                    ret = HashTools.getHashString(messageDigest.digest());
+                    ret = DirHashFileFactory.getHashString(messageDigest.digest());
 
                     if (searchDir != null) {
                         String strFile = file.getAbsolutePath();

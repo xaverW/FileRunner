@@ -39,22 +39,16 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
-public class CreateZipHash {
-
+public class DirHash_CreateZipHash {
 
     private ProgData progData;
     private boolean stop = false;
-    //    private EventListenerList listeners = new EventListenerList();
     private int max = 0; //anzahl dateien
     private int progress = 0;
 
-    public CreateZipHash(ProgData progData) {
+    public DirHash_CreateZipHash(ProgData progData) {
         this.progData = progData;
     }
-
-//    public void addAdListener(RunListener listener) {
-//        listeners.add(RunListener.class, listener);
-//    }
 
     public void setStop() {
         stop = true;
@@ -64,8 +58,6 @@ public class CreateZipHash {
         max = 0;
         progress = 0;
         stop = false;
-
-//        fileDataList.removeAll(fileDataList);
         fileDataList.clear();
 
         CreateHash createHash = new CreateHash(file, fileDataList);
@@ -150,7 +142,7 @@ public class CreateZipHash {
 
                 while (!stop && srcStream.read(buffer) > -1) {
                 }
-                ret = HashTools.getHashString(messageDigest.digest());
+                ret = DirHashFileFactory.getHashString(messageDigest.digest());
 
                 String strFileZipEntry = zipEntry.getName();
 

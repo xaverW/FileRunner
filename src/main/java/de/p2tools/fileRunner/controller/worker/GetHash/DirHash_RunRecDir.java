@@ -23,7 +23,7 @@ import javafx.application.Platform;
 
 import java.io.File;
 
-public class RunRecDir {
+public class DirHash_RunRecDir {
     private File dir;
     private boolean stop = false;
     private boolean recur = false;
@@ -78,5 +78,4 @@ public class RunRecDir {
         }
         return r;
     }
-
 }

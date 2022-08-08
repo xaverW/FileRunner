@@ -23,7 +23,6 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.worker.HashFactory;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.fileRunner.gui.table.Table;
 import de.p2tools.fileRunner.gui.table.TableFileList;
@@ -516,7 +515,7 @@ public class GuiDirPane extends VBox {
             readZip();
         });
         btnReadHash.setOnAction(a -> {
-            readHashfile();
+            readHashFile();
         });
         btnWriteHash.setOnAction(e -> writeHashFile());
 
@@ -533,7 +532,7 @@ public class GuiDirPane extends VBox {
     }
 
     private void readDir() {
-        if (GuiFactory.readDirHash((panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
+        if (progData.worker.dirHash_readDirHash((panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
                 fileDataListDir, (panel1 ? ProgConfig.followLink1.get() : ProgConfig.followLink2.get()))) {
             setTabDirFile(DIR_ZIP_HASH.DIR);
         }
@@ -541,14 +540,14 @@ public class GuiDirPane extends VBox {
     }
 
     private void readZip() {
-        if (GuiFactory.readZipHash((panel1 ? ProgConfig.srcZip1.getValueSafe() : ProgConfig.srcZip2.getValueSafe()), fileDataListDir)) {
+        if (progData.worker.dirHash_readZipHash((panel1 ? ProgConfig.srcZip1.getValueSafe() : ProgConfig.srcZip2.getValueSafe()), fileDataListDir)) {
             setTabDirFile(DIR_ZIP_HASH.ZIP);
         }
         changeTextFilter();
     }
 
-    private void readHashfile() {
-        if (GuiFactory.readHashFile((panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe()), fileDataListDir)) {
+    private void readHashFile() {
+        if (progData.worker.dirHash_readHashFile((panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe()), fileDataListDir)) {
             setTabDirFile(DIR_ZIP_HASH.HASH);
         }
         changeTextFilter();
@@ -594,7 +593,7 @@ public class GuiDirPane extends VBox {
     }
 
     private void writeHashFile() {
-        HashFactory.writeHashFile(btnWriteHash,
+        progData.worker.dirHash_writeHashFile(btnWriteHash,
                 (panel1 ? ProgConfig.writeHash1.getValueSafe().trim() : ProgConfig.writeHash2.getValueSafe().trim()),
                 fileDataListDir);
     }

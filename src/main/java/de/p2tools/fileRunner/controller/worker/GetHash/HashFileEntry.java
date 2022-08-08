@@ -18,11 +18,13 @@
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
 public class HashFileEntry {
-    private final String hash, file;
+    private final String hash, file, size, date;
 
-    public HashFileEntry(String hash, String file) {
+    public HashFileEntry(String hash, String file, String size, String date) {
         this.hash = hash;
         this.file = file;
+        this.size = size;
+        this.date = date;
     }
 
     public String getHash() {
@@ -31,5 +33,13 @@ public class HashFileEntry {
 
     public String getFile() {
         return file;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public String getDate() {
+        return date;
     }
 }

@@ -20,7 +20,7 @@ package de.p2tools.fileRunner.gui;
 import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.worker.HashFactory;
+import de.p2tools.fileRunner.controller.worker.GetHash.HashFactory;
 import de.p2tools.fileRunner.icon.ProgIcons;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
@@ -31,7 +31,6 @@ import de.p2tools.p2Lib.tools.events.Event;
 import de.p2tools.p2Lib.tools.events.PListener;
 import de.p2tools.p2Lib.tools.events.RunEvent;
 import de.p2tools.p2Lib.tools.file.PFileName;
-import de.p2tools.p2Lib.tools.net.PUrlTools;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -42,10 +41,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class GuiFilePane extends VBox {
 
@@ -310,7 +305,7 @@ public class GuiFilePane extends VBox {
             if (!HashFactory.checkFile(file)) {
                 return;
             }
-            progData.worker.createFileHash(file, txtHash.textProperty());
+            progData.worker.fileHash_createHashFile(file, txtHash.textProperty());
         }
     }
 
@@ -324,38 +319,11 @@ public class GuiFilePane extends VBox {
             if (!HashFactory.checkFile(file)) {
                 return;
             }
-            progData.worker.readHashFile(file, txtHash.textProperty());
+            progData.worker.fileHash_readHashFile(file, txtHash.textProperty());
         }
     }
 
     private void saveHash() {
-        if (cboWriteHash.getEditor().getText().isEmpty()) {
-            return;
-        }
-
-        String src = cboGenHashFromFile.getSelValue().trim();
-        Path srcFile = Paths.get(src); // ist die Datei aus der der md5 generiert wird
-        String initDirStr = ""; // ist der Vorschlag: Ordner
-        String srcFileStr = ""; // wird in die md5-Datei geschrieben
-
-        if (!HashFactory.checkFile(src)) {
-            srcFileStr = src;
-        } else {
-            initDirStr = srcFile.getParent().toString();
-            srcFileStr = srcFile.getFileName().toString();
-        }
-
-        if (PUrlTools.isUrl(cboGenHashFromFile.getSelValue().trim())) {
-            initDirStr = ""; // bei URLs gibts keinen Pfad
-        }
-
-        String md5FileStr = cboWriteHash.getEditor().getText();
-        md5FileStr = PDirFileChooser.FileChooserSave(ProgData.getInstance().primaryStage, initDirStr, md5FileStr).trim();
-        if (md5FileStr == null || md5FileStr.isEmpty()) {
-            return;
-        }
-
-        File md5File = new File(md5FileStr);
-        progData.worker.writeFileHash(md5File, srcFileStr, txtHash.getText());
+        progData.worker.fileHash_saveHashFile(cboWriteHash.getEditor().getText(), cboGenHashFromFile.getSelValue().trim(), txtHash.getText());
     }
 }

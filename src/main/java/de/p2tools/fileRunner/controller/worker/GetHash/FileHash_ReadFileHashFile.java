@@ -33,7 +33,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-public class ReadHashFile {
+public class FileHash_ReadFileHashFile {
 
     private boolean stop = false;
 
@@ -117,14 +117,14 @@ public class ReadHashFile {
             if (f.startsWith("*")) {
                 f = f.replaceFirst("\\*", "");
             }
-            return new HashFileEntry(h, f);
+            return new HashFileEntry(h, f, "", "");
         }
 
         //93d01e9d3b24befdf8ef2c6a04e99e00640a5799d502ad5275c
         l = line.indexOf(" ");
         if (l < 0) {
             h = line.trim();
-            return new HashFileEntry(h, f);
+            return new HashFileEntry(h, f, "", "");
         }
 
         return null;

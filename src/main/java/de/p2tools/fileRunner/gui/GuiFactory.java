@@ -18,34 +18,12 @@
 package de.p2tools.fileRunner.gui;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.worker.HashFactory;
 
 import java.io.File;
 
 public class GuiFactory {
 
     private GuiFactory() {
-    }
-
-    public static boolean readDirHash(String hashDir, FileDataList fileDataList, boolean followLink) {
-        boolean ret = HashFactory.readDirHash(hashDir, fileDataList, followLink);
-        ProgData.getInstance().guiDirRunner.resetFilter();
-        return ret;
-    }
-
-
-    public static boolean readZipHash(String hashZip, FileDataList fileDataList) {
-        boolean ret = HashFactory.readZipHash(hashZip, fileDataList);
-        ProgData.getInstance().guiDirRunner.resetFilter();
-        return ret;
-    }
-
-    public static boolean readHashFile(String hashFile, FileDataList fileDataList) {
-        boolean ret = HashFactory.readHashFile(hashFile, fileDataList);
-        ProgData.getInstance().guiDirRunner.resetFilter();
-        return ret;
     }
 
     public static void setLastUsedDir(String dir, boolean panel1) {
@@ -67,8 +45,6 @@ public class GuiFactory {
             } else {
                 ProgConfig.lastUsedDir2.set(f.getPath());
             }
-
-            System.out.println(f.getPath());
 
         } else if (f.isDirectory() && f.getParentFile() != null) {
             //ist Verzeichnis und nicht root -> Parent
