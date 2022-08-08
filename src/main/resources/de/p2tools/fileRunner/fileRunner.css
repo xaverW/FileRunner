@@ -2,6 +2,12 @@
 
 .root {
     -style-extra-pane-color: derive(-fx-base,-5%);
+
+    -tab-button-1: #d6d6d6;
+    -tab-button-2: #e6e6e6;
+    -tab-button-3: rgba(230,230,230,0);
+    -lin-grad-1: linear-gradient(from 0% 0% to 100% 100%, -tab-button-1 50%, white 100%);
+    -rad-grad-1: radial-gradient(center 50% -40%, radius 200%, -tab-button-2 45%, -tab-button-3 50%);
 }
 
 .headerLabelVertikal {
@@ -46,3 +52,37 @@
     -fx-background-radius: 3px;
     -fx-border-color: #939a9f;
 }
+
+
+
+.btnFilter, .btnFilter-sel{
+    -fx-background-color: #c3c4c4, -lin-grad-1, -rad-grad-1;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+    -fx-padding: 5 10 5 10;
+}
+.btnFilter:focused{
+    -fx-background-color: #355c8c, -lin-grad-1, -rad-grad-1;
+    -fx-background-insets: -0.5,1,1;
+}
+.btnFilter:hover{
+    -fx-background-insets: -1.0,1,1;
+}
+.btnFilter:focused:hover{
+    -fx-background-insets: -1.5,1,1;
+}
+.btnFilter-sel{
+    -fx-background-color: -text-color-blue, -lin-grad-1, -rad-grad-1;
+    -fx-background-insets: -2,1,1;
+}
+.btnFilter-sel:focused{
+    -fx-background-insets: -2,1,1;
+}
+.btnFilter-sel:hover{
+    -fx-background-insets: -2.5,1,10;
+}
+.btnFilter-sel:focused:hover{
+    -fx-background-insets: -2.5,1,1;
+}
+
