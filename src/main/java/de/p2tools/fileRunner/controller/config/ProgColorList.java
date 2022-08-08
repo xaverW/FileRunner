@@ -24,6 +24,16 @@ import javafx.scene.paint.Color;
 public class ProgColorList extends PColorList {
 
     //OK
+    public static PColorData FILE_IS_ID1_BG = addNewKey("file-is-id1-bg",
+            Color.rgb(250, 250, 250),
+            Color.rgb(250, 250, 250),
+            true, "FileID, gerade, Tabellenzeile");
+
+    public static PColorData FILE_IS_ID2_BG = addNewKey("file-is-id2-bg",
+            Color.rgb(220, 220, 220),
+            Color.rgb(210, 210, 210),
+            true, "FileID, ungerade, Tabellenzeile");
+
     public static PColorData FILE_IS_OK_BG = addNewKey("file-is-ok-bg",
             Color.rgb(240, 255, 236),
             Color.rgb(240, 255, 236),

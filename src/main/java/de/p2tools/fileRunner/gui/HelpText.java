@@ -38,7 +38,9 @@ public class HelpText {
             "Wird \"Unterverzeichnis ...\" ausgewählt, werden beim Durchsuchen auch Unterverzeichnisse " +
             "durchsucht. Andernfalls werden nur Dateien im angegebenen " +
             "Suchverzeichnis verglichen." + P2LibConst.LINE_SEPARATOR +
-            "Zip-Dateien und Hash-Dateien werden immer komplett gelesen."
+            "Zip-Dateien und Hash-Dateien werden immer komplett gelesen." + P2LibConst.LINE_SEPARATOR +
+            "Wird Umgeschaltet, muss auch das zu Durchsuchende Verzeichnis " +
+            "neu eingelesen werden, die Tabelle wird deshalb auch gelöscht."
             + P2LibConst.LINE_SEPARATORx2 +
 
             "Ist \"mit dem Hashwert vergleichen\" aktiv, werden die Dateien auch " +

@@ -53,6 +53,7 @@ public class TableFileList extends PTable<FileData> {
 
         final TableColumn<FileData, Integer> idColumn = new TableColumn<>("FileID");
         idColumn.setCellFactory(callbackFileId);
+        idColumn.getStyleClass().add("alignCenterRight");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("fileId"));
 
         final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Datei");
@@ -118,6 +119,17 @@ public class TableFileList extends PTable<FileData> {
                 }
 
                 if (film != null && !empty) {
+                    if (film.getFileId() != 0) {
+                        if (film.getFileId() % 2 == 0) {
+                            if (ProgColorList.FILE_IS_ID1_BG.isUse()) {
+                                setStyle(ProgColorList.FILE_IS_ID1_BG.getCssBackground());
+                            }
+                        } else {
+                            if (ProgColorList.FILE_IS_ID2_BG.isUse()) {
+                                setStyle(ProgColorList.FILE_IS_ID2_BG.getCssBackground());
+                            }
+                        }
+                    }
                     if (film.isLink()) {
                         //Datei ist ein Symlink
                         if (ProgColorList.FILE_LINK_BG.isUse()) {
