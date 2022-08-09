@@ -22,7 +22,7 @@ import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.Worker;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
-import de.p2tools.p2Lib.tools.events.Event;
+import de.p2tools.p2Lib.tools.events.PEvent;
 import de.p2tools.p2Lib.tools.events.PEventHandler;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -64,7 +64,7 @@ public class ProgData {
 
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(1000), ae -> {
-            pEventHandler.notifyListener(new Event(Events.TIMER));
+            pEventHandler.notifyListener(new PEvent(Events.TIMER));
         }));
 
         timeline.setCycleCount(Animation.INDEFINITE);

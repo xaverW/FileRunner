@@ -23,7 +23,7 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.p2Lib.P2LibConst;
-import de.p2tools.p2Lib.tools.events.RunEvent;
+import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
 
 public class CompareFileList {
@@ -59,7 +59,8 @@ public class CompareFileList {
             compareWithPath(fileDataList1, fileDataList2);
         }
 
-        progData.pEventHandler.notifyListener(new RunEvent(Events.COMPARE_OF_FILE_LISTS_FINISHED));
+        progData.pEventHandler.notifyListener(new RunPEvent(Events.COMPARE_OF_FILE_LISTS_FINISHED));
+        System.out.println("compareList - done");
     }
 
     private void compareWithHash(FileDataList fileDataList1, FileDataList fileDataList2) {

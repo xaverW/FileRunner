@@ -23,7 +23,7 @@ import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.p2Lib.P2LibConst;
-import de.p2tools.p2Lib.tools.events.RunEvent;
+import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
 
 import java.io.File;
@@ -54,7 +54,7 @@ public class DirHash_ReadHashFile {
     }
 
     private void notifyEvent(int max, int progress, String text) {
-        progData.pEventHandler.notifyListener(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
+        progData.pEventHandler.notifyListener(new RunPEvent(Events.GENERATE_COMPARE_FILE_LIST,
                 progress, max, ""));
     }
 

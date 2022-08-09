@@ -52,9 +52,9 @@ public class TableFileList extends PTable<FileData> {
         setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
         final TableColumn<FileData, Integer> idColumn = new TableColumn<>("FileID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("fileId"));
         idColumn.setCellFactory(callbackFileId);
         idColumn.getStyleClass().add("alignCenterRight");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("fileId"));
 
         final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Datei");
         pathFileNameColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));

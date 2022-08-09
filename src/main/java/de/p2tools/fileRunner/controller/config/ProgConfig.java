@@ -63,6 +63,8 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty SYSTEM_GUI_SIZE = addStr("system-gui-size", "1000:900");
     public static StringProperty SYSTEM_CONFIG_DIALOG_SIZE = addStr("system-config-dialog-size", "900:650");
     public static StringProperty SYSTEM_SELECT_HASH_DIALOG_SIZE = addStr("system-select-hash-dialog-size", "500:500");
+    public static StringProperty SYSTEM_SUBDIR_SHOW_AGAIN_DIALOG_SIZE = addStr("system-subdir-show-again-dialog-size", "400:400");
+    public static BooleanProperty SYSTEM_SUBDIR_SHOW_AGAIN_DIALOG_SHOW = addBool("system-subdir-show-again-dialog-show", true);
 
     // GuiDirRunner
     public static StringProperty GUI_FILERUNNER_TABLE1_WIDTH = addStr("gui-filerunner-table1-width");

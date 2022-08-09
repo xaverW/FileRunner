@@ -16,13 +16,19 @@
 
 package de.p2tools.fileRunner.gui;
 
+import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
+import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
 import de.p2tools.fileRunner.icon.ProgIcons;
+import de.p2tools.p2Lib.P2LibConst;
+import de.p2tools.p2Lib.dialogs.PDialogShowAgain;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PGuiTools;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitchOnly;
+import de.p2tools.p2Lib.tools.events.PEvent;
+import de.p2tools.p2Lib.tools.events.PListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -115,12 +121,42 @@ public class GuiDirRunner extends AnchorPane {
         final PToggleSwitchOnly tglSubDir = new PToggleSwitchOnly();
         tglSubDir.setTooltip(new Tooltip("Es werden auch Dateien in Unterverzeichnissen verglichen"));
         tglSubDir.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_WITH_PATH);
+        tglSubDir.selectedProperty().addListener((v, o, n) -> {
+            new PDialogShowAgain(progData.primaryStage, ProgConfig.SYSTEM_SUBDIR_SHOW_AGAIN_DIALOG_SIZE,
+                    "Unterverzeichnisse durchsuchen",
+                    "Wenn \"Auch Unterverzeichnisse durchsuchen\" ein- oder ausgeschaltet wird, " +
+                            "wird die Tabelle mit den Dateien gelöscht. " + P2LibConst.LINE_SEPARATORx2 +
+                            "Das Verzeichnis muss neu eingelesen werden.",
+                    ProgConfig.SYSTEM_SUBDIR_SHOW_AGAIN_DIALOG_SHOW);
+
+            progData.fileDataList_1.clear();
+            progData.fileDataList_2.clear();
+            tglShowAll.fire();
+            new CompareFileList().compareList();
+        });
+//        ProgConfig.CONFIG_COMPARE_WITH_PATH.addListener((v, o, n) -> {
+//            progData.fileDataList_1.clear();
+//            progData.fileDataList_2.clear();
+//            new CompareFileList().compareList();
+//        });
 
         Label lblHash = new Label("Dateien nur mit dem Hashwert vergleichen:");
         final PToggleSwitchOnly tglHash = new PToggleSwitchOnly();
         tglHash.setTooltip(new Tooltip("Dateien werden über ihren Hashwert verglichen, unabhängig vom Dateinamen " +
                 "oder Verzeichnis"));
         tglHash.selectedProperty().bindBidirectional(ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH);
+        tglHash.selectedProperty().addListener((v, o, n) -> {
+            new CompareFileList().compareList();
+        });
+//        ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH.addListener((v, o, n) -> {
+////            new CompareFileList().compareList();
+//        });
+
+        progData.pEventHandler.addListener(new PListener(Events.COMPARE_OF_FILE_LISTS_FINISHED) {
+            public <T extends PEvent> void pingGui(T runEvent) {
+                setTglButton();
+            }
+        });
 
         Button btnHelpPathHash = PButton.helpButton(progData.primaryStage, "", HelpText.READ_DIR_RECURSIVE_HASH);
 
@@ -189,27 +225,16 @@ public class GuiDirRunner extends AnchorPane {
 
     private void addListener() {
         setTglButton();
-        tglShowAll.setOnAction(e -> {
-            setTglButton();
-        });
-        tglShowSame.setOnAction(e -> {
-            setTglButton();
-        });
-        tglShowDiffAll.setOnAction(e -> {
-            setTglButton();
-        });
-        tglShowDiff.setOnAction(e -> {
-            setTglButton();
-        });
-        tglShowOnly1.setOnAction(e -> {
-            setTglButton();
-        });
-        tglShowOnly2.setOnAction(e -> {
-            setTglButton();
-        });
+        tglShowAll.setOnAction(e -> setTglButton());
+        tglShowSame.setOnAction(e -> setTglButton());
+        tglShowDiffAll.setOnAction(e -> setTglButton());
+        tglShowDiff.setOnAction(e -> setTglButton());
+        tglShowOnly1.setOnAction(e -> setTglButton());
+        tglShowOnly2.setOnAction(e -> setTglButton());
     }
 
     private void setTglButton() {
+        System.out.println("setTglButton");
         clear();
         if (tglShowAll.isSelected()) {
             tglShowAll.getStyleClass().clear();

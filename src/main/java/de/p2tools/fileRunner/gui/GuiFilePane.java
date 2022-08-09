@@ -27,9 +27,9 @@ import de.p2tools.p2Lib.dialogs.PDirFileChooser;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PComboBoxString;
 import de.p2tools.p2Lib.guiTools.PTextField;
-import de.p2tools.p2Lib.tools.events.Event;
+import de.p2tools.p2Lib.tools.events.PEvent;
 import de.p2tools.p2Lib.tools.events.PListener;
-import de.p2tools.p2Lib.tools.events.RunEvent;
+import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -216,9 +216,9 @@ public class GuiFilePane extends VBox {
     private void addListener() {
         progData.pEventHandler.addListener(
                 new PListener(Events.COMPARE_OF_FILE_LISTS_FINISHED) {
-                    public <T extends Event> void ping(T runEvent) {
-                        if (runEvent.getClass().equals(RunEvent.class)) {
-                            RunEvent runE = (RunEvent) runEvent;
+                    public <T extends PEvent> void ping(T runEvent) {
+                        if (runEvent.getClass().equals(RunPEvent.class)) {
+                            RunPEvent runE = (RunPEvent) runEvent;
                             if (runE.nixLos()) {
                                 isRunning.setValue(false);
                             } else {

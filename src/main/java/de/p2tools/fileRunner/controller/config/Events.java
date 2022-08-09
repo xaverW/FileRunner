@@ -17,7 +17,7 @@
 
 package de.p2tools.fileRunner.controller.config;
 
-import de.p2tools.p2Lib.tools.events.Event;
+import de.p2tools.p2Lib.tools.events.PEvent;
 
 public class Events {
     private static int count = 0;
@@ -27,7 +27,7 @@ public class Events {
     public static int COLORS_CHANGED = ++count;
     public static int TIMER = ++count;
 
-    public static Event event(int i) {
-        return new Event(i, "");
+    public static PEvent event(int i) {
+        return new PEvent(i, "");
     }
 }

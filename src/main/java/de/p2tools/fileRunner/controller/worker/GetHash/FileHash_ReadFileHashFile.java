@@ -20,7 +20,7 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.gui.dialog.SelectHashDialogController;
-import de.p2tools.p2Lib.tools.events.RunEvent;
+import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
@@ -42,7 +42,7 @@ public class FileHash_ReadFileHashFile {
     }
 
     private void notifyEvent(int max, int progress, String text) {
-        ProgData.getInstance().pEventHandler.notifyListener(new RunEvent(Events.GENERATE_COMPARE_FILE_LIST,
+        ProgData.getInstance().pEventHandler.notifyListener(new RunPEvent(Events.GENERATE_COMPARE_FILE_LIST,
                 progress, max, ""));
     }
 
