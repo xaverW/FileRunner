@@ -64,7 +64,6 @@ public class Worker {
 
     public boolean dirHash_readDirHash(String hashDir, FileDataList fileDataList, boolean followLink) {
         //Hash von Dateien eines Verzeichnisses erstellen
-        ProgData progData = ProgData.getInstance();
         boolean ret = false;
         if (hashDir.isEmpty()) {
             return false;
@@ -85,7 +84,6 @@ public class Worker {
 
     public boolean dirHash_readZipHash(String hashZip, FileDataList fileDataList) {
         //Hash von Dateien einer Zip-Datei erstellen
-        ProgData progData = ProgData.getInstance();
         boolean ret = false;
         if (hashZip.isEmpty()) {
             return false;
@@ -106,7 +104,6 @@ public class Worker {
 
     public boolean dirHash_readHashFile(String hashFile, FileDataList fileDataList) {
         //Hash aus einer Hash-Datei einlesen
-        ProgData progData = ProgData.getInstance();
         boolean ret = false;
         if (hashFile.isEmpty()) {
             return false;

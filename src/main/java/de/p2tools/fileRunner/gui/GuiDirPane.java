@@ -48,6 +48,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import org.apache.commons.io.FilenameUtils;
 
 import java.nio.file.Path;
 import java.util.Optional;
@@ -464,6 +465,8 @@ public class GuiDirPane extends VBox {
             file = fileDataList.getSourceDir();
             if (file.isEmpty() && tabDir.isSelected()) {
                 file = (panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe());
+            } else if (file.isEmpty() && tabZip.isSelected()) {
+                file = (panel1 ? ProgConfig.srcZip1.getValueSafe() : ProgConfig.srcZip2.getValueSafe());
             } else if (file.isEmpty() && tabFile.isSelected()) {
                 file = (panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe());
             }
@@ -472,20 +475,20 @@ public class GuiDirPane extends VBox {
                 return;
             }
 
-            if (pCboWriteHash.getEditor().getText().isEmpty()) {
+            String onlyName = FilenameUtils.getName(file);
+            onlyName = FilenameUtils.removeExtension(onlyName);
+            String onlyPath = FilenameUtils.getFullPath(file);
+
+            if (pCboWriteHash.getEditor().getText().isEmpty() ||
+                    !pCboWriteHash.getEditor().getText().startsWith(onlyPath) ||
+                    !pCboWriteHash.getEditor().getText().contains(onlyName)) {
                 pCboWriteHash.getEditor().setText(file);
             }
+
             final String nextElement = PFileName.getNextFileNameWithDate(pCboWriteHash.getEditor().getText(), "md5");
             pCboWriteHash.selectElement(nextElement);
         });
 
-//        ProgConfig.CONFIG_COMPARE_WITH_PATH.addListener((v, o, n) -> {
-//            fileDataListDir.clear();
-////            new CompareFileList().compareList();
-//        });
-//        ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH.addListener((v, o, n) -> {
-////            new CompareFileList().compareList();
-//        });
         pCboDir.getEditor().textProperty().addListener((c, o, n) -> {
             fileDataList.clear();
             new CompareFileList().compareList();
@@ -531,21 +534,24 @@ public class GuiDirPane extends VBox {
 
     private void readDir() {
         if (progData.worker.dirHash_readDirHash((panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
-                fileDataList, (panel1 ? ProgConfig.followLink1.get() : ProgConfig.followLink2.get()))) {
+                fileDataList,
+                (panel1 ? ProgConfig.followLink1.get() : ProgConfig.followLink2.get()))) {
             setTabDirFile(DIR_ZIP_HASH.DIR);
         }
         changeTextFilter();
     }
 
     private void readZip() {
-        if (progData.worker.dirHash_readZipHash((panel1 ? ProgConfig.srcZip1.getValueSafe() : ProgConfig.srcZip2.getValueSafe()), fileDataList)) {
+        if (progData.worker.dirHash_readZipHash((panel1 ? ProgConfig.srcZip1.getValueSafe() : ProgConfig.srcZip2.getValueSafe()),
+                fileDataList)) {
             setTabDirFile(DIR_ZIP_HASH.ZIP);
         }
         changeTextFilter();
     }
 
     private void readHashFile() {
-        if (progData.worker.dirHash_readHashFile((panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe()), fileDataList)) {
+        if (progData.worker.dirHash_readHashFile((panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe()),
+                fileDataList)) {
             setTabDirFile(DIR_ZIP_HASH.HASH);
         }
         changeTextFilter();
