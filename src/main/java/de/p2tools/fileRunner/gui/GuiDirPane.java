@@ -351,6 +351,14 @@ public class GuiDirPane extends VBox {
         changeTextFilter();
         fileDataList.getSortedFileData().comparatorProperty().bind(tableView.comparatorProperty());
 
+        Label lbl = new Label("Kein Inhalt in Tabelle");
+        lbl.getStyleClass().add("lblTable");
+        tableView.setPlaceholder(lbl);
+
+//        Node placeholder = tableView.getPlaceholder();
+//        if (placeholder != null) {
+//            tableView.getPlaceholder().getStyleClass().add("lblTable");
+//        }
 
         tableView.setOnMousePressed(m -> {
             if (m.getButton().equals(MouseButton.SECONDARY)) {

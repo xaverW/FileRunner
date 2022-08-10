@@ -46,6 +46,14 @@
     -fx-font-weight: bold;
 }
 
+.lblTable {
+    -fx-font-weight: bold;
+    -fx-border-width: 5;
+    -fx-border-radius: 15;
+    -fx-border-color: lightgray;
+    -fx-padding: 5 15 5 15;
+  }
+
 /* farblich abgesetzter Bereich in vielen Panes/Dialogen*/
 .extra-pane {
     -fx-background-color: -style-extra-pane-color;

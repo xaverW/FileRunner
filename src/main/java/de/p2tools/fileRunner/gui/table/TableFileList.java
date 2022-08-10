@@ -73,10 +73,12 @@ public class TableFileList extends PTable<FileData> {
         only.setCellValueFactory(new PropertyValueFactory<>("only"));
         only.setCellFactory(new PCheckBoxCell().cellFactoryBool);
 
-        idColumn.setPrefWidth(75);
-        pathFileNameColumn.setPrefWidth(250);
+        idColumn.setPrefWidth(70);
+        pathFileNameColumn.setPrefWidth(350);
         fileSizeColumn.setPrefWidth(75);
-        fileDateColumn.setPrefWidth(100);
+        fileDateColumn.setPrefWidth(90);
+        diff.setPrefWidth(50);
+        only.setPrefWidth(50);
 
         addRowFact();
         getColumns().addAll(idColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only);
