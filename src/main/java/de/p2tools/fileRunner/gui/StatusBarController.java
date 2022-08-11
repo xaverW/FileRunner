@@ -18,16 +18,13 @@ package de.p2tools.fileRunner.gui;
 
 import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.fileRunner.icon.ProgIcons;
 import de.p2tools.p2Lib.tools.events.PEvent;
 import de.p2tools.p2Lib.tools.events.PListener;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -41,9 +38,9 @@ public class StatusBarController extends AnchorPane {
     StackPane stackPane = new StackPane();
 
     // loadPane
-    Label lblProgress = new Label();
-    ProgressBar progressBar = new ProgressBar();
-    Button btnStop = new Button("");
+//    Label lblProgress = new Label();
+//    ProgressBar progressBar = new ProgressBar();
+//    Button btnStop = new Button("");
 
     Label lblLeft = new Label();
     Label lblRight = new Label();
@@ -83,11 +80,11 @@ public class StatusBarController extends AnchorPane {
         textPane.getChildren().add(hBox);
         textPane.setStyle("-fx-background-color: -fx-background ;");
 
-        hBox = getHbox();
-        btnStop.setGraphic(ProgIcons.Icons.ICON_BUTTON_STOP.getImageView());
-        hBox.getChildren().addAll(lblProgress, progressBar, btnStop);
-        progressBar.setPrefWidth(200);
-        workerPane.getChildren().add(hBox);
+//        hBox = getHbox();
+//        btnStop.setGraphic(ProgIcons.Icons.ICON_BUTTON_STOP.getImageView());
+//        progressBar.setPrefWidth(200);
+//        hBox.getChildren().addAll(lblProgress, progressBar, btnStop);
+//        workerPane.getChildren().add(hBox);
         workerPane.setStyle("-fx-background-color: -fx-background ;");
 
         make();
@@ -110,7 +107,7 @@ public class StatusBarController extends AnchorPane {
         stackPane.getChildren().addAll(textPane, workerPane);
         textPane.toFront();
 
-        btnStop.setOnAction(e -> progData.worker.setStop());
+//        btnStop.setOnAction(e -> progData.worker.setStop());
 
         progData.pEventHandler.addListener(new PListener(Events.GENERATE_COMPARE_FILE_LIST) {
             public <T extends PEvent> void pingGui(T runEvent) {
@@ -121,8 +118,8 @@ public class StatusBarController extends AnchorPane {
                     } else {
                         running = true;
                     }
-                    updateProgressBar(runE);
-                    setStatusbar();
+//                    updateProgressBar(runE);
+                    setStatusbarIndex(statusbarIndex);
                 }
             }
         });
@@ -130,7 +127,7 @@ public class StatusBarController extends AnchorPane {
             public void pingGui(PEvent PEvent) {
                 try {
                     if (!running) {
-                        setStatusbar();
+                        setStatusbarIndex(statusbarIndex);
                     }
                 } catch (final Exception ex) {
                     PLog.errorLog(936251087, ex);
@@ -139,21 +136,17 @@ public class StatusBarController extends AnchorPane {
         });
     }
 
-    private void updateProgressBar(RunPEvent event) {
-        int max = event.getMax();
-        int progress = event.getProgress();
-        double prog = 1.0;
-        if (max > 0) {
-            prog = 1.0 * progress / max;
-        }
-
-        progressBar.setProgress(prog);
-        lblProgress.setText(event.getText());
-    }
-
-    private void setStatusbar() {
-        setStatusbarIndex(statusbarIndex);
-    }
+//    private void updateProgressBar(RunPEvent event) {
+//        int max = event.getMax();
+//        int progress = event.getProgress();
+//        double prog = 1.0;
+//        if (max > 0) {
+//            prog = 1.0 * progress / max;
+//        }
+//
+//        progressBar.setProgress(prog);
+//        lblProgress.setText(event.getText());
+//    }
 
     public void setStatusbarIndex(StatusbarIndex statusbarIndex) {
         this.statusbarIndex = statusbarIndex;
@@ -211,5 +204,4 @@ public class StatusBarController extends AnchorPane {
             lblRight.setText(src2);
         }
     }
-
 }

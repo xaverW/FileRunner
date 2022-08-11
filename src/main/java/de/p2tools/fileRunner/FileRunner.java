@@ -66,9 +66,7 @@ public class FileRunner extends Application {
 
     private void initRootLayout() {
         try {
-//            addThemeCss(); // damit es da schon mal stimmt
             progData.fileRunnerController = new FileRunnerController();
-
             scene = new Scene(progData.fileRunnerController,
                     PGuiSize.getWidth(ProgConfig.SYSTEM_GUI_SIZE),
                     PGuiSize.getHeight(ProgConfig.SYSTEM_GUI_SIZE));

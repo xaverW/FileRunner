@@ -32,6 +32,10 @@ public class TableFileList extends PTable<FileData> {
         super(table_enum);
         this.table_enum = table_enum;
         initFileRunnerColumn();
+
+        Label lbl = new Label("Kein Inhalt in Tabelle");
+        lbl.getStyleClass().add("lblTable");
+        setPlaceholder(lbl);
     }
 
     public Table.TABLE_ENUM getETable() {
@@ -55,6 +59,11 @@ public class TableFileList extends PTable<FileData> {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("fileId"));
         idColumn.setCellFactory(callbackFileId);
         idColumn.getStyleClass().add("alignCenterRight");
+
+//        final TableColumn<FileData, String> idColumn = new TableColumn<>("FileID");
+//        idColumn.setCellValueFactory(data -> {
+//            return new ReadOnlyStringWrapper(data.getValue().getFileId() + "");
+//        });
 
         final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Datei");
         pathFileNameColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));

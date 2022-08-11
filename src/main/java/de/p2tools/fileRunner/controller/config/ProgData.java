@@ -49,6 +49,7 @@ public class ProgData {
 
     // Gui
     public Stage primaryStage = null;
+    //    public PMaskerPane maskerPane = null;
     public FileRunnerController fileRunnerController = null;
 
     public GuiDirRunner guiDirRunner = null; // DirTab

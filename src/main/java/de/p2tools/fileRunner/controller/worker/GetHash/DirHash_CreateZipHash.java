@@ -67,9 +67,9 @@ public class DirHash_CreateZipHash {
         thread.start();
     }
 
-    private void notifyEvent() {
+    private void notifyEvent(String text) {
         progData.pEventHandler.notifyListener(new RunPEvent(Events.GENERATE_COMPARE_FILE_LIST,
-                progress, max, ""));
+                progress, max, text));
     }
 
     private class CreateHash implements Runnable {
@@ -83,14 +83,14 @@ public class DirHash_CreateZipHash {
         }
 
         public synchronized void run() {
-            notifyEvent();
+            notifyEvent(zipFile.toString());
 
             try {
                 ZipFile zFile = new ZipFile(zipFile);
 
                 // Anzahl Dateien ermitteln und melden
                 zFile.stream().filter(ze -> !ze.isDirectory()).forEach(e -> ++max);
-                notifyEvent();
+                notifyEvent(zipFile.getAbsolutePath());
 
                 ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFile));
                 ZipEntry zipEntry = zipInputStream.getNextEntry();
@@ -105,7 +105,7 @@ public class DirHash_CreateZipHash {
                     hash(inputStream, zipEntry);
 
                     ++progress;
-                    notifyEvent();
+                    notifyEvent(zipFile.getAbsolutePath());
                     zipEntry = zipInputStream.getNextEntry();
 
                 }
@@ -127,7 +127,7 @@ public class DirHash_CreateZipHash {
 
             max = 0;
             progress = 0;
-            notifyEvent();
+            notifyEvent(zipFile.getAbsolutePath());
         }
 
 

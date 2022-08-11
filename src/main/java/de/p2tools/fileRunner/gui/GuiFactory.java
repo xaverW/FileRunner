@@ -33,7 +33,7 @@ public class GuiFactory {
 
         File f = new File(dir);
         if (!f.exists()) {
-            System.out.println("Datei gibts nicht: " + dir);
+//            System.out.println("Datei gibts nicht: " + dir);
             return;
         }
 
@@ -53,7 +53,7 @@ public class GuiFactory {
             } else {
                 ProgConfig.lastUsedDir2.set(f.getParent());
             }
-            System.out.println(f.getParent());
+//            System.out.println(f.getParent());
         } else if (f.isDirectory()) {
             //ist Verzeichnis und ROOT -> dann bleibt ROOT
             if (panel1) {
@@ -61,7 +61,7 @@ public class GuiFactory {
             } else {
                 ProgConfig.lastUsedDir2.set(f.getPath());
             }
-            System.out.println(f.getPath());
+//            System.out.println(f.getPath());
         }
     }
 }

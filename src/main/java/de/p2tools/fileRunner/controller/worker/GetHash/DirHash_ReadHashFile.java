@@ -55,7 +55,7 @@ public class DirHash_ReadHashFile {
 
     private void notifyEvent(int max, int progress, String text) {
         progData.pEventHandler.notifyListener(new RunPEvent(Events.GENERATE_COMPARE_FILE_LIST,
-                progress, max, ""));
+                progress, max, text));
     }
 
     private class HashFileRead implements Runnable {
@@ -72,14 +72,14 @@ public class DirHash_ReadHashFile {
 
         public synchronized void run() {
             //Liste aus Hashdatei laden
-            notifyEvent(1, 0, "");
+            notifyEvent(1, 0, hashFile.getAbsolutePath());
             laden();
             if (stop) {
                 fileDataList.clear();
             } else {
                 new CompareFileList().compareList();
             }
-            notifyEvent(0, 0, "");
+            notifyEvent(0, 0, hashFile.getAbsolutePath());
         }
 
         private void laden() {

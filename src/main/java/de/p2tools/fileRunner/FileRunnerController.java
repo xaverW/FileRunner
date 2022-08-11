@@ -18,6 +18,7 @@ package de.p2tools.fileRunner;
 
 import de.p2tools.fileRunner.controller.ProgQuittFactory;
 import de.p2tools.fileRunner.controller.SearchProgramUpdate;
+import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
@@ -25,6 +26,10 @@ import de.p2tools.fileRunner.gui.StatusBarController;
 import de.p2tools.fileRunner.gui.configDialog.ConfigDialogController;
 import de.p2tools.fileRunner.gui.dialog.AboutDialogController;
 import de.p2tools.fileRunner.icon.ProgIcons;
+import de.p2tools.p2Lib.guiTools.pMask.PMaskerPane;
+import de.p2tools.p2Lib.tools.events.PEvent;
+import de.p2tools.p2Lib.tools.events.PListener;
+import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,7 +39,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.*;
 
-public class FileRunnerController extends BorderPane {
+public class FileRunnerController extends StackPane {
+
+    private final PMaskerPane maskerPane = new PMaskerPane();
+    BorderPane borderPane = new BorderPane();
 
     Button btnDirRunner = new Button("Ordner " + "vergleichen");
     Button btnFileRunner = new Button("Dateien " + "vergleichen");
@@ -54,6 +62,11 @@ public class FileRunnerController extends BorderPane {
 
     private void init() {
         try {
+            // Gui zusammenbauen
+            this.setPadding(new Insets(0));
+            this.getChildren().addAll(borderPane, maskerPane);
+            initMaskerPane();
+
             // Top-Menü
             HBox hBoxMenueButton = new HBox();
             hBoxMenueButton.setPadding(new Insets(10));
@@ -109,14 +122,51 @@ public class FileRunnerController extends BorderPane {
             statusBarController = new StatusBarController(progData);
 
             // ProgGUI
-            this.setTop(hBoxMenueButton);
-            this.setCenter(stackPaneCont);
-            this.setBottom(statusBarController);
-            this.setPadding(new Insets(0));
+            borderPane.setTop(hBoxMenueButton);
+            borderPane.setCenter(stackPaneCont);
+            borderPane.setBottom(statusBarController);
+            borderPane.setPadding(new Insets(0));
             selPanelDirRunner();
         } catch (Exception ex) {
             PLog.errorLog(645120321, ex);
         }
+    }
+
+    private void initMaskerPane() {
+        StackPane.setAlignment(maskerPane, Pos.CENTER);
+//        progData.maskerPane = maskerPane;
+        maskerPane.setPadding(new Insets(4, 1, 1, 1));
+        maskerPane.toFront();
+
+        Button btnStop = maskerPane.getButton();
+        btnStop.setGraphic(ProgIcons.Icons.ICON_BUTTON_STOP.getImageView());
+        btnStop.setOnAction(e -> progData.worker.setStop());
+        maskerPane.setButtonText("");
+        maskerPane.setButtonVisible(true);
+
+        ProgData.getInstance().pEventHandler.addListener(new PListener(Events.GENERATE_COMPARE_FILE_LIST) {
+            public <T extends PEvent> void pingGui(T runEvent) {
+                if (runEvent.getClass().equals(RunPEvent.class)) {
+                    RunPEvent runE = (RunPEvent) runEvent;
+                    if (runE.nixLos()) {
+//                        System.out.println("setVisFalse");
+                        maskerPane.setMaskerVisible(false);
+                    } else {
+//                        System.out.println("setVis");
+                        maskerPane.setMaskerVisible(true, true);
+                    }
+
+                    int max = runE.getMax();
+                    int progress = runE.getProgress();
+                    double prog = 1.0;
+                    if (max > 0) {
+                        prog = 1.0 * progress / max;
+                    }
+//                    System.out.println("setProgress: " + prog);
+                    maskerPane.setMaskerProgress(prog, runE.getText());
+                }
+            }
+        });
     }
 
     private void selPanelDirRunner() {

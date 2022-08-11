@@ -234,7 +234,7 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void setTglButton() {
-        System.out.println("setTglButton");
+//        System.out.println("setTglButton");
         clear();
         if (tglShowAll.isSelected()) {
             tglShowAll.getStyleClass().clear();

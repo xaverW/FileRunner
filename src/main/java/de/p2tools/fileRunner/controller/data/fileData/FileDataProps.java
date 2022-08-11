@@ -25,6 +25,7 @@ public class FileDataProps extends PDataSample<FileData> {
 
     public static final String TAG = "FileData";
 
+    //    private IntegerProperty fileId = new SimpleIntegerProperty(0);
     private int fileId = 0;
     private String path = "";
     private String pathFileName = "";

@@ -48,7 +48,7 @@
 
 .lblTable {
     -fx-font-weight: bold;
-    -fx-border-width: 5;
+    -fx-border-width: 3;
     -fx-border-radius: 15;
     -fx-border-color: lightgray;
     -fx-padding: 5 15 5 15;

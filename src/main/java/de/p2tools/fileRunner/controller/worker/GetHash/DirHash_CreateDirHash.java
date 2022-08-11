@@ -75,9 +75,9 @@ public class DirHash_CreateDirHash {
         startenThread.start();
     }
 
-    private void notifyEvent() {
+    private void notifyEvent(String text) {
         progData.pEventHandler.notifyListener(new RunPEvent(Events.GENERATE_COMPARE_FILE_LIST,
-                progress, max, ""));
+                progress, max, text));
     }
 
     private class CreateHash implements Runnable {
@@ -94,7 +94,7 @@ public class DirHash_CreateDirHash {
         public synchronized void run() {
             // Dateien auflisten
             runDirFindFiles();
-            notifyEvent();
+            notifyEvent(searchDir.toString());
 
             // Hash berechnen
             anzThread = 1; //todo
@@ -121,7 +121,7 @@ public class DirHash_CreateDirHash {
             if (runThreads == 0) {
                 max = 0;
                 progress = 0;
-                notifyEvent();
+                notifyEvent(searchDir.toString());
             }
         }
 
@@ -153,7 +153,7 @@ public class DirHash_CreateDirHash {
                 while (!stop && (file = addGetFile(null)) != null) {
                     hash(file, searchDir);
                     ++progress;
-                    notifyEvent();
+                    notifyEvent(searchDir.toString());
                 }
                 --threads;
             }
