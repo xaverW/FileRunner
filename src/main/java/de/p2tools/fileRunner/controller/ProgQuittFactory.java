@@ -17,10 +17,15 @@
 package de.p2tools.fileRunner.controller;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
-import de.p2tools.p2Lib.guiTools.PGuiSize;
+import de.p2tools.fileRunner.controller.config.ProgInfos;
+import de.p2tools.p2Lib.configFile.ConfigFile;
+import de.p2tools.p2Lib.configFile.WriteConfigFile;
 import de.p2tools.p2Lib.tools.log.LogMessage;
 import javafx.application.Platform;
+
+import java.nio.file.Path;
 
 public class ProgQuittFactory {
 
@@ -33,10 +38,7 @@ public class ProgQuittFactory {
     public static void quit() {
         //Tabelleneinstellungen merken
         ProgData.getInstance().guiDirRunner.saveTable();
-        //Hauptfenster: Win braucht die Scene!!
-        PGuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, ProgData.getInstance().primaryStage, ProgData.getInstance().primaryStage.getScene());
-
-        new ProgSaveFactory().save();
+        save();
         LogMessage.endMsg();
 
         //dann jetzt beenden -> Tschüss
@@ -44,5 +46,15 @@ public class ProgQuittFactory {
             Platform.exit();
             System.exit(0);
         });
+    }
+
+    private static void save() {
+        final Path xmlFilePath = new ProgInfos().getSettingsFile();
+        ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
+        ProgConfig.addConfigData(configFile);
+
+        WriteConfigFile readWriteConfigFile = new WriteConfigFile();
+        readWriteConfigFile.addConfigFile(configFile);
+        readWriteConfigFile.writeConfigFile();
     }
 }
