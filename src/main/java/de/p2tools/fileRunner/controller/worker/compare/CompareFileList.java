@@ -60,7 +60,6 @@ public class CompareFileList {
         }
 
         progData.pEventHandler.notifyListener(new RunPEvent(Events.COMPARE_OF_FILE_LISTS_FINISHED));
-//        System.out.println("compareList - done");
     }
 
     private void compareWithHash(FileDataList fileDataList1, FileDataList fileDataList2) {

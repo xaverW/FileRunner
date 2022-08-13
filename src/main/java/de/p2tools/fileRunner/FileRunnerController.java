@@ -134,7 +134,6 @@ public class FileRunnerController extends StackPane {
 
     private void initMaskerPane() {
         StackPane.setAlignment(maskerPane, Pos.CENTER);
-//        progData.maskerPane = maskerPane;
         maskerPane.setPadding(new Insets(4, 1, 1, 1));
         maskerPane.toFront();
 
@@ -149,10 +148,8 @@ public class FileRunnerController extends StackPane {
                 if (runEvent.getClass().equals(RunPEvent.class)) {
                     RunPEvent runE = (RunPEvent) runEvent;
                     if (runE.nixLos()) {
-//                        System.out.println("setVisFalse");
                         maskerPane.setMaskerVisible(false);
                     } else {
-//                        System.out.println("setVis");
                         maskerPane.setMaskerVisible(true, true);
                     }
 
@@ -162,7 +159,6 @@ public class FileRunnerController extends StackPane {
                     if (max > 0) {
                         prog = 1.0 * progress / max;
                     }
-//                    System.out.println("setProgress: " + prog);
                     maskerPane.setMaskerProgress(prog, runE.getText());
                 }
             }
@@ -193,5 +189,3 @@ public class FileRunnerController extends StackPane {
         statusBarController.setStatusbarIndex(StatusBarController.StatusbarIndex.NONE);
     }
 }
-
-

@@ -33,8 +33,8 @@ public class ProgQuittFactory {
     public static void quit() {
         //Tabelleneinstellungen merken
         ProgData.getInstance().guiDirRunner.saveTable();
-        //Hauptfenster
-        PGuiSize.getSizeStage(ProgConfig.SYSTEM_GUI_SIZE, ProgData.getInstance().primaryStage);
+        //Hauptfenster: Win braucht die Scene!!
+        PGuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, ProgData.getInstance().primaryStage, ProgData.getInstance().primaryStage.getScene());
 
         new ProgSaveFactory().save();
         LogMessage.endMsg();
