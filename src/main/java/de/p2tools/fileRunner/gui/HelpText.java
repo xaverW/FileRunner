@@ -60,6 +60,13 @@ public class HelpText {
             "Programmoberfläche angezeigt. Damit alle Elemente der Programmoberfläche " +
             "geändert werden, kann ein Programmneustart notwendig sein.";
 
+    public static final String COLORS = "Hier könne die Farben in der Tabelle mit den Dateien geändert werden. " +
+            "Es kann die Hintergrundfarbe der Tabellenzeilen und die Schriftfarbe vorgegeben werden." + P2LibConst.LINE_SEPARATORx2 +
+            "\"FileID ist gerade\\ungerade\" meint die Zeilen mit Dateien für die es eine gleiche Datei im " +
+            "anderen abzusuchenden Verzeichnis gibt. Gleiche Dateien haben die gleiche FileID. Eine unterschiedliche Farbe " +
+            "für gerade/ungerade FileIDs soll die Übersichtlichkeit erhöhen. Ist für gerade/ungerade FileIDs die gleiche " +
+            "Farbe vorgegeben, werden alle gleichen Dateien mit der selben Farbe markiert (oder mit keiner wenn ausgeschaltet).";
+
     public static final String FILEMANAGER =
             "In der Ansicht \"Downloads\" kann man über das Kontextmenü den Downloadordner " +
                     "(Zielordner) des jeweiligen Downloads öffnen. Normalerweise wird dafür der " +

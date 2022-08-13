@@ -57,13 +57,8 @@ public class TableFileList extends PTable<FileData> {
 
         final TableColumn<FileData, Integer> idColumn = new TableColumn<>("FileID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("fileId"));
-        idColumn.setCellFactory(callbackFileId);
+        idColumn.setCellFactory(cellFactFileId);
         idColumn.getStyleClass().add("alignCenterRight");
-
-//        final TableColumn<FileData, String> idColumn = new TableColumn<>("FileID");
-//        idColumn.setCellValueFactory(data -> {
-//            return new ReadOnlyStringWrapper(data.getValue().getFileId() + "");
-//        });
 
         final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Datei");
         pathFileNameColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));
@@ -93,7 +88,7 @@ public class TableFileList extends PTable<FileData> {
         getColumns().addAll(idColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only);
     }
 
-    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> callbackFileId =
+    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellFactFileId =
             (final TableColumn<FileData, Integer> param) -> {
 
                 final TableCell<FileData, Integer> cell = new TableCell<>() {
@@ -121,27 +116,44 @@ public class TableFileList extends PTable<FileData> {
     private void addRowFact() {
         setRowFactory(tableview -> new TableRow<>() {
             @Override
-            public void updateItem(FileData film, boolean empty) {
-                super.updateItem(film, empty);
+            public void updateItem(FileData fileData, boolean empty) {
+                super.updateItem(fileData, empty);
 
                 setStyle("");
                 for (int i = 0; i < getChildren().size(); i++) {
                     getChildren().get(i).setStyle("");
                 }
 
-                if (film != null && !empty) {
-                    if (film.getFileId() != 0) {
-                        if (film.getFileId() % 2 == 0) {
+                //===========================================
+                if (fileData != null && !empty) {
+                    if (fileData.getFileId() != 0) {
+                        //dann gibts eine gleiche Datei
+                        //Hintergrundfarbe wird nach FileID gefärbt
+                        if (fileData.getFileId() % 2 == 0) {
                             if (ProgColorList.FILE_IS_ID1_BG.isUse()) {
                                 setStyle(ProgColorList.FILE_IS_ID1_BG.getCssBackground());
                             }
-                        } else {
-                            if (ProgColorList.FILE_IS_ID2_BG.isUse()) {
-                                setStyle(ProgColorList.FILE_IS_ID2_BG.getCssBackground());
+                        } else if (ProgColorList.FILE_IS_ID2_BG.isUse()) {
+                            setStyle(ProgColorList.FILE_IS_ID2_BG.getCssBackground());
+                        }
+
+                        //die Schriftfarbe wird nach FileID gefärbt
+                        if (fileData.getFileId() % 2 == 0) {
+                            if (ProgColorList.FILE_IS_ID1.isUse()) {
+                                for (int i = 0; i < getChildren().size(); i++) {
+                                    getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID1.getCssFont());
+                                }
+                            }
+                        } else if (ProgColorList.FILE_IS_ID2.isUse()) {
+                            for (int i = 0; i < getChildren().size(); i++) {
+                                getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID2.getCssFont());
                             }
                         }
                     }
-                    if (film.isLink()) {
+
+                    //so werden auch gleiche Dateien im selben Verzeichnisbaum als
+                    //only gekennzeichnet
+                    if (fileData.isLink()) {
                         //Datei ist ein Symlink
                         if (ProgColorList.FILE_LINK_BG.isUse()) {
                             setStyle(ProgColorList.FILE_LINK_BG.getCssBackground());
@@ -152,8 +164,8 @@ public class TableFileList extends PTable<FileData> {
                             }
                         }
 
-                    } else if (film.isDiff()) {
-                        //Datei ist ein Symlink
+                    } else if (fileData.isDiff()) {
+                        //Dateien sind unterschiedlich
                         if (ProgColorList.FILE_IS_DIFF_BG.isUse()) {
                             setStyle(ProgColorList.FILE_IS_DIFF_BG.getCssBackground());
                         }
@@ -163,8 +175,8 @@ public class TableFileList extends PTable<FileData> {
                             }
                         }
 
-                    } else if (film.isOnly()) {
-                        //Datei ist ein Symlink
+                    } else if (fileData.isOnly()) {
+                        //Datei gibts nur einmal
                         if (ProgColorList.FILE_IS_ONLY_BG.isUse()) {
                             setStyle(ProgColorList.FILE_IS_ONLY_BG.getCssBackground());
                         }
@@ -174,19 +186,13 @@ public class TableFileList extends PTable<FileData> {
                             }
                         }
 
-                    } else {
-                        //dann ist die Datei gleich
-                        if (ProgColorList.FILE_IS_OK_BG.isUse()) {
-                            setStyle(ProgColorList.FILE_IS_OK_BG.getCssBackground());
-                        }
-                        if (ProgColorList.FILE_IS_OK.isUse()) {
-                            for (int i = 0; i < getChildren().size(); i++) {
-                                getChildren().get(i).setStyle(ProgColorList.FILE_IS_OK.getCssFont());
-                            }
-                        }
                     }
                 }
+                //===========================================
             }
         });
     }
 }
+
+
+

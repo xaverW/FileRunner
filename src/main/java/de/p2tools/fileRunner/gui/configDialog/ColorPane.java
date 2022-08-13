@@ -102,8 +102,12 @@ public class ColorPane extends PAccordionPane {
             ProgData.getInstance().pEventHandler.notifyListener(new PEvent(Events.COLORS_CHANGED));
         });
 
+        final Button btnHelpColor = PButton.helpButton(stage, "Farben",
+                HelpText.COLORS);
+
         HBox hBox = new HBox();
-        hBox.getChildren().add(button);
+        hBox.getChildren().addAll(button, btnHelpColor);
+        hBox.setSpacing(15);
         hBox.setPadding(new Insets(0));
         hBox.setAlignment(Pos.CENTER_RIGHT);
 
@@ -118,6 +122,7 @@ public class ColorPane extends PAccordionPane {
 
         final TableColumn<PColorData, String> textColumn = new TableColumn<>("Beschreibung");
         textColumn.setCellValueFactory(new PropertyValueFactory<>("text"));
+        textColumn.setCellFactory(cellFactoryText);
         textColumn.getStyleClass().add("alignCenterLeft");
 
         final TableColumn<PColorData, String> changeColumn = new TableColumn<>("Farbe");
@@ -168,9 +173,8 @@ public class ColorPane extends PAccordionPane {
                 hbox.setPadding(new Insets(0, 2, 0, 2));
 
                 final CheckBox checkBox = new CheckBox("");
-                checkBox.setSelected(pColorData.isUse());
+                checkBox.selectedProperty().bindBidirectional(pColorData.useProperty());
                 checkBox.setOnAction(a -> {
-                    pColorData.setUse(checkBox.isSelected());
                     ProgData.getInstance().pEventHandler.notifyListener(new PEvent(Events.COLORS_CHANGED));
                 });
 
@@ -215,6 +219,32 @@ public class ColorPane extends PAccordionPane {
                 });
                 hbox.getChildren().addAll(colorPicker);
                 setGraphic(hbox);
+            }
+        };
+
+        return cell;
+    };
+    private Callback<TableColumn<PColorData, String>, TableCell<PColorData, String>> cellFactoryText
+            = (final TableColumn<PColorData, String> param) -> {
+
+        final TableCell<PColorData, String> cell = new TableCell<PColorData, String>() {
+
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                PColorData pColorData = getTableView().getItems().get(getIndex());
+
+                if (pColorData.getMark() == 1) {
+                    setStyle("-fx-font-weight: bold;");
+                }
+                setText(item);
             }
         };
 

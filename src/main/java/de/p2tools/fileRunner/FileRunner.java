@@ -75,6 +75,7 @@ public class FileRunner extends Application {
                 ProgColorList.setColorTheme();
                 addThemeCss();
             });
+//            ProgColorList.init();
             ProgColorList.setColorTheme();
             addThemeCss();
 
