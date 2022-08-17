@@ -26,7 +26,8 @@ public class FileDataProps extends PDataSample<FileData> {
     public static final String TAG = "FileData";
 
     //    private IntegerProperty fileId = new SimpleIntegerProperty(0);
-    private int fileId = 0;
+    //    private Integer fileId = 0;
+    private int id = 0;
     private String path = "";
     private String pathFileName = "";
     private String fileName = "";
@@ -41,12 +42,12 @@ public class FileDataProps extends PDataSample<FileData> {
         return TAG;
     }
 
-    public int getFileId() {
-        return fileId;
+    public int getId() {
+        return id;
     }
 
-    public void setFileId(int fileId) {
-        this.fileId = fileId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getPath() {

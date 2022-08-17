@@ -56,7 +56,7 @@ public class TableFileList extends PTable<FileData> {
         setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
         final TableColumn<FileData, Integer> idColumn = new TableColumn<>("FileID");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("fileId"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         idColumn.setCellFactory(cellFactFileId);
         idColumn.getStyleClass().add("alignCenterRight");
 
@@ -126,10 +126,10 @@ public class TableFileList extends PTable<FileData> {
 
                 //===========================================
                 if (fileData != null && !empty) {
-                    if (fileData.getFileId() != 0) {
+                    if (fileData.getId() != 0) {
                         //dann gibts eine gleiche Datei
                         //Hintergrundfarbe wird nach FileID gefärbt
-                        if (fileData.getFileId() % 2 == 0) {
+                        if (fileData.getId() % 2 == 0) {
                             if (ProgColorList.FILE_IS_ID1_BG.isUse()) {
                                 setStyle(ProgColorList.FILE_IS_ID1_BG.getCssBackground());
                             }
@@ -138,7 +138,7 @@ public class TableFileList extends PTable<FileData> {
                         }
 
                         //die Schriftfarbe wird nach FileID gefärbt
-                        if (fileData.getFileId() % 2 == 0) {
+                        if (fileData.getId() % 2 == 0) {
                             if (ProgColorList.FILE_IS_ID1.isUse()) {
                                 for (int i = 0; i < getChildren().size(); i++) {
                                     getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID1.getCssFont());

@@ -44,12 +44,12 @@ public class CompareFileList {
         fileDataList1.stream().forEach(fd -> {
             fd.setOnly(true);
             fd.setDiff(false);
-            fd.setFileId(0);
+            fd.setId(0);
         });
         fileDataList2.stream().forEach(fd -> {
             fd.setOnly(true);
             fd.setDiff(false);
-            fd.setFileId(0);
+            fd.setId(0);
         });
 
         // und jetzt vergleichen
@@ -78,19 +78,19 @@ public class CompareFileList {
                 return;
             }
 
-            if (fd1.getFileId() == 0) {
+            if (fd1.getId() == 0) {
                 //sonst ist er schon markiert
 
                 fileDataList1.stream().forEach(f1 -> {
                     if (!f1.equals(fd1) && f1.getHash().equals(fd1.getHash())) {
                         //die "gleichen" sind ja immer gleich :)
                         //also nur andere gleiche suchen
-                        if (fd1.getFileId() == 0) {
+                        if (fd1.getId() == 0) {
                             //dann ists der erste Treffer
                             int id = getNextId();
-                            fd1.setFileId(id);
+                            fd1.setId(id);
                         }
-                        f1.setFileId(fd1.getFileId());
+                        f1.setId(fd1.getId());
                     }
                 });
             }
@@ -109,11 +109,11 @@ public class CompareFileList {
                         fd2.setOnly(false);
                         fd1.setDiff(false);
                         fd2.setDiff(false);
-                        if (fd1.getFileId() == 0) {
+                        if (fd1.getId() == 0) {
                             int id = getNextId();
-                            fd1.setFileId(id);
+                            fd1.setId(id);
                         }
-                        fd2.setFileId(fd1.getFileId());
+                        fd2.setId(fd1.getId());
                     });
         });
     }
@@ -139,11 +139,11 @@ public class CompareFileList {
 
                 if (fd1.getHash().equals(fd2.getHash())) {
                     //sind gleich
-                    if (fd1.getFileId() == 0) {
+                    if (fd1.getId() == 0) {
                         int id = getNextId();
-                        fd1.setFileId(id);
+                        fd1.setId(id);
                     }
-                    fd2.setFileId(id);
+                    fd2.setId(id);
 
                 } else {
                     //nicht gleich
