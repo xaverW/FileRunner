@@ -97,8 +97,8 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty compFileHashFile2 = addStr("compFileHashFile2");
     public static ObservableList<String> compFileHashFileList = addList("compFileHashFileList");
 
-    public static StringProperty compFileHash1 = addStr("compFileHash1");
-    public static StringProperty compFileHash2 = addStr("compFileHash2");
+//    public static StringProperty compFileHash1 = addStr("compFileHash1");
+//    public static StringProperty compFileHash2 = addStr("compFileHash2");
 
     // compare dir
     public static StringProperty lastUsedDir1 = addStr("lastUsedDir1");

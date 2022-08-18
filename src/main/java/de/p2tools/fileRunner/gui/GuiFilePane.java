@@ -47,7 +47,7 @@ public class GuiFilePane extends VBox {
     private final Button btnSelectFile = new Button("");
     private final Button btnSelectHashFile = new Button("");
     private final RadioButton rbFileOrUrl = new RadioButton("Datei/URL");
-    private final RadioButton rbHashFile = new RadioButton("Hashdatei");
+    private final RadioButton rbReadHashFile = new RadioButton("Hashdatei");
     private final RadioButton rbHash = new RadioButton("Hash");
     private final Button btnProposeStoringHashFileName = new Button("");
     private final PComboBoxString cboWriteHash = new PComboBoxString();
@@ -58,13 +58,12 @@ public class GuiFilePane extends VBox {
     private final Button btnSaveHash = new Button("Hash speichern");
 
     private final PComboBoxString cboGenHashFromFile = new PComboBoxString();
-    private final PComboBoxString cboReadHashFromFile = new PComboBoxString();
+    private final PComboBoxString cboReadHashFile = new PComboBoxString();
     private final PTextField txtHash = new PTextField();
 
     private final IntegerProperty sel;
     private final StringProperty srcFile;
     private final StringProperty hashFile;
-    private final StringProperty hash;
     private final BooleanProperty isRunning = new SimpleBooleanProperty(false);
     private final BooleanProperty disableCompareButton = new SimpleBooleanProperty(false);
     private final StringProperty writeHash;
@@ -76,21 +75,17 @@ public class GuiFilePane extends VBox {
             sel = ProgConfig.compFileSel1;
             srcFile = ProgConfig.compFileSrcFile1;
             hashFile = ProgConfig.compFileHashFile1;
-            hash = ProgConfig.compFileHash1;
             writeHash = ProgConfig.writeFileHash1;
         } else {
             sel = ProgConfig.compFileSel2;
             srcFile = ProgConfig.compFileSrcFile2;
             hashFile = ProgConfig.compFileHashFile2;
-            hash = ProgConfig.compFileHash2;
             writeHash = ProgConfig.writeFileHash2;
         }
 
-        initProjectData();
         initButton();
         initPane();
         addListener();
-        setVis(false);
     }
 
     public BooleanProperty disableCompareButtonProperty() {
@@ -108,71 +103,102 @@ public class GuiFilePane extends VBox {
         return txtHash;
     }
 
-    private void initProjectData() {
-        cboGenHashFromFile.init(ProgConfig.compFileSrcFileList, srcFile);
-        cboReadHashFromFile.init(ProgConfig.compFileHashFileList, hashFile);
-        txtHash.textProperty().bindBidirectional(hash);
-    }
-
     private void initButton() {
         ToggleGroup tg = new ToggleGroup();
-        tg.getToggles().addAll(rbFileOrUrl, rbHashFile, rbHash);
+        tg.getToggles().addAll(rbFileOrUrl, rbReadHashFile, rbHash);
         switch (sel.get()) {
             case 0:
                 rbFileOrUrl.setSelected(true);
                 break;
             case 1:
-                rbHashFile.setSelected(true);
+                rbReadHashFile.setSelected(true);
                 break;
             case 2:
                 rbHash.setSelected(true);
                 break;
         }
 
-        btnSelectFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
-        btnSelectFile.setTooltip(new Tooltip("Datei zum Erstellen des Hash auswählen."));
-        btnSelectHashFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
-        btnSelectHashFile.setTooltip(new Tooltip("Datei mit Hash-Werten auswählen."));
-        btnSaveHash.setTooltip(new Tooltip("Hash der Datei 2 speichern."));
-        btnSaveHash.disableProperty().bind(cboWriteHash.getEditor().textProperty().isEmpty().or(txtHash.textProperty().isEmpty()));
+        //=======================
+        //file/URL
+        rbFileOrUrl.disableProperty().bind(isRunning);
+        rbFileOrUrl.setOnAction(event -> {
+            txtHash.clear();
+            sel.set(0);
+        });
 
         cboGenHashFromFile.setMaxWidth(Double.MAX_VALUE);
-        cboReadHashFromFile.setMaxWidth(Double.MAX_VALUE);
+        cboGenHashFromFile.init(ProgConfig.compFileSrcFileList, srcFile);
+        cboGenHashFromFile.disableProperty().bind(rbFileOrUrl.selectedProperty().not()
+                .or(isRunning));
+
+        btnSelectFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnSelectFile.setTooltip(new Tooltip("Datei zum Erstellen des Hash auswählen."));
+        btnSelectFile.disableProperty().bind(rbFileOrUrl.selectedProperty().not()
+                .or(isRunning));
 
         btnReadFileAndGenHash.setGraphic(ProgIcons.Icons.ICON_BUTTON_GEN_HASH.getImageView());
         btnReadFileAndGenHash.setTooltip(new Tooltip("Datei einlesen und Hash erstellen."));
-        btnReadFileAndGenHash.disableProperty().bind(cboGenHashFromFile.getEditor().textProperty().isNull()
-                .or(cboGenHashFromFile.getEditor().textProperty().isEqualTo("")));
-        btnReadFileAndGenHash.disableProperty().bind(
-                rbFileOrUrl.selectedProperty().and(cboGenHashFromFile.getEditor().textProperty().isEqualTo(""))
-                        .or(rbHashFile.selectedProperty().and(cboReadHashFromFile.getEditor().textProperty().isEqualTo("")))
-                        .or(rbHash.selectedProperty())
-                        .or(isRunning)
-        );
+        btnReadFileAndGenHash.disableProperty().bind(rbFileOrUrl.selectedProperty().not()
+                .or(cboGenHashFromFile.getEditor().textProperty().isNull())
+                .or(cboGenHashFromFile.getEditor().textProperty().isEqualTo(""))
+                .or(isRunning));
+
+        //=======================
+        //hashfile
+        rbReadHashFile.disableProperty().bind(isRunning);
+        rbReadHashFile.setOnAction(event -> {
+            txtHash.clear();
+            sel.set(1);
+        });
+
+        cboReadHashFile.setMaxWidth(Double.MAX_VALUE);
+        cboReadHashFile.init(ProgConfig.compFileHashFileList, hashFile);
+        cboReadHashFile.disableProperty().bind(rbReadHashFile.selectedProperty().not()
+                .or(isRunning));
+
+        btnSelectHashFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnSelectHashFile.setTooltip(new Tooltip("Datei mit Hash-Werten auswählen."));
+        btnSelectFile.disableProperty().bind(rbReadHashFile.selectedProperty().not()
+                .or(isRunning));
 
         btnReadHashFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_GEN_HASH.getImageView());
         btnReadHashFile.setTooltip(new Tooltip("Hash aus Datei lesen."));
-        btnReadHashFile.disableProperty().bind(cboReadHashFromFile.getEditor().textProperty().isNull()
-                .or(cboReadHashFromFile.getEditor().textProperty().isEqualTo("")));
+        btnReadHashFile.disableProperty().bind(rbReadHashFile.selectedProperty().not()
+                .or(cboReadHashFile.getEditor().textProperty().isNull())
+                .or(cboReadHashFile.getEditor().textProperty().isEqualTo(""))
+                .or(isRunning));
+
+        //=======================
+        //hash
+        rbHash.disableProperty().bind(isRunning);
+        rbHash.selectedProperty().addListener((v, o, n) -> {
+            txtHash.setStateLabel(!rbHash.isSelected());
+        });
+        rbHash.setOnAction(event -> {
+            txtHash.clear();
+            sel.set(2);
+        });
+        txtHash.setStateLabel(!rbHash.isSelected());
+
+        cboWriteHash.setMaxWidth(Double.MAX_VALUE);
+        cboWriteHash.init(ProgConfig.writeFileHashList, writeHash);
+        cboWriteHash.disableProperty().bind(txtHash.textProperty().isEmpty()
+                .or(isRunning));
+
+
+        btnSaveHash.setTooltip(new Tooltip("Hash der Datei speichern."));
+        btnSaveHash.disableProperty().bind(cboWriteHash.getEditor().textProperty().isEmpty()
+                .or(txtHash.textProperty().isEmpty())
+                .or(isRunning));
 
         btnSelectHashFileForStoring.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
         btnSelectHashFileForStoring.setTooltip(new Tooltip("Datei zum Speichern auswählen."));
-        btnSelectHashFileForStoring.disableProperty().bind(cboWriteHash.disableProperty());
+        btnSelectHashFileForStoring.disableProperty().bind(cboWriteHash.disableProperty()
+                .or(isRunning));
 
         btnProposeStoringHashFileName.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_GEN_NAME.getImageView());
         btnProposeStoringHashFileName.setTooltip(new Tooltip("Einen Dateinamen vorschlagen."));
         btnProposeStoringHashFileName.disableProperty().bind(cboWriteHash.disableProperty());
-
-        cboWriteHash.setEditable(true);
-        cboWriteHash.setMaxWidth(Double.MAX_VALUE);
-        cboWriteHash.init(ProgConfig.writeFileHashList, writeHash);
-
-        cboWriteHash.disableProperty().bind(
-                rbFileOrUrl.selectedProperty().and(cboGenHashFromFile.getEditor().textProperty().isEqualTo(""))
-                        .or(rbHashFile.selectedProperty())
-                        .or(rbHash.selectedProperty())
-                        .or(txtHash.textProperty().isEmpty()
-                                .or(isRunning)));
     }
 
     private void initPane() {
@@ -189,8 +215,8 @@ public class GuiFilePane extends VBox {
         gridPane.add(btnSelectFile, 2, r);
         gridPane.add(btnReadFileAndGenHash, 3, r++);
 
-        gridPane.add(rbHashFile, 0, r);
-        gridPane.add(cboReadHashFromFile, 1, r);
+        gridPane.add(rbReadHashFile, 0, r);
+        gridPane.add(cboReadHashFile, 1, r);
         gridPane.add(btnSelectHashFile, 2, r);
         gridPane.add(btnReadHashFile, 3, r++);
 
@@ -228,16 +254,9 @@ public class GuiFilePane extends VBox {
                     }
                 });
 
-        rbFileOrUrl.setOnAction(event -> setVis(true));
-        rbFileOrUrl.disableProperty().bind(isRunning);
-        rbHashFile.setOnAction(event -> setVis(true));
-        rbHashFile.disableProperty().bind(isRunning);
-        rbHash.setOnAction(event -> setVis(true));
-        rbHash.disableProperty().bind(isRunning);
-
         btnSelectFile.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, cboGenHashFromFile));
         btnSelectFile.disableProperty().bind(isRunning);
-        btnSelectHashFile.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, cboReadHashFromFile));
+        btnSelectHashFile.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, cboReadHashFile));
         btnSelectHashFile.disableProperty().bind(isRunning);
         btnSaveHash.setOnAction(event -> saveHash());
         btnReadHashFile.setOnAction(event -> genLoadHash());
@@ -261,36 +280,19 @@ public class GuiFilePane extends VBox {
         cboGenHashFromFile.getEditor().textProperty().addListener((ob, o, n) -> {
             txtHash.clear();
         });
-        cboReadHashFromFile.getEditor().textProperty().addListener((ob, o, n) -> {
+        cboReadHashFile.getEditor().textProperty().addListener((ob, o, n) -> {
             txtHash.clear();
         });
 
-        disableCompareButton.bind(btnReadFileAndGenHash.disableProperty());
-    }
-
-    private void setVis(boolean clearHash) {
-        if (clearHash) {
-            txtHash.setText("");
-        }
-
-        cboGenHashFromFile.setDisable(rbFileOrUrl.isSelected() ? false : true);
-        cboReadHashFromFile.setDisable(rbHashFile.isSelected() ? false : true);
-        txtHash.setStateLabel(rbHash.isSelected() ? false : true);
-
-        if (rbFileOrUrl.isSelected()) {
-            sel.set(0);
-        } else if (rbHashFile.isSelected()) {
-            sel.set(1);
-        } else if (rbHash.isSelected()) {
-            sel.set(2);
-        }
-
+        disableCompareButton.bind((rbFileOrUrl.selectedProperty().and(btnReadFileAndGenHash.disableProperty()))
+                .or((rbReadHashFile.selectedProperty().and(btnReadHashFile.disableProperty())))
+                .or((rbHash.selectedProperty().and(txtHash.textProperty().isEmpty()))));
     }
 
     public void genLoadHash() {
         if (rbFileOrUrl.isSelected()) {
             genHash();
-        } else if (rbHashFile.isSelected()) {
+        } else if (rbReadHashFile.isSelected()) {
             readHash();
         }
     }
@@ -311,11 +313,11 @@ public class GuiFilePane extends VBox {
 
     private void readHash() {
         txtHash.clear();
-        if (cboReadHashFromFile.getSelValue().trim().isEmpty()) {
+        if (cboReadHashFile.getSelValue().trim().isEmpty()) {
             PAlert.showErrorAlert("Hash einlesen", "Es ist keine Datei angegeben!");
             return;
         } else {
-            String file = cboReadHashFromFile.getSelValue().trim();
+            String file = cboReadHashFile.getSelValue().trim();
             if (!HashFactory.checkFile(file)) {
                 return;
             }

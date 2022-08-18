@@ -28,6 +28,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -79,6 +80,8 @@ public class FileHash_ReadFileHashFile {
                     }
 
                 });
+            } catch (UncheckedIOException ex) {
+                PLog.errorLog(102359731, ex, "load hashfile: " + fileStr);
             } catch (IOException ex) {
                 PLog.errorLog(620301973, ex, "load hashfile: " + fileStr);
             }
