@@ -34,6 +34,7 @@ public class FileDataProps extends PDataSample<FileData> {
     private PDate fileDate = null;
     private PFileSize fileSize = null;
     private String hash = "";
+    private boolean sameHash = false;
     private boolean diff = false;
     private boolean only = false;
     private boolean link = false;
@@ -96,6 +97,14 @@ public class FileDataProps extends PDataSample<FileData> {
 
     public void setHash(String hash) {
         this.hash = hash;
+    }
+
+    public boolean isSameHash() {
+        return sameHash;
+    }
+
+    public void setSameHash(boolean sameHash) {
+        this.sameHash = sameHash;
     }
 
     public boolean isDiff() {

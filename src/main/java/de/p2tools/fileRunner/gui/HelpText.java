@@ -43,13 +43,12 @@ public class HelpText {
             "neu eingelesen werden, die Tabelle wird deshalb auch gelöscht."
             + P2LibConst.LINE_SEPARATORx2 +
 
-            "Ist \"mit dem Hashwert vergleichen\" aktiv, werden die Dateien auch " +
-            "nur über den Hash der Datei verglichen. " +
-            "D.h. Dateien sind gleich wenn der Hash gleich ist, auch " +
-            "dann wenn sie in unterschiedlichen Verzeichnissen liegen oder " +
-            "unterschiedliche Dateinamen haben. Bei ausgeschalteter Option muss die " +
-            "Datei gleich sein, der Dateiname muss gleich sein und sie muss auch im " +
-            "gleichen Verzeichnis liegen (Unterverzeichnis des Suchverzeichnisses).";
+            "\"Gleiche Dateien markieren\" vergibt eine gleiche Nummer, die FileID, für alle Dateien " +
+            "die gleich sind." + P2LibConst.LINE_SEPARATOR +
+
+            "Ist \"Mit Pfad/Dateiname/Hash\" ausgewählt, sind die Dateien \"gleich\" wenn der Pfad zur Datei, " +
+            "der Dateiname und der Hash identisch sind. Ist \"Nur mit Hash vergleichen\" gewählt, sind sie \"gleich\" " +
+            "wenn der Hash identisch ist, egal wie sie heißen oder wo sie liegen.";
 
     public static final String FOLLOW_SYMLINK = "Eine symbolische Verknüpfung ist eine Verknüpfung in einem Dateisystem " +
             "die auf eine andere Datei oder ein anderes Verzeichnis verweist." + P2LibConst.LINE_SEPARATORx2 +

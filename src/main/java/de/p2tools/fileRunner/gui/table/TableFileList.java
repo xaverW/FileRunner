@@ -69,6 +69,10 @@ public class TableFileList extends PTable<FileData> {
         final TableColumn<FileData, PDate> fileDateColumn = new TableColumn<>("Geändert");
         fileDateColumn.setCellValueFactory(new PropertyValueFactory<>("fileDate"));
 
+        final TableColumn<FileData, Boolean> hash = new TableColumn<>("Hash");
+        hash.setCellValueFactory(new PropertyValueFactory<>("sameHash"));
+        hash.setCellFactory(new PCheckBoxCell().cellFactoryBool);
+
         final TableColumn<FileData, Boolean> diff = new TableColumn<>("Diff");
         diff.setCellValueFactory(new PropertyValueFactory<>("diff"));
         diff.setCellFactory(new PCheckBoxCell().cellFactoryBool);
@@ -85,7 +89,7 @@ public class TableFileList extends PTable<FileData> {
         only.setPrefWidth(50);
 
         addRowFact();
-        getColumns().addAll(idColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only);
+        getColumns().addAll(idColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, hash, diff, only);
     }
 
     private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellFactFileId =
