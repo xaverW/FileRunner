@@ -82,6 +82,8 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty GUI_FILE_HASH = addStr("gui-file-hash", HashConst.HASH_MD5);
     public static StringProperty GUI_FILE_HASH_SUFF = addStr("gui-file-hash-suff", HashConst.HASH_MD5_SUFFIX);
     public static BooleanProperty CONFIG_COMPARE_WITH_PATH = addBool("config-compare-with-path", Boolean.TRUE);
+    public static BooleanProperty CONFIG_COMPARE_WITH_PATH_1 = addBool("config-compare-with-path-1", Boolean.TRUE);
+    public static BooleanProperty CONFIG_COMPARE_WITH_PATH_2 = addBool("config-compare-with-path-2", Boolean.TRUE);
     public static BooleanProperty CONFIG_COMPARE_ONLY_WITH_HASH = addBool("config-compare-only-with-hash", Boolean.FALSE);
 
     //ProjectData

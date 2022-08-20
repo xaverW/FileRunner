@@ -62,7 +62,7 @@ public class Worker {
         fileHashReadFileHashFile.setStop();
     }
 
-    public boolean dirHash_readDirHash(String hashDir, FileDataList fileDataList, boolean followLink) {
+    public boolean dirHash_readDirHash(boolean list1, String hashDir, boolean followLink) {
         //Hash von Dateien eines Verzeichnisses erstellen
         boolean ret = false;
         if (hashDir.isEmpty()) {
@@ -74,8 +74,8 @@ public class Worker {
             PDialogFileChosser.showErrorAlert("Verzeichnis einlesen", "Verzeichnis existiert nicht!");
         } else {
             ret = true;
-            dirHashCreateDirHash.createHash(dir, fileDataList, 1, followLink);
-            fileDataList.setSourceDir(hashDir);
+            dirHashCreateDirHash.createHash(list1, dir, 1, followLink);
+            (list1 ? progData.fileDataList_1 : progData.fileDataList_2).setSourceDir(hashDir);
         }
 
         ProgData.getInstance().guiDirRunner.resetFilter();

@@ -23,20 +23,22 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
+import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
 import de.p2tools.fileRunner.gui.table.Table;
 import de.p2tools.fileRunner.gui.table.TableFileList;
 import de.p2tools.fileRunner.icon.ProgIcons;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.alert.PAlert;
+import de.p2tools.p2Lib.dialogs.PDialogShowAgain;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
-import de.p2tools.p2Lib.guiTools.PComboBoxString;
-import de.p2tools.p2Lib.guiTools.POpen;
-import de.p2tools.p2Lib.guiTools.PTableFactory;
+import de.p2tools.p2Lib.guiTools.*;
+import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitchOnly;
 import de.p2tools.p2Lib.tools.events.PEvent;
 import de.p2tools.p2Lib.tools.events.PListener;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.file.PFileName;
 import de.p2tools.p2Lib.tools.file.PFileUtils;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -97,6 +99,7 @@ public class GuiDirPane extends VBox {
     private final StringProperty writeHash;
     private final int selTab;
     private final IntegerProperty selTabIndex;
+    private final BooleanProperty recursiv;
 
 
     enum DIR_ZIP_HASH {DIR, ZIP, HASH}
@@ -105,6 +108,7 @@ public class GuiDirPane extends VBox {
         this.progData = progData;
         this.fileDataFilter = fileDataFilter;
         this.panel1 = panel1;
+        this.recursiv = panel1 ? ProgConfig.CONFIG_COMPARE_WITH_PATH_1 : ProgConfig.CONFIG_COMPARE_WITH_PATH_2;
 
         if (panel1) {
             tableView = new TableFileList(Table.TABLE_ENUM.FILELIST_1);
@@ -251,6 +255,30 @@ public class GuiDirPane extends VBox {
         pCboDir.setMaxWidth(Double.MAX_VALUE);
         hBoxDir.getChildren().addAll(pCboDir, btnSelectDir, btnReadDir);
         vBoxDir.getChildren().addAll(new Label("Verzeichnis:"), hBoxDir);
+
+
+        Label lblPath = new Label("Auch Unterverzeichnisse durchsuchen:");
+        final PToggleSwitchOnly tglSubDir = new PToggleSwitchOnly();
+        tglSubDir.setTooltip(new Tooltip("Es werden auch Dateien in Unterverzeichnissen verglichen"));
+        tglSubDir.selectedProperty().bindBidirectional(recursiv);
+        tglSubDir.selectedProperty().addListener((v, o, n) -> {
+            new PDialogShowAgain(progData.primaryStage, ProgConfig.SYSTEM_SUBDIR_SHOW_AGAIN_DIALOG_SIZE,
+                    "Unterverzeichnisse durchsuchen",
+                    "Wenn \"Auch Unterverzeichnisse durchsuchen\" ein- oder ausgeschaltet wird, " +
+                            "wird die Tabelle mit den Dateien gelöscht. " + P2LibConst.LINE_SEPARATORx2 +
+                            "Das Verzeichnis muss neu eingelesen werden.",
+                    ProgConfig.SYSTEM_SUBDIR_SHOW_AGAIN_DIALOG_SHOW);
+
+            (panel1 ? progData.fileDataList_1 : progData.fileDataList_2).clear();
+            CompareFileListFactory.compareList();
+        });
+        Button btnHelpPathHash = PButton.helpButton(progData.primaryStage, "", HelpText.READ_DIR_RECURSIVE);
+        HBox hBox = new HBox(10);
+        hBox.setPadding(new Insets(5, 0, 0, 0));
+        hBox.setAlignment(Pos.CENTER_RIGHT);
+        hBox.getChildren().addAll(lblPath, PGuiTools.getHBoxGrower(), tglSubDir, btnHelpPathHash);
+        vBoxDir.getChildren().addAll(hBox);
+
 
         // zip
         VBox vBoxZip = new VBox(2);
@@ -489,15 +517,15 @@ public class GuiDirPane extends VBox {
 
         pCboDir.getEditor().textProperty().addListener((c, o, n) -> {
             fileDataList.clear();
-            new CompareFileList().compareList();
+            CompareFileListFactory.compareList();
         });
         pCboZip.getEditor().textProperty().addListener((c, o, n) -> {
             fileDataList.clear();
-            new CompareFileList().compareList();
+            CompareFileListFactory.compareList();
         });
         pCboHash.getEditor().textProperty().addListener((c, o, n) -> {
             fileDataList.clear();
-            new CompareFileList().compareList();
+            CompareFileListFactory.compareList();
         });
 
         btnReadDir.disableProperty().bind(pCboDir.getEditor().textProperty().isNull()
@@ -531,8 +559,7 @@ public class GuiDirPane extends VBox {
     }
 
     private void readDir() {
-        if (progData.worker.dirHash_readDirHash((panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
-                fileDataList,
+        if (progData.worker.dirHash_readDirHash(panel1, (panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
                 (panel1 ? ProgConfig.followLink1.get() : ProgConfig.followLink2.get()))) {
             setTabDirFile(DIR_ZIP_HASH.DIR);
         }

@@ -21,7 +21,8 @@ import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
+import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
+import de.p2tools.fileRunner.controller.worker.compare.HashIdFactory;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
@@ -45,7 +46,10 @@ public class DirHash_CreateDirHash {
     private int progress = 0;
     private int threads = 0;
     private int anzThread = 1;
-    private boolean recursiv = true;
+    private boolean list1;
+    //    private boolean recursiv = true;
+    private boolean recursiv_1 = true;
+    private boolean recursiv_2 = true;
     private boolean followLink = false;
     private int runThreads = 0;
 
@@ -57,17 +61,19 @@ public class DirHash_CreateDirHash {
         stop = true;
     }
 
-    public void createHash(File file, FileDataList fileDataList, int anzThread, boolean followLink) {
+    public void createHash(boolean list1, File file, int anzThread, boolean followLink) {
         this.anzThread = anzThread;
-        this.recursiv = ProgConfig.CONFIG_COMPARE_WITH_PATH.getValue();
+        this.list1 = list1;
+        this.recursiv_1 = ProgConfig.CONFIG_COMPARE_WITH_PATH_1.getValue();
+        this.recursiv_2 = ProgConfig.CONFIG_COMPARE_WITH_PATH_2.getValue();
         this.followLink = followLink;
 
         max = 0;
         progress = 0;
         stop = false;
 
-        fileDataList.clear();
-        CreateHash createHash = new CreateHash(file, fileDataList);
+        (list1 ? progData.fileDataList_1 : progData.fileDataList_2).clear();
+        CreateHash createHash = new CreateHash(list1, file);
         runThreads = 1;
         Thread startenThread = new Thread(createHash);
         startenThread.setName("CreateHash");
@@ -86,9 +92,9 @@ public class DirHash_CreateDirHash {
         private FileDataList fileDataList;
         private LinkedList<File> listeFile = new LinkedList<>();
 
-        public CreateHash(File searchDir, FileDataList fileDataList) {
+        public CreateHash(boolean list1, File searchDir) {
             this.searchDir = searchDir;
-            this.fileDataList = fileDataList;
+            this.fileDataList = list1 ? progData.fileDataList_1 : progData.fileDataList_2;
         }
 
         public synchronized void run() {
@@ -115,7 +121,8 @@ public class DirHash_CreateDirHash {
             if (stop) {
                 fileDataList.clear();
             } else {
-                new CompareFileList().compareList();
+                HashIdFactory.setHashId();
+                CompareFileListFactory.compareList();
             }
             --runThreads;
             if (runThreads == 0) {
@@ -137,7 +144,7 @@ public class DirHash_CreateDirHash {
                         addGetFile(file);
                     }
 
-                }.recDir(searchDir, recursiv);
+                }.recDir(searchDir, list1 ? recursiv_1 : recursiv_2);
             } catch (Exception ex) {
                 PLog.errorLog(975102364, ex, "CreateHash.run - " + searchDir.getAbsolutePath());
             }

@@ -25,8 +25,6 @@ public class FileDataProps extends PDataSample<FileData> {
 
     public static final String TAG = "FileData";
 
-    //    private IntegerProperty fileId = new SimpleIntegerProperty(0);
-    //    private Integer fileId = 0;
     private int id = 0;
     private String path = "";
     private String pathFileName = "";
@@ -34,7 +32,7 @@ public class FileDataProps extends PDataSample<FileData> {
     private PDate fileDate = null;
     private PFileSize fileSize = null;
     private String hash = "";
-    private boolean sameHash = false;
+    private int hashId = 0;
     private boolean diff = false;
     private boolean only = false;
     private boolean link = false;
@@ -99,12 +97,12 @@ public class FileDataProps extends PDataSample<FileData> {
         this.hash = hash;
     }
 
-    public boolean isSameHash() {
-        return sameHash;
+    public int getHashId() {
+        return hashId;
     }
 
-    public void setSameHash(boolean sameHash) {
-        this.sameHash = sameHash;
+    public void setHashId(int hashId) {
+        this.hashId = hashId;
     }
 
     public boolean isDiff() {

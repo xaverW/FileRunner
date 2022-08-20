@@ -57,7 +57,7 @@ public class TableFileList extends PTable<FileData> {
 
         final TableColumn<FileData, Integer> idColumn = new TableColumn<>("FileID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idColumn.setCellFactory(cellFactFileId);
+        idColumn.setCellFactory(cellFactId);
         idColumn.getStyleClass().add("alignCenterRight");
 
         final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Datei");
@@ -69,9 +69,10 @@ public class TableFileList extends PTable<FileData> {
         final TableColumn<FileData, PDate> fileDateColumn = new TableColumn<>("Geändert");
         fileDateColumn.setCellValueFactory(new PropertyValueFactory<>("fileDate"));
 
-        final TableColumn<FileData, Boolean> hash = new TableColumn<>("Hash");
-        hash.setCellValueFactory(new PropertyValueFactory<>("sameHash"));
-        hash.setCellFactory(new PCheckBoxCell().cellFactoryBool);
+        final TableColumn<FileData, Integer> hashIdColumn = new TableColumn<>("HashID");
+        hashIdColumn.setCellValueFactory(new PropertyValueFactory<>("hashId"));
+        hashIdColumn.setCellFactory(cellFactId);
+        hashIdColumn.getStyleClass().add("alignCenterRight");
 
         final TableColumn<FileData, Boolean> diff = new TableColumn<>("Diff");
         diff.setCellValueFactory(new PropertyValueFactory<>("diff"));
@@ -89,10 +90,10 @@ public class TableFileList extends PTable<FileData> {
         only.setPrefWidth(50);
 
         addRowFact();
-        getColumns().addAll(idColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, hash, diff, only);
+        getColumns().addAll(idColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, hashIdColumn, diff, only);
     }
 
-    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellFactFileId =
+    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellFactId =
             (final TableColumn<FileData, Integer> param) -> {
 
                 final TableCell<FileData, Integer> cell = new TableCell<>() {

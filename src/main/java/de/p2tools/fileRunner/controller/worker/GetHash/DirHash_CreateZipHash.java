@@ -20,7 +20,7 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.worker.compare.CompareFileList;
+import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.date.PDate;
@@ -122,7 +122,7 @@ public class DirHash_CreateZipHash {
             if (stop) {
                 fileDataList.clear();
             } else {
-                new CompareFileList().compareList();
+                CompareFileListFactory.compareList();
             }
 
             max = 0;
