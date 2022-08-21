@@ -262,8 +262,8 @@ public class GuiDirRunner extends AnchorPane {
         tglShowAll.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ALL.getImageView());
         tglShowSame.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_SAME_1.getImageView());
 //        tglShowSame_2.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_SAME_2.getImageView());
-        tglShowDiffAll.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_DIFF_ALL.getImageView());
-        tglShowDiff.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_DIFF.getImageView());
+        tglShowDiffAll.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_DIFF.getImageView());
+        tglShowDiff.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_DIFF_ALL.getImageView());
         tglShowOnly1.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ONLY_1.getImageView());
         tglShowOnly2.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ONLY_2.getImageView());
 
@@ -321,6 +321,13 @@ public class GuiDirRunner extends AnchorPane {
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_ALL);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
+        } else if (tglShowOnly1.isSelected()) {
+            tglShowOnly1.getStyleClass().clear();
+            tglShowOnly1.getStyleClass().add("btnFilter-sel");
+
+            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
+            progData.fileDataList_1.setPred(fileDataFilter1);
+            progData.fileDataList_2.setPred(false);
         } else if (tglShowDiff.isSelected()) {
             tglShowDiff.getStyleClass().clear();
             tglShowDiff.getStyleClass().add("btnFilter-sel");
@@ -329,13 +336,6 @@ public class GuiDirRunner extends AnchorPane {
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
-        } else if (tglShowOnly1.isSelected()) {
-            tglShowOnly1.getStyleClass().clear();
-            tglShowOnly1.getStyleClass().add("btnFilter-sel");
-
-            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
-            progData.fileDataList_1.setPred(fileDataFilter1);
-            progData.fileDataList_2.setPred(false);
         } else if (tglShowOnly2.isSelected()) {
             tglShowOnly2.getStyleClass().clear();
             tglShowOnly2.getStyleClass().add("btnFilter-sel");
@@ -350,15 +350,15 @@ public class GuiDirRunner extends AnchorPane {
         tglShowAll.getStyleClass().clear();
         tglShowSame.getStyleClass().clear();
 //        tglShowSame_2.getStyleClass().clear();
-        tglShowDiffAll.getStyleClass().clear();
         tglShowDiff.getStyleClass().clear();
+        tglShowDiffAll.getStyleClass().clear();
         tglShowOnly1.getStyleClass().clear();
         tglShowOnly2.getStyleClass().clear();
         tglShowAll.getStyleClass().add("btnFilter");
         tglShowSame.getStyleClass().add("btnFilter");
 //        tglShowSame_2.getStyleClass().add("btnFilter");
-        tglShowDiffAll.getStyleClass().add("btnFilter");
         tglShowDiff.getStyleClass().add("btnFilter");
+        tglShowDiffAll.getStyleClass().add("btnFilter");
         tglShowOnly1.getStyleClass().add("btnFilter");
         tglShowOnly2.getStyleClass().add("btnFilter");
     }

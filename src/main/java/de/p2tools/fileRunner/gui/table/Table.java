@@ -24,6 +24,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import java.util.Arrays;
+
 public class Table {
     public enum TABLE_ENUM {
         FILELIST_1, FILELIST_2
@@ -169,11 +171,34 @@ public class Table {
 
         String order = confOrder.get();
         String[] arOrder = order.split(",");
+
+        if (!confOrder.get().isEmpty() && arOrder.length == tArray.length) {
+            //dann noch die Spalten exakt prüfen
+            for (int i = 0; i < arOrder.length; ++i) {
+                String s = arOrder[i];
+                TableColumn tc;
+                tc = Arrays.stream(tArray).filter(data -> data.getText().equals(s))
+                        .findFirst().orElse(null);
+                if (tc == null) {
+                    //dann habe sich die Spalten doch geändert :)
+                    confOrder.setValue(""); //dann auch löschen!
+                    break;
+                }
+            }
+        }
+
         if (confOrder.get().isEmpty() || arOrder.length != tArray.length) {
             // dann gibts keine Einstellungen oder die Anzahl der Spalten hat sich geändert
+            confOrder.setValue(""); //dann auch löschen!
+            confWidth.setValue(""); //dann auch löschen!
+            confSort.setValue(""); //dann auch löschen!
+            confUpDown.setValue(""); //dann auch löschen!
+            confVis.setValue(""); //dann auch löschen!
+
             for (TableColumn tc : tArray) {
                 table.getColumns().add(tc);
             }
+
         } else {
             for (int i = 0; i < arOrder.length; ++i) {
                 String s = arOrder[i];

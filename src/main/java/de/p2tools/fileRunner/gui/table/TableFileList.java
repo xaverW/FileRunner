@@ -22,6 +22,7 @@ import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.file.PFileSize;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
@@ -80,7 +81,7 @@ public class TableFileList extends PTable<FileData> {
 
         final TableColumn<FileData, Boolean> only = new TableColumn<>("Only");
         only.setCellValueFactory(new PropertyValueFactory<>("only"));
-        only.setCellFactory(new PCheckBoxCell().cellFactoryBool);
+        only.setCellFactory(cellFactBool);
 
         idColumn.setPrefWidth(70);
         pathFileNameColumn.setPrefWidth(350);
@@ -92,6 +93,42 @@ public class TableFileList extends PTable<FileData> {
         addRowFact();
         getColumns().addAll(idColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, hashIdColumn, diff, only);
     }
+
+    private static Callback<TableColumn<FileData, Boolean>, TableCell<FileData, Boolean>> cellFactBool =
+            (final TableColumn<FileData, Boolean> param) -> {
+
+                final TableCell<FileData, Boolean> cell = new TableCell<>() {
+
+                    @Override
+                    public void updateItem(Boolean item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        }
+
+                        setAlignment(Pos.CENTER);
+                        CheckBox box = new CheckBox();
+                        box.setMaxHeight(6);
+                        box.setMinHeight(6);
+                        box.setPrefSize(6, 6);
+                        box.setDisable(true);
+                        box.getStyleClass().add("checkbox-table");
+                        box.setSelected(item.booleanValue());
+
+                        FileData fileData = getTableView().getItems().get(getIndex());
+                        if (item.booleanValue() && fileData.getHashId() > 0) {
+                            //dann gibts doppelte
+                            box.setIndeterminate(true);
+                        }
+
+                        setGraphic(box);
+                    }
+                };
+                return cell;
+            };
 
     private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellFactId =
             (final TableColumn<FileData, Integer> param) -> {
