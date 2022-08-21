@@ -621,6 +621,10 @@ public class GuiDirPane extends VBox {
         Table.saveTable(tableView, table_enum);
     }
 
+    public void clearTableSelection() {
+        tableView.getSelectionModel().clearSelection();
+    }
+
     private void writeHashFile() {
         progData.worker.dirHash_writeHashFile(btnWriteHash,
                 (panel1 ? ProgConfig.writeHash1.getValueSafe().trim() : ProgConfig.writeHash2.getValueSafe().trim()),

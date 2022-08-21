@@ -28,11 +28,14 @@ public class HelpText {
             "1. Zeigt alle Dateien" + P2LibConst.LINE_SEPARATORx2 +
 
             "2. Zeigt gleiche Dateien die in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATOR +
-            "3. Zeigt Dateien die sich unterscheiden oder nur in einer Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
-            "4. Zeigt Dateien die sich unterscheiden und in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
+            "3. Zeigt Dateien mit gleichem Hash, " +
+            "auch wenn sie einen andern Namen oder Pfad haben" + P2LibConst.LINE_SEPARATORx2 +
 
-            "5. Zeigt Dateien die nur in der rechten Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
-            "6. Zeigt Dateien die nur in der linken Liste enthalten sind";
+            "4. Zeigt Dateien die sich unterscheiden oder nur in einer Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
+            "5. Zeigt Dateien die sich unterscheiden und in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
+
+            "6. Zeigt Dateien die nur in der rechten Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
+            "7. Zeigt Dateien die nur in der linken Liste enthalten sind";
 
     public static final String READ_DIR_RECURSIVE = "" +
             "Wird \"Unterverzeichnisse ...\" ausgewählt, werden beim Durchsuchen auch Unterverzeichnisse " +
