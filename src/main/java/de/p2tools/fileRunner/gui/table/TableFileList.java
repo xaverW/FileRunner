@@ -25,6 +25,7 @@ import de.p2tools.p2Lib.tools.file.PFileSize;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.util.Callback;
 
 public class TableFileList extends PTable<FileData> {
@@ -160,6 +161,12 @@ public class TableFileList extends PTable<FileData> {
             @Override
             public void updateItem(FileData fileData, boolean empty) {
                 super.updateItem(fileData, empty);
+
+                setOnMouseClicked(event -> {
+                    if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+                        getSelectionModel().clearSelection();
+                    }
+                });
 
                 setStyle("");
                 for (int i = 0; i < getChildren().size(); i++) {
