@@ -387,6 +387,15 @@ public class GuiDirPane extends VBox {
                 tableView.setContextMenu(getMenu());
             }
         });
+        tableView.setRowFactory(tv -> {
+            TableRow<FileData> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+                    tableView.getSelectionModel().clearSelection();
+                }
+            });
+            return row;
+        });
     }
 
     private ContextMenu getMenu() {

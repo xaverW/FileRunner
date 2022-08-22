@@ -105,26 +105,18 @@ public class GuiDirRunner extends AnchorPane {
                 tglShowSame, tglShowSame_2, spacer2, tglShowDiffAll, tglShowDiff, spacer3,
                 tglShowOnly1, tglShowOnly2);
 
-        final Button btnClearSelection = new Button();
-        btnClearSelection.setGraphic(ProgIcons.Icons.ICON_BUTTON_CLEAR_SELECTION.getImageView());
-        btnClearSelection.setTooltip(new Tooltip("Die Auswahl in den Tabellen löschen"));
-        btnClearSelection.setOnAction(a -> {
-            guiDirPane1.clearTableSelection();
-            guiDirPane2.clearTableSelection();
-        });
-
         Button btnHelp = PButton.helpButton(progData.primaryStage, "Vergleichen", HelpText.COMPARE_BUTTON);
 
         VBox vBox = new VBox(10);
         VBox.setVgrow(vBox, Priority.ALWAYS);
         vBox.setMaxHeight(Double.MAX_VALUE);
         vBox.setAlignment(Pos.BOTTOM_CENTER);
-        vBox.getChildren().addAll(btnClearSelection, btnHelp);
+        vBox.getChildren().add(btnHelp);
         vBoxBtn.getChildren().add(vBox);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
         splitPane.getItems().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
-        
+
         //==================================
         //== Unten ==
         Label lblHash = new Label("Dateien sind gleich wenn:");
