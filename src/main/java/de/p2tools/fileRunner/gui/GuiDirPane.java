@@ -145,20 +145,12 @@ public class GuiDirPane extends VBox {
         addListener();
     }
 
-    private Optional<FileData> getSel() {
-        return getSel(true);
+    public void saveTable() {
+        Table.saveTable(tableView, table_enum);
     }
 
-    private Optional<FileData> getSel(boolean show) {
-        final int selectedTableRow = tableView.getSelectionModel().getSelectedIndex();
-        if (selectedTableRow >= 0) {
-            return Optional.of(tableView.getSelectionModel().getSelectedItem());
-        } else {
-            if (show) {
-                PAlert.showInfoNoSelection();
-            }
-            return Optional.empty();
-        }
+    public void clearTableSelection() {
+        tableView.getSelectionModel().clearSelection();
     }
 
     public void openSelDir() {
@@ -226,6 +218,18 @@ public class GuiDirPane extends VBox {
             Path srcPath = Path.of(srcFile);
             Path destPath = Path.of(destFile);
             PFileUtils.copyFile(srcPath, destPath, true);
+        }
+    }
+
+    private Optional<FileData> getSel(boolean show) {
+        final int selectedTableRow = tableView.getSelectionModel().getSelectedIndex();
+        if (selectedTableRow >= 0) {
+            return Optional.of(tableView.getSelectionModel().getSelectedItem());
+        } else {
+            if (show) {
+                PAlert.showInfoNoSelection();
+            }
+            return Optional.empty();
         }
     }
 
@@ -615,14 +619,6 @@ public class GuiDirPane extends VBox {
             tabFilter.setGraphic(ProgIcons.Icons.ICON_TAB_SEARCH.getImageView());
             tabFilter.setStyle("-fx-font-weight: bold; -fx-underline: true;");
         }
-    }
-
-    public void saveTable() {
-        Table.saveTable(tableView, table_enum);
-    }
-
-    public void clearTableSelection() {
-        tableView.getSelectionModel().clearSelection();
     }
 
     private void writeHashFile() {

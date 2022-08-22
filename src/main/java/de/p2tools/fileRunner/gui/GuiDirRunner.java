@@ -124,8 +124,7 @@ public class GuiDirRunner extends AnchorPane {
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
         splitPane.getItems().addAll(guiDirPane1, vBoxBtn, guiDirPane2);
-
-
+        
         //==================================
         //== Unten ==
         Label lblHash = new Label("Dateien sind gleich wenn:");
