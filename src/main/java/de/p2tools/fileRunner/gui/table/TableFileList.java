@@ -169,8 +169,22 @@ public class TableFileList extends PTable<FileData> {
                 });
 
                 setStyle("");
+
+
                 for (int i = 0; i < getChildren().size(); i++) {
                     getChildren().get(i).setStyle("");
+                }
+
+                if (isSelected()) {
+                    if (ProgColorList.TABLE_ROW_IS_SEL_BG.isUse()) {
+                        setStyle(ProgColorList.TABLE_ROW_IS_SEL_BG.getCssBackgroundAndSel());
+                    }
+                    if (ProgColorList.TABLE_ROW_IS_SEL.isUse()) {
+                        for (int i = 0; i < getChildren().size(); i++) {
+                            getChildren().get(i).setStyle(ProgColorList.TABLE_ROW_IS_SEL.getCssFont());
+                        }
+                    }
+                    return;
                 }
 
                 //===========================================

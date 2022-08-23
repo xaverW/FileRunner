@@ -387,6 +387,8 @@ public class GuiDirPane extends VBox {
                 tableView.setContextMenu(getMenu());
             }
         });
+//        tableView.setStyle("-fx-selection-bar: red; -fx-selection-bar-non-focused: salmon;");
+
     }
 
     private ContextMenu getMenu() {

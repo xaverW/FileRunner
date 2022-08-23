@@ -24,6 +24,15 @@ import javafx.scene.paint.Color;
 public class ProgColorList extends PColorList {
 
     //OK
+    public static PColorData TABLE_ROW_IS_SEL_BG = addNewKey("table-row-is-sel-bg",
+            Color.rgb(250, 250, 250),
+            Color.rgb(250, 250, 250),
+            true, "Ist die momentan ausgewählte Tabellenzeile", 1);
+    public static PColorData TABLE_ROW_IS_SEL = addNewKey("table-row-is-sel",
+            Color.rgb(0, 0, 0),
+            Color.rgb(0, 0, 0),
+            false, "Ist die momentan ausgewählte Tabellenzeile, Schriftfarbe", 1);
+
     public static PColorData FILE_IS_ID1_BG = addNewKey("file-is-id1-bg",
             Color.rgb(250, 250, 250),
             Color.rgb(250, 250, 250),
