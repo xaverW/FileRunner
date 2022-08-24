@@ -25,8 +25,8 @@ public class ProgColorList extends PColorList {
 
     //OK
     public static PColorData TABLE_ROW_IS_SEL_BG = addNewKey("table-row-is-sel-bg",
-            Color.rgb(250, 250, 250),
-            Color.rgb(250, 250, 250),
+            Color.rgb(128, 0, 128),
+            Color.rgb(128, 0, 128),
             true, "Ist die momentan ausgewählte Tabellenzeile", 1);
     public static PColorData TABLE_ROW_IS_SEL = addNewKey("table-row-is-sel",
             Color.rgb(0, 0, 0),

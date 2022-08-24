@@ -99,7 +99,7 @@ public class GuiDirPane extends VBox {
     private final StringProperty writeHash;
     private final int selTab;
     private final IntegerProperty selTabIndex;
-    private final BooleanProperty recursiv;
+    private final BooleanProperty recursive;
 
 
     enum DIR_ZIP_HASH {DIR, ZIP, HASH}
@@ -108,7 +108,7 @@ public class GuiDirPane extends VBox {
         this.progData = progData;
         this.fileDataFilter = fileDataFilter;
         this.panel1 = panel1;
-        this.recursiv = panel1 ? ProgConfig.CONFIG_COMPARE_WITH_PATH_1 : ProgConfig.CONFIG_COMPARE_WITH_PATH_2;
+        this.recursive = panel1 ? ProgConfig.CONFIG_COMPARE_WITH_PATH_1 : ProgConfig.CONFIG_COMPARE_WITH_PATH_2;
 
         if (panel1) {
             tableView = new TableFileList(Table.TABLE_ENUM.FILELIST_1);
@@ -147,10 +147,6 @@ public class GuiDirPane extends VBox {
 
     public void saveTable() {
         Table.saveTable(tableView, table_enum);
-    }
-
-    public void clearTableSelection() {
-        tableView.getSelectionModel().clearSelection();
     }
 
     public void openSelDir() {
@@ -264,7 +260,7 @@ public class GuiDirPane extends VBox {
         Label lblPath = new Label("Auch Unterverzeichnisse durchsuchen:");
         final PToggleSwitchOnly tglSubDir = new PToggleSwitchOnly();
         tglSubDir.setTooltip(new Tooltip("Es werden auch Dateien in Unterverzeichnissen verglichen"));
-        tglSubDir.selectedProperty().bindBidirectional(recursiv);
+        tglSubDir.selectedProperty().bindBidirectional(recursive);
         tglSubDir.selectedProperty().addListener((v, o, n) -> {
             new PDialogShowAgain(progData.primaryStage, ProgConfig.SYSTEM_SUBDIR_SHOW_AGAIN_DIALOG_SIZE,
                     "Unterverzeichnisse durchsuchen",
@@ -273,7 +269,10 @@ public class GuiDirPane extends VBox {
                             "Das Verzeichnis muss neu eingelesen werden.",
                     ProgConfig.SYSTEM_SUBDIR_SHOW_AGAIN_DIALOG_SHOW);
 
+            //die HashID muss in der anderen Liste gelöscht werden, gibts ja nicht mehr
             (panel1 ? progData.fileDataList_1 : progData.fileDataList_2).clear();
+            (!panel1 ? progData.fileDataList_1 : progData.fileDataList_2).stream().forEach(f -> f.setHashId(0));
+
             CompareFileListFactory.compareList();
         });
         Button btnHelpPathHash = PButton.helpButton(progData.primaryStage, "", HelpText.READ_DIR_RECURSIVE);
