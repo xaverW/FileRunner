@@ -22,6 +22,7 @@ import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
+import de.p2tools.fileRunner.gui.HelpDialogController;
 import de.p2tools.fileRunner.gui.StatusBarController;
 import de.p2tools.fileRunner.gui.configDialog.ConfigDialogController;
 import de.p2tools.fileRunner.gui.dialog.AboutDialogController;
@@ -93,22 +94,25 @@ public class FileRunnerController extends StackPane {
             final MenuItem miConfig = new MenuItem("Einstellungen");
             miConfig.setOnAction(e -> new ConfigDialogController());
 
-            final MenuItem miQuitt = new MenuItem("Beenden");
-            miQuitt.setOnAction(e -> ProgQuittFactory.quit());
-
-            final MenuItem miAbout = new MenuItem("Über dieses Programm");
-            miAbout.setOnAction(event -> new AboutDialogController(progData).showDialog());
+            final MenuItem miHelp = new MenuItem("Infos über das Programm");
+            miHelp.setOnAction(e -> new HelpDialogController());
 
             final MenuItem miSearchUpdate = new MenuItem("Gibts ein Update?");
             miSearchUpdate.setOnAction(a -> new SearchProgramUpdate(progData, progData.primaryStage).searchNewProgramVersion(true));
 
+            final MenuItem miAbout = new MenuItem("Über dieses Programm");
+            miAbout.setOnAction(event -> new AboutDialogController(progData).showDialog());
+
+            final MenuItem miQuitt = new MenuItem("Beenden");
+            miQuitt.setOnAction(e -> ProgQuittFactory.quit());
+
             menuButton.getStyleClass().add("btnFunctionWide");
             menuButton.setText("");
             menuButton.setGraphic(ProgIcons.Icons.FX_ICON_TOOLBAR_MENUE_TOP.getImageView());
-            menuButton.getItems().addAll(miConfig, miSearchUpdate, miAbout,
+            menuButton.getItems().addAll(miConfig, miHelp, miSearchUpdate, miAbout,
                     new SeparatorMenuItem(), miQuitt);
 
-            menuButton2.getStyleClass().add("btnFunctionWide");
+            menuButton2.getStyleClass().add("btnFunctionWide");//damit das tilePane mittig ist!!
             menuButton2.setText("");
             menuButton2.setGraphic(ProgIcons.Icons.FX_ICON_TOOLBAR_MENUE_TOP.getImageView());
             menuButton2.setVisible(false);

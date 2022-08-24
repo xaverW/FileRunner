@@ -106,6 +106,10 @@ public class GuiDirRunner extends AnchorPane {
                 tglShowOnly1, tglShowOnly2);
 
         Button btnHelp = PButton.helpButton(progData.primaryStage, "Vergleichen", HelpText.COMPARE_BUTTON);
+//        Button btnHelp = new Button();
+//        btnHelp.setTooltip(new Tooltip("Hilfe anzeigen"));
+//        btnHelp.setGraphic(de.p2tools.p2Lib.ProgIcons.Icons.IMAGE_HELP.getImageView()); //neues ImageView!
+//        btnHelp.setOnAction(a -> new HelpDialogController(0));
 
         VBox vBox = new VBox(10);
         VBox.setVgrow(vBox, Priority.ALWAYS);

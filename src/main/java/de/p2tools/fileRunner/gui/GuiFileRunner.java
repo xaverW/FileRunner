@@ -55,6 +55,7 @@ public class GuiFileRunner extends AnchorPane {
     private final RadioButton rbSha512 = new RadioButton("Sha-512");
 
     private final Button btnCheckFile = new Button("Beide Dateien einlesen und vergleichen");
+//    private final Button btnHelp = new Button();
 
     private final BooleanProperty isRunning = new SimpleBooleanProperty(false);
     private final ProgData progData;
@@ -102,9 +103,23 @@ public class GuiFileRunner extends AnchorPane {
     }
 
     private void initCont() {
+//        btnHelp.setTooltip(new Tooltip("Hilfe anzeigen"));
+//        btnHelp.setGraphic(de.p2tools.p2Lib.ProgIcons.Icons.IMAGE_HELP.getImageView()); //neues ImageView!
+//        btnHelp.setOnAction(a -> new HelpDialogController(1));
+        btnCheckFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_START_ALL.getImageView());
+        btnCheckFile.setTooltip(new Tooltip("Es werden beide Dateien eingelesen, " +
+                "der Hash wird erstellt und die Dateien damit vergleichen."));
+//        HBox hb = new HBox(10);
+//        hb.setAlignment(Pos.CENTER);
+//        hb.getChildren().addAll(btnCheckFile/*, btnHelp*/);
+
+        rbMd5.setTooltip(new Tooltip("Es wird ein MD5-Hash erstellt."));
+        rbSha1.setTooltip(new Tooltip("Es wird ein SHA-1 Hash erstellt."));
+        rbSha256.setTooltip(new Tooltip("Es wird ein SHA-256 Hash erstellt."));
+        rbSha512.setTooltip(new Tooltip("Es wird ein SHA-512 Hash erstellt."));
         Label lbl = new Label("Hash:   ");
         HBox hBox = new HBox(10);
-        hBox.setPadding(new Insets(20, 0, 20, 0));
+        hBox.setPadding(new Insets(10, 0, 10, 0));
         hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.getChildren().addAll(lbl, rbMd5, rbSha1, rbSha256, rbSha512);
 
@@ -114,19 +129,12 @@ public class GuiFileRunner extends AnchorPane {
         gridPane.setHgap(10);
         gridPane.add(hBox, 1, 2);
         gridPane.add(btnCheckFile, 2, 2);
+
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
                 PColumnConstraints.getCcComputedSizeAndHgrow(), PColumnConstraints.getCcPrefSize());
 
         vBoxCont.setPadding(new Insets(25));
         vBoxCont.getChildren().addAll(gridPane);
-
-        btnCheckFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_START_ALL.getImageView());
-        btnCheckFile.setTooltip(new Tooltip("Es werden beide Dateien eingelesen, " +
-                "der Hash wird erstellt und die Dateien damit vergleichen."));
-        rbMd5.setTooltip(new Tooltip("Es wird ein MD5-Hash erstellt."));
-        rbSha1.setTooltip(new Tooltip("Es wird ein SHA-1 Hash erstellt."));
-        rbSha256.setTooltip(new Tooltip("Es wird ein SHA-256 Hash erstellt."));
-        rbSha512.setTooltip(new Tooltip("Es wird ein SHA-512 Hash erstellt."));
     }
 
     private void initData() {
