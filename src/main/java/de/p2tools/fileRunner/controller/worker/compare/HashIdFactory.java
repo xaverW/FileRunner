@@ -74,9 +74,13 @@ public class HashIdFactory {
                             .filter(fd2 -> !fd2.equals(fd1) && fd2.getHashId() == 0 &&
                                     fd2.getHash().equals(fd1.getHash()))
                             .forEach(fd3 -> {
-                                getNextHashId();
-                                fd1.setHashId(hashId);
-                                fd3.setHashId(hashId);
+                                if (fd1.getHashId() == 0) {
+                                    getNextHashId();
+                                    fd1.setHashId(hashId);
+                                    fd3.setHashId(hashId);
+                                } else {
+                                    fd3.setHashId(fd1.getHashId());
+                                }
                             });
                 });
 
@@ -115,9 +119,13 @@ public class HashIdFactory {
                             .filter(fd2 -> !fd2.equals(fd1) && fd2.getHashId() == 0 &&
                                     fd2.getHash().equals(fd1.getHash()))
                             .forEach(fd3 -> {
-                                getNextHashId();
-                                fd1.setHashId(hashId);
-                                fd3.setHashId(hashId);
+                                if (fd1.getHashId() == 0) {
+                                    getNextHashId();
+                                    fd1.setHashId(hashId);
+                                    fd3.setHashId(hashId);
+                                } else {
+                                    fd3.setHashId(fd1.getHashId());
+                                }
                             });
                 });
     }
