@@ -60,6 +60,7 @@ public class GuiFilePane extends VBox {
     private final PComboBoxString cboGenHashFromFile = new PComboBoxString();
     private final PComboBoxString cboReadHashFile = new PComboBoxString();
     private final PTextField txtHash = new PTextField();
+    private final Label lblHashOk = new Label();
 
     private final IntegerProperty sel;
     private final StringProperty srcFile;
@@ -96,11 +97,21 @@ public class GuiFilePane extends VBox {
         if (!rbHash.isSelected()) {
             //dann ist ein fester Hash vorgegeben, den besser lassen?
             txtHash.setText("");
+            setTxtHashOk(false, false);
         }
     }
 
     public PTextField getTxtHash() {
         return txtHash;
+    }
+
+    public void setTxtHashOk(boolean ok, boolean vis) {
+        if (ok) {
+            lblHashOk.setGraphic(ProgIcons.Icons.ICON_LABEL_FILE_OK.getImageView());
+        } else {
+            lblHashOk.setGraphic(ProgIcons.Icons.ICON_LABEL_FILE_NOT_OK.getImageView());
+        }
+        lblHashOk.setVisible(vis);
     }
 
     private void initButton() {
@@ -123,6 +134,7 @@ public class GuiFilePane extends VBox {
         rbFileOrUrl.disableProperty().bind(isRunning);
         rbFileOrUrl.setOnAction(event -> {
             txtHash.clear();
+            setTxtHashOk(false, false);
             sel.set(0);
         });
 
@@ -148,6 +160,7 @@ public class GuiFilePane extends VBox {
         rbReadHashFile.disableProperty().bind(isRunning);
         rbReadHashFile.setOnAction(event -> {
             txtHash.clear();
+            setTxtHashOk(false, false);
             sel.set(1);
         });
 
@@ -176,6 +189,7 @@ public class GuiFilePane extends VBox {
         });
         rbHash.setOnAction(event -> {
             txtHash.clear();
+            setTxtHashOk(false, false);
             sel.set(2);
         });
         txtHash.setStateLabel(!rbHash.isSelected());
@@ -221,9 +235,10 @@ public class GuiFilePane extends VBox {
         gridPane.add(btnReadHashFile, 3, r++);
 
         gridPane.add(rbHash, 0, r);
-        gridPane.add(txtHash, 1, r++);
+        gridPane.add(txtHash, 1, r);
+        gridPane.add(lblHashOk, 2, r++);
+        GridPane.setHalignment(lblHashOk, HPos.CENTER);
 
-        ++r;
         gridPane.add(new Label("Hash speichern"), 0, r);
         gridPane.add(cboWriteHash, 1, r);
         gridPane.add(btnSelectHashFileForStoring, 2, r);
@@ -279,9 +294,11 @@ public class GuiFilePane extends VBox {
 
         cboGenHashFromFile.getEditor().textProperty().addListener((ob, o, n) -> {
             txtHash.clear();
+            setTxtHashOk(false, false);
         });
         cboReadHashFile.getEditor().textProperty().addListener((ob, o, n) -> {
             txtHash.clear();
+            setTxtHashOk(false, false);
         });
 
         disableCompareButton.bind((rbFileOrUrl.selectedProperty().and(btnReadFileAndGenHash.disableProperty()))
@@ -299,6 +316,7 @@ public class GuiFilePane extends VBox {
 
     private void genHash() {
         txtHash.clear();
+        setTxtHashOk(false, false);
         if (cboGenHashFromFile.getSelValue().trim().isEmpty()) {
             PAlert.showErrorAlert("Hash erstellen", "Es ist keine Datei angegeben!");
             return;
@@ -313,6 +331,7 @@ public class GuiFilePane extends VBox {
 
     private void readHash() {
         txtHash.clear();
+        setTxtHashOk(false, false);
         if (cboReadHashFile.getSelValue().trim().isEmpty()) {
             PAlert.showErrorAlert("Hash einlesen", "Es ist keine Datei angegeben!");
             return;

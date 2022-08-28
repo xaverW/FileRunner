@@ -26,19 +26,19 @@
 }
 
 .txtHashOk {
-    -fx-border-width: 2;
+    -fx-border-width: 3;
     -fx-border-color: green;
 }
 .txtHashNotOk {
-    -fx-border-width: 2;
+    -fx-border-width: 3;
     -fx-border-color: red;
 }
 .txtHash {
-    -fx-border-width: 2;
+    -fx-border-width: 3;
     -fx-border-color: lightgray;
 }
 .txtHash:focused {
-    -fx-border-width: 2;
+    -fx-border-width: 3;
     -fx-border-color: transparent;
 }
 

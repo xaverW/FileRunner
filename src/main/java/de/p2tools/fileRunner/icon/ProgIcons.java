@@ -34,8 +34,9 @@ public class ProgIcons {
         ICON_BUTTON_FILE_OPEN("button-file-open.png", 16, 16),
         ICON_BUTTON_FILE_SAVE("button-file-save.png", 16, 16),
         ICON_BUTTON_GEN_HASH("button-gen-hash.png", 16, 16),
-        ICON_BUTTON_CLEAR_SELECTION("button-clear-selection.png", 16, 16),
-        
+        ICON_LABEL_FILE_OK("label-file-ok.png", 20, 20),
+        ICON_LABEL_FILE_NOT_OK("label-file-not-ok.png", 20, 20),
+
         ICON_BUTTON_GUI_NEXT("button-gui-next_.png", 40, 100),
         ICON_BUTTON_GUI_PREV("button-gui-prev_.png", 40, 100),
 

@@ -94,7 +94,7 @@ public class FileRunnerController extends StackPane {
             final MenuItem miConfig = new MenuItem("Einstellungen");
             miConfig.setOnAction(e -> new ConfigDialogController());
 
-            final MenuItem miHelp = new MenuItem("Infos über das Programm");
+            final MenuItem miHelp = new MenuItem("Hilfe");
             miHelp.setOnAction(e -> new HelpDialogController());
 
             final MenuItem miSearchUpdate = new MenuItem("Gibts ein Update?");

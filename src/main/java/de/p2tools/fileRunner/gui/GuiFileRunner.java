@@ -20,14 +20,12 @@ import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.icon.ProgIcons;
-import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.PTextField;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.events.PEvent;
 import de.p2tools.p2Lib.tools.events.PListener;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
-import de.p2tools.p2Lib.tools.net.PUrlTools;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
@@ -37,8 +35,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import java.io.File;
 
 public class GuiFileRunner extends AnchorPane {
 
@@ -53,9 +49,7 @@ public class GuiFileRunner extends AnchorPane {
     private final RadioButton rbSha1 = new RadioButton("Sha-1");
     private final RadioButton rbSha256 = new RadioButton("Sha-256");
     private final RadioButton rbSha512 = new RadioButton("Sha-512");
-
     private final Button btnCheckFile = new Button("Beide Dateien einlesen und vergleichen");
-//    private final Button btnHelp = new Button();
 
     private final BooleanProperty isRunning = new SimpleBooleanProperty(false);
     private final ProgData progData;
@@ -103,15 +97,9 @@ public class GuiFileRunner extends AnchorPane {
     }
 
     private void initCont() {
-//        btnHelp.setTooltip(new Tooltip("Hilfe anzeigen"));
-//        btnHelp.setGraphic(de.p2tools.p2Lib.ProgIcons.Icons.IMAGE_HELP.getImageView()); //neues ImageView!
-//        btnHelp.setOnAction(a -> new HelpDialogController(1));
         btnCheckFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_START_ALL.getImageView());
         btnCheckFile.setTooltip(new Tooltip("Es werden beide Dateien eingelesen, " +
                 "der Hash wird erstellt und die Dateien damit vergleichen."));
-//        HBox hb = new HBox(10);
-//        hb.setAlignment(Pos.CENTER);
-//        hb.getChildren().addAll(btnCheckFile/*, btnHelp*/);
 
         rbMd5.setTooltip(new Tooltip("Es wird ein MD5-Hash erstellt."));
         rbSha1.setTooltip(new Tooltip("Es wird ein SHA-1 Hash erstellt."));
@@ -211,6 +199,8 @@ public class GuiFileRunner extends AnchorPane {
             pTextField2.getStyleClass().removeAll("txtHashNotOk");
             pTextField1.getStyleClass().add("txtHashOk");
             pTextField2.getStyleClass().add("txtHashOk");
+            guiFilePane1.setTxtHashOk(true, true);
+            guiFilePane2.setTxtHashOk(true, true);
 
         } else if (!hash1.isEmpty() && !hash2.isEmpty() &&
                 !hash1.equals(hash2)) {
@@ -220,6 +210,8 @@ public class GuiFileRunner extends AnchorPane {
             pTextField2.getStyleClass().removeAll("txtHashOk");
             pTextField1.getStyleClass().add("txtHashNotOk");
             pTextField2.getStyleClass().add("txtHashNotOk");
+            guiFilePane1.setTxtHashOk(false, true);
+            guiFilePane2.setTxtHashOk(false, true);
 
         } else {
             pTextField1.getStyleClass().removeAll("txtHashOk");
@@ -228,6 +220,8 @@ public class GuiFileRunner extends AnchorPane {
             pTextField2.getStyleClass().removeAll("txtHashNotOk");
             pTextField1.getStyleClass().add("txtHash");
             pTextField2.getStyleClass().add("txtHash");
+            guiFilePane1.setTxtHashOk(false, false);
+            guiFilePane2.setTxtHashOk(false, false);
         }
     }
 
@@ -256,17 +250,5 @@ public class GuiFileRunner extends AnchorPane {
         rbSha1.disableProperty().bind(isRunning);
         rbSha256.disableProperty().bind(isRunning);
         rbSha512.disableProperty().bind(isRunning);
-    }
-
-    private boolean checkFile(String file, int nr) {
-        if (PUrlTools.isUrl(file) && PUrlTools.urlExists(file) || new File(file).exists()) {
-            return true;
-        }
-        if (PUrlTools.isUrl(file)) {
-            PAlert.showErrorAlert("Hash erstellen", "Die angegebene URL " + nr + " existiert nicht!");
-        } else {
-            PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei " + nr + " existiert nicht!");
-        }
-        return false;
     }
 }
