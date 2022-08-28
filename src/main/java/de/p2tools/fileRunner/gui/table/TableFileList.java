@@ -239,16 +239,29 @@ public class TableFileList extends PTable<FileData> {
                         }
 
                     } else if (fileData.isOnly()) {
-                        //Datei gibts nur einmal
-                        if (ProgColorList.FILE_IS_ONLY_BG.isUse()) {
-                            setStyle(ProgColorList.FILE_IS_ONLY_BG.getCssBackground());
-                        }
-                        if (ProgColorList.FILE_IS_ONLY.isUse()) {
-                            for (int i = 0; i < getChildren().size(); i++) {
-                                getChildren().get(i).setStyle(ProgColorList.FILE_IS_ONLY.getCssFont());
+                        if (fileData.getHashId() > 0) {
+                            //dann gibts doppelte
+                            if (ProgColorList.FILE_IS_ONLY_HASH_BG.isUse()) {
+                                setStyle(ProgColorList.FILE_IS_ONLY_HASH_BG.getCssBackground());
                             }
-                        }
+                            if (ProgColorList.FILE_IS_ONLY_HASH.isUse()) {
+                                for (int i = 0; i < getChildren().size(); i++) {
+                                    getChildren().get(i).setStyle(ProgColorList.FILE_IS_ONLY_HASH.getCssFont());
+                                }
+                            }
 
+                        } else {
+                            //Datei gibts nur einmal
+                            if (ProgColorList.FILE_IS_ONLY_BG.isUse()) {
+                                setStyle(ProgColorList.FILE_IS_ONLY_BG.getCssBackground());
+                            }
+                            if (ProgColorList.FILE_IS_ONLY.isUse()) {
+                                for (int i = 0; i < getChildren().size(); i++) {
+                                    getChildren().get(i).setStyle(ProgColorList.FILE_IS_ONLY.getCssFont());
+                                }
+                            }
+
+                        }
                     }
                 }
                 //===========================================

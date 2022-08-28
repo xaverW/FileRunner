@@ -61,15 +61,25 @@ public class ProgColorList extends PColorList {
             Color.rgb(0, 0, 0),
             true, "Dateien sind unterschiedlich, Schriftfarbe");
 
-    //only
+    //only-echt
     public static PColorData FILE_IS_ONLY_BG = addNewKey("file-only-bg",
             Color.rgb(255, 247, 216),
             Color.rgb(217, 211, 189),
-            true, "Datei ist nur in einem Verzeichnis, Tabellenzeile");
+            true, "Gleiche Datei gibts nicht, Tabellenzeile");
     public static PColorData FILE_IS_ONLY = addNewKey("file-only",
             Color.rgb(0, 0, 0),
             Color.rgb(0, 0, 0),
-            true, "Datei ist nur in einem Verzeichnis, Schriftfarbe");
+            true, "Gleiche Datei gibts nicht, Schriftfarbe");
+
+    //only-hash
+    public static PColorData FILE_IS_ONLY_HASH_BG = addNewKey("file-only-hash-bg",
+            Color.rgb(255, 247, 216),
+            Color.rgb(217, 211, 189),
+            true, "Gleiche Datei gibts nur mit anderem Namen/Verzeichnis, Tabellenzeile");
+    public static PColorData FILE_IS_ONLY_HASH = addNewKey("file-only-hash",
+            Color.rgb(0, 0, 0),
+            Color.rgb(0, 0, 0),
+            true, "Gleiche Datei gibts nur mit anderem Namen/Verzeichnis, Schriftfarbe");
 
     //link
     public static PColorData FILE_LINK_BG = addNewKey("file-link-bg",
@@ -80,59 +90,6 @@ public class ProgColorList extends PColorList {
             Color.rgb(0, 0, 0),
             Color.rgb(0, 0, 0),
             true, "Datei ist eine Dateiverknüpfung, Schriftfarbe");
-
-//    public static void init() {
-    //erst mal aufräumen
-//        if (FILE_IS_OK_BG.isUse()) {
-//            FILE_IS_ID1_BG.setUse(false);
-//            FILE_IS_ID2_BG.setUse(false);
-//        }
-//        if (FILE_IS_ID1_BG.isUse() || FILE_IS_ID2_BG.isUse()) {
-//            FILE_IS_OK_BG.setUse(false);
-//        }
-//        if (FILE_IS_OK.isUse()) {
-//            FILE_IS_ID1.setUse(false);
-//            FILE_IS_ID2.setUse(false);
-//        }
-//        if (FILE_IS_ID1.isUse() || FILE_IS_ID2.isUse()) {
-//            FILE_IS_OK.setUse(false);
-//        }
-
-    //dann die Beobachter
-//        FILE_IS_OK_BG.useProperty().
-//                addListener((v, o, n) -> {
-//                    if (n) {
-//                        FILE_IS_ID1_BG.setUse(false);
-//                        FILE_IS_ID2_BG.setUse(false);
-//                    }
-//                });
-//        FILE_IS_ID1_BG.useProperty().addListener((v, o, n) -> {
-//            if (n) {
-//                FILE_IS_OK_BG.setUse(false);
-//            }
-//        });
-//        FILE_IS_ID2_BG.useProperty().addListener((v, o, n) -> {
-//            if (n) {
-//                FILE_IS_OK_BG.setUse(false);
-//            }
-//        });
-//        FILE_IS_OK.useProperty().addListener((v, o, n) -> {
-//            if (n) {
-//                FILE_IS_ID1.setUse(false);
-//                FILE_IS_ID2.setUse(false);
-//            }
-//        });
-//        FILE_IS_ID1.useProperty().addListener((v, o, n) -> {
-//            if (n) {
-//                FILE_IS_OK.setUse(false);
-//            }
-//        });
-//        FILE_IS_ID2.useProperty().addListener((v, o, n) -> {
-//            if (n) {
-//                FILE_IS_OK.setUse(false);
-//            }
-//        });
-//    }
 
     public synchronized static PColorList getInstance() {
         return PColorList.getInst();
