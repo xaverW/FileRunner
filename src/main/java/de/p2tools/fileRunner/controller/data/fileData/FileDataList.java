@@ -56,10 +56,10 @@ public class FileDataList extends SimpleListProperty<FileData> {
         switch (fileDataFilter.getFilter_types()) {
             case ALL:
                 break;
-            case SAME:
+            case SAME_NAME:
                 predicate = predicate.and(f -> !f.isDiff() && !f.isOnly());
                 break;
-            case SAME2:
+            case SAME_HASH:
                 predicate = predicate.and(f -> f.getHashId() > 0);
                 break;
             case DIFF:

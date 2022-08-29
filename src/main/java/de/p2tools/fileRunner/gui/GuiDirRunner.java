@@ -38,8 +38,8 @@ public class GuiDirRunner extends AnchorPane {
     private final ScrollPane scrollPane = new ScrollPane();
 
     private final ToggleButton tglShowAll = new ToggleButton("");
-    private final ToggleButton tglShowSame = new ToggleButton("");
-    private final ToggleButton tglShowSame_2 = new ToggleButton("");
+    private final ToggleButton tglShowSamePath = new ToggleButton("");
+    private final ToggleButton tglShowSameHash = new ToggleButton("");
     private final ToggleButton tglShowDiff = new ToggleButton("");
     private final ToggleButton tglShowDiffAll = new ToggleButton("");
     private final ToggleButton tglShowOnly1 = new ToggleButton("");
@@ -102,14 +102,10 @@ public class GuiDirRunner extends AnchorPane {
         spacer3.setMinSize(10, 10);
 
         vBoxBtn.getChildren().addAll(spacerTop, tglShowAll, spacer1,
-                tglShowSame, tglShowSame_2, spacer2, tglShowDiffAll, tglShowDiff, spacer3,
+                tglShowSamePath, tglShowSameHash, spacer2, tglShowDiffAll, tglShowDiff, spacer3,
                 tglShowOnly1, tglShowOnly2);
 
         Button btnHelp = PButton.helpButton(progData.primaryStage, "Vergleichen", HelpText.COMPARE_BUTTON);
-//        Button btnHelp = new Button();
-//        btnHelp.setTooltip(new Tooltip("Hilfe anzeigen"));
-//        btnHelp.setGraphic(de.p2tools.p2Lib.ProgIcons.Icons.IMAGE_HELP.getImageView()); //neues ImageView!
-//        btnHelp.setOnAction(a -> new HelpDialogController(0));
 
         VBox vBox = new VBox(10);
         VBox.setVgrow(vBox, Priority.ALWAYS);
@@ -209,19 +205,19 @@ public class GuiDirRunner extends AnchorPane {
             if (newVal == null)
                 oldVal.setSelected(true);
         });
-        tg.getToggles().addAll(tglShowAll, tglShowSame, tglShowSame_2, tglShowDiffAll, tglShowDiff, tglShowOnly1, tglShowOnly2);
+        tg.getToggles().addAll(tglShowAll, tglShowSamePath, tglShowSameHash, tglShowDiffAll, tglShowDiff, tglShowOnly1, tglShowOnly2);
         tglShowAll.setSelected(true);
         tglShowAll.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ALL.getImageView());
-        tglShowSame.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_SAME_1.getImageView());
-        tglShowSame_2.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_SAME_2.getImageView());
+        tglShowSamePath.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_SAME_1.getImageView());
+        tglShowSameHash.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_SAME_2.getImageView());
         tglShowDiffAll.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_DIFF.getImageView());
         tglShowDiff.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_DIFF_ALL.getImageView());
         tglShowOnly1.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ONLY_1.getImageView());
         tglShowOnly2.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ONLY_2.getImageView());
 
         tglShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
-        tglShowSame.setTooltip(new Tooltip("Alle gleichen Dateien anzeigen."));
-        tglShowSame_2.setTooltip(new Tooltip("Alle Dateien für die es eine andere mit gleichem Hash gibt, anzeigen."));
+        tglShowSamePath.setTooltip(new Tooltip("Gleiche Dateien (Pfad/Name/Hash) anzeigen."));
+        tglShowSameHash.setTooltip(new Tooltip("Gleiche Dateien (nur gleicher Hash) anzeigen."));
         tglShowDiffAll.setTooltip(new Tooltip("Dateien suchen, die sich unterscheiden oder nur in einer Liste enthalten sind."));
         tglShowDiff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind, sich aber unterscheiden."));
         tglShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 enthalten sind."));
@@ -231,8 +227,8 @@ public class GuiDirRunner extends AnchorPane {
     private void addListener() {
         setTglButton();
         tglShowAll.setOnAction(e -> setTglButton());
-        tglShowSame.setOnAction(e -> setTglButton());
-        tglShowSame_2.setOnAction(e -> setTglButton());
+        tglShowSamePath.setOnAction(e -> setTglButton());
+        tglShowSameHash.setOnAction(e -> setTglButton());
         tglShowDiffAll.setOnAction(e -> setTglButton());
         tglShowDiff.setOnAction(e -> setTglButton());
         tglShowOnly1.setOnAction(e -> setTglButton());
@@ -244,54 +240,53 @@ public class GuiDirRunner extends AnchorPane {
         if (tglShowAll.isSelected()) {
             tglShowAll.getStyleClass().clear();
             tglShowAll.getStyleClass().add("btnFilter-sel");
-
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
-        } else if (tglShowSame.isSelected()) {
-            tglShowSame.getStyleClass().clear();
-            tglShowSame.getStyleClass().add("btnFilter-sel");
 
-            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.SAME);
-            fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.SAME);
+        } else if (tglShowSamePath.isSelected()) {
+            tglShowSamePath.getStyleClass().clear();
+            tglShowSamePath.getStyleClass().add("btnFilter-sel");
+            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.SAME_NAME);
+            fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.SAME_NAME);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
-        } else if (tglShowSame_2.isSelected()) {
-            tglShowSame_2.getStyleClass().clear();
-            tglShowSame_2.getStyleClass().add("btnFilter-sel");
 
-            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.SAME2);
-            fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.SAME2);
+        } else if (tglShowSameHash.isSelected()) {
+            tglShowSameHash.getStyleClass().clear();
+            tglShowSameHash.getStyleClass().add("btnFilter-sel");
+            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.SAME_HASH);
+            fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.SAME_HASH);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
+
         } else if (tglShowDiffAll.isSelected()) {
             tglShowDiffAll.getStyleClass().clear();
             tglShowDiffAll.getStyleClass().add("btnFilter-sel");
-
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_ALL);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_ALL);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
+
         } else if (tglShowOnly1.isSelected()) {
             tglShowOnly1.getStyleClass().clear();
             tglShowOnly1.getStyleClass().add("btnFilter-sel");
-
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(false);
+
         } else if (tglShowDiff.isSelected()) {
             tglShowDiff.getStyleClass().clear();
             tglShowDiff.getStyleClass().add("btnFilter-sel");
-
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
+
         } else if (tglShowOnly2.isSelected()) {
             tglShowOnly2.getStyleClass().clear();
             tglShowOnly2.getStyleClass().add("btnFilter-sel");
-
             progData.fileDataList_1.setPred(false);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
             progData.fileDataList_2.setPred(fileDataFilter2);
@@ -300,15 +295,15 @@ public class GuiDirRunner extends AnchorPane {
 
     private void clear() {
         tglShowAll.getStyleClass().clear();
-        tglShowSame.getStyleClass().clear();
-        tglShowSame_2.getStyleClass().clear();
+        tglShowSamePath.getStyleClass().clear();
+        tglShowSameHash.getStyleClass().clear();
         tglShowDiff.getStyleClass().clear();
         tglShowDiffAll.getStyleClass().clear();
         tglShowOnly1.getStyleClass().clear();
         tglShowOnly2.getStyleClass().clear();
         tglShowAll.getStyleClass().add("btnFilter");
-        tglShowSame.getStyleClass().add("btnFilter");
-        tglShowSame_2.getStyleClass().add("btnFilter");
+        tglShowSamePath.getStyleClass().add("btnFilter");
+        tglShowSameHash.getStyleClass().add("btnFilter");
         tglShowDiff.getStyleClass().add("btnFilter");
         tglShowDiffAll.getStyleClass().add("btnFilter");
         tglShowOnly1.getStyleClass().add("btnFilter");

@@ -18,6 +18,7 @@
 package de.p2tools.fileRunner.gui.table;
 
 import de.p2tools.fileRunner.controller.config.ProgColorList;
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
 import de.p2tools.p2Lib.tools.date.PDate;
@@ -57,10 +58,20 @@ public class TableFileList extends PTable<FileData> {
         getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-        final TableColumn<FileData, Integer> idColumn = new TableColumn<>("FileID");
+        final TableColumn<FileData, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idColumn.setCellFactory(cellFactId);
+        idColumn.setCellFactory(cellFileId);
         idColumn.getStyleClass().add("alignCenterRight");
+
+        final TableColumn<FileData, Integer> fileIdColumn = new TableColumn<>("FileID");
+        fileIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        fileIdColumn.setCellFactory(cellFileId);
+        fileIdColumn.getStyleClass().add("alignCenterRight");
+
+        final TableColumn<FileData, Integer> hashIdColumn = new TableColumn<>("HashID");
+        hashIdColumn.setCellValueFactory(new PropertyValueFactory<>("hashId"));
+        hashIdColumn.setCellFactory(cellFileId);
+        hashIdColumn.getStyleClass().add("alignCenterRight");
 
         final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Datei");
         pathFileNameColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));
@@ -71,10 +82,6 @@ public class TableFileList extends PTable<FileData> {
         final TableColumn<FileData, PDate> fileDateColumn = new TableColumn<>("Geändert");
         fileDateColumn.setCellValueFactory(new PropertyValueFactory<>("fileDate"));
 
-        final TableColumn<FileData, Integer> hashIdColumn = new TableColumn<>("HashID");
-        hashIdColumn.setCellValueFactory(new PropertyValueFactory<>("hashId"));
-        hashIdColumn.setCellFactory(cellFactId);
-        hashIdColumn.getStyleClass().add("alignCenterRight");
 
         final TableColumn<FileData, Boolean> diff = new TableColumn<>("Diff");
         diff.setCellValueFactory(new PropertyValueFactory<>("diff"));
@@ -85,6 +92,7 @@ public class TableFileList extends PTable<FileData> {
         only.setCellFactory(cellFactBool);
 
         idColumn.setPrefWidth(70);
+//        fileIdColumn.setPrefWidth(70);
         pathFileNameColumn.setPrefWidth(350);
         fileSizeColumn.setPrefWidth(75);
         fileDateColumn.setPrefWidth(90);
@@ -92,46 +100,60 @@ public class TableFileList extends PTable<FileData> {
         only.setPrefWidth(50);
 
         addRowFact();
-        getColumns().addAll(idColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, hashIdColumn, diff, only);
+        getColumns().addAll(idColumn, fileIdColumn, hashIdColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only);
     }
 
-    private static Callback<TableColumn<FileData, Boolean>, TableCell<FileData, Boolean>> cellFactBool =
-            (final TableColumn<FileData, Boolean> param) -> {
+    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellId =
+            (final TableColumn<FileData, Integer> param) -> {
 
-                final TableCell<FileData, Boolean> cell = new TableCell<>() {
+                final TableCell<FileData, Integer> cell = new TableCell<>() {
 
                     @Override
-                    public void updateItem(Boolean item, boolean empty) {
+                    public void updateItem(Integer item, boolean empty) {
                         super.updateItem(item, empty);
 
-                        if (item == null || empty) {
+                        int sel = getIndex();
+//                        System.out.println("sel: " + sel);
+
+                        if (sel < 0) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        } else if (sel >= getTableView().getItems().size()) {
                             setGraphic(null);
                             setText(null);
                             return;
                         }
 
-                        setAlignment(Pos.CENTER);
-                        CheckBox box = new CheckBox();
-                        box.setMaxHeight(6);
-                        box.setMinHeight(6);
-                        box.setPrefSize(6, 6);
-                        box.setDisable(true);
-                        box.getStyleClass().add("checkbox-table");
-                        box.setSelected(item.booleanValue());
+                        FileData fileData = getTableView().getItems().get(sel);
+                        if (fileData == null) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        }
+//                        System.out.println("fileDate: " + fileData.toString());
 
-                        FileData fileData = getTableView().getItems().get(getIndex());
-                        if (item.booleanValue() && fileData.getHashId() > 0) {
-                            //dann gibts doppelte
-                            box.setIndeterminate(true);
+                        int id = 0;
+                        if (ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH.getValue()) {
+                            //dann mit Hash vergleichen
+                            id = fileData.getHashId();
+                        } else {
+                            //dann mit pfad/name/hash vergleichen
+                            id = fileData.getfId();
                         }
 
-                        setGraphic(box);
+                        if (id > 0) {
+                            setText(id + "");
+                        } else {
+                            setText("");
+                        }
                     }
                 };
+
                 return cell;
             };
 
-    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellFactId =
+    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellFileId =
             (final TableColumn<FileData, Integer> param) -> {
 
                 final TableCell<FileData, Integer> cell = new TableCell<>() {
@@ -150,6 +172,41 @@ public class TableFileList extends PTable<FileData> {
                             setText("");
                         } else {
                             setText(item.toString());
+                        }
+                    }
+                };
+                return cell;
+            };
+
+    private static Callback<TableColumn<FileData, Boolean>, TableCell<FileData, Boolean>> cellFactBool =
+            (final TableColumn<FileData, Boolean> param) -> {
+
+                final TableCell<FileData, Boolean> cell = new TableCell<>() {
+
+                    @Override
+                    public void updateItem(Boolean item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        }
+
+                        setAlignment(Pos.CENTER);
+                        FileData fileData = getTableView().getItems().get(getIndex());
+                        if (item.booleanValue() /*&& fileData.getId() == 0 */ && fileData.getHashId() > 0) {
+                            //dann gibts doppelte -> hash
+                            Label lbl = new Label("=");
+                            lbl.getStyleClass().add("check-table");
+                            setGraphic(lbl);
+                        } else {
+                            //dann gibts doppelte -> name
+                            CheckBox box = new CheckBox();
+                            box.setDisable(true);
+                            box.getStyleClass().add("checkbox-table");
+                            box.setSelected(item.booleanValue());
+                            setGraphic(box);
                         }
                     }
                 };
@@ -189,10 +246,10 @@ public class TableFileList extends PTable<FileData> {
 
                 //===========================================
                 if (fileData != null && !empty) {
-                    if (fileData.getId() != 0) {
+                    if (fileData.getfId() != 0) {
                         //dann gibts eine gleiche Datei
                         //Hintergrundfarbe wird nach FileID gefärbt
-                        if (fileData.getId() % 2 == 0) {
+                        if (fileData.getfId() % 2 == 0) {
                             if (ProgColorList.FILE_IS_ID1_BG.isUse()) {
                                 setStyle(ProgColorList.FILE_IS_ID1_BG.getCssBackground());
                             }
@@ -201,7 +258,7 @@ public class TableFileList extends PTable<FileData> {
                         }
 
                         //die Schriftfarbe wird nach FileID gefärbt
-                        if (fileData.getId() % 2 == 0) {
+                        if (fileData.getfId() % 2 == 0) {
                             if (ProgColorList.FILE_IS_ID1.isUse()) {
                                 for (int i = 0; i < getChildren().size(); i++) {
                                     getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID1.getCssFont());

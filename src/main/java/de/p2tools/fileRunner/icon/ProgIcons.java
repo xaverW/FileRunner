@@ -51,7 +51,6 @@ public class ProgIcons {
         ICON_BUTTON_GUI_ONLY_2("button-gui-only-2.png", 24, 24),
         IMAGE_TABLE_OPEN_DIR("table-open-dir.png", 14, 14),
 
-
         ICON_BUTTON_STOP("button-stop.png", 16, 16),
         ICON_BUTTON_GUI_GEN_NAME("button-gen-name.png", 16, 16),
 

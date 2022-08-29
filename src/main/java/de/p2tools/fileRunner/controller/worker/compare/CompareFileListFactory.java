@@ -48,21 +48,30 @@ public class CompareFileListFactory {
         fileDataList1.stream().forEach(fd -> {
             fd.setOnly(true);
             fd.setDiff(false);
-            fd.setId(0);
+            fd.setfId(0);
         });
         fileDataList2.stream().forEach(fd -> {
             fd.setOnly(true);
             fd.setDiff(false);
-            fd.setId(0);
+            fd.setfId(0);
         });
 
-        //jetzt die Dateien vergleichen
-        if (ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH.getValue()) {
-            compareWithHashAndSetId(fileDataList1, fileDataList2);
-        } else {
-            compareWithPathAndSetId(fileDataList1, fileDataList2);
-        }
 
+        //jetzt die Dateien vergleichen
+//        if (ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH.getValue()) {
+//            compareWithHashAndSetId(fileDataList1, fileDataList2);
+//        } else {
+        compareWithPathAndSetId(fileDataList1, fileDataList2);
+//        }
+
+
+        if (ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH.getValue()) {
+            fileDataList1.stream().forEach(fileData -> fileData.setId(fileData.getHashId()));
+            fileDataList2.stream().forEach(fileData -> fileData.setId(fileData.getHashId()));
+        } else {
+            fileDataList1.stream().forEach(fileData -> fileData.setId(fileData.getfId()));
+            fileDataList2.stream().forEach(fileData -> fileData.setId(fileData.getfId()));
+        }
         progData.pEventHandler.notifyListener(new RunPEvent(Events.COMPARE_OF_FILE_LISTS_FINISHED));
     }
 
@@ -74,7 +83,7 @@ public class CompareFileListFactory {
         //erst mal in der eigenen Liste suchen
         fileDataList1.stream()
                 .filter(fileData -> {
-                    if (fileData.getId() == 0) {
+                    if (fileData.getfId() == 0) {
                         return true;
                     } else {
                         return false;
@@ -85,14 +94,14 @@ public class CompareFileListFactory {
                         return;
                     }
                     fileDataList1.stream()
-                            .filter(fd2 -> !fd2.equals(fd1) && fd2.getId() == 0 &&
+                            .filter(fd2 -> !fd2.equals(fd1) && fd2.getfId() == 0 &&
                                     fd2.getHash().equals(fd1.getHash()))
                             .forEach(fd3 -> {
                                 getNextFileId();
                                 fd1.setOnly(false);
                                 fd3.setOnly(false);
-                                fd1.setId(fileId);
-                                fd3.setId(fileId);
+                                fd1.setfId(fileId);
+                                fd3.setfId(fileId);
                             });
                 });
 
@@ -110,12 +119,12 @@ public class CompareFileListFactory {
                         //und dann sind sie auch noch gleich
                         fd1.setDiff(false);
                         fd2.setDiff(false);
-                        if (fd1.getId() == 0) {
+                        if (fd1.getfId() == 0) {
                             getNextFileId();
-                            fd1.setId(fileId);
-                            fd2.setId(fileId);
+                            fd1.setfId(fileId);
+                            fd2.setfId(fileId);
                         } else {
-                            fd2.setId(fd1.getId());
+                            fd2.setfId(fd1.getfId());
                         }
                     });
         });
@@ -123,7 +132,7 @@ public class CompareFileListFactory {
         //und jetzt noch doppelte in der anderen Liste suchen
         fileDataList2.stream()
                 .filter(fileData -> {
-                    if (fileData.getId() == 0) {
+                    if (fileData.getfId() == 0) {
                         return true;
                     } else {
                         return false;
@@ -134,14 +143,14 @@ public class CompareFileListFactory {
                         return;
                     }
                     fileDataList2.stream()
-                            .filter(fd2 -> !fd2.equals(fd1) && fd2.getId() == 0 &&
+                            .filter(fd2 -> !fd2.equals(fd1) && fd2.getfId() == 0 &&
                                     fd2.getHash().equals(fd1.getHash()))
                             .forEach(fd3 -> {
                                 getNextFileId();
                                 fd1.setOnly(false);
                                 fd3.setOnly(false);
-                                fd1.setId(fileId);
-                                fd3.setId(fileId);
+                                fd1.setfId(fileId);
+                                fd3.setfId(fileId);
                             });
                 });
     }
@@ -170,8 +179,8 @@ public class CompareFileListFactory {
                     fd1.setDiff(false);
                     fd2.setDiff(false);
                     getNextFileId();
-                    fd1.setId(fileId);
-                    fd2.setId(fileId);
+                    fd1.setfId(fileId);
+                    fd2.setfId(fileId);
                 } else {
                     fd1.setDiff(true);
                     fd2.setDiff(true);

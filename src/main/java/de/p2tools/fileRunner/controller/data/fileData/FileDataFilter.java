@@ -20,7 +20,7 @@ package de.p2tools.fileRunner.controller.data.fileData;
 public class FileDataFilter {
 
     public enum FILTER_TYPES {
-        ALL, SAME, SAME2, DIFF, DIFF_ALL, ONLY
+        ALL, SAME_NAME, SAME_HASH, DIFF, DIFF_ALL, ONLY
     }
 
     private String searchStr = "";

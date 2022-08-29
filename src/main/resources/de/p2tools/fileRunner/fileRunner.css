@@ -95,3 +95,10 @@
     -fx-background-insets: -2.5,1,1;
 }
 
+/* CheckBoxCell */
+.check-table {
+    -fx-padding: 0 5;
+    -fx-font-weight: bold;
+       -fx-border-radius: 15;
+    -fx-border-color: steelblue;
+}
