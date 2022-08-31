@@ -84,7 +84,7 @@ public class ProgConfig extends PDataProgConfig {
     public static BooleanProperty CONFIG_COMPARE_WITH_PATH = addBool("config-compare-with-path", Boolean.TRUE);
     public static BooleanProperty CONFIG_COMPARE_WITH_PATH_1 = addBool("config-compare-with-path-1", Boolean.TRUE);
     public static BooleanProperty CONFIG_COMPARE_WITH_PATH_2 = addBool("config-compare-with-path-2", Boolean.TRUE);
-    public static BooleanProperty CONFIG_COMPARE_ONLY_WITH_HASH = addBool("config-compare-only-with-hash", Boolean.FALSE);
+    public static IntegerProperty CONFIG_COMPARE_FILE = addInt("config-compare-file", ProgConst.COMPARE_PATH_NAME);
 
     //ProjectData
     public static IntegerProperty compFileSel1 = addInt("comp-file-sel-1", 0);

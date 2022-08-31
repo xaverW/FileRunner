@@ -17,6 +17,8 @@
 
 package de.p2tools.fileRunner.controller.data.fileData;
 
+import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.file.PFileSize;
 import javafx.beans.property.SimpleListProperty;
@@ -56,27 +58,57 @@ public class FileDataList extends SimpleListProperty<FileData> {
         switch (fileDataFilter.getFilter_types()) {
             case ALL:
                 break;
+
             case SAME_NAME:
-                predicate = predicate.and(f -> !f.isDiff() && !f.isOnly());
+//                predicate = predicate.and(f -> !f.isDiff() && !f.isOnly());
+                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
+                    predicate = predicate.and(f -> f.getIdHash() > 0);
+                } else {
+                    predicate = predicate.and(f -> f.getIdFile() > 0);
+                }
                 break;
+
             case SAME_HASH:
-                predicate = predicate.and(f -> f.getHashId() > 0);
+//                predicate = predicate.and(f -> f.getIdHash() > 0 && f.getIdFile() == 0);
+                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
+                    predicate = predicate.and(f -> f.getIdHash() > 0 && f.getIdFile() == 0);
+                } else {
+                    predicate = predicate.and(f -> f.getIdHash() > 0 && f.getIdFile() == 0);
+                }
                 break;
-            case DIFF:
-                predicate = predicate.and(f -> f.isDiff() && !f.isOnly());
+
+            case DIFF_OR_ONLY:
+//                predicate = predicate.and(f -> f.isDiff() || f.isOnly());
+                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
+                    predicate = predicate.and(f -> f.isOnly() || f.getIdHash() == 0);
+                } else {
+                    predicate = predicate.and(f -> f.isOnly() || f.isDiff());
+                }
                 break;
-            case DIFF_ALL:
-                predicate = predicate.and(f -> f.isDiff() || f.isOnly());
+
+            case DIFF_IN_BOTHE:
+//                predicate = predicate.and(f -> f.isDiff() && !f.isOnly());
+                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
+                    predicate = predicate.and(f -> f.isDiff() && !f.isOnly());
+                } else {
+                    //gibts nicht
+                    predicate = predicate.and(f -> f.isDiff() && !f.isOnly());
+                }
                 break;
+
             case ONLY:
-                predicate = predicate.and(f -> f.isOnly());
+//                predicate = predicate.and(f -> f.isOnly());
+                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
+                    predicate = predicate.and(f -> f.isOnly());
+                } else {
+                    predicate = predicate.and(f -> f.isOnly());
+                }
                 break;
             default:
         }
 
 
         if (!fileDataFilter.getSearchStr().trim().isEmpty()) {
-            //todo
             predicate = predicate.and(f -> f.getPathFileName().toLowerCase().contains(fileDataFilter.getSearchStr().toLowerCase()));
         }
         filteredFileDate.setPredicate(predicate);

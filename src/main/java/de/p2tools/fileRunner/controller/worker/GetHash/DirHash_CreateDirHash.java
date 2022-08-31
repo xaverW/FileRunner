@@ -22,7 +22,7 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
-import de.p2tools.fileRunner.controller.worker.compare.HashIdFactory;
+import de.p2tools.fileRunner.controller.worker.compare.IdHashFactory;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
@@ -121,7 +121,7 @@ public class DirHash_CreateDirHash {
             if (stop) {
                 fileDataList.clear();
             } else {
-                HashIdFactory.setHashId();
+                IdHashFactory.setIdHash();
                 CompareFileListFactory.compareList();
             }
             --runThreads;
@@ -166,15 +166,14 @@ public class DirHash_CreateDirHash {
             }
 
             private String hash(File file, File searchDir) {
-                String ret = "";
+                String hashString = "";
                 try {
                     MessageDigest messageDigest = MessageDigest.getInstance(HashConst.HASH_MD5);
                     srcStream = new DigestInputStream(new FileInputStream(file), messageDigest);
 
                     while (!stop && srcStream.read(buffer) > -1) {
                     }
-
-                    ret = DirHashFileFactory.getHashString(messageDigest.digest());
+                    hashString = DirHashFileFactory.getHashString(messageDigest.digest());
 
                     if (searchDir != null) {
                         String strFile = file.getAbsolutePath();
@@ -191,7 +190,7 @@ public class DirHash_CreateDirHash {
 
                         PDate fileDate = new PDate(file.lastModified());
                         PFileSize fileSize = new PFileSize(file.length());
-                        fileDataList.addHashString(strFile, fileDate, fileSize, ret, link);
+                        fileDataList.addHashString(strFile, fileDate, fileSize, hashString, link);
                     }
                 } catch (Exception ex) {
                     PLog.errorLog(963210472, ex, "Fehler! " + file.getAbsolutePath());
@@ -201,7 +200,7 @@ public class DirHash_CreateDirHash {
                     } catch (IOException ex) {
                     }
                 }
-                return ret;
+                return hashString;
             }
 
         }

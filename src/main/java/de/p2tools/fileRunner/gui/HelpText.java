@@ -27,15 +27,15 @@ public class HelpText {
     public static final String COMPARE_BUTTON = "" +
             "1. Zeigt alle Dateien" + P2LibConst.LINE_SEPARATORx2 +
 
-            "2. Zeigt gleiche Dateien die in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATOR +
-            "3. Zeigt Dateien mit gleichem Hash, " +
-            "auch wenn sie einen andern Namen oder Pfad haben" + P2LibConst.LINE_SEPARATORx2 +
+            "2. Zeigt gleiche Dateien die in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
+//            "3. Zeigt Dateien mit gleichem Hash, " +
+//            "auch wenn sie einen andern Namen oder Pfad haben" + P2LibConst.LINE_SEPARATORx2 +
 
-            "4. Zeigt Dateien die sich unterscheiden oder nur in einer Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
-            "5. Zeigt Dateien die sich unterscheiden und in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
+            "3. Zeigt Dateien die sich unterscheiden oder nur in einer Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
+            "4. Zeigt Dateien die sich unterscheiden und in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
 
-            "6. Zeigt Dateien die nur in der rechten Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
-            "7. Zeigt Dateien die nur in der linken Liste enthalten sind";
+            "5. Zeigt Dateien die nur in der rechten Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
+            "6. Zeigt Dateien die nur in der linken Liste enthalten sind";
 
     public static final String READ_DIR_RECURSIVE = "" +
             "Wird \"Unterverzeichnisse ...\" ausgewählt, werden beim Durchsuchen auch Unterverzeichnisse " +
@@ -46,13 +46,18 @@ public class HelpText {
 
     public static final String READ_DIR_HASH = "" +
             "Beim Vergleichen der Dateien werden gleiche Dateien mit der " +
-            "gleichen Nummer, der FileID markiert" + P2LibConst.LINE_SEPARATORx2 +
-            "Ist \"Mit Pfad/Dateiname/Hash\" ausgewählt, sind die Dateien \"gleich\" wenn der Pfad zur Datei, " +
-            "der Dateiname und der Hash identisch sind." + P2LibConst.LINE_SEPARATOR +
-            "Ist \"Nur der Hash\" gewählt, sind sie \"gleich\" " +
-            "wenn der Hash identisch ist, egal wie sie heißen oder wo sie liegen." + P2LibConst.LINE_SEPARATORx3 +
-            "Die \"HashID\" ist eine Kennzahl für den Hash der Datei. Dateien mit der gleichen \"HashID\" " +
-            "sind inhaltlich identisch, egal wie sie heißen oder wo sie liegen.";
+            "gleichen Nummer, der ID markiert" + P2LibConst.LINE_SEPARATORx2 +
+
+            "Ist \"Mit gleichem Pfad/Dateinamen\" ausgewählt, sind die Dateien \"gleich\" wenn der Pfad zur Datei, " +
+            "der Dateiname und der Hash identisch ist." + P2LibConst.LINE_SEPARATORx2 +
+
+            "Ist \"Mit gleichem Dateinamen\" ausgewählt, sind die Dateien \"gleich\" wenn " +
+            "der Dateiname und der Hash identisch ist. Egal, in welchem Verzeichnis sie liegen." + P2LibConst.LINE_SEPARATORx2 +
+
+            "Ist \"Alle Dateien\" gewählt, sind sie \"gleich\" " +
+            "wenn der Hash identisch ist, egal wie sie heißen oder wo sie liegen. \"Only\" wird markiert, " +
+            "wenn es im anderen Suchverzeichnis keine Datei mit dem Namen gibt. \"Diff\" wird markiert, wenn es eine Datei " +
+            "mit dem gleichen Namen gibt, aber unterschiedlich ist.";
 
     public static final String FOLLOW_SYMLINK = "Eine symbolische Verknüpfung ist eine Verknüpfung in einem Dateisystem " +
             "die auf eine andere Datei oder ein anderes Verzeichnis verweist." + P2LibConst.LINE_SEPARATORx2 +

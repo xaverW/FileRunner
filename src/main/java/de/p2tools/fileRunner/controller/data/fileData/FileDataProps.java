@@ -26,14 +26,14 @@ public class FileDataProps extends PDataSample<FileData> {
     public static final String TAG = "FileData";
 
     private int id = 0;
-    private int fId = 0;
+    private int idFile = 0;
+    private int idHash = 0;
     private String path = "";
     private String pathFileName = "";
     private String fileName = "";
     private PDate fileDate = null;
     private PFileSize fileSize = null;
     private String hash = "";
-    private int hashId = 0;
     private boolean diff = false;
     private boolean only = false;
     private boolean link = false;
@@ -50,12 +50,20 @@ public class FileDataProps extends PDataSample<FileData> {
         this.id = id;
     }
 
-    public int getfId() {
-        return fId;
+    public int getIdFile() {
+        return idFile;
     }
 
-    public void setfId(int fId) {
-        this.fId = fId;
+    public void setIdFile(int idFile) {
+        this.idFile = idFile;
+    }
+
+    public int getIdHash() {
+        return idHash;
+    }
+
+    public void setIdHash(int idHash) {
+        this.idHash = idHash;
     }
 
     public String getPath() {
@@ -104,14 +112,6 @@ public class FileDataProps extends PDataSample<FileData> {
 
     public void setHash(String hash) {
         this.hash = hash;
-    }
-
-    public int getHashId() {
-        return hashId;
-    }
-
-    public void setHashId(int hashId) {
-        this.hashId = hashId;
     }
 
     public boolean isDiff() {

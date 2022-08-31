@@ -22,35 +22,35 @@ import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.tools.log.PLog;
 
-public class HashIdFactory {
+public class IdHashFactory {
     private static boolean stop = false;
-    private static int hashId = 0;
+    private static int idHash = 0;
 
     public static void setStop() {
         stop = true;
     }
 
-    public static void setHashId() {
+    public static void setIdHash() {
         ProgData progData = ProgData.getInstance();
         FileDataList fileDataList1 = progData.fileDataList_1;
         FileDataList fileDataList2 = progData.fileDataList_2;
         stop = false;
-        hashId = 0;
+        idHash = 0;
 
         // erst mal alle auf 0 setzen
         fileDataList1.stream().forEach(fd -> {
-            fd.setHashId(0);
+            fd.setIdHash(0);
         });
         fileDataList2.stream().forEach(fd -> {
-            fd.setHashId(0);
+            fd.setIdHash(0);
         });
 
-        setHashId(fileDataList1, fileDataList2);
+        setIdHash(fileDataList1, fileDataList2);
     }
 
-    private static void setHashId(FileDataList fileDataList1, FileDataList fileDataList2) {
+    private static void setIdHash(FileDataList fileDataList1, FileDataList fileDataList2) {
         //HashID für Dateien über den Hash setzen
-        //hier müssen beide Listen immer ganz durchgesucht werden, denn
+        //hier müssen beide Listen immer ganz durchsucht werden, denn
         //es kann gleiche Dateien in unterschiedlichen Verzeichnissen geben
         //und dummerweise können die auch mehrfach vorkommen :(
 
@@ -60,7 +60,7 @@ public class HashIdFactory {
         //erst mal in der eigenen Liste suchen
         fileDataList1.stream()
                 .filter(fileData -> {
-                    if (fileData.getHashId() == 0) {
+                    if (fileData.getIdHash() == 0) {
                         return true;
                     } else {
                         return false;
@@ -71,15 +71,15 @@ public class HashIdFactory {
                         return;
                     }
                     fileDataList1.stream()
-                            .filter(fd2 -> !fd2.equals(fd1) && fd2.getHashId() == 0 &&
+                            .filter(fd2 -> !fd2.equals(fd1) && fd2.getIdHash() == 0 &&
                                     fd2.getHash().equals(fd1.getHash()))
                             .forEach(fd3 -> {
-                                if (fd1.getHashId() == 0) {
+                                if (fd1.getIdHash() == 0) {
                                     getNextHashId();
-                                    fd1.setHashId(hashId);
-                                    fd3.setHashId(hashId);
+                                    fd1.setIdHash(idHash);
+                                    fd3.setIdHash(idHash);
                                 } else {
-                                    fd3.setHashId(fd1.getHashId());
+                                    fd3.setIdHash(fd1.getIdHash());
                                 }
                             });
                 });
@@ -92,12 +92,12 @@ public class HashIdFactory {
             fileDataList2.stream().filter(fd2 -> fd2.getHash().equals(fd1.getHash()))
                     .forEach(fd2 -> {
                         //und dann sind sie auch noch gleich
-                        if (fd1.getHashId() == 0) {
+                        if (fd1.getIdHash() == 0) {
                             getNextHashId();
-                            fd1.setHashId(hashId);
-                            fd2.setHashId(hashId);
+                            fd1.setIdHash(idHash);
+                            fd2.setIdHash(idHash);
                         } else {
-                            fd2.setHashId(fd1.getHashId());
+                            fd2.setIdHash(fd1.getIdHash());
                         }
                     });
         });
@@ -105,7 +105,7 @@ public class HashIdFactory {
         //und jetzt noch doppelte in der anderen Liste suchen
         fileDataList2.stream()
                 .filter(fileData -> {
-                    if (fileData.getHashId() == 0) {
+                    if (fileData.getIdHash() == 0) {
                         return true;
                     } else {
                         return false;
@@ -116,21 +116,21 @@ public class HashIdFactory {
                         return;
                     }
                     fileDataList2.stream()
-                            .filter(fd2 -> !fd2.equals(fd1) && fd2.getHashId() == 0 &&
+                            .filter(fd2 -> !fd2.equals(fd1) && fd2.getIdHash() == 0 &&
                                     fd2.getHash().equals(fd1.getHash()))
                             .forEach(fd3 -> {
-                                if (fd1.getHashId() == 0) {
+                                if (fd1.getIdHash() == 0) {
                                     getNextHashId();
-                                    fd1.setHashId(hashId);
-                                    fd3.setHashId(hashId);
+                                    fd1.setIdHash(idHash);
+                                    fd3.setIdHash(idHash);
                                 } else {
-                                    fd3.setHashId(fd1.getHashId());
+                                    fd3.setIdHash(fd1.getIdHash());
                                 }
                             });
                 });
     }
 
     private static synchronized int getNextHashId() {
-        return ++hashId;
+        return ++idHash;
     }
 }

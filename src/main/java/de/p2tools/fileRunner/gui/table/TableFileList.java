@@ -19,6 +19,8 @@ package de.p2tools.fileRunner.gui.table;
 
 import de.p2tools.fileRunner.controller.config.ProgColorList;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
+import de.p2tools.fileRunner.controller.config.ProgConst;
+import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
 import de.p2tools.p2Lib.tools.date.PDate;
@@ -58,23 +60,26 @@ public class TableFileList extends PTable<FileData> {
         getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-        final TableColumn<FileData, Integer> idColumn = new TableColumn<>("ID");
+        final TableColumn<FileData, Integer> idColumn = new TableColumn<>("HashID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         idColumn.setCellFactory(cellFileId);
         idColumn.getStyleClass().add("alignCenterRight");
 
         final TableColumn<FileData, Integer> fileIdColumn = new TableColumn<>("FileID");
-        fileIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        fileIdColumn.setCellValueFactory(new PropertyValueFactory<>("idFile"));
         fileIdColumn.setCellFactory(cellFileId);
         fileIdColumn.getStyleClass().add("alignCenterRight");
 
         final TableColumn<FileData, Integer> hashIdColumn = new TableColumn<>("HashID");
-        hashIdColumn.setCellValueFactory(new PropertyValueFactory<>("hashId"));
+        hashIdColumn.setCellValueFactory(new PropertyValueFactory<>("idHash"));
         hashIdColumn.setCellFactory(cellFileId);
         hashIdColumn.getStyleClass().add("alignCenterRight");
 
-        final TableColumn<FileData, String> pathFileNameColumn = new TableColumn<>("Datei");
-        pathFileNameColumn.setCellValueFactory(new PropertyValueFactory<>("pathFileName"));
+        final TableColumn<FileData, String> filePathColumn = new TableColumn<>("Pfad");
+        filePathColumn.setCellValueFactory(new PropertyValueFactory<>("path"));
+
+        final TableColumn<FileData, String> fileNameColumn = new TableColumn<>("Dateiname");
+        fileNameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName"));
 
         final TableColumn<FileData, PFileSize> fileSizeColumn = new TableColumn<>("Größe");
         fileSizeColumn.setCellValueFactory(new PropertyValueFactory<>("fileSize"));
@@ -92,15 +97,20 @@ public class TableFileList extends PTable<FileData> {
         only.setCellFactory(cellFactBool);
 
         idColumn.setPrefWidth(70);
-//        fileIdColumn.setPrefWidth(70);
-        pathFileNameColumn.setPrefWidth(350);
+        fileNameColumn.setPrefWidth(350);
         fileSizeColumn.setPrefWidth(75);
         fileDateColumn.setPrefWidth(90);
         diff.setPrefWidth(50);
         only.setPrefWidth(50);
 
         addRowFact();
-        getColumns().addAll(idColumn, fileIdColumn, hashIdColumn, pathFileNameColumn, fileSizeColumn, fileDateColumn, diff, only);
+        if (ProgData.debug) {
+            getColumns().addAll(idColumn, fileIdColumn, hashIdColumn, filePathColumn, fileNameColumn,
+                    fileSizeColumn, fileDateColumn, diff, only);
+        } else {
+            getColumns().addAll(idColumn, filePathColumn, fileNameColumn,
+                    diff, only, fileSizeColumn, fileDateColumn);
+        }
     }
 
     private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellId =
@@ -113,8 +123,6 @@ public class TableFileList extends PTable<FileData> {
                         super.updateItem(item, empty);
 
                         int sel = getIndex();
-//                        System.out.println("sel: " + sel);
-
                         if (sel < 0) {
                             setGraphic(null);
                             setText(null);
@@ -131,15 +139,13 @@ public class TableFileList extends PTable<FileData> {
                             setText(null);
                             return;
                         }
-//                        System.out.println("fileDate: " + fileData.toString());
-
                         int id = 0;
-                        if (ProgConfig.CONFIG_COMPARE_ONLY_WITH_HASH.getValue()) {
+                        if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
                             //dann mit Hash vergleichen
-                            id = fileData.getHashId();
+                            id = fileData.getIdHash();
                         } else {
-                            //dann mit pfad/name/hash vergleichen
-                            id = fileData.getfId();
+                            //dann mit pfad/name oder nur Name vergleichen
+                            id = fileData.getIdFile();
                         }
 
                         if (id > 0) {
@@ -195,19 +201,19 @@ public class TableFileList extends PTable<FileData> {
 
                         setAlignment(Pos.CENTER);
                         FileData fileData = getTableView().getItems().get(getIndex());
-                        if (item.booleanValue() /*&& fileData.getId() == 0 */ && fileData.getHashId() > 0) {
-                            //dann gibts doppelte -> hash
-                            Label lbl = new Label("=");
-                            lbl.getStyleClass().add("check-table");
-                            setGraphic(lbl);
-                        } else {
-                            //dann gibts doppelte -> name
-                            CheckBox box = new CheckBox();
-                            box.setDisable(true);
-                            box.getStyleClass().add("checkbox-table");
-                            box.setSelected(item.booleanValue());
-                            setGraphic(box);
-                        }
+//                        if (item.booleanValue() /*&& fileData.getId() == 0 */ && fileData.getIdHash() > 0) {
+//                            //dann gibts doppelte -> hash
+//                            Label lbl = new Label("=");
+//                            lbl.getStyleClass().add("check-only-table");
+//                            setGraphic(lbl);
+//                        } else {
+                        //dann gibts doppelte -> name
+                        CheckBox box = new CheckBox();
+                        box.setDisable(true);
+                        box.getStyleClass().add("checkbox-table");
+                        box.setSelected(item.booleanValue());
+                        setGraphic(box);
+//                        }
                     }
                 };
                 return cell;
@@ -246,10 +252,10 @@ public class TableFileList extends PTable<FileData> {
 
                 //===========================================
                 if (fileData != null && !empty) {
-                    if (fileData.getfId() != 0) {
+                    if (fileData.getIdFile() != 0) {
                         //dann gibts eine gleiche Datei
                         //Hintergrundfarbe wird nach FileID gefärbt
-                        if (fileData.getfId() % 2 == 0) {
+                        if (fileData.getIdFile() % 2 == 0) {
                             if (ProgColorList.FILE_IS_ID1_BG.isUse()) {
                                 setStyle(ProgColorList.FILE_IS_ID1_BG.getCssBackground());
                             }
@@ -258,7 +264,7 @@ public class TableFileList extends PTable<FileData> {
                         }
 
                         //die Schriftfarbe wird nach FileID gefärbt
-                        if (fileData.getfId() % 2 == 0) {
+                        if (fileData.getIdFile() % 2 == 0) {
                             if (ProgColorList.FILE_IS_ID1.isUse()) {
                                 for (int i = 0; i < getChildren().size(); i++) {
                                     getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID1.getCssFont());
@@ -296,7 +302,7 @@ public class TableFileList extends PTable<FileData> {
                         }
 
                     } else if (fileData.isOnly()) {
-                        if (fileData.getHashId() > 0) {
+                        if (fileData.getIdHash() > 0) {
                             //dann gibts doppelte
                             if (ProgColorList.FILE_IS_ONLY_HASH_BG.isUse()) {
                                 setStyle(ProgColorList.FILE_IS_ONLY_HASH_BG.getCssBackground());

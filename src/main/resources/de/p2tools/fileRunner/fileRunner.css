@@ -96,7 +96,7 @@
 }
 
 /* CheckBoxCell */
-.check-table {
+.check-only-table {
     -fx-padding: 0 5;
     -fx-font-weight: bold;
        -fx-border-radius: 15;

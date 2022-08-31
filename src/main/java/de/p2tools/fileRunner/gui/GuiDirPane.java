@@ -271,7 +271,7 @@ public class GuiDirPane extends VBox {
 
             //die HashID muss in der anderen Liste gelöscht werden, gibts ja nicht mehr
             (panel1 ? progData.fileDataList_1 : progData.fileDataList_2).clear();
-            (!panel1 ? progData.fileDataList_1 : progData.fileDataList_2).stream().forEach(f -> f.setHashId(0));
+            (!panel1 ? progData.fileDataList_1 : progData.fileDataList_2).stream().forEach(f -> f.setIdHash(0));
 
             CompareFileListFactory.compareList();
         });

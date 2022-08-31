@@ -22,7 +22,7 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
-import de.p2tools.fileRunner.controller.worker.compare.HashIdFactory;
+import de.p2tools.fileRunner.controller.worker.compare.IdHashFactory;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -126,7 +126,7 @@ public class DirHash_ReadHashFile {
                 }
             }
             fileDataList.addAll(tmp);
-            HashIdFactory.setHashId();
+            IdHashFactory.setIdHash();
         }
     }
 }
