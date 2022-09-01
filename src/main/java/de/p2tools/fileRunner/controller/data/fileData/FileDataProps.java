@@ -26,8 +26,8 @@ public class FileDataProps extends PDataSample<FileData> {
     public static final String TAG = "FileData";
 
     private int id = 0;
-    private int idFile = 0;
-    private int idHash = 0;
+    private int fileId = 0;
+    private int hashId = 0;
     private String path = "";
     private String pathFileName = "";
     private String fileName = "";
@@ -50,20 +50,20 @@ public class FileDataProps extends PDataSample<FileData> {
         this.id = id;
     }
 
-    public int getIdFile() {
-        return idFile;
+    public int getFileId() {
+        return fileId;
     }
 
-    public void setIdFile(int idFile) {
-        this.idFile = idFile;
+    public void setFileId(int fileId) {
+        this.fileId = fileId;
     }
 
-    public int getIdHash() {
-        return idHash;
+    public int getHashId() {
+        return hashId;
     }
 
-    public void setIdHash(int idHash) {
-        this.idHash = idHash;
+    public void setHashId(int hashId) {
+        this.hashId = hashId;
     }
 
     public String getPath() {

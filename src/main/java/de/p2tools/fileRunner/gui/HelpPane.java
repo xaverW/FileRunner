@@ -66,7 +66,7 @@ public class HelpPane {
                 " dabei egal) haben die gleiche HashID." +
 
                 P2LibConst.LINE_SEPARATORx2 +
-                "5) Gleiche Dateien haben eine \"FileID\" und eine" + P2LibConst.LINE_SEPARATOR +
+                "5) Gleiche Dateien haben eine \"HashID\" und eine" + P2LibConst.LINE_SEPARATOR +
                 "\"HashID\" und keine Markierung in \"Diff\" oder \"Only\"." +
 
                 P2LibConst.LINE_SEPARATORx2 +

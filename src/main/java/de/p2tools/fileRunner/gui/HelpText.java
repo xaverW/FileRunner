@@ -70,9 +70,9 @@ public class HelpText {
 
     public static final String COLORS = "Hier könne die Farben in der Tabelle mit den Dateien geändert werden. " +
             "Es kann die Hintergrundfarbe der Tabellenzeilen und die Schriftfarbe vorgegeben werden." + P2LibConst.LINE_SEPARATORx2 +
-            "\"FileID ist gerade\\ungerade\" meint die Zeilen mit Dateien für die es eine gleiche Datei im " +
-            "anderen abzusuchenden Verzeichnis gibt. Gleiche Dateien haben die gleiche FileID. Eine unterschiedliche Farbe " +
-            "für gerade/ungerade FileIDs soll die Übersichtlichkeit erhöhen. Ist für gerade/ungerade FileIDs die gleiche " +
+            "\"HashID ist gerade\\ungerade\" meint die Zeilen mit Dateien für die es eine gleiche Datei im " +
+            "anderen abzusuchenden Verzeichnis gibt. Gleiche Dateien haben die gleiche HashID. Eine unterschiedliche Farbe " +
+            "für gerade/ungerade HashIDs soll die Übersichtlichkeit erhöhen. Ist für gerade/ungerade HashIDs die gleiche " +
             "Farbe vorgegeben, werden alle gleichen Dateien mit der selben Farbe markiert (oder mit keiner wenn ausgeschaltet).";
 
     public static final String FILEMANAGER =

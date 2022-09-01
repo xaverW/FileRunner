@@ -66,12 +66,12 @@ public class TableFileList extends PTable<FileData> {
         idColumn.getStyleClass().add("alignCenterRight");
 
         final TableColumn<FileData, Integer> fileIdColumn = new TableColumn<>("FileID");
-        fileIdColumn.setCellValueFactory(new PropertyValueFactory<>("idFile"));
+        fileIdColumn.setCellValueFactory(new PropertyValueFactory<>("fileId"));
         fileIdColumn.setCellFactory(cellFileId);
         fileIdColumn.getStyleClass().add("alignCenterRight");
 
         final TableColumn<FileData, Integer> hashIdColumn = new TableColumn<>("HashID");
-        hashIdColumn.setCellValueFactory(new PropertyValueFactory<>("idHash"));
+        hashIdColumn.setCellValueFactory(new PropertyValueFactory<>("hashId"));
         hashIdColumn.setCellFactory(cellFileId);
         hashIdColumn.getStyleClass().add("alignCenterRight");
 
@@ -142,10 +142,10 @@ public class TableFileList extends PTable<FileData> {
                         int id = 0;
                         if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
                             //dann mit Hash vergleichen
-                            id = fileData.getIdHash();
+                            id = fileData.getHashId();
                         } else {
                             //dann mit pfad/name oder nur Name vergleichen
-                            id = fileData.getIdFile();
+                            id = fileData.getFileId();
                         }
 
                         if (id > 0) {
@@ -201,7 +201,7 @@ public class TableFileList extends PTable<FileData> {
 
                         setAlignment(Pos.CENTER);
                         FileData fileData = getTableView().getItems().get(getIndex());
-//                        if (item.booleanValue() /*&& fileData.getId() == 0 */ && fileData.getIdHash() > 0) {
+//                        if (item.booleanValue() /*&& fileData.getId() == 0 */ && fileData.getHashId() > 0) {
 //                            //dann gibts doppelte -> hash
 //                            Label lbl = new Label("=");
 //                            lbl.getStyleClass().add("check-only-table");
@@ -252,10 +252,10 @@ public class TableFileList extends PTable<FileData> {
 
                 //===========================================
                 if (fileData != null && !empty) {
-                    if (fileData.getIdFile() != 0) {
+                    if (fileData.getFileId() != 0) {
                         //dann gibts eine gleiche Datei
-                        //Hintergrundfarbe wird nach FileID gefärbt
-                        if (fileData.getIdFile() % 2 == 0) {
+                        //Hintergrundfarbe wird nach HashID gefärbt
+                        if (fileData.getFileId() % 2 == 0) {
                             if (ProgColorList.FILE_IS_ID1_BG.isUse()) {
                                 setStyle(ProgColorList.FILE_IS_ID1_BG.getCssBackground());
                             }
@@ -263,8 +263,8 @@ public class TableFileList extends PTable<FileData> {
                             setStyle(ProgColorList.FILE_IS_ID2_BG.getCssBackground());
                         }
 
-                        //die Schriftfarbe wird nach FileID gefärbt
-                        if (fileData.getIdFile() % 2 == 0) {
+                        //die Schriftfarbe wird nach HashID gefärbt
+                        if (fileData.getFileId() % 2 == 0) {
                             if (ProgColorList.FILE_IS_ID1.isUse()) {
                                 for (int i = 0; i < getChildren().size(); i++) {
                                     getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID1.getCssFont());
@@ -302,7 +302,7 @@ public class TableFileList extends PTable<FileData> {
                         }
 
                     } else if (fileData.isOnly()) {
-                        if (fileData.getIdHash() > 0) {
+                        if (fileData.getHashId() > 0) {
                             //dann gibts doppelte
                             if (ProgColorList.FILE_IS_ONLY_HASH_BG.isUse()) {
                                 setStyle(ProgColorList.FILE_IS_ONLY_HASH_BG.getCssBackground());

@@ -62,25 +62,25 @@ public class FileDataList extends SimpleListProperty<FileData> {
             case SAME_NAME:
 //                predicate = predicate.and(f -> !f.isDiff() && !f.isOnly());
                 if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
-                    predicate = predicate.and(f -> f.getIdHash() > 0);
+                    predicate = predicate.and(f -> f.getHashId() > 0);
                 } else {
-                    predicate = predicate.and(f -> f.getIdFile() > 0);
+                    predicate = predicate.and(f -> f.getFileId() > 0);
                 }
                 break;
 
             case SAME_HASH:
-//                predicate = predicate.and(f -> f.getIdHash() > 0 && f.getIdFile() == 0);
+//                predicate = predicate.and(f -> f.getHashId() > 0 && f.getFileId() == 0);
                 if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
-                    predicate = predicate.and(f -> f.getIdHash() > 0 && f.getIdFile() == 0);
+                    predicate = predicate.and(f -> f.getHashId() > 0 && f.getFileId() == 0);
                 } else {
-                    predicate = predicate.and(f -> f.getIdHash() > 0 && f.getIdFile() == 0);
+                    predicate = predicate.and(f -> f.getHashId() > 0 && f.getFileId() == 0);
                 }
                 break;
 
             case DIFF_OR_ONLY:
 //                predicate = predicate.and(f -> f.isDiff() || f.isOnly());
                 if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
-                    predicate = predicate.and(f -> f.isOnly() || f.getIdHash() == 0);
+                    predicate = predicate.and(f -> f.isOnly() || f.getHashId() == 0);
                 } else {
                     predicate = predicate.and(f -> f.isOnly() || f.isDiff());
                 }

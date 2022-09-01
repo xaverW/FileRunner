@@ -36,20 +36,20 @@ public class ProgColorList extends PColorList {
     public static PColorData FILE_IS_ID1_BG = addNewKey("file-is-id1-bg",
             Color.rgb(250, 250, 250),
             Color.rgb(250, 250, 250),
-            true, "Datei ist gleich, FileID ist gerade, Tabellenzeile");
+            true, "Datei ist gleich, HashID ist gerade, Tabellenzeile");
     public static PColorData FILE_IS_ID1 = addNewKey("file-is-id1",
             Color.rgb(0, 0, 0),
             Color.rgb(0, 0, 0),
-            false, "Datei ist gleich, FileID ist gerade, Schriftfarbe");
+            false, "Datei ist gleich, HashID ist gerade, Schriftfarbe");
 
     public static PColorData FILE_IS_ID2_BG = addNewKey("file-is-id2-bg",
             Color.rgb(220, 220, 220),
             Color.rgb(210, 210, 210),
-            true, "Datei ist gleich, FileID ist ungerade, Tabellenzeile");
+            true, "Datei ist gleich, HashID ist ungerade, Tabellenzeile");
     public static PColorData FILE_IS_ID2 = addNewKey("file-is-id2",
             Color.rgb(0, 0, 0),
             Color.rgb(0, 0, 0),
-            false, "Datei ist gleich, FileID ist ungerade, Schriftfarbe");
+            false, "Datei ist gleich, HashID ist ungerade, Schriftfarbe");
 
     //diff
     public static PColorData FILE_IS_DIFF_BG = addNewKey("file-diff-bg",

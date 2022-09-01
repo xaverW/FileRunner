@@ -146,6 +146,11 @@ public class ColorPane extends PAccordionPane {
         tableView.setMinHeight(ProgConst.MIN_TABLE_HEIGHT);
         tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
+        textColumn.setPrefWidth(350);
+        changeColumn.setPrefWidth(120);
+        colorColumn.setPrefWidth(80);
+        colorOrgColumn.setPrefWidth(80);
+
         tableView.getColumns().addAll(useColumn, textColumn, changeColumn, colorColumn, colorOrgColumn, resetColumn);
         tableView.setItems(ProgColorList.getInstance());
     }
