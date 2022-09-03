@@ -21,7 +21,6 @@ import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
-import de.p2tools.fileRunner.controller.worker.compare.HashIdFactory;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.date.PDate;
@@ -119,16 +118,13 @@ public class DirHash_CreateZipHash {
                         "Die Zipdatei konnte nicht gelesen werden."));
             }
 
-
             if (stop) {
                 fileDataList.clear();
-            } else {
-                HashIdFactory.setHashId();
-                CompareFileListFactory.compareList();
             }
 
             max = 0;
             progress = 0;
+            CompareFileListFactory.compareList();
             notifyEvent(zipFile.getAbsolutePath());
         }
 

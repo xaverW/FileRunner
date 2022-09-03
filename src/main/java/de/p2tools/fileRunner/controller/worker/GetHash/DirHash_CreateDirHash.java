@@ -22,7 +22,6 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
-import de.p2tools.fileRunner.controller.worker.compare.HashIdFactory;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
@@ -117,17 +116,15 @@ public class DirHash_CreateDirHash {
                 }
             }
 
-
             if (stop) {
                 fileDataList.clear();
-            } else {
-                HashIdFactory.setHashId();
-                CompareFileListFactory.compareList();
             }
+
             --runThreads;
             if (runThreads == 0) {
                 max = 0;
                 progress = 0;
+                CompareFileListFactory.compareList();
                 notifyEvent(searchDir.toString());
             }
         }
@@ -202,7 +199,6 @@ public class DirHash_CreateDirHash {
                 }
                 return hashString;
             }
-
         }
 
         private synchronized File addGetFile(File file) {

@@ -37,10 +37,8 @@ public class GuiDirRunner extends AnchorPane {
 
     private final VBox vBoxBtn = new VBox(10);
     private final ScrollPane scrollPane = new ScrollPane();
-
     private final ToggleButton tglShowAll = new ToggleButton("");
     private final ToggleButton tglShowSamePath = new ToggleButton("");
-    //    private final ToggleButton tglShowSameHash = new ToggleButton("");
     private final ToggleButton tglShowDiff_IN_BOTH = new ToggleButton("");
     private final ToggleButton tglShowDiff_OR_ONLY = new ToggleButton("");
     private final ToggleButton tglShowOnly1 = new ToggleButton("");
@@ -123,8 +121,8 @@ public class GuiDirRunner extends AnchorPane {
         Label lblHash = new Label("Dateien vergleichen:");
         Button btnHelpPathHash = PButton.helpButton(progData.primaryStage, "", HelpText.READ_DIR_HASH);
 
-        RadioButton rbFilePath = new RadioButton("Mit gleichem Pfad/Dateiname");
-        RadioButton rbFileName = new RadioButton("Mit gleichem Dateiname");
+        RadioButton rbFilePath = new RadioButton("Mit gleichem Pfad/Dateinamen");
+        RadioButton rbFileName = new RadioButton("Mit gleichem Dateinamen");
         RadioButton rbFileAll = new RadioButton("Alle Dateien");
         rbFilePath.setTooltip(new Tooltip("Dateien sind gleich, wenn der \"Pfad/Name/Hash\" gleich ist"));
         rbFileName.setTooltip(new Tooltip("Dateien sind gleich, wenn der \"Name/Hash\" gleich ist"));
@@ -164,7 +162,9 @@ public class GuiDirRunner extends AnchorPane {
         hBoxHash.getStyleClass().add("extra-pane");
         hBoxHash.setPadding(new Insets(10));
         hBoxHash.setAlignment(Pos.CENTER);
-        hBoxHash.getChildren().addAll(lblHash, PGuiTools.getHDistance(20),
+        hBoxHash.getChildren().addAll(/*new Label("Beide Suchordner einlesen"), btnRead,
+                PGuiTools.getHDistance(40),*/
+                lblHash, PGuiTools.getHDistance(20),
                 rbFilePath, PGuiTools.getHDistance(20),
                 rbFileName, PGuiTools.getHDistance(20),
                 rbFileAll, PGuiTools.getHBoxGrower(), btnHelpPathHash);
@@ -234,7 +234,6 @@ public class GuiDirRunner extends AnchorPane {
         tglShowAll.setSelected(true);
         tglShowAll.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ALL.getImageView());
         tglShowSamePath.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_SAME_1.getImageView());
-//        tglShowSameHash.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_SAME_2.getImageView());
         tglShowDiff_OR_ONLY.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_DIFF_OR_ONLY.getImageView());
         tglShowDiff_IN_BOTH.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_DIFF_IN_BOTHE.getImageView());
         tglShowOnly1.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ONLY_1.getImageView());
@@ -242,7 +241,6 @@ public class GuiDirRunner extends AnchorPane {
 
         tglShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
         tglShowSamePath.setTooltip(new Tooltip("Gleiche Dateien (gleicher Pfad/Name/Hash oder nur gleicher Hash), anzeigen."));
-//        tglShowSameHash.setTooltip(new Tooltip("Gleiche Dateien (gleicher Hash aber unterschiedlicher Pfad/Namen), anzeigen."));
         tglShowDiff_OR_ONLY.setTooltip(new Tooltip("Dateien suchen, die sich unterscheiden oder nur in einer Liste enthalten sind."));
         tglShowDiff_IN_BOTH.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind, sich aber unterscheiden."));
         tglShowOnly1.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 enthalten sind."));
@@ -253,7 +251,6 @@ public class GuiDirRunner extends AnchorPane {
         setTglButton();
         tglShowAll.setOnAction(e -> setTglButton());
         tglShowSamePath.setOnAction(e -> setTglButton());
-//        tglShowSameHash.setOnAction(e -> setTglButton());
         tglShowDiff_OR_ONLY.setOnAction(e -> setTglButton());
         tglShowDiff_IN_BOTH.setOnAction(e -> setTglButton());
         tglShowOnly1.setOnAction(e -> setTglButton());
@@ -278,14 +275,6 @@ public class GuiDirRunner extends AnchorPane {
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
 
-//        } else if (tglShowSameHash.isSelected()) {
-//            tglShowSameHash.getStyleClass().clear();
-//            tglShowSameHash.getStyleClass().add("btnFilter-sel");
-//            fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.SAME_HASH);
-//            fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.SAME_HASH);
-//            progData.fileDataList_1.setPred(fileDataFilter1);
-//            progData.fileDataList_2.setPred(fileDataFilter2);
-//
         } else if (tglShowDiff_OR_ONLY.isSelected()) {
             tglShowDiff_OR_ONLY.getStyleClass().clear();
             tglShowDiff_OR_ONLY.getStyleClass().add("btnFilter-sel");
@@ -321,14 +310,12 @@ public class GuiDirRunner extends AnchorPane {
     private void clear() {
         tglShowAll.getStyleClass().clear();
         tglShowSamePath.getStyleClass().clear();
-//        tglShowSameHash.getStyleClass().clear();
         tglShowDiff_IN_BOTH.getStyleClass().clear();
         tglShowDiff_OR_ONLY.getStyleClass().clear();
         tglShowOnly1.getStyleClass().clear();
         tglShowOnly2.getStyleClass().clear();
         tglShowAll.getStyleClass().add("btnFilter");
         tglShowSamePath.getStyleClass().add("btnFilter");
-//        tglShowSameHash.getStyleClass().add("btnFilter");
         tglShowDiff_IN_BOTH.getStyleClass().add("btnFilter");
         tglShowDiff_OR_ONLY.getStyleClass().add("btnFilter");
         tglShowOnly1.getStyleClass().add("btnFilter");

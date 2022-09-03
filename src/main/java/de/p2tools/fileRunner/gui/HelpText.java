@@ -35,7 +35,8 @@ public class HelpText {
             "4. Zeigt Dateien die sich unterscheiden und in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
 
             "5. Zeigt Dateien die nur in der rechten Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
-            "6. Zeigt Dateien die nur in der linken Liste enthalten sind";
+            "6. Zeigt Dateien die nur in der linken Liste enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
+            "Der Button unten startet das Einlesen der beiden Testordner (oder Zipdatei/Hashdatei)";
 
     public static final String READ_DIR_RECURSIVE = "" +
             "Wird \"Unterverzeichnisse ...\" ausgewählt, werden beim Durchsuchen auch Unterverzeichnisse " +
@@ -46,18 +47,18 @@ public class HelpText {
 
     public static final String READ_DIR_HASH = "" +
             "Beim Vergleichen der Dateien werden gleiche Dateien mit der " +
-            "gleichen Nummer, der ID markiert" + P2LibConst.LINE_SEPARATORx2 +
+            "gleichen Nummer, der HashID markiert" + P2LibConst.LINE_SEPARATORx2 +
 
             "Ist \"Mit gleichem Pfad/Dateinamen\" ausgewählt, sind die Dateien \"gleich\" wenn der Pfad zur Datei, " +
             "der Dateiname und der Hash identisch ist." + P2LibConst.LINE_SEPARATORx2 +
 
             "Ist \"Mit gleichem Dateinamen\" ausgewählt, sind die Dateien \"gleich\" wenn " +
-            "der Dateiname und der Hash identisch ist. Egal, in welchem Verzeichnis sie liegen." + P2LibConst.LINE_SEPARATORx2 +
+            "der Dateiname und der Hash identisch ist. Egal, in welchem Verzeichnis sie liegen. Es müssen alle " +
+            "Dateien mit dem Dateinamen einen gleichen Hash haben (also gleich sein)." + P2LibConst.LINE_SEPARATORx2 +
 
             "Ist \"Alle Dateien\" gewählt, sind sie \"gleich\" " +
             "wenn der Hash identisch ist, egal wie sie heißen oder wo sie liegen. \"Only\" wird markiert, " +
-            "wenn es im anderen Suchverzeichnis keine Datei mit dem Namen gibt. \"Diff\" wird markiert, wenn es eine Datei " +
-            "mit dem gleichen Namen gibt, aber unterschiedlich ist.";
+            "wenn es im anderen Suchverzeichnis keine Datei mit dem Hash gibt. \"Diff\" kann es hier nicht geben.";
 
     public static final String FOLLOW_SYMLINK = "Eine symbolische Verknüpfung ist eine Verknüpfung in einem Dateisystem " +
             "die auf eine andere Datei oder ein anderes Verzeichnis verweist." + P2LibConst.LINE_SEPARATORx2 +

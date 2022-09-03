@@ -60,47 +60,42 @@ public class FileDataList extends SimpleListProperty<FileData> {
                 break;
 
             case SAME_NAME:
-//                predicate = predicate.and(f -> !f.isDiff() && !f.isOnly());
-                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
-                    predicate = predicate.and(f -> f.getHashId() > 0);
-                } else {
-                    predicate = predicate.and(f -> f.getFileId() > 0);
-                }
-                break;
-
-            case SAME_HASH:
-//                predicate = predicate.and(f -> f.getHashId() > 0 && f.getFileId() == 0);
-                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
-                    predicate = predicate.and(f -> f.getHashId() > 0 && f.getFileId() == 0);
-                } else {
-                    predicate = predicate.and(f -> f.getHashId() > 0 && f.getFileId() == 0);
-                }
+                predicate = predicate.and(f -> f.getId() > 0);
+//                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_PATH_NAME) {
+//                    predicate = predicate.and(f -> f.getId() > 0);
+//                } else if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_NAME) {
+//                    predicate = predicate.and(f -> f.getFileNameId() > 0);
+//                } else if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
+//                    predicate = predicate.and(f -> f.getHashId() > 0);
+//                }
                 break;
 
             case DIFF_OR_ONLY:
-//                predicate = predicate.and(f -> f.isDiff() || f.isOnly());
-                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
-                    predicate = predicate.and(f -> f.isOnly() || f.getHashId() == 0);
-                } else {
+                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_PATH_NAME) {
                     predicate = predicate.and(f -> f.isOnly() || f.isDiff());
+                } else if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_NAME) {
+                    predicate = predicate.and(f -> f.isOnly() || f.isDiff());
+                } else if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
+                    predicate = predicate.and(f -> f.isOnly() || f.getHashId() == 0);
                 }
                 break;
 
             case DIFF_IN_BOTHE:
-//                predicate = predicate.and(f -> f.isDiff() && !f.isOnly());
-                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
+                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_PATH_NAME) {
                     predicate = predicate.and(f -> f.isDiff() && !f.isOnly());
-                } else {
-                    //gibts nicht
+                } else if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_NAME) {
+                    predicate = predicate.and(f -> f.isDiff() && !f.isOnly());
+                } else if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
                     predicate = predicate.and(f -> f.isDiff() && !f.isOnly());
                 }
                 break;
 
             case ONLY:
-//                predicate = predicate.and(f -> f.isOnly());
-                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
+                if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_PATH_NAME) {
                     predicate = predicate.and(f -> f.isOnly());
-                } else {
+                } else if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_NAME) {
+                    predicate = predicate.and(f -> f.isOnly());
+                } else if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
                     predicate = predicate.and(f -> f.isOnly());
                 }
                 break;

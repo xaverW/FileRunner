@@ -22,7 +22,6 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
-import de.p2tools.fileRunner.controller.worker.compare.HashIdFactory;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -38,6 +37,7 @@ public class DirHash_ReadHashFile {
 
     private boolean stop = false;
     private final ProgData progData;
+    private int max = 0;
 
     public DirHash_ReadHashFile(ProgData progData) {
         this.progData = progData;
@@ -54,7 +54,7 @@ public class DirHash_ReadHashFile {
         new Thread(hashFileRead).start();
     }
 
-    private void notifyEvent(int max, int progress, String text) {
+    private void notifyEvent(int progress, String text) {
         progData.pEventHandler.notifyListener(new RunPEvent(Events.GENERATE_COMPARE_FILE_LIST,
                 progress, max, text));
     }
@@ -73,14 +73,17 @@ public class DirHash_ReadHashFile {
 
         public synchronized void run() {
             //Liste aus Hashdatei laden
-            notifyEvent(1, 0, hashFile.getAbsolutePath());
+            max = 1;
+            notifyEvent(0, hashFile.getAbsolutePath());
+
             laden();
             if (stop) {
                 fileDataList.clear();
-            } else {
-                CompareFileListFactory.compareList();
             }
-            notifyEvent(0, 0, hashFile.getAbsolutePath());
+
+            max = 0;
+            CompareFileListFactory.compareList();
+            notifyEvent(0, hashFile.getAbsolutePath());
         }
 
         private void laden() {
@@ -126,7 +129,6 @@ public class DirHash_ReadHashFile {
                 }
             }
             fileDataList.addAll(tmp);
-            HashIdFactory.setHashId();
         }
     }
 }

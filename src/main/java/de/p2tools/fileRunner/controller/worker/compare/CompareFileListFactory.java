@@ -27,11 +27,13 @@ import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 
 public class CompareFileListFactory {
     private static boolean stop = false;
-    private static int fileId = 0;
+    private static int id = 0;
 
     private CompareFileListFactory() {
     }
@@ -45,46 +47,74 @@ public class CompareFileListFactory {
         FileDataList fileDataList1 = progData.fileDataList_1;
         FileDataList fileDataList2 = progData.fileDataList_2;
         stop = false;
-        fileId = 0;
+        id = 0;
 
         // erst mal alle auf diff/only setzen
         fileDataList1.stream().forEach(fd -> {
             fd.setOnly(true);
             fd.setDiff(false);
-            fd.setFileId(0);
+            fd.setFilePathId(0);
+            fd.setFileNameId(0);
+            fd.setHashId(0);
         });
         fileDataList2.stream().forEach(fd -> {
             fd.setOnly(true);
             fd.setDiff(false);
-            fd.setFileId(0);
+            fd.setFilePathId(0);
+            fd.setFileNameId(0);
+            fd.setHashId(0);
         });
 
         //jetzt die Dateien vergleichen
         switch (ProgConfig.CONFIG_COMPARE_FILE.getValue()) {
             case ProgConst.COMPARE_PATH_NAME:
                 compareWithPathAndSetId(fileDataList1, fileDataList2);
+                fileDataList1.stream().forEach(fileData -> fileData.setId(fileData.getFilePathId()));
+                fileDataList2.stream().forEach(fileData -> fileData.setId(fileData.getFilePathId()));
                 break;
             case ProgConst.COMPARE_NAME:
                 compareWithNameAndSetId(fileDataList1, fileDataList2);
+                System.out.println("CompareFileListFactory: fileDataList1.stream()");
+                fileDataList1.stream().forEach(fileData -> fileData.setId(fileData.getFileNameId()));
+                System.out.println("CompareFileListFactory: fileDataList2.stream()");
+                fileDataList2.stream().forEach(fileData -> fileData.setId(fileData.getFileNameId()));
                 break;
             case ProgConst.COMPARE_ALL:
                 compareWithHashAndSetId(fileDataList1, fileDataList2);
+                fileDataList1.stream().forEach(fileData -> fileData.setId(fileData.getHashId()));
+                fileDataList2.stream().forEach(fileData -> fileData.setId(fileData.getHashId()));
                 break;
-        }
-
-        if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
-            fileDataList1.stream().forEach(fileData -> fileData.setId(fileData.getHashId()));
-            fileDataList2.stream().forEach(fileData -> fileData.setId(fileData.getHashId()));
-        } else {
-            fileDataList1.stream().forEach(fileData -> fileData.setId(fileData.getFileId()));
-            fileDataList2.stream().forEach(fileData -> fileData.setId(fileData.getFileId()));
         }
 
         progData.pEventHandler.notifyListener(new RunPEvent(Events.COMPARE_OF_FILE_LISTS_FINISHED));
     }
 
-    private static synchronized int getNextFileId() {
-        return ++fileId;
+    private static synchronized int getNextId() {
+        return ++id;
+    }
+
+    private static void setOnlyDiff(FileDataList fileDataList1, FileDataList fileDataList2) {
+        //only und diff setzen
+        fileDataList1.stream().forEach(fd1 -> {
+            if (stop) {
+                return;
+            }
+
+            Optional<FileData> opt = fileDataList2.stream()
+                    .filter(data -> data.getPathFileName().equals(fd1.getPathFileName()))
+                    .findAny();
+            if (opt.isPresent()) {
+                FileData fd2 = opt.get();
+                //dann gibts schon mal eine mit gleichem Pfad/Namen
+                fd1.setOnly(false);
+                fd2.setOnly(false);
+                if (!fd1.getHash().equals(fd2.getHash())) {
+                    //dann sind sie nicht gleich
+                    fd1.setDiff(true);
+                    fd2.setDiff(true);
+                }
+            }
+        });
     }
 
     private static void compareWithPathAndSetId(FileDataList fileDataList1, FileDataList fileDataList2) {
@@ -108,9 +138,9 @@ public class CompareFileListFactory {
 
                 if (fd1.getHash().equals(fd2.getHash())) {
                     //dann sind sie auch noch gleich
-                    getNextFileId();
-                    fd1.setFileId(fileId);
-                    fd2.setFileId(fileId);
+                    getNextId();
+                    fd1.setFilePathId(id);
+                    fd2.setFilePathId(id);
                 } else {
                     fd1.setDiff(true);
                     fd2.setDiff(true);
@@ -120,115 +150,150 @@ public class CompareFileListFactory {
     }
 
     private static void compareWithNameAndSetId(FileDataList fileDataList1, FileDataList fileDataList2) {
-        //und hier Dateien mit Pfad vergleichen und ID setzen
+        //hier werden Dateien mit dem gleich Namen vergleichen und ID setzen
+        //gleich sind sie, wenn ALLE Dateien mit dem gleichen Namen auch gleich sind!!!
         PLog.sysLog("Vergleichen von Dateien mit gleichem Namen:" + P2LibConst.LINE_SEPARATOR
                 + fileDataList1.getSourceDir() + P2LibConst.LINE_SEPARATOR + fileDataList2.getSourceDir());
 
-        //diff setzen
-        setDiff(fileDataList1, fileDataList2);
+        //only
+        fileDataList1.stream().filter(fileData -> fileData.isOnly())
+                //sonst hammers schon
+                .forEach(fd1 -> {
+                    if (stop) {
+                        return;
+                    }
 
-        fileDataList1.stream().forEach(fd1 -> {
-            if (stop) {
-                return;
-            }
+                    Optional<FileData> optional;
+                    optional = fileDataList2.stream()
+                            //nur noch die noch nicht erwischten prüfen
+                            .filter(fd2 -> fd2.getFileName().equals(fd1.getFileName())).findAny();
+                    if (optional.isPresent()) {
+                        fileDataList1.stream()
+                                //dann wird auch fd1 mit erwischt
+                                .filter(fileData -> fileData.getFileName().equals(fd1.getFileName()))
+                                .forEach(fileData -> fileData.setOnly(false));
+                        fileDataList2.stream()
+                                //dann wird auch fd1 mit erwischt
+                                .filter(fileData -> fileData.getFileName().equals(fd1.getFileName()))
+                                .forEach(fileData -> fileData.setOnly(false));
+                    }
+                });
 
-            fileDataList2.stream().filter(fdFilter -> fdFilter.getFileName().equals(fd1.getFileName()))
-                    .forEach(fd2 -> {
-                        //dann gibts schon mal eine mit gleichem Namen
-//                        fd1.setOnly(false);
-//                        fd2.setOnly(false);
+        //und jetzt werden nur Dateien mit "not ONLY" verglichen
+        ArrayList<FileData> listFound = new ArrayList<>();
+        ArrayList<FileData> listNotFound = new ArrayList<>();
 
-                        if (fd1.getHash().equals(fd2.getHash())) {
-                            //dann sind sie auch noch gleich
-//                            fd1.setDiff(false);
-                            if (fd1.getFileId() == 0 && fd2.getFileId() == 0) {
-                                getNextFileId();
-                                fd1.setFileId(fileId);
-                                fd2.setFileId(fileId);
-                            } else if (fd1.getFileId() > 0) {
-                                //dann wurde sie schon gesetzt
-                                fd2.setFileId(fd1.getFileId());
-                            } else {
-                                fd1.setFileId(fd2.getFileId());
-                            }
+        fileDataList1.stream().filter(fileData -> !fileData.isOnly())
+                .forEach(fd1 -> {
 
-                        } else {
-//                            fd1.setDiff(true);
-//                            fd2.setDiff(true);
+                    Optional<FileData> optional;
+                    boolean found = false;
+                    optional = fileDataList1.stream()
+                            .filter(fileData -> !fileData.equals(fd1) &&
+                                    fileData.getFileName().equals(fd1.getFileName()) &&
+                                    !fileData.getHash().equals(fd1.getHash())).findAny();
+
+                    if (optional.isPresent()) {
+                        found = true;
+                    }
+
+                    if (!found) {
+                        //dann versuchen wirs noch in der 2. Liste
+                        optional = fileDataList2.stream()
+                                .filter(fd -> fd.getFileName().equals(fd1.getFileName()) &&
+                                        !fd.getHash().equals(fd1.getHash())).findAny();
+                        if (optional.isPresent()) {
+                            found = true;
                         }
-                    });
-        });
-    }
+                    }
 
-    private static void setDiff(FileDataList fileDataList1, FileDataList fileDataList2) {
-        //diff setzen
-        fileDataList1.stream().forEach(fd1 -> {
-            if (stop) {
-                return;
-            }
+                    if (!found) {
+                        //dann sind alle gleich :)
+                        final int i;
+                        if (fd1.getFileNameId() > 0) {
+                            i = fd1.getFileNameId();
+                        } else {
+                            getNextId();
+                            i = id;
+                        }
+                        fileDataList1.stream().filter(fd -> fd.getFileName().equals(fd1.getFileName()))
+                                .forEach(fd -> fd.setFileNameId(i));
+                        fileDataList2.stream().filter(fd -> fd.getFileName().equals(fd1.getFileName()))
+                                .forEach(fd -> fd.setFileNameId(i));
 
-            Optional<FileData> opt = fileDataList2.stream()
-                    .filter(data -> data.getPathFileName().equals(fd1.getPathFileName()))
-                    .findAny();
-            if (opt.isPresent()) {
-                FileData fd2 = opt.get();
-                //dann gibts schon mal eine mit gleichem Pfad/Namen
-                fd1.setOnly(false);
-                fd2.setOnly(false);
-                if (!fd1.getHash().equals(fd2.getHash())) {
-                    //dann sind sie nicht gleich
-                    fd1.setDiff(true);
-                    fd2.setDiff(true);
-                }
-            }
-        });
+                    } else {
+                        //dann gibts unterschiedliche Hashes bei diesem
+                        fileDataList1.stream().filter(fd -> fd.getFileName().equals(fd1.getFileName()))
+                                .forEach(fd -> fd.setDiff(true));
+                        fileDataList2.stream().filter(fd -> fd.getFileName().equals(fd1.getFileName()))
+                                .forEach(fd -> fd.setDiff(true));
+                    }
+                });
     }
 
     private static void compareWithHashAndSetId(FileDataList fileDataList1, FileDataList fileDataList2) {
         //und hier Dateien nur mit dem Hash vergleichen und ID setzen
-        PLog.sysLog("Vergleichen mit Verzeichnis:" + P2LibConst.LINE_SEPARATOR
+        PLog.sysLog("Vergleichen mit Hash:" + P2LibConst.LINE_SEPARATOR
                 + fileDataList1.getSourceDir() + P2LibConst.LINE_SEPARATOR + fileDataList2.getSourceDir());
+        HashSet<String> hashset = new HashSet<>(fileDataList1.getSize());
 
-        //diff setzen
-        setDiff(fileDataList1, fileDataList2);
-
-        //erst mal in der eigenen Liste doppelte suchen
-        searchInList(fileDataList1);
-
-        //und dann mit der anderen Liste vergleichen
+        //mit der anderen Liste vergleichen
+        //erst mal das HashSet füllen
         fileDataList1.stream().forEach(fd1 -> {
             fileDataList2.stream().filter(fd2 -> fd2.getHash().equals(fd1.getHash()))
                     .forEach(fd2 -> {
                         if (stop) {
                             return;
                         }
-                        //dann gibts eine mit gleichem Hash
-//                        if (fd1.getPathFileName().equals(fd2.getPathFileName())) {
-//                            fd1.setOnly(false);
-//                            fd2.setOnly(false);
-//                        }
+                        hashset.add(fd1.getHash());
+                    });
+        });
+
+        //und jetzt die ID setzen
+        fileDataList1.stream().forEach(fd1 -> {
+            fileDataList2.stream().filter(fd2 -> fd2.getHash().equals(fd1.getHash()))
+                    .forEach(fd2 -> {
+                        if (stop) {
+                            return;
+                        }
+
                         fd1.setOnly(false);
                         fd2.setOnly(false);
                         //und dann sind sie auch noch gleich
-                        if (fd1.getFileId() == 0) {
-                            getNextFileId();
-                            fd1.setFileId(fileId);
-                            fd2.setFileId(fileId);
+                        if (fd1.getHashId() == 0) {
+                            int no = getFromHashSet(hashset, fd1.getHash());
+                            fd1.setHashId(no);
+                            fd2.setHashId(no);
+
                         } else {
-                            fd2.setFileId(fd1.getFileId());
+                            fd2.setHashId(fd1.getHashId());
                         }
                     });
         });
 
-        //und jetzt noch doppelte in der anderen Liste suchen
+        //in den eigenen Listen doppelte suchen
+        searchInList(fileDataList1);
         searchInList(fileDataList2);
     }
 
+    private static int getFromHashSet(HashSet<String> hashSet, String search) {
+        int ret = 0;
+        for (String h : hashSet) {
+            ++ret;
+            if (h.equals(search)) {
+                break;
+            }
+        }
+        return ret;
+    }
+
     private static void searchInList(FileDataList fileDataList) {
-        //und jetzt noch doppelte in der anderen Liste suchen
+        //und jetzt noch doppelte in der eigenen Liste suchen
         fileDataList.stream()
                 .filter(fileData -> {
-                    if (fileData.getFileId() == 0) {
+                    //und nur markieren, wenn es auch welche in der anderen Liste gibt und die
+                    //HashId damit >0 ist!!
+                    if (fileData.getHashId() > 0) {
                         return true;
                     } else {
                         return false;
@@ -239,18 +304,12 @@ public class CompareFileListFactory {
                         return;
                     }
                     fileDataList.stream()
-                            .filter(fd2 -> !fd2.equals(fd1) && fd2.getFileId() == 0 &&
+                            .filter(fd2 -> !fd2.equals(fd1) && fd2.getHashId() == 0 &&
                                     fd2.getHash().equals(fd1.getHash()))
                             .forEach(fd3 -> {
-                                getNextFileId();
-//                                if (fd1.getPathFileName().equals(fd3.getPathFileName())) {
-//                                    fd1.setOnly(false);
-//                                    fd3.setOnly(false);
-//                                }
                                 fd1.setOnly(false);
                                 fd3.setOnly(false);
-                                fd1.setFileId(fileId);
-                                fd3.setFileId(fileId);
+                                fd3.setHashId(fd1.getHashId());
                             });
                 });
     }
