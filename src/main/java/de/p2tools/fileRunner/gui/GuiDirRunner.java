@@ -37,6 +37,7 @@ public class GuiDirRunner extends AnchorPane {
 
     private final VBox vBoxBtn = new VBox(10);
     private final ScrollPane scrollPane = new ScrollPane();
+    private final Button btnRead = new Button("");
     private final ToggleButton tglShowAll = new ToggleButton("");
     private final ToggleButton tglShowSamePath = new ToggleButton("");
     private final ToggleButton tglShowDiff_IN_BOTH = new ToggleButton("");
@@ -110,7 +111,7 @@ public class GuiDirRunner extends AnchorPane {
         VBox.setVgrow(vBox, Priority.ALWAYS);
         vBox.setMaxHeight(Double.MAX_VALUE);
         vBox.setAlignment(Pos.BOTTOM_CENTER);
-        vBox.getChildren().add(btnHelp);
+        vBox.getChildren().addAll(btnRead, btnHelp);
         vBoxBtn.getChildren().add(vBox);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);
@@ -230,6 +231,8 @@ public class GuiDirRunner extends AnchorPane {
             if (newVal == null)
                 oldVal.setSelected(true);
         });
+        btnRead.setGraphic(ProgIcons.Icons.ICON_BUTTON_START_READ_ALL.getImageView());
+        btnRead.setTooltip(new Tooltip("Die beiden Suchordner (oder die Zipdatei/Hashdatei) werden eingelesen"));
         tg.getToggles().addAll(tglShowAll, tglShowSamePath/*, tglShowSameHash*/, tglShowDiff_OR_ONLY, tglShowDiff_IN_BOTH, tglShowOnly1, tglShowOnly2);
         tglShowAll.setSelected(true);
         tglShowAll.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ALL.getImageView());
@@ -248,6 +251,10 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void addListener() {
+        btnRead.setOnAction(e -> {
+            guiDirPane1.read();
+            guiDirPane2.read();
+        });
         setTglButton();
         tglShowAll.setOnAction(e -> setTglButton());
         tglShowSamePath.setOnAction(e -> setTglButton());

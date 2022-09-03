@@ -18,7 +18,6 @@
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.config.Events;
-import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
@@ -39,16 +38,16 @@ import java.util.LinkedList;
 
 public class DirHash_CreateDirHash {
 
+    private static int i = 0;
+    private int ii = 0;
+
     private ProgData progData;
     private boolean stop = false;
-    private int max = 0; //anzahl dateien
+    private int max = 0; //Anzahl Dateien
     private int progress = 0;
     private int threads = 0;
     private int anzThread = 1;
-    private boolean list1;
-    //    private boolean recursiv = true;
-    private boolean recursiv_1 = true;
-    private boolean recursiv_2 = true;
+    private boolean recursive = true;
     private boolean followLink = false;
     private int runThreads = 0;
 
@@ -60,19 +59,24 @@ public class DirHash_CreateDirHash {
         stop = true;
     }
 
-    public void createHash(boolean list1, File file, int anzThread, boolean followLink) {
+    public boolean isRunning() {
+        return max != 0;
+    }
+
+    public void createHash(FileDataList fileDataList, boolean recursive, File file, int anzThread, boolean followLink) {
         this.anzThread = anzThread;
-        this.list1 = list1;
-        this.recursiv_1 = ProgConfig.CONFIG_COMPARE_WITH_PATH_1.getValue();
-        this.recursiv_2 = ProgConfig.CONFIG_COMPARE_WITH_PATH_2.getValue();
+        this.recursive = recursive;
         this.followLink = followLink;
 
-        max = 0;
+        ii = i++;
+        System.out.println("Start createHash: " + ii);
+
+        max = 1;
         progress = 0;
         stop = false;
 
-        (list1 ? progData.fileDataList_1 : progData.fileDataList_2).clear();
-        CreateHash createHash = new CreateHash(list1, file);
+        fileDataList.clear();
+        CreateHash createHash = new CreateHash(fileDataList, file);
         runThreads = 1;
         Thread startenThread = new Thread(createHash);
         startenThread.setName("CreateHash");
@@ -87,46 +91,51 @@ public class DirHash_CreateDirHash {
 
     private class CreateHash implements Runnable {
 
-        private File searchDir;
         private FileDataList fileDataList;
+        private File searchDir;
         private LinkedList<File> listeFile = new LinkedList<>();
 
-        public CreateHash(boolean list1, File searchDir) {
+        public CreateHash(FileDataList fileDataList, File searchDir) {
+            this.fileDataList = fileDataList;
             this.searchDir = searchDir;
-            this.fileDataList = list1 ? progData.fileDataList_1 : progData.fileDataList_2;
         }
 
         public synchronized void run() {
             // Dateien auflisten
-            runDirFindFiles();
-            notifyEvent(searchDir.toString());
-
-            // Hash berechnen
-            anzThread = 1; //todo
-            for (int i = 0; i < anzThread; ++i) {
-                ++threads;
-                new Thread(new Hash()).start();
-            }
-
-            // warten bis alle Threads fertig sind
-            while (threads > 0) {
-                try {
-                    this.wait(1000);
-                } catch (Exception e) {
-                }
-            }
-
-            if (stop) {
-                fileDataList.clear();
-            }
-
-            --runThreads;
-            if (runThreads == 0) {
-                max = 0;
-                progress = 0;
-                CompareFileListFactory.compareList();
+            try {
+                runDirFindFiles();
                 notifyEvent(searchDir.toString());
+
+                // Hash berechnen
+                anzThread = 1; //todo
+                for (int i = 0; i < anzThread; ++i) {
+                    ++threads;
+                    new Thread(new Hash()).start();
+                }
+
+                // warten bis alle Threads fertig sind
+                while (threads > 0) {
+                    try {
+                        this.wait(1000);
+                    } catch (Exception e) {
+                    }
+                }
+
+                if (stop) {
+                    fileDataList.clear();
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getStackTrace());
             }
+//            --runThreads;
+//            if (runThreads == 0) {
+            max = 0;
+            progress = 0;
+            System.out.println("Stop createHash: " + ii);
+            CompareFileListFactory.addRunner(-1);
+            CompareFileListFactory.compareList();
+            notifyEvent(searchDir.toString());
+//            }
         }
 
         private void runDirFindFiles() {
@@ -141,7 +150,7 @@ public class DirHash_CreateDirHash {
                         addGetFile(file);
                     }
 
-                }.recDir(searchDir, list1 ? recursiv_1 : recursiv_2);
+                }.recDir(searchDir, recursive);
             } catch (Exception ex) {
                 PLog.errorLog(975102364, ex, "CreateHash.run - " + searchDir.getAbsolutePath());
             }
@@ -199,6 +208,7 @@ public class DirHash_CreateDirHash {
                 }
                 return hashString;
             }
+
         }
 
         private synchronized File addGetFile(File file) {

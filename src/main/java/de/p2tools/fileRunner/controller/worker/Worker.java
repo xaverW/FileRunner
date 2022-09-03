@@ -17,9 +17,11 @@
 
 package de.p2tools.fileRunner.controller.worker;
 
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.GetHash.*;
+import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.PDialogFileChosser;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
@@ -62,6 +64,10 @@ public class Worker {
         fileHashReadFileHashFile.setStop();
     }
 
+    public boolean createHashRunning() {
+        return dirHashCreateDirHash.isRunning() || dirHashCreateZipHash.isRunning() || dirHashReadDirHashFile.isRunning();
+    }
+
     public boolean dirHash_readDirHash(boolean list1, String hashDir, boolean followLink) {
         //Hash von Dateien eines Verzeichnisses erstellen
         boolean ret = false;
@@ -74,10 +80,12 @@ public class Worker {
             PDialogFileChosser.showErrorAlert("Verzeichnis einlesen", "Verzeichnis existiert nicht!");
         } else {
             ret = true;
-            dirHashCreateDirHash.createHash(list1, dir, 1, followLink);
-            (list1 ? progData.fileDataList_1 : progData.fileDataList_2).setSourceDir(hashDir);
+            CompareFileListFactory.addRunner(1);
+            boolean recursive = list1 ? ProgConfig.CONFIG_COMPARE_WITH_PATH_1.getValue() : ProgConfig.CONFIG_COMPARE_WITH_PATH_2.getValue();
+            FileDataList fileDataList = (list1 ? progData.fileDataList_1 : progData.fileDataList_2);
+            fileDataList.setSourceDir(hashDir);
+            dirHashCreateDirHash.createHash(fileDataList, recursive, dir, 1, followLink);
         }
-
         ProgData.getInstance().guiDirRunner.resetFilter();
         return ret;
     }
@@ -94,10 +102,10 @@ public class Worker {
             PDialogFileChosser.showErrorAlert("Zipdatei einlesen", "Die Zipdatei existiert nicht!");
         } else {
             ret = true;
+            CompareFileListFactory.addRunner(1);
             dirHashCreateZipHash.createHash(zipFile, fileDataList);
             fileDataList.setSourceDir(hashZip);
         }
-
         ProgData.getInstance().guiDirRunner.resetFilter();
         return ret;
     }
@@ -114,6 +122,7 @@ public class Worker {
             PDialogFileChosser.showErrorAlert("Hashdatei einlesen", "Die Hashdatei existiert nicht!");
         } else {
             ret = true;
+            CompareFileListFactory.addRunner(1);
             dirHashReadDirHashFile.readFile(file, fileDataList);
             fileDataList.setSourceDir(hashFile);
         }

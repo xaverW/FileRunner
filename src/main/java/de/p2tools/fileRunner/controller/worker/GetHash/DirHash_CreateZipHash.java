@@ -54,8 +54,13 @@ public class DirHash_CreateZipHash {
         stop = true;
     }
 
+    public boolean isRunning() {
+        return max != 0;
+    }
+
     public void createHash(File file, FileDataList fileDataList) {
-        max = 0;
+        System.out.println("createHash: " + file.getAbsolutePath());
+        max = 1;
         progress = 0;
         stop = false;
         fileDataList.clear();
@@ -118,12 +123,14 @@ public class DirHash_CreateZipHash {
                         "Die Zipdatei konnte nicht gelesen werden."));
             }
 
+
             if (stop) {
                 fileDataList.clear();
             }
 
             max = 0;
             progress = 0;
+            CompareFileListFactory.addRunner(-1);
             CompareFileListFactory.compareList();
             notifyEvent(zipFile.getAbsolutePath());
         }

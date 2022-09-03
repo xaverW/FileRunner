@@ -36,20 +36,12 @@ import java.util.Locale;
 public class StatusBarController extends AnchorPane {
 
     StackPane stackPane = new StackPane();
-
-    // loadPane
-//    Label lblProgress = new Label();
-//    ProgressBar progressBar = new ProgressBar();
-//    Button btnStop = new Button("");
-
     Label lblLeft = new Label();
     Label lblRight = new Label();
     Label lblLeftCount = new Label();
     Label lblRightCount = new Label();
-
     AnchorPane workerPane = new AnchorPane();
     AnchorPane textPane = new AnchorPane();
-
 
     public enum StatusbarIndex {
         NONE, DIR_RUNNER, FILE_RUNNER
@@ -57,7 +49,6 @@ public class StatusBarController extends AnchorPane {
 
     private StatusbarIndex statusbarIndex = StatusbarIndex.NONE;
     private boolean running = false;
-
     private final ProgData progData;
 
     public StatusBarController(ProgData progData) {
@@ -69,7 +60,6 @@ public class StatusBarController extends AnchorPane {
         AnchorPane.setRightAnchor(stackPane, 0.0);
         AnchorPane.setTopAnchor(stackPane, 0.0);
 
-
         HBox hBox = getHbox();
         lblLeft.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(lblLeft, Priority.ALWAYS);
@@ -79,14 +69,7 @@ public class StatusBarController extends AnchorPane {
 
         textPane.getChildren().add(hBox);
         textPane.setStyle("-fx-background-color: -fx-background ;");
-
-//        hBox = getHbox();
-//        btnStop.setGraphic(ProgIcons.Icons.ICON_BUTTON_STOP.getImageView());
-//        progressBar.setPrefWidth(200);
-//        hBox.getChildren().addAll(lblProgress, progressBar, btnStop);
-//        workerPane.getChildren().add(hBox);
         workerPane.setStyle("-fx-background-color: -fx-background ;");
-
         make();
     }
 
@@ -107,18 +90,18 @@ public class StatusBarController extends AnchorPane {
         stackPane.getChildren().addAll(textPane, workerPane);
         textPane.toFront();
 
-//        btnStop.setOnAction(e -> progData.worker.setStop());
-
         progData.pEventHandler.addListener(new PListener(Events.GENERATE_COMPARE_FILE_LIST) {
             public <T extends PEvent> void pingGui(T runEvent) {
                 if (runEvent.getClass().equals(RunPEvent.class)) {
                     RunPEvent runE = (RunPEvent) runEvent;
                     if (runE.nixLos()) {
-                        running = false;
+                        if (!progData.worker.createHashRunning()) {
+                            //sonst läuft noch was
+                            running = false;
+                        }
                     } else {
                         running = true;
                     }
-//                    updateProgressBar(runE);
                     setStatusbarIndex(statusbarIndex);
                 }
             }
@@ -135,18 +118,6 @@ public class StatusBarController extends AnchorPane {
             }
         });
     }
-
-//    private void updateProgressBar(RunPEvent event) {
-//        int max = event.getMax();
-//        int progress = event.getProgress();
-//        double prog = 1.0;
-//        if (max > 0) {
-//            prog = 1.0 * progress / max;
-//        }
-//
-//        progressBar.setProgress(prog);
-//        lblProgress.setText(event.getText());
-//    }
 
     public void setStatusbarIndex(StatusbarIndex statusbarIndex) {
         this.statusbarIndex = statusbarIndex;

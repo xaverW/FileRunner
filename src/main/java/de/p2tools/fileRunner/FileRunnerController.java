@@ -152,7 +152,10 @@ public class FileRunnerController extends StackPane {
                 if (runEvent.getClass().equals(RunPEvent.class)) {
                     RunPEvent runE = (RunPEvent) runEvent;
                     if (runE.nixLos()) {
-                        maskerPane.setMaskerVisible(false);
+                        if (!progData.worker.createHashRunning()) {
+                            //sonst läuft nochmal
+                            maskerPane.setMaskerVisible(false);
+                        }
                     } else {
                         maskerPane.setMaskerVisible(true, true);
                     }

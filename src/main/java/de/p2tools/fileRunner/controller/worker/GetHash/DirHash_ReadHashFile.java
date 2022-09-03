@@ -47,6 +47,10 @@ public class DirHash_ReadHashFile {
         stop = true;
     }
 
+    public boolean isRunning() {
+        return max != 0;
+    }
+
     public void readFile(File fileHash, FileDataList fileDataList) {
         stop = false;
         fileDataList.clear();
@@ -82,6 +86,7 @@ public class DirHash_ReadHashFile {
             }
 
             max = 0;
+            CompareFileListFactory.addRunner(-1);
             CompareFileListFactory.compareList();
             notifyEvent(0, hashFile.getAbsolutePath());
         }

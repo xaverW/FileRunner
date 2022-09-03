@@ -563,6 +563,25 @@ public class GuiDirPane extends VBox {
                 or(pCboWriteHash.getEditor().textProperty().isEmpty()));
     }
 
+    public void read() {
+        switch (tabPane.getSelectionModel().getSelectedIndex()) {
+            case 0:
+                //Verzeichnis
+                readDir();
+                break;
+            case 1:
+                //Zip
+                readZip();
+                break;
+            case 2:
+                //Hashdatei
+                readHashFile();
+                break;
+            default:
+                //dann machmer nix
+        }
+    }
+
     private void readDir() {
         if (progData.worker.dirHash_readDirHash(panel1, (panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
                 (panel1 ? ProgConfig.followLink1.get() : ProgConfig.followLink2.get()))) {
