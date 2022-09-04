@@ -583,7 +583,10 @@ public class GuiDirPane extends VBox {
     }
 
     private void readDir() {
-        if (progData.worker.dirHash_readDirHash(panel1, (panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
+        if (progData.worker.dirHash_readDirHash(
+                (panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
+                (panel1 ? progData.fileDataList_1 : progData.fileDataList_2),
+                (panel1 ? ProgConfig.CONFIG_COMPARE_WITH_PATH_1.getValue() : ProgConfig.CONFIG_COMPARE_WITH_PATH_2.getValue()),
                 (panel1 ? ProgConfig.followLink1.get() : ProgConfig.followLink2.get()))) {
             setTabDirFile(DIR_ZIP_HASH.DIR);
         }
@@ -591,7 +594,8 @@ public class GuiDirPane extends VBox {
     }
 
     private void readZip() {
-        if (progData.worker.dirHash_readZipHash((panel1 ? ProgConfig.srcZip1.getValueSafe() : ProgConfig.srcZip2.getValueSafe()),
+        if (progData.worker.dirHash_readZipHash(
+                (panel1 ? ProgConfig.srcZip1.getValueSafe() : ProgConfig.srcZip2.getValueSafe()),
                 fileDataList)) {
             setTabDirFile(DIR_ZIP_HASH.ZIP);
         }
@@ -599,7 +603,8 @@ public class GuiDirPane extends VBox {
     }
 
     private void readHashFile() {
-        if (progData.worker.dirHash_readHashFile((panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe()),
+        if (progData.worker.dirHash_readHashFile(
+                (panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe()),
                 fileDataList)) {
             setTabDirFile(DIR_ZIP_HASH.HASH);
         }

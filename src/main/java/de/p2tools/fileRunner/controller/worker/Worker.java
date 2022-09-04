@@ -17,7 +17,6 @@
 
 package de.p2tools.fileRunner.controller.worker;
 
-import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.GetHash.*;
@@ -68,7 +67,7 @@ public class Worker {
         return dirHashCreateDirHash.isRunning() || dirHashCreateZipHash.isRunning() || dirHashReadDirHashFile.isRunning();
     }
 
-    public boolean dirHash_readDirHash(boolean list1, String hashDir, boolean followLink) {
+    public boolean dirHash_readDirHash(String hashDir, FileDataList fileDataList, boolean recursive, boolean followLink) {
         //Hash von Dateien eines Verzeichnisses erstellen
         boolean ret = false;
         if (hashDir.isEmpty()) {
@@ -81,10 +80,7 @@ public class Worker {
         } else {
             ret = true;
             CompareFileListFactory.addRunner(1);
-            boolean recursive = list1 ? ProgConfig.CONFIG_COMPARE_WITH_PATH_1.getValue() : ProgConfig.CONFIG_COMPARE_WITH_PATH_2.getValue();
-            FileDataList fileDataList = (list1 ? progData.fileDataList_1 : progData.fileDataList_2);
-            fileDataList.setSourceDir(hashDir);
-            dirHashCreateDirHash.createHash(fileDataList, recursive, dir, 1, followLink);
+            dirHashCreateDirHash.createHash(hashDir, fileDataList, recursive, dir, 1, followLink);
         }
         ProgData.getInstance().guiDirRunner.resetFilter();
         return ret;
@@ -104,7 +100,6 @@ public class Worker {
             ret = true;
             CompareFileListFactory.addRunner(1);
             dirHashCreateZipHash.createHash(zipFile, fileDataList);
-            fileDataList.setSourceDir(hashZip);
         }
         ProgData.getInstance().guiDirRunner.resetFilter();
         return ret;
@@ -124,7 +119,6 @@ public class Worker {
             ret = true;
             CompareFileListFactory.addRunner(1);
             dirHashReadDirHashFile.readFile(file, fileDataList);
-            fileDataList.setSourceDir(hashFile);
         }
         ProgData.getInstance().guiDirRunner.resetFilter();
         return ret;

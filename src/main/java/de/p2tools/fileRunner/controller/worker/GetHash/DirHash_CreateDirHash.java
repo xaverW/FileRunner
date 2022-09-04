@@ -23,6 +23,7 @@ import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.date.PDate;
+import de.p2tools.p2Lib.tools.duration.PDuration;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.file.PFileSize;
 import de.p2tools.p2Lib.tools.log.PLog;
@@ -46,10 +47,6 @@ public class DirHash_CreateDirHash {
     private int max = 0; //Anzahl Dateien
     private int progress = 0;
     private int threads = 0;
-    private int anzThread = 1;
-    private boolean recursive = true;
-    private boolean followLink = false;
-    private int runThreads = 0;
 
     public DirHash_CreateDirHash(ProgData progData) {
         this.progData = progData;
@@ -63,11 +60,7 @@ public class DirHash_CreateDirHash {
         return max != 0;
     }
 
-    public void createHash(FileDataList fileDataList, boolean recursive, File file, int anzThread, boolean followLink) {
-        this.anzThread = anzThread;
-        this.recursive = recursive;
-        this.followLink = followLink;
-
+    public void createHash(String src, FileDataList fileDataList, boolean recursive, File file, int anzThread, boolean followLink) {
         ii = i++;
         System.out.println("Start createHash: " + ii);
 
@@ -76,8 +69,9 @@ public class DirHash_CreateDirHash {
         stop = false;
 
         fileDataList.clear();
-        CreateHash createHash = new CreateHash(fileDataList, file);
-        runThreads = 1;
+        fileDataList.setSourceDir(src);
+
+        CreateHash createHash = new CreateHash(fileDataList, file, anzThread, recursive, followLink);
         Thread startenThread = new Thread(createHash);
         startenThread.setName("CreateHash");
         startenThread.setDaemon(true);
@@ -94,10 +88,17 @@ public class DirHash_CreateDirHash {
         private FileDataList fileDataList;
         private File searchDir;
         private LinkedList<File> listeFile = new LinkedList<>();
+        private int anzThread;
+        private boolean recursive;
+        private boolean followLink;
 
-        public CreateHash(FileDataList fileDataList, File searchDir) {
+        public CreateHash(FileDataList fileDataList, File searchDir, int anzThread,
+                          boolean recursive, boolean followLink) {
             this.fileDataList = fileDataList;
             this.searchDir = searchDir;
+            this.anzThread = anzThread;
+            this.recursive = recursive;
+            this.followLink = followLink;
         }
 
         public synchronized void run() {
@@ -110,7 +111,7 @@ public class DirHash_CreateDirHash {
                 anzThread = 1; //todo
                 for (int i = 0; i < anzThread; ++i) {
                     ++threads;
-                    new Thread(new Hash()).start();
+                    new Thread(new Hash(followLink)).start();
                 }
 
                 // warten bis alle Threads fertig sind
@@ -127,15 +128,15 @@ public class DirHash_CreateDirHash {
             } catch (Exception ex) {
                 System.out.println(ex.getStackTrace());
             }
-//            --runThreads;
-//            if (runThreads == 0) {
             max = 0;
             progress = 0;
             System.out.println("Stop createHash: " + ii);
             CompareFileListFactory.addRunner(-1);
             CompareFileListFactory.compareList();
             notifyEvent(searchDir.toString());
-//            }
+
+            PDuration.counterStop("runThread");
+            PDuration.getCounter();
         }
 
         private void runDirFindFiles() {
@@ -160,18 +161,23 @@ public class DirHash_CreateDirHash {
 
             private InputStream srcStream = null;
             private byte[] buffer = new byte[1024];
+            private boolean followLink;
+
+            public Hash(boolean followLink) {
+                this.followLink = followLink;
+            }
 
             public synchronized void run() {
                 File file;
                 while (!stop && (file = addGetFile(null)) != null) {
-                    hash(file, searchDir);
+                    hash(file, searchDir, followLink);
                     ++progress;
                     notifyEvent(searchDir.toString());
                 }
                 --threads;
             }
 
-            private String hash(File file, File searchDir) {
+            private String hash(File file, File searchDir, boolean followLink) {
                 String hashString = "";
                 try {
                     MessageDigest messageDigest = MessageDigest.getInstance(HashConst.HASH_MD5);
@@ -208,7 +214,6 @@ public class DirHash_CreateDirHash {
                 }
                 return hashString;
             }
-
         }
 
         private synchronized File addGetFile(File file) {

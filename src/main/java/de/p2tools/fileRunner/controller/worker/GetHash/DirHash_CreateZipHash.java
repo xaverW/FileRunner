@@ -43,7 +43,7 @@ public class DirHash_CreateZipHash {
 
     private ProgData progData;
     private boolean stop = false;
-    private int max = 0; //anzahl dateien
+    private int max = 0; //Anzahl Dateien
     private int progress = 0;
 
     public DirHash_CreateZipHash(ProgData progData) {
@@ -64,6 +64,7 @@ public class DirHash_CreateZipHash {
         progress = 0;
         stop = false;
         fileDataList.clear();
+        fileDataList.setSourceDir(file.getAbsolutePath());
 
         CreateHash createHash = new CreateHash(file, fileDataList);
         Thread thread = new Thread(createHash);

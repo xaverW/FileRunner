@@ -54,6 +54,8 @@ public class DirHash_ReadHashFile {
     public void readFile(File fileHash, FileDataList fileDataList) {
         stop = false;
         fileDataList.clear();
+        fileDataList.setSourceDir(fileHash.getAbsolutePath());
+
         HashFileRead hashFileRead = new HashFileRead(fileHash, fileDataList);
         new Thread(hashFileRead).start();
     }

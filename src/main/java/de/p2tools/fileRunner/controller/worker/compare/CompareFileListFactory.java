@@ -36,7 +36,6 @@ public class CompareFileListFactory {
     private static int id = 0;
     private static boolean isRunning = false;
     private static Object obj = new Object();
-    private static Object lock = new Object();
     private static int runner = 0;
 
     private CompareFileListFactory() {
@@ -52,48 +51,18 @@ public class CompareFileListFactory {
         }
     }
 
-    private static synchronized void check() {
-        while (isRunning) {
-            synchronized (obj) {
-                try {
-                    System.out.println("---WAIT---");
-                    obj.wait(100);
-                } catch (Exception e) {
-                }
-            }
-        }
-        isRunning = true;
-    }
-
     public static void compareList() {
         if (ProgData.getInstance().worker.createHashRunning()) {
             //dann kommts ja nochmal
-            System.out.println("CompareFileListFactory: ==isRunning==");
+            System.out.println("CompareFileListFactory -> isRunning");
             return;
         }
         if (runner > 0) {
-            System.out.println("-----> Runner>0");
+            System.out.println("CompareFileListFactory -> Runner>0");
             return;
         }
 
-        synchronized (lock) {
-            System.out.println(" new Object();");
-            compare();
-        }
-    }
-
-    public synchronized static void compare() {
-//        check();
-
-//        try {
-
-//        if (ProgData.getInstance().worker.createHashRunning()) {
-//            //dann kommts ja nochmal
-//            System.out.println("CompareFileListFactory: ==isRunning==");
-//            return;
-//        }
-
-        System.out.println("CompareFileListFactory:compareList");
+        System.out.println("CompareFileListFactory -> compareList");
         ProgData progData = ProgData.getInstance();
         FileDataList fileDataList1 = progData.fileDataList_1;
         FileDataList fileDataList2 = progData.fileDataList_2;
@@ -139,12 +108,7 @@ public class CompareFileListFactory {
         }
 
         progData.pEventHandler.notifyListener(new RunPEvent(Events.COMPARE_OF_FILE_LISTS_FINISHED));
-//        } catch (Exception ex) {
-//            System.out.println(ex.getStackTrace().toString());
-//            PLog.errorLog(784519689, ex.getMessage());
-//        }
         isRunning = false;
-        System.out.println("??? out ???");
     }
 
     private static synchronized int getNextId() {
@@ -214,28 +178,6 @@ public class CompareFileListFactory {
                 + fileDataList1.getSourceDir() + P2LibConst.LINE_SEPARATOR + fileDataList2.getSourceDir());
 
         //only
-//        for (FileData fileData : fileDataList1) {
-//            if (fileData.isOnly()) {
-//                //sonst hammers schon
-//                continue;
-//            }
-//
-//            Optional<FileData> optional;
-//            optional = fileDataList2.stream()
-//                    //nur noch die noch nicht erwischten prüfen
-//                    .filter(fd2 -> fd2.getFileName().equals(fileData.getFileName())).findAny();
-//            if (optional.isPresent()) {
-//                fileDataList1.stream()
-//                        //dann wird auch fd1 mit erwischt
-//                        .filter(fd2 -> fd2.getFileName().equals(fileData.getFileName()))
-//                        .forEach(fd3 -> fd3.setOnly(false));
-//                fileDataList2.stream()
-//                        //dann wird auch fd1 mit erwischt
-//                        .filter(fd2 -> fd2.getFileName().equals(fileData.getFileName()))
-//                        .forEach(fd3 -> fd3.setOnly(false));
-//            }
-//        }
-
         fileDataList1.stream().filter(fileData -> fileData.isOnly())
                 //sonst hammers schon
                 .forEach(fd1 -> {
@@ -286,38 +228,6 @@ public class CompareFileListFactory {
                             found = true;
                         }
                     }
-
-//                    if (found) {
-//                        //dann gibts unterschiedliche Hashes bei diesem
-//                        listFound.add(fd1);
-//                    } else {
-//                        //dann sind alle gleich :)
-//                        listNotFound.add(fd1);
-//                    }
-//                });
-//
-//        listFound.stream().forEach(fileData -> {
-//            //dann gibts unterschiedliche Hashes bei diesem
-//            fileDataList1.stream().filter(fd -> fd.getFileName().equals(fileData.getFileName()))
-//                    .forEach(fd -> fd.setDiff(true));
-//            fileDataList2.stream().filter(fd -> fd.getFileName().equals(fileData.getFileName()))
-//                    .forEach(fd -> fd.setDiff(true));
-//        });
-//
-//        listNotFound.stream().forEach(fileData -> {
-//            //dann sind alle gleich :)
-//            final int i;
-//            if (fileData.getFileNameId() > 0) {
-//                i = fileData.getFileNameId();
-//            } else {
-//                getNextId();
-//                i = id;
-//            }
-//            fileDataList1.stream().filter(fd -> fd.getFileName().equals(fileData.getFileName()))
-//                    .forEach(fd -> fd.setFileNameId(i));
-//            fileDataList2.stream().filter(fd -> fd.getFileName().equals(fileData.getFileName()))
-//                    .forEach(fd -> fd.setFileNameId(i));
-//        });
 
                     if (!found) {
                         //dann sind alle gleich :)
