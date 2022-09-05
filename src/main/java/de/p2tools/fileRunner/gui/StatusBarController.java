@@ -95,7 +95,7 @@ public class StatusBarController extends AnchorPane {
                 if (runEvent.getClass().equals(RunPEvent.class)) {
                     RunPEvent runE = (RunPEvent) runEvent;
                     if (runE.nixLos()) {
-                        if (!progData.worker.createHashRunning()) {
+                        if (!progData.worker.createHashIsRunning()) {
                             //sonst läuft noch was
                             running = false;
                         }

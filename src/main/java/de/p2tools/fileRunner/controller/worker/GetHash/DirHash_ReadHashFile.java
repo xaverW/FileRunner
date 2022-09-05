@@ -18,13 +18,15 @@
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.config.Events;
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
+import de.p2tools.fileRunner.controller.worker.CompareFileListFactory;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
+import javafx.beans.property.StringProperty;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,10 +39,17 @@ public class DirHash_ReadHashFile {
 
     private boolean stop = false;
     private final ProgData progData;
+    private final boolean list1;
     private int max = 0;
 
-    public DirHash_ReadHashFile(ProgData progData) {
+    private final FileDataList fileDataList;
+    private final StringProperty searchHashFile;
+
+    public DirHash_ReadHashFile(ProgData progData, boolean list1) {
         this.progData = progData;
+        this.list1 = list1;
+        fileDataList = list1 ? progData.fileDataList_1 : progData.fileDataList_2;
+        searchHashFile = list1 ? ProgConfig.searchHashFile1 : ProgConfig.searchHashFile2;
     }
 
     public void setStop() {
@@ -48,15 +57,15 @@ public class DirHash_ReadHashFile {
     }
 
     public boolean isRunning() {
-        return max != 0;
+//        System.out.println("DirHash_ReadHashFile, isRunning: " + list1 + " - " + running);
+        return max > 0;
     }
 
-    public void readFile(File fileHash, FileDataList fileDataList) {
+    public void readFile() {
         stop = false;
-        fileDataList.clear();
-        fileDataList.setSourceDir(fileHash.getAbsolutePath());
-
-        HashFileRead hashFileRead = new HashFileRead(fileHash, fileDataList);
+        max = 1;
+        notifyEvent(0, "");
+        HashFileRead hashFileRead = new HashFileRead();
         new Thread(hashFileRead).start();
     }
 
@@ -67,14 +76,14 @@ public class DirHash_ReadHashFile {
 
     private class HashFileRead implements Runnable {
 
-        private File hashFile;
-        private String search;
-        private FileDataList fileDataList;
+        private final File hashFile;
 
-        public HashFileRead(File hashFile, FileDataList fileDataList) {
+        public HashFileRead() {
+            File hashFile = new File(searchHashFile.getValueSafe());
             this.hashFile = hashFile;
-            this.search = search;
-            this.fileDataList = fileDataList;
+
+            fileDataList.clear();
+            fileDataList.setSourceDir(hashFile.getAbsolutePath());
         }
 
         public synchronized void run() {
@@ -87,9 +96,9 @@ public class DirHash_ReadHashFile {
                 fileDataList.clear();
             }
 
-            max = 0;
-            CompareFileListFactory.addRunner(-1);
+            System.out.println("DirHash_ReadHashFile, max: " + list1 + " - " + max);
             CompareFileListFactory.compareList();
+            max = 0;
             notifyEvent(0, hashFile.getAbsolutePath());
         }
 

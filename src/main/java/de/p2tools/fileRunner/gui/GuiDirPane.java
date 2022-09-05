@@ -23,7 +23,7 @@ import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
+import de.p2tools.fileRunner.controller.worker.CompareFileListFactory;
 import de.p2tools.fileRunner.gui.table.Table;
 import de.p2tools.fileRunner.gui.table.TableFileList;
 import de.p2tools.fileRunner.icon.ProgIcons;
@@ -115,9 +115,9 @@ public class GuiDirPane extends VBox {
             fileDataList = progData.fileDataList_1;
             table_enum = Table.TABLE_ENUM.FILELIST_1;
 
-            srcDir = ProgConfig.srcDir1;
-            srcZip = ProgConfig.srcZip1;
-            srcHash = ProgConfig.srcHash1;
+            srcDir = ProgConfig.searchDir1;
+            srcZip = ProgConfig.searchZip1;
+            srcHash = ProgConfig.searchHashFile1;
             filter = ProgConfig.filter1;
             writeHash = ProgConfig.writeHash1;
 
@@ -129,9 +129,9 @@ public class GuiDirPane extends VBox {
             fileDataList = progData.fileDataList_2;
             table_enum = Table.TABLE_ENUM.FILELIST_2;
 
-            srcDir = ProgConfig.srcDir2;
-            srcZip = ProgConfig.srcZip2;
-            srcHash = ProgConfig.srcHash2;
+            srcDir = ProgConfig.searchDir2;
+            srcZip = ProgConfig.searchZip2;
+            srcHash = ProgConfig.searchHashFile2;
             filter = ProgConfig.filter2;
             writeHash = ProgConfig.writeHash2;
 
@@ -429,9 +429,9 @@ public class GuiDirPane extends VBox {
     }
 
     private void initProjectData() {
-        pCboDir.init(ProgConfig.srcDirList, srcDir);
-        pCboZip.init(ProgConfig.srcZipList, srcZip);
-        pCboHash.init(ProgConfig.srcHashList, srcHash);
+        pCboDir.init(ProgConfig.searchDirList, srcDir);
+        pCboZip.init(ProgConfig.searchZipList, srcZip);
+        pCboHash.init(ProgConfig.searchHashFileList, srcHash);
         pCboFilter.init(ProgConfig.filterList, filter);
         pCboWriteHash.init(ProgConfig.writeHashList, writeHash);
 
@@ -495,11 +495,11 @@ public class GuiDirPane extends VBox {
             String file;
             file = fileDataList.getSourceDir();
             if (file.isEmpty() && tabDir.isSelected()) {
-                file = (panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe());
+                file = (panel1 ? ProgConfig.searchDir1.getValueSafe() : ProgConfig.searchDir2.getValueSafe());
             } else if (file.isEmpty() && tabZip.isSelected()) {
-                file = (panel1 ? ProgConfig.srcZip1.getValueSafe() : ProgConfig.srcZip2.getValueSafe());
+                file = (panel1 ? ProgConfig.searchZip1.getValueSafe() : ProgConfig.searchZip2.getValueSafe());
             } else if (file.isEmpty() && tabFile.isSelected()) {
-                file = (panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe());
+                file = (panel1 ? ProgConfig.searchHashFile1.getValueSafe() : ProgConfig.searchHashFile2.getValueSafe());
             }
 
             if (file.isEmpty()) {
@@ -583,29 +583,21 @@ public class GuiDirPane extends VBox {
     }
 
     private void readDir() {
-        if (progData.worker.dirHash_readDirHash(
-                (panel1 ? ProgConfig.srcDir1.getValueSafe() : ProgConfig.srcDir2.getValueSafe()),
-                (panel1 ? progData.fileDataList_1 : progData.fileDataList_2),
-                (panel1 ? ProgConfig.CONFIG_COMPARE_WITH_PATH_1.getValue() : ProgConfig.CONFIG_COMPARE_WITH_PATH_2.getValue()),
-                (panel1 ? ProgConfig.followLink1.get() : ProgConfig.followLink2.get()))) {
+        if (progData.worker.dirHash_readDirHash(panel1)) {
             setTabDirFile(DIR_ZIP_HASH.DIR);
         }
         changeTextFilter();
     }
 
     private void readZip() {
-        if (progData.worker.dirHash_readZipHash(
-                (panel1 ? ProgConfig.srcZip1.getValueSafe() : ProgConfig.srcZip2.getValueSafe()),
-                fileDataList)) {
+        if (progData.worker.dirHash_readZipHash(panel1)) {
             setTabDirFile(DIR_ZIP_HASH.ZIP);
         }
         changeTextFilter();
     }
 
     private void readHashFile() {
-        if (progData.worker.dirHash_readHashFile(
-                (panel1 ? ProgConfig.srcHash1.getValueSafe() : ProgConfig.srcHash2.getValueSafe()),
-                fileDataList)) {
+        if (progData.worker.dirHash_readHashFile(panel1)) {
             setTabDirFile(DIR_ZIP_HASH.HASH);
         }
         changeTextFilter();

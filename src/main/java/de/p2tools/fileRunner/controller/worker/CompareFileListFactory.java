@@ -15,7 +15,7 @@
  */
 
 
-package de.p2tools.fileRunner.controller.worker.compare;
+package de.p2tools.fileRunner.controller.worker;
 
 import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
@@ -26,6 +26,8 @@ import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,9 +36,9 @@ import java.util.Optional;
 public class CompareFileListFactory {
     private static boolean stop = false;
     private static int id = 0;
-    private static boolean isRunning = false;
-    private static Object obj = new Object();
-    private static int runner = 0;
+    private static BooleanProperty running = new SimpleBooleanProperty(false);
+    private static Object obj1 = new Object();
+    private static Object obj2 = new Object();
 
     private CompareFileListFactory() {
     }
@@ -45,23 +47,41 @@ public class CompareFileListFactory {
         stop = true;
     }
 
-    public static synchronized void addRunner(int run) {
-        synchronized (obj) {
-            runner = runner + run;
-        }
+    public static boolean getRunning() {
+        return running.get();
+    }
+
+    public static BooleanProperty isRunningProperty() {
+        return running;
     }
 
     public static void compareList() {
-        if (ProgData.getInstance().worker.createHashRunning()) {
-            //dann kommts ja nochmal
-            System.out.println("CompareFileListFactory -> isRunning");
-            return;
-        }
-        if (runner > 0) {
-            System.out.println("CompareFileListFactory -> Runner>0");
+//        if (ProgData.getInstance().worker.createHashIsRunning()) {
+//            //dann kommts ja nochmal
+//            System.out.println("===============> createHashIsRunning -> isRunning");
+//            return;
+//        }
+        if (running.get()) {
+            //dann läuft er schon
+            System.out.println("===============> CompareFileListFactory isRunning");
             return;
         }
 
+        synchronized (obj2) {
+            System.out.println("compare in");
+            compare();
+            System.out.println("compare out");
+        }
+    }
+
+    private static void compare() {
+//        if (ProgData.getInstance().worker.createHashIsRunning()) {
+//            //dann kommts ja nochmal
+//            System.out.println("CompareFileListFactory -> isRunning");
+//            return;
+//        }
+
+        running.set(true);
         System.out.println("CompareFileListFactory -> compareList");
         ProgData progData = ProgData.getInstance();
         FileDataList fileDataList1 = progData.fileDataList_1;
@@ -107,8 +127,8 @@ public class CompareFileListFactory {
                 break;
         }
 
+        running.set(false);
         progData.pEventHandler.notifyListener(new RunPEvent(Events.COMPARE_OF_FILE_LISTS_FINISHED));
-        isRunning = false;
     }
 
     private static synchronized int getNextId() {

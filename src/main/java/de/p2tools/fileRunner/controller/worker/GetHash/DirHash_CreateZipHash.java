@@ -18,9 +18,10 @@
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.config.Events;
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
+import de.p2tools.fileRunner.controller.worker.CompareFileListFactory;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.date.PDate;
@@ -28,6 +29,7 @@ import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.file.PFileSize;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
+import javafx.beans.property.StringProperty;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,12 +44,20 @@ import java.util.zip.ZipInputStream;
 public class DirHash_CreateZipHash {
 
     private ProgData progData;
+    private final boolean list1;
     private boolean stop = false;
     private int max = 0; //Anzahl Dateien
     private int progress = 0;
 
-    public DirHash_CreateZipHash(ProgData progData) {
+    private final FileDataList fileDataList;
+    private final StringProperty searchDir;
+
+    public DirHash_CreateZipHash(ProgData progData, boolean list1) {
         this.progData = progData;
+        this.list1 = list1;
+
+        fileDataList = list1 ? progData.fileDataList_1 : progData.fileDataList_2;
+        searchDir = list1 ? ProgConfig.searchZip1 : ProgConfig.searchZip2;
     }
 
     public void setStop() {
@@ -55,10 +65,11 @@ public class DirHash_CreateZipHash {
     }
 
     public boolean isRunning() {
-        return max != 0;
+//        System.out.println("DirHash_CreateZipHash, isRunning: " + list1 + " - " + running);
+        return max > 0;
     }
 
-    public void createHash(File file, FileDataList fileDataList) {
+    public void createHash(File file) {
         System.out.println("createHash: " + file.getAbsolutePath());
         max = 1;
         progress = 0;
@@ -66,7 +77,7 @@ public class DirHash_CreateZipHash {
         fileDataList.clear();
         fileDataList.setSourceDir(file.getAbsolutePath());
 
-        CreateHash createHash = new CreateHash(file, fileDataList);
+        CreateHash createHash = new CreateHash(file);
         Thread thread = new Thread(createHash);
         thread.setName("CreateZipHash");
         thread.setDaemon(true);
@@ -81,11 +92,9 @@ public class DirHash_CreateZipHash {
     private class CreateHash implements Runnable {
 
         private File zipFile;
-        private FileDataList fileDataList;
 
-        public CreateHash(File zipFile, FileDataList fileDataList) {
+        public CreateHash(File zipFile) {
             this.zipFile = zipFile;
-            this.fileDataList = fileDataList;
         }
 
         public synchronized void run() {
@@ -124,15 +133,13 @@ public class DirHash_CreateZipHash {
                         "Die Zipdatei konnte nicht gelesen werden."));
             }
 
-
             if (stop) {
                 fileDataList.clear();
             }
 
+            CompareFileListFactory.compareList();
             max = 0;
             progress = 0;
-            CompareFileListFactory.addRunner(-1);
-            CompareFileListFactory.compareList();
             notifyEvent(zipFile.getAbsolutePath());
         }
 

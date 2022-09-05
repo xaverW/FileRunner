@@ -18,15 +18,18 @@
 package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.config.Events;
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
-import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
+import de.p2tools.fileRunner.controller.worker.CompareFileListFactory;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.file.PFileSize;
 import de.p2tools.p2Lib.tools.log.PLog;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,13 +46,24 @@ public class DirHash_CreateDirHash {
     private int ii = 0;
 
     private ProgData progData;
+    private final boolean list1;
     private boolean stop = false;
     private int max = 0; //Anzahl Dateien
     private int progress = 0;
     private int threads = 0;
 
-    public DirHash_CreateDirHash(ProgData progData) {
+    private final FileDataList fileDataList;
+    private final StringProperty searchDir;
+    private final BooleanProperty recursive;
+    private final BooleanProperty followLink;
+
+    public DirHash_CreateDirHash(ProgData progData, boolean list1) {
         this.progData = progData;
+        this.list1 = list1;
+        fileDataList = list1 ? progData.fileDataList_1 : progData.fileDataList_2;
+        searchDir = list1 ? ProgConfig.searchDir1 : ProgConfig.searchDir2;
+        recursive = list1 ? ProgConfig.CONFIG_COMPARE_WITH_PATH_1 : ProgConfig.CONFIG_COMPARE_WITH_PATH_2;
+        followLink = list1 ? ProgConfig.followLink1 : ProgConfig.followLink2;
     }
 
     public void setStop() {
@@ -57,11 +71,13 @@ public class DirHash_CreateDirHash {
     }
 
     public boolean isRunning() {
-        return max != 0;
+//        System.out.println("DirHash_CreateDirHash, isRunning: " + list1 + " - " + running);
+        return max > 0;
     }
 
-    public void createHash(String src, FileDataList fileDataList, boolean recursive, File file, int anzThread, boolean followLink) {
+    public void createHash(int anzThread) {
         ii = i++;
+        System.out.println("Start createHash, List1: " + list1);
         System.out.println("Start createHash: " + ii);
 
         max = 1;
@@ -69,9 +85,10 @@ public class DirHash_CreateDirHash {
         stop = false;
 
         fileDataList.clear();
-        fileDataList.setSourceDir(src);
+        fileDataList.setSourceDir(this.searchDir.getValueSafe());
 
-        CreateHash createHash = new CreateHash(fileDataList, file, anzThread, recursive, followLink);
+        File searchDirFile = new File(this.searchDir.getValueSafe());
+        CreateHash createHash = new CreateHash(fileDataList, searchDirFile, anzThread, recursive.getValue(), followLink.get());
         Thread startenThread = new Thread(createHash);
         startenThread.setName("CreateHash");
         startenThread.setDaemon(true);
@@ -128,11 +145,11 @@ public class DirHash_CreateDirHash {
             } catch (Exception ex) {
                 System.out.println(ex.getStackTrace());
             }
+
+            System.out.println("Stop createHash: " + ii);
+            CompareFileListFactory.compareList();
             max = 0;
             progress = 0;
-            System.out.println("Stop createHash: " + ii);
-            CompareFileListFactory.addRunner(-1);
-            CompareFileListFactory.compareList();
             notifyEvent(searchDir.toString());
 
             PDuration.counterStop("runThread");

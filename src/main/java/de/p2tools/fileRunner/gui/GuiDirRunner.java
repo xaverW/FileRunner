@@ -21,12 +21,13 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataFilter;
-import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
+import de.p2tools.fileRunner.controller.worker.CompareFileListFactory;
 import de.p2tools.fileRunner.icon.ProgIcons;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PGuiTools;
 import de.p2tools.p2Lib.tools.events.PEvent;
 import de.p2tools.p2Lib.tools.events.PListener;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -252,9 +253,14 @@ public class GuiDirRunner extends AnchorPane {
 
     private void addListener() {
         btnRead.setOnAction(e -> {
+            if (progData.worker.createHashIsRunning()) {
+                return;
+            }
             guiDirPane1.read();
-            guiDirPane2.read();
+            CreateHash createHash = new CreateHash();//nur so klappts mit der Maskerpane
+            new Thread(createHash).start();
         });
+
         setTglButton();
         tglShowAll.setOnAction(e -> setTglButton());
         tglShowSamePath.setOnAction(e -> setTglButton());
@@ -262,6 +268,26 @@ public class GuiDirRunner extends AnchorPane {
         tglShowDiff_IN_BOTH.setOnAction(e -> setTglButton());
         tglShowOnly1.setOnAction(e -> setTglButton());
         tglShowOnly2.setOnAction(e -> setTglButton());
+    }
+
+    private class CreateHash implements Runnable {
+        public synchronized void run() {
+            // Dateien auflisten
+            try {
+                while (progData.worker.createHashIsRunning()) {
+                    try {
+                        // sleep(250);
+                        this.wait(250);
+                    } catch (Exception ex) {
+                    }
+                }
+                Platform.runLater(() -> {
+                    guiDirPane2.read();
+                });
+            } catch (Exception ex) {
+                System.out.println(ex.getStackTrace());
+            }
+        }
     }
 
     private void setTglButton() {

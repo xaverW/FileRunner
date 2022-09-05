@@ -99,24 +99,21 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty compFileHashFile2 = addStr("compFileHashFile2");
     public static ObservableList<String> compFileHashFileList = addList("compFileHashFileList");
 
-//    public static StringProperty compFileHash1 = addStr("compFileHash1");
-//    public static StringProperty compFileHash2 = addStr("compFileHash2");
-
     // compare dir
     public static StringProperty lastUsedDir1 = addStr("lastUsedDir1");
     public static StringProperty lastUsedDir2 = addStr("lastUsedDir2");
 
-    public static StringProperty srcDir1 = addStr("srcDir1");
-    public static StringProperty srcDir2 = addStr("srcDir2");
-    public static ObservableList<String> srcDirList = addList("srcDirList");
+    public static StringProperty searchDir1 = addStr("searchDir1");
+    public static StringProperty searchDir2 = addStr("searchDir2");
+    public static ObservableList<String> searchDirList = addList("searchDirList");
 
-    public static StringProperty srcZip1 = addStr("srcZip1");
-    public static StringProperty srcZip2 = addStr("srcZip2");
-    public static ObservableList<String> srcZipList = addList("srcZipList");
+    public static StringProperty searchZip1 = addStr("searchZip1");
+    public static StringProperty searchZip2 = addStr("searchZip2");
+    public static ObservableList<String> searchZipList = addList("searchZipList");
 
-    public static StringProperty srcHash1 = addStr("srcHash1");
-    public static StringProperty srcHash2 = addStr("srcHash2");
-    public static ObservableList<String> srcHashList = addList("srcHashList");
+    public static StringProperty searchHashFile1 = addStr("searchHashFile1");
+    public static StringProperty searchHashFile2 = addStr("searchHashFile2");
+    public static ObservableList<String> searchHashFileList = addList("searchHashFileList");
 
     public static StringProperty filter1 = addStr("filter1");
     public static StringProperty filter2 = addStr("filter2");

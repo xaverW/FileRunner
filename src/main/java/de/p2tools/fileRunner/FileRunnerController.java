@@ -20,6 +20,7 @@ import de.p2tools.fileRunner.controller.ProgQuittFactory;
 import de.p2tools.fileRunner.controller.SearchProgramUpdate;
 import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgData;
+import de.p2tools.fileRunner.controller.worker.CompareFileListFactory;
 import de.p2tools.fileRunner.gui.GuiDirRunner;
 import de.p2tools.fileRunner.gui.GuiFileRunner;
 import de.p2tools.fileRunner.gui.HelpDialogController;
@@ -152,7 +153,8 @@ public class FileRunnerController extends StackPane {
                 if (runEvent.getClass().equals(RunPEvent.class)) {
                     RunPEvent runE = (RunPEvent) runEvent;
                     if (runE.nixLos()) {
-                        if (!progData.worker.createHashRunning()) {
+                        if (!progData.worker.createHashIsRunning() ||
+                                CompareFileListFactory.isRunningProperty().get()) {
                             //sonst läuft nochmal
                             maskerPane.setMaskerVisible(false);
                         }

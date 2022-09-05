@@ -17,10 +17,10 @@
 
 package de.p2tools.fileRunner.controller.worker;
 
+import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileDataList;
 import de.p2tools.fileRunner.controller.worker.GetHash.*;
-import de.p2tools.fileRunner.controller.worker.compare.CompareFileListFactory;
 import de.p2tools.p2Lib.alert.PAlert;
 import de.p2tools.p2Lib.dialogs.PDialogFileChosser;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
@@ -40,55 +40,70 @@ import java.nio.file.Paths;
 public class Worker {
     private final ProgData progData;
 
-    private final DirHash_CreateDirHash dirHashCreateDirHash;
-    private final DirHash_CreateZipHash dirHashCreateZipHash;
-    private final DirHash_ReadHashFile dirHashReadDirHashFile;
+    private final DirHash_CreateDirHash dirHashCreateDirHash_1;
+    private final DirHash_CreateDirHash dirHashCreateDirHash_2;
+    private final DirHash_CreateZipHash dirHashCreateZipHash_1;
+    private final DirHash_CreateZipHash dirHashCreateZipHash_2;
+    private final DirHash_ReadHashFile dirHashReadDirHashFile_1;
+    private final DirHash_ReadHashFile dirHashReadDirHashFile_2;
     private final FileHash_CreateFileHashFile fileHashCreateFileHashFile;
     private final FileHash_ReadFileHashFile fileHashReadFileHashFile;
 
     public Worker(ProgData progData) {
         this.progData = progData;
-        dirHashCreateDirHash = new DirHash_CreateDirHash(progData);
-        dirHashCreateZipHash = new DirHash_CreateZipHash(progData);
-        dirHashReadDirHashFile = new DirHash_ReadHashFile(progData);
+        dirHashCreateDirHash_1 = new DirHash_CreateDirHash(progData, true);
+        dirHashCreateDirHash_2 = new DirHash_CreateDirHash(progData, false);
+        dirHashCreateZipHash_1 = new DirHash_CreateZipHash(progData, true);
+        dirHashCreateZipHash_2 = new DirHash_CreateZipHash(progData, false);
+        dirHashReadDirHashFile_1 = new DirHash_ReadHashFile(progData, true);
+        dirHashReadDirHashFile_2 = new DirHash_ReadHashFile(progData, false);
+
         fileHashCreateFileHashFile = new FileHash_CreateFileHashFile();
         fileHashReadFileHashFile = new FileHash_ReadFileHashFile();
     }
 
     public void setStop() {
-        dirHashCreateDirHash.setStop();
-        dirHashCreateZipHash.setStop();
-        dirHashReadDirHashFile.setStop();
+        dirHashCreateDirHash_1.setStop();
+        dirHashCreateZipHash_1.setStop();
+        dirHashReadDirHashFile_1.setStop();
         fileHashCreateFileHashFile.setStop();
         fileHashReadFileHashFile.setStop();
     }
 
-    public boolean createHashRunning() {
-        return dirHashCreateDirHash.isRunning() || dirHashCreateZipHash.isRunning() || dirHashReadDirHashFile.isRunning();
+    public boolean createHashIsRunning() {
+        return dirHashCreateDirHash_1.isRunning() || dirHashCreateDirHash_2.isRunning() ||
+                dirHashCreateZipHash_1.isRunning() || dirHashCreateZipHash_2.isRunning() ||
+                dirHashReadDirHashFile_1.isRunning() || dirHashReadDirHashFile_2.isRunning();
     }
 
-    public boolean dirHash_readDirHash(String hashDir, FileDataList fileDataList, boolean recursive, boolean followLink) {
+    public boolean dirHash_readDirHash(boolean list1) {
         //Hash von Dateien eines Verzeichnisses erstellen
         boolean ret = false;
-        if (hashDir.isEmpty()) {
+        String searchDirStr = list1 ? ProgConfig.searchDir1.getValueSafe() : ProgConfig.searchDir2.getValueSafe();
+        if (searchDirStr.isEmpty()) {
             return false;
         }
 
-        File dir = new File(hashDir);
-        if (!dir.exists()) {
+        File searchDir = new File(searchDirStr);
+        if (!searchDir.exists()) {
             PDialogFileChosser.showErrorAlert("Verzeichnis einlesen", "Verzeichnis existiert nicht!");
         } else {
             ret = true;
-            CompareFileListFactory.addRunner(1);
-            dirHashCreateDirHash.createHash(hashDir, fileDataList, recursive, dir, 1, followLink);
+            if (list1) {
+                dirHashCreateDirHash_1.createHash(1);
+            } else {
+                dirHashCreateDirHash_2.createHash(1);
+            }
         }
         ProgData.getInstance().guiDirRunner.resetFilter();
         return ret;
     }
 
-    public boolean dirHash_readZipHash(String hashZip, FileDataList fileDataList) {
+    public boolean dirHash_readZipHash(boolean list1) {
         //Hash von Dateien einer Zip-Datei erstellen
         boolean ret = false;
+
+        String hashZip = list1 ? ProgConfig.searchZip1.getValueSafe() : ProgConfig.searchZip2.getValueSafe();
         if (hashZip.isEmpty()) {
             return false;
         }
@@ -98,16 +113,21 @@ public class Worker {
             PDialogFileChosser.showErrorAlert("Zipdatei einlesen", "Die Zipdatei existiert nicht!");
         } else {
             ret = true;
-            CompareFileListFactory.addRunner(1);
-            dirHashCreateZipHash.createHash(zipFile, fileDataList);
+            if (list1) {
+                dirHashCreateZipHash_1.createHash(zipFile);
+            } else {
+                dirHashCreateZipHash_2.createHash(zipFile);
+            }
         }
         ProgData.getInstance().guiDirRunner.resetFilter();
         return ret;
     }
 
-    public boolean dirHash_readHashFile(String hashFile, FileDataList fileDataList) {
+    public boolean dirHash_readHashFile(boolean list1) {
         //Hash aus einer Hash-Datei einlesen
         boolean ret = false;
+
+        String hashFile = list1 ? ProgConfig.searchHashFile1.getValueSafe() : ProgConfig.searchHashFile2.getValueSafe();
         if (hashFile.isEmpty()) {
             return false;
         }
@@ -117,8 +137,19 @@ public class Worker {
             PDialogFileChosser.showErrorAlert("Hashdatei einlesen", "Die Hashdatei existiert nicht!");
         } else {
             ret = true;
-            CompareFileListFactory.addRunner(1);
-            dirHashReadDirHashFile.readFile(file, fileDataList);
+//            System.out.println("Start dirHashReadDirHashFile_1");
+//            while (CompareFileListFactory.isRunningProperty().get()) {
+//                try {
+//                    System.out.println("====> waiting");
+//                    this.wait(100);
+//                } catch (Exception e) {
+//                }
+//            }
+            if (list1) {
+                dirHashReadDirHashFile_1.readFile();
+            } else {
+                dirHashReadDirHashFile_2.readFile();
+            }
         }
         ProgData.getInstance().guiDirRunner.resetFilter();
         return ret;
