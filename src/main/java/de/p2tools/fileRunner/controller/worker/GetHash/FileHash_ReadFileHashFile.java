@@ -19,8 +19,8 @@ package de.p2tools.fileRunner.controller.worker.GetHash;
 
 import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgData;
+import de.p2tools.fileRunner.controller.config.RunPEvent;
 import de.p2tools.fileRunner.gui.dialog.SelectHashDialogController;
-import de.p2tools.p2Lib.tools.events.RunPEvent;
 import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;

@@ -119,114 +119,6 @@ public class TableFileList extends PTable<FileData> {
         }
     }
 
-    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellId =
-            (final TableColumn<FileData, Integer> param) -> {
-
-                final TableCell<FileData, Integer> cell = new TableCell<>() {
-
-                    @Override
-                    public void updateItem(Integer item, boolean empty) {
-                        super.updateItem(item, empty);
-
-                        int sel = getIndex();
-                        if (sel < 0) {
-                            setGraphic(null);
-                            setText(null);
-                            return;
-                        } else if (sel >= getTableView().getItems().size()) {
-                            setGraphic(null);
-                            setText(null);
-                            return;
-                        }
-
-                        FileData fileData = getTableView().getItems().get(sel);
-                        if (fileData == null) {
-                            setGraphic(null);
-                            setText(null);
-                            return;
-                        }
-                        int id = 0;
-                        if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
-                            //dann mit Hash vergleichen
-                            id = fileData.getHashId();
-                        } else {
-                            //dann mit pfad/name oder nur Name vergleichen
-                            id = fileData.getFilePathId();
-                        }
-
-                        if (id > 0) {
-                            setText(id + "");
-                        } else {
-                            setText("");
-                        }
-                    }
-                };
-
-                return cell;
-            };
-
-    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellFileId =
-            (final TableColumn<FileData, Integer> param) -> {
-
-                final TableCell<FileData, Integer> cell = new TableCell<>() {
-
-                    @Override
-                    public void updateItem(Integer item, boolean empty) {
-                        super.updateItem(item, empty);
-
-                        if (item == null || empty) {
-                            setGraphic(null);
-                            setText(null);
-                            return;
-                        }
-
-                        if (item == 0) {
-                            setText("");
-                        } else {
-                            setText(item.toString());
-                        }
-                    }
-                };
-                return cell;
-            };
-
-    private static Callback<TableColumn<FileData, Boolean>, TableCell<FileData, Boolean>> cellFactBool =
-            (final TableColumn<FileData, Boolean> param) -> {
-
-                final TableCell<FileData, Boolean> cell = new TableCell<>() {
-
-                    @Override
-                    public void updateItem(Boolean item, boolean empty) {
-                        super.updateItem(item, empty);
-
-                        if (item == null || empty) {
-                            setGraphic(null);
-                            setText(null);
-                            return;
-                        }
-
-                        setAlignment(Pos.CENTER);
-
-//                        FileData fileData = getTableView().getItems().get(getIndex());
-//                        if (item.booleanValue() /*&& fileData.getId() == 0 */ && fileData.getHashId() > 0) {
-//                            //dann gibts doppelte -> hash
-//                            Label lbl = new Label("=");
-//                            lbl.getStyleClass().add("check-only-table");
-//                            setGraphic(lbl);
-//                        } else {
-                        //dann gibts doppelte -> name
-
-                        CheckBox box = new CheckBox();
-                        box.setDisable(true);
-                        box.getStyleClass().add("checkbox-table");
-                        box.setSelected(item.booleanValue());
-                        setGraphic(box);
-//                        }
-                    }
-                };
-                return cell;
-            };
-
     private void addRowFact() {
         setRowFactory(tableview -> new TableRow<>() {
             @Override
@@ -340,6 +232,114 @@ public class TableFileList extends PTable<FileData> {
             }
         });
     }
+
+    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellId =
+            (final TableColumn<FileData, Integer> param) -> {
+
+                final TableCell<FileData, Integer> cell = new TableCell<>() {
+
+                    @Override
+                    public void updateItem(Integer item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        int sel = getIndex();
+                        if (sel < 0) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        } else if (sel >= getTableView().getItems().size()) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        }
+
+                        FileData fileData = getTableView().getItems().get(sel);
+                        if (fileData == null) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        }
+                        int id = 0;
+                        if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
+                            //dann mit Hash vergleichen
+                            id = fileData.getHashId();
+                        } else {
+                            //dann mit pfad/name oder nur Name vergleichen
+                            id = fileData.getFilePathId();
+                        }
+
+                        if (id > 0) {
+                            setText(id + "");
+                        } else {
+                            setText("");
+                        }
+                    }
+                };
+
+                return cell;
+            };
+
+    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellFileId =
+            (final TableColumn<FileData, Integer> param) -> {
+
+                final TableCell<FileData, Integer> cell = new TableCell<>() {
+
+                    @Override
+                    public void updateItem(Integer item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        }
+
+                        if (item == 0) {
+                            setText("");
+                        } else {
+                            setText(item.toString());
+                        }
+                    }
+                };
+                return cell;
+            };
+
+    private static Callback<TableColumn<FileData, Boolean>, TableCell<FileData, Boolean>> cellFactBool =
+            (final TableColumn<FileData, Boolean> param) -> {
+
+                final TableCell<FileData, Boolean> cell = new TableCell<>() {
+
+                    @Override
+                    public void updateItem(Boolean item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        }
+
+                        setAlignment(Pos.CENTER);
+
+//                        FileData fileData = getTableView().getItems().get(getIndex());
+//                        if (item.booleanValue() /*&& fileData.getId() == 0 */ && fileData.getHashId() > 0) {
+//                            //dann gibts doppelte -> hash
+//                            Label lbl = new Label("=");
+//                            lbl.getStyleClass().add("check-only-table");
+//                            setGraphic(lbl);
+//                        } else {
+                        //dann gibts doppelte -> name
+
+                        CheckBox box = new CheckBox();
+                        box.setDisable(true);
+                        box.getStyleClass().add("checkbox-table");
+                        box.setSelected(item.booleanValue());
+                        setGraphic(box);
+//                        }
+                    }
+                };
+                return cell;
+            };
 }
 
 
