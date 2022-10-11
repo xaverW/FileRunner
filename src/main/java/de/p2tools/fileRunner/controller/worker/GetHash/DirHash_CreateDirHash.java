@@ -71,14 +71,13 @@ public class DirHash_CreateDirHash {
     }
 
     public boolean isRunning() {
-//        System.out.println("DirHash_CreateDirHash, isRunning: " + list1 + " - " + running);
         return max > 0;
     }
 
     public void createHash(int anzThread) {
         ii = i++;
-        System.out.println("Start createHash, List1: " + list1);
-        System.out.println("Start createHash: " + ii);
+        PLog.sysLog("Start createHash, List1: " + list1);
+        PLog.sysLog("Start createHash: " + ii);
 
         max = 1;
         progress = 0;
@@ -143,10 +142,10 @@ public class DirHash_CreateDirHash {
                     fileDataList.clear();
                 }
             } catch (Exception ex) {
-                System.out.println(ex.getStackTrace());
+                PLog.errorLog(952145036, ex.getMessage());
             }
 
-            System.out.println("Stop createHash: " + ii);
+            PLog.sysLog("Stop createHash: " + ii);
             CompareFileListFactory.compareList();
             max = 0;
             progress = 0;

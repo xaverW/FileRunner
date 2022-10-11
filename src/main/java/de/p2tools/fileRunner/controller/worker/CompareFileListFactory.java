@@ -52,33 +52,20 @@ public class CompareFileListFactory {
     }
 
     public static void compareList() {
-//        if (ProgData.getInstance().worker.createHashIsRunning()) {
-//            //dann kommts ja nochmal
-//            System.out.println("===============> createHashIsRunning -> isRunning");
-//            return;
-//        }
         if (running.get()) {
             //dann läuft er schon
-            System.out.println("===============> CompareFileListFactory isRunning");
+            PLog.sysLog("===============> CompareFileListFactory isRunning");
             return;
         }
 
         synchronized (obj2) {
-            System.out.println("compare in");
             compare();
-            System.out.println("compare out");
         }
     }
 
     private static void compare() {
-//        if (ProgData.getInstance().worker.createHashIsRunning()) {
-//            //dann kommts ja nochmal
-//            System.out.println("CompareFileListFactory -> isRunning");
-//            return;
-//        }
-
         running.set(true);
-        System.out.println("CompareFileListFactory -> compareList");
+        PLog.sysLog("CompareFileListFactory -> compareList");
         ProgData progData = ProgData.getInstance();
         FileDataList fileDataList1 = progData.fileDataList_1;
         FileDataList fileDataList2 = progData.fileDataList_2;
@@ -104,16 +91,16 @@ public class CompareFileListFactory {
         //jetzt die Dateien vergleichen
         switch (ProgConfig.CONFIG_COMPARE_FILE.getValue()) {
             case ProgConst.COMPARE_PATH_NAME:
-                System.out.println("ProgConst.COMPARE_PATH_NAME");
+                PLog.sysLog("ProgConst.COMPARE_PATH_NAME");
                 compareWithPathAndSetId(fileDataList1, fileDataList2);
                 fileDataList1.stream().forEach(fileData -> fileData.setId(fileData.getFilePathId()));
                 fileDataList2.stream().forEach(fileData -> fileData.setId(fileData.getFilePathId()));
                 break;
             case ProgConst.COMPARE_NAME:
                 compareWithNameAndSetId(fileDataList1, fileDataList2);
-                System.out.println("CompareFileListFactory: fileDataList1.stream()");
+                PLog.sysLog("CompareFileListFactory: fileDataList1.stream()");
                 fileDataList1.stream().forEach(fileData -> fileData.setId(fileData.getFileNameId()));
-                System.out.println("CompareFileListFactory: fileDataList2.stream()");
+                PLog.sysLog("CompareFileListFactory: fileDataList2.stream()");
                 fileDataList2.stream().forEach(fileData -> fileData.setId(fileData.getFileNameId()));
                 break;
             case ProgConst.COMPARE_ALL:

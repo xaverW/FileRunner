@@ -47,16 +47,16 @@ public class HelpText {
 
     public static final String READ_DIR_HASH = "" +
             "Beim Vergleichen der Dateien werden gleiche Dateien mit der " +
-            "gleichen Nummer, der HashID markiert" + P2LibConst.LINE_SEPARATORx2 +
+            "gleichen HashID markiert" + P2LibConst.LINE_SEPARATORx2 +
 
-            "Ist \"Mit gleichem Pfad/Dateinamen\" ausgewählt, sind die Dateien \"gleich\" wenn der Pfad zur Datei, " +
+            "Ist \"Pfad/Dateiname und Hash\" ausgewählt, sind die Dateien \"gleich\" wenn der Pfad zur Datei, " +
             "der Dateiname und der Hash identisch ist." + P2LibConst.LINE_SEPARATORx2 +
 
-            "Ist \"Mit gleichem Dateinamen\" ausgewählt, sind die Dateien \"gleich\" wenn " +
+            "Ist \"Dateiname und Hash\" ausgewählt, sind die Dateien \"gleich\" wenn " +
             "der Dateiname und der Hash identisch ist. Egal, in welchem Verzeichnis sie liegen. Es müssen alle " +
             "Dateien mit dem Dateinamen einen gleichen Hash haben (also gleich sein)." + P2LibConst.LINE_SEPARATORx2 +
 
-            "Ist \"Alle Dateien\" gewählt, sind sie \"gleich\" " +
+            "Ist \"Hash\" gewählt, sind sie \"gleich\" " +
             "wenn der Hash identisch ist, egal wie sie heißen oder wo sie liegen. \"Only\" wird markiert, " +
             "wenn es im anderen Suchverzeichnis keine Datei mit dem Hash gibt. \"Diff\" kann es hier nicht geben.";
 

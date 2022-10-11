@@ -57,7 +57,6 @@ public class DirHash_ReadHashFile {
     }
 
     public boolean isRunning() {
-//        System.out.println("DirHash_ReadHashFile, isRunning: " + list1 + " - " + running);
         return max > 0;
     }
 
@@ -96,7 +95,7 @@ public class DirHash_ReadHashFile {
                 fileDataList.clear();
             }
 
-            System.out.println("DirHash_ReadHashFile, max: " + list1 + " - " + max);
+            PLog.sysLog("DirHash_ReadHashFile, max: " + list1 + " - " + max);
             CompareFileListFactory.compareList();
             max = 0;
             notifyEvent(0, hashFile.getAbsolutePath());

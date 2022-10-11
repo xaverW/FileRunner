@@ -65,12 +65,11 @@ public class DirHash_CreateZipHash {
     }
 
     public boolean isRunning() {
-//        System.out.println("DirHash_CreateZipHash, isRunning: " + list1 + " - " + running);
         return max > 0;
     }
 
     public void createHash(File file) {
-        System.out.println("createHash: " + file.getAbsolutePath());
+        PLog.sysLog("createHash: " + file.getAbsolutePath());
         max = 1;
         progress = 0;
         stop = false;

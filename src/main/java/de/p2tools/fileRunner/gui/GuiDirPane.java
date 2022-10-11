@@ -101,7 +101,6 @@ public class GuiDirPane extends VBox {
     private final IntegerProperty selTabIndex;
     private final BooleanProperty recursive;
 
-
     enum DIR_ZIP_HASH {DIR, ZIP, HASH}
 
     public GuiDirPane(ProgData progData, FileDataFilter fileDataFilter, boolean panel1) {
@@ -386,8 +385,6 @@ public class GuiDirPane extends VBox {
                 tableView.setContextMenu(getMenu());
             }
         });
-//        tableView.setStyle("-fx-selection-bar: red; -fx-selection-bar-non-focused: salmon;");
-
     }
 
     private ContextMenu getMenu() {
@@ -406,7 +403,6 @@ public class GuiDirPane extends VBox {
         }
 
         if (tabPane.getSelectionModel().getSelectedIndex() == 0) {
-
             if (tableView.getSelectionModel().getSelectedItems().size() == 1) {
                 MenuItem miCopyFile = new MenuItem("Datei kopieren");
                 miCopyFile.setOnAction((ActionEvent event) ->

@@ -137,14 +137,6 @@ public class Worker {
             PDialogFileChosser.showErrorAlert("Hashdatei einlesen", "Die Hashdatei existiert nicht!");
         } else {
             ret = true;
-//            System.out.println("Start dirHashReadDirHashFile_1");
-//            while (CompareFileListFactory.isRunningProperty().get()) {
-//                try {
-//                    System.out.println("====> waiting");
-//                    this.wait(100);
-//                } catch (Exception e) {
-//                }
-//            }
             if (list1) {
                 dirHashReadDirHashFile_1.readFile();
             } else {

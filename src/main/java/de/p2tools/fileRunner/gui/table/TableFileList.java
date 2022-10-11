@@ -18,8 +18,6 @@
 package de.p2tools.fileRunner.gui.table;
 
 import de.p2tools.fileRunner.controller.config.ProgColorList;
-import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
@@ -156,22 +154,26 @@ public class TableFileList extends PTable<FileData> {
                             fileData.getFileNameId() + fileData.getHashId();
                     if (id != 0) {
                         //Hintergrundfarbe wird nach HashID gefärbt
-                        if (id % 2 == 0) {
+                        if (id % 2 == 0 || !ProgColorList.FILE_IS_ID2_BG.isUse()) {
+                            //gerade ID
                             if (ProgColorList.FILE_IS_ID1_BG.isUse()) {
                                 setStyle(ProgColorList.FILE_IS_ID1_BG.getCssBackground());
                             }
                         } else if (ProgColorList.FILE_IS_ID2_BG.isUse()) {
+                            //ungerade ID
                             setStyle(ProgColorList.FILE_IS_ID2_BG.getCssBackground());
                         }
 
                         //die Schriftfarbe wird nach HashID gefärbt
-                        if (id % 2 == 0) {
+                        if (id % 2 == 0 || !ProgColorList.FILE_IS_ID2.isUse()) {
+                            //gerade ID
                             if (ProgColorList.FILE_IS_ID1.isUse()) {
                                 for (int i = 0; i < getChildren().size(); i++) {
                                     getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID1.getCssFont());
                                 }
                             }
                         } else if (ProgColorList.FILE_IS_ID2.isUse()) {
+                            //ungerade ID
                             for (int i = 0; i < getChildren().size(); i++) {
                                 getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID2.getCssFont());
                             }
@@ -233,52 +235,6 @@ public class TableFileList extends PTable<FileData> {
         });
     }
 
-    private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellId =
-            (final TableColumn<FileData, Integer> param) -> {
-
-                final TableCell<FileData, Integer> cell = new TableCell<>() {
-
-                    @Override
-                    public void updateItem(Integer item, boolean empty) {
-                        super.updateItem(item, empty);
-
-                        int sel = getIndex();
-                        if (sel < 0) {
-                            setGraphic(null);
-                            setText(null);
-                            return;
-                        } else if (sel >= getTableView().getItems().size()) {
-                            setGraphic(null);
-                            setText(null);
-                            return;
-                        }
-
-                        FileData fileData = getTableView().getItems().get(sel);
-                        if (fileData == null) {
-                            setGraphic(null);
-                            setText(null);
-                            return;
-                        }
-                        int id = 0;
-                        if (ProgConfig.CONFIG_COMPARE_FILE.getValue() == ProgConst.COMPARE_ALL) {
-                            //dann mit Hash vergleichen
-                            id = fileData.getHashId();
-                        } else {
-                            //dann mit pfad/name oder nur Name vergleichen
-                            id = fileData.getFilePathId();
-                        }
-
-                        if (id > 0) {
-                            setText(id + "");
-                        } else {
-                            setText("");
-                        }
-                    }
-                };
-
-                return cell;
-            };
-
     private static Callback<TableColumn<FileData, Integer>, TableCell<FileData, Integer>> cellFileId =
             (final TableColumn<FileData, Integer> param) -> {
 
@@ -320,27 +276,13 @@ public class TableFileList extends PTable<FileData> {
                         }
 
                         setAlignment(Pos.CENTER);
-
-//                        FileData fileData = getTableView().getItems().get(getIndex());
-//                        if (item.booleanValue() /*&& fileData.getId() == 0 */ && fileData.getHashId() > 0) {
-//                            //dann gibts doppelte -> hash
-//                            Label lbl = new Label("=");
-//                            lbl.getStyleClass().add("check-only-table");
-//                            setGraphic(lbl);
-//                        } else {
-                        //dann gibts doppelte -> name
-
                         CheckBox box = new CheckBox();
                         box.setDisable(true);
                         box.getStyleClass().add("checkbox-table");
                         box.setSelected(item.booleanValue());
                         setGraphic(box);
-//                        }
                     }
                 };
                 return cell;
             };
 }
-
-
-

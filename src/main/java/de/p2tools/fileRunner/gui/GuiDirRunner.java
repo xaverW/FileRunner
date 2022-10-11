@@ -27,6 +27,7 @@ import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PGuiTools;
 import de.p2tools.p2Lib.tools.events.PEvent;
 import de.p2tools.p2Lib.tools.events.PListener;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -120,15 +121,15 @@ public class GuiDirRunner extends AnchorPane {
 
         //==================================
         //== Unten ==
-        Label lblHash = new Label("Dateien vergleichen:");
+        Label lblHash = new Label("Gleiche Dateien haben gleichen");
         Button btnHelpPathHash = PButton.helpButton(progData.primaryStage, "", HelpText.READ_DIR_HASH);
 
-        RadioButton rbFilePath = new RadioButton("Mit gleichem Pfad/Dateinamen");
-        RadioButton rbFileName = new RadioButton("Mit gleichem Dateinamen");
-        RadioButton rbFileAll = new RadioButton("Alle Dateien");
+        RadioButton rbFilePath = new RadioButton("Pfad/Dateinamen und Hash");
+        RadioButton rbFileName = new RadioButton("Dateinamen und Hash");
+        RadioButton rbFileAll = new RadioButton("Hash");
         rbFilePath.setTooltip(new Tooltip("Dateien sind gleich, wenn der \"Pfad/Name/Hash\" gleich ist"));
         rbFileName.setTooltip(new Tooltip("Dateien sind gleich, wenn der \"Name/Hash\" gleich ist"));
-        rbFileAll.setTooltip(new Tooltip("Dateien sind gleich, wenn der \"Hash\" gleich ist"));
+        rbFileAll.setTooltip(new Tooltip("Dateien sind gleich, wenn der \"Hash\" gleich ist, Name und Pfad sind egal"));
         ToggleGroup tg = new ToggleGroup();
         tg.getToggles().addAll(rbFilePath, rbFileName, rbFileAll);
         switch (ProgConfig.CONFIG_COMPARE_FILE.getValue()) {
@@ -234,7 +235,7 @@ public class GuiDirRunner extends AnchorPane {
         });
         btnRead.setGraphic(ProgIcons.Icons.ICON_BUTTON_START_READ_ALL.getImageView());
         btnRead.setTooltip(new Tooltip("Die beiden Suchordner (oder die Zipdatei/Hashdatei) werden eingelesen"));
-        tg.getToggles().addAll(tglShowAll, tglShowSamePath/*, tglShowSameHash*/, tglShowDiff_OR_ONLY, tglShowDiff_IN_BOTH, tglShowOnly1, tglShowOnly2);
+        tg.getToggles().addAll(tglShowAll, tglShowSamePath, tglShowDiff_OR_ONLY, tglShowDiff_IN_BOTH, tglShowOnly1, tglShowOnly2);
         tglShowAll.setSelected(true);
         tglShowAll.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ALL.getImageView());
         tglShowSamePath.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_SAME_1.getImageView());
@@ -285,7 +286,7 @@ public class GuiDirRunner extends AnchorPane {
                     guiDirPane2.read();
                 });
             } catch (Exception ex) {
-                System.out.println(ex.getStackTrace());
+                PLog.errorLog(102540879, ex.getMessage());
             }
         }
     }
