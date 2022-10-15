@@ -54,11 +54,11 @@ public class ConfigDialogController extends PDialogExtra {
         VBox.setVgrow(tabPane, Priority.ALWAYS);
         getvBoxCont().getChildren().add(tabPane);
         getvBoxCont().setPadding(new Insets(0));
-
         addOkButton(btnOk);
         btnOk.setOnAction(a -> close());
-
-        ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> updateCss());
+        ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
+            updateCss();
+        });
         initPanel();
     }
 
@@ -66,7 +66,6 @@ public class ConfigDialogController extends PDialogExtra {
         generalPane.close();
         configPaneController.close();
         colorPane.close();
-
         super.close();
     }
 

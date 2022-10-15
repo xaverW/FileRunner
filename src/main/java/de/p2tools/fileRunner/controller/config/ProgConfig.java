@@ -52,6 +52,8 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty SYSTEM_PROG_OPEN_URL = addStr("system-prog-open-uri", "");
     public static StringProperty SYSTEM_LOG_DIR = addStr("system-log-dir", "");
     public static BooleanProperty SYSTEM_DARK_THEME = addBool("system-dark-theme", false);
+    public static BooleanProperty SYSTEM_EVEN_ODD = addBool("system-even-odd", false);
+    public static IntegerProperty SYSTEM_EVEN_ODD_VALUE = addInt("system-even-odd-value", 25);
 
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_TAB = new SimpleIntegerProperty(0);
     public static BooleanProperty CONFIG_DIALOG_ACCORDION = addBool("config_dialog-accordion", Boolean.TRUE);
@@ -81,7 +83,6 @@ public class ProgConfig extends PDataProgConfig {
 
     public static StringProperty GUI_FILE_HASH = addStr("gui-file-hash", HashConst.HASH_MD5);
     public static StringProperty GUI_FILE_HASH_SUFF = addStr("gui-file-hash-suff", HashConst.HASH_MD5_SUFFIX);
-    public static BooleanProperty CONFIG_COMPARE_WITH_PATH = addBool("config-compare-with-path", Boolean.TRUE);
     public static BooleanProperty CONFIG_COMPARE_WITH_PATH_1 = addBool("config-compare-with-path-1", Boolean.TRUE);
     public static BooleanProperty CONFIG_COMPARE_WITH_PATH_2 = addBool("config-compare-with-path-2", Boolean.TRUE);
     public static IntegerProperty CONFIG_COMPARE_FILE = addInt("config-compare-file", ProgConst.COMPARE_PATH_NAME);

@@ -26,6 +26,8 @@ import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.PColorFactory;
 import de.p2tools.p2Lib.tools.events.PEvent;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -45,7 +47,12 @@ public class ColorPane extends PAccordionPane {
 
     private final Stage stage;
     BooleanProperty propDarkTheme = ProgConfig.SYSTEM_DARK_THEME;
+    BooleanProperty propEvenOdd = ProgConfig.SYSTEM_EVEN_ODD;
+    IntegerProperty propEvenOddValue = ProgConfig.SYSTEM_EVEN_ODD_VALUE;
+
     private final PToggleSwitch tglDarkTheme = new PToggleSwitch("Dunkles Erscheinungsbild der Programmoberfläche");
+    private final PToggleSwitch tglEvenOdd = new PToggleSwitch("gerade/ungerade Zeilen farblich etwas absetzen");
+    private final Slider slOdd = new Slider();
 
     public ColorPane(Stage stage) {
         super(stage, ProgConfig.CONFIG_DIALOG_ACCORDION, ProgConfig.SYSTEM_CONFIG_DIALOG_COLOR);
@@ -57,6 +64,7 @@ public class ColorPane extends PAccordionPane {
     public void close() {
         super.close();
         tglDarkTheme.selectedProperty().unbindBidirectional(propDarkTheme);
+        tglEvenOdd.selectedProperty().unbindBidirectional(propEvenOdd);
     }
 
     public Collection<TitledPane> createPanes() {
@@ -71,20 +79,60 @@ public class ColorPane extends PAccordionPane {
         vBox.setFillWidth(true);
         vBox.setSpacing(10);
 
+        final Button btnHelpTheme = PButton.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
+                HelpText.DARK_THEME);
+        final Button btnHelpEvenOdd = PButton.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
+                HelpText.EVEN_ODD);
+
+        tglDarkTheme.selectedProperty().bindBidirectional(propDarkTheme);
+        tglDarkTheme.selectedProperty().addListener((u, o, n) -> {
+            ProgData.getInstance().pEventHandler.notifyListener(new PEvent(Events.COLORS_CHANGED));
+        });
+
+        tglEvenOdd.selectedProperty().bindBidirectional(propEvenOdd);
+        tglEvenOdd.selectedProperty().addListener((v, o, n) -> ProgColorList.setColorTheme());
+        tglEvenOdd.selectedProperty().addListener((u, o, n) ->
+                ProgData.getInstance().pEventHandler.notifyListener(new PEvent(Events.COLORS_CHANGED)));
+
+
+        Label lblSlider = new Label();
+        slOdd.setMin(1);
+        slOdd.setMax(100);
+        slOdd.setBlockIncrement(5.0);
+        slOdd.setSnapToTicks(true);
+        slOdd.setShowTickMarks(true);
+        slOdd.setMinWidth(300);
+        slOdd.valueProperty().bindBidirectional(propEvenOddValue);
+        slOdd.valueChangingProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                PColorData.ODD_DIV = slOdd.getValue() / 250;
+                ProgColorList.setColorTheme();
+                ProgData.getInstance().pEventHandler.notifyListener(new PEvent(Events.COLORS_CHANGED));
+            }
+        });
+        slOdd.valueProperty().addListener((v, o, n) -> lblSlider.setText(n.intValue() + ""));
+        lblSlider.setText(((int) slOdd.getValue()) + "");
+
+
         TitledPane tpConfig = new TitledPane("Farben", vBox);
         result.add(tpConfig);
+
 
         final GridPane gridPane = new GridPane();
         gridPane.setHgap(15);
         gridPane.setVgap(15);
         gridPane.setPadding(new Insets(0, 0, 10, 0));
 
-        tglDarkTheme.selectedProperty().bindBidirectional(propDarkTheme);
-        final Button btnHelpTheme = PButton.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
-                HelpText.DARK_THEME);
-
         gridPane.add(tglDarkTheme, 0, 0);
         gridPane.add(btnHelpTheme, 1, 0);
+        gridPane.add(tglEvenOdd, 0, 1);
+        gridPane.add(btnHelpEvenOdd, 1, 1);
+
+        HBox h = new HBox(5);
+        h.getChildren().addAll(new Label("    "), slOdd, lblSlider);
+        gridPane.add(h, 0, 2);
+        GridPane.setHgrow(h, Priority.ALWAYS);
+        GridPane.setHalignment(h, HPos.RIGHT);
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow(), PColumnConstraints.getCcPrefSize());
 
 
@@ -93,27 +141,25 @@ public class ColorPane extends PAccordionPane {
         initTableColor(tableView);
         tglDarkTheme.selectedProperty().addListener((u, o, n) -> {
             tableView.refresh();
-            ProgData.getInstance().pEventHandler.notifyListener(new PEvent(Events.COLORS_CHANGED));
         });
+
 
         Button button = new Button("Alle _Farben zurücksetzen");
         button.setOnAction(event -> {
             ProgColorList.resetAllColor();
             ProgData.getInstance().pEventHandler.notifyListener(new PEvent(Events.COLORS_CHANGED));
         });
-
         final Button btnHelpColor = PButton.helpButton(stage, "Farben",
                 HelpText.COLORS);
-
         HBox hBox = new HBox();
         hBox.getChildren().addAll(button, btnHelpColor);
         hBox.setSpacing(15);
         hBox.setPadding(new Insets(0));
         hBox.setAlignment(Pos.CENTER_RIGHT);
 
+
         vBox.getChildren().addAll(gridPane, tableView, hBox);
     }
-
 
     private void initTableColor(TableView<PColorData> tableView) {
         final TableColumn<PColorData, String> useColumn = new TableColumn<>("Verwenden");
@@ -245,7 +291,6 @@ public class ColorPane extends PAccordionPane {
                 }
 
                 PColorData pColorData = getTableView().getItems().get(getIndex());
-
                 if (pColorData.getMark() == 1) {
                     setStyle("-fx-font-weight: bold;");
                 }
@@ -277,6 +322,7 @@ public class ColorPane extends PAccordionPane {
 
         return cell;
     };
+
     private Callback<TableColumn<PColorData, Color>, TableCell<PColorData, Color>> cellFactoryColorReset
             = (final TableColumn<PColorData, Color> param) -> {
 
@@ -301,6 +347,7 @@ public class ColorPane extends PAccordionPane {
 
         return cell;
     };
+
     private Callback<TableColumn<PColorData, String>, TableCell<PColorData, String>> cellFactoryReset
             = (final TableColumn<PColorData, String> param) -> {
 

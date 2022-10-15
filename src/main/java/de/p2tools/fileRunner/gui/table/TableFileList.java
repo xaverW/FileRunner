@@ -17,16 +17,17 @@
 
 package de.p2tools.fileRunner.gui.table;
 
-import de.p2tools.fileRunner.controller.config.ProgColorList;
+import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
 import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
 import de.p2tools.p2Lib.tools.date.PDate;
+import de.p2tools.p2Lib.tools.events.PEvent;
+import de.p2tools.p2Lib.tools.events.PListener;
 import de.p2tools.p2Lib.tools.file.PFileSize;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
 import javafx.util.Callback;
 
 public class TableFileList extends PTable<FileData> {
@@ -51,6 +52,12 @@ public class TableFileList extends PTable<FileData> {
     }
 
     private void initFileRunnerColumn() {
+        ProgData.getInstance().pEventHandler.addListener(new PListener(Events.COLORS_CHANGED) {
+            public void pingGui(PEvent PEvent) {
+                refresh();
+            }
+        });
+
         getColumns().clear();
 
         setTableMenuButtonVisible(true);
@@ -118,120 +125,9 @@ public class TableFileList extends PTable<FileData> {
     }
 
     private void addRowFact() {
-        setRowFactory(tableview -> new TableRow<>() {
-            @Override
-            public void updateItem(FileData fileData, boolean empty) {
-                super.updateItem(fileData, empty);
-
-                setOnMouseClicked(event -> {
-                    if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
-                        getSelectionModel().clearSelection();
-                    }
-                });
-
-                setStyle("");
-                for (int i = 0; i < getChildren().size(); i++) {
-                    getChildren().get(i).setStyle("");
-                }
-
-                if (isSelected()) {
-                    if (ProgColorList.TABLE_ROW_IS_SEL_BG.isUse()) {
-                        setStyle(ProgColorList.TABLE_ROW_IS_SEL_BG.getCssBackgroundAndSel());
-                    }
-                    if (ProgColorList.TABLE_ROW_IS_SEL.isUse()) {
-                        for (int i = 0; i < getChildren().size(); i++) {
-                            getChildren().get(i).setStyle(ProgColorList.TABLE_ROW_IS_SEL.getCssFont());
-                        }
-                    }
-                    return;
-                }
-
-                //===========================================
-                if (fileData != null && !empty) {
-
-                    //dann gibts eine gleiche Datei
-                    int id = fileData.getFilePathId() +
-                            fileData.getFileNameId() + fileData.getHashId();
-                    if (id != 0) {
-                        //Hintergrundfarbe wird nach HashID gefärbt
-                        if (id % 2 == 0 || !ProgColorList.FILE_IS_ID2_BG.isUse()) {
-                            //gerade ID
-                            if (ProgColorList.FILE_IS_ID1_BG.isUse()) {
-                                setStyle(ProgColorList.FILE_IS_ID1_BG.getCssBackground());
-                            }
-                        } else if (ProgColorList.FILE_IS_ID2_BG.isUse()) {
-                            //ungerade ID
-                            setStyle(ProgColorList.FILE_IS_ID2_BG.getCssBackground());
-                        }
-
-                        //die Schriftfarbe wird nach HashID gefärbt
-                        if (id % 2 == 0 || !ProgColorList.FILE_IS_ID2.isUse()) {
-                            //gerade ID
-                            if (ProgColorList.FILE_IS_ID1.isUse()) {
-                                for (int i = 0; i < getChildren().size(); i++) {
-                                    getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID1.getCssFont());
-                                }
-                            }
-                        } else if (ProgColorList.FILE_IS_ID2.isUse()) {
-                            //ungerade ID
-                            for (int i = 0; i < getChildren().size(); i++) {
-                                getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID2.getCssFont());
-                            }
-                        }
-                    }
-
-                    //so werden auch gleiche Dateien im selben Verzeichnisbaum als
-                    //only gekennzeichnet
-                    if (fileData.isLink()) {
-                        //Datei ist ein Symlink
-                        if (ProgColorList.FILE_LINK_BG.isUse()) {
-                            setStyle(ProgColorList.FILE_LINK_BG.getCssBackground());
-                        }
-                        if (ProgColorList.FILE_LINK.isUse()) {
-                            for (int i = 0; i < getChildren().size(); i++) {
-                                getChildren().get(i).setStyle(ProgColorList.FILE_LINK.getCssFont());
-                            }
-                        }
-
-                    } else if (fileData.isDiff()) {
-                        //Dateien sind unterschiedlich
-                        if (ProgColorList.FILE_IS_DIFF_BG.isUse()) {
-                            setStyle(ProgColorList.FILE_IS_DIFF_BG.getCssBackground());
-                        }
-                        if (ProgColorList.FILE_IS_DIFF.isUse()) {
-                            for (int i = 0; i < getChildren().size(); i++) {
-                                getChildren().get(i).setStyle(ProgColorList.FILE_IS_DIFF.getCssFont());
-                            }
-                        }
-
-                    } else if (fileData.isOnly()) {
-                        if (fileData.getHashId() > 0) {
-                            //dann gibts doppelte
-                            if (ProgColorList.FILE_IS_ONLY_HASH_BG.isUse()) {
-                                setStyle(ProgColorList.FILE_IS_ONLY_HASH_BG.getCssBackground());
-                            }
-                            if (ProgColorList.FILE_IS_ONLY_HASH.isUse()) {
-                                for (int i = 0; i < getChildren().size(); i++) {
-                                    getChildren().get(i).setStyle(ProgColorList.FILE_IS_ONLY_HASH.getCssFont());
-                                }
-                            }
-
-                        } else {
-                            //Datei gibts nur einmal
-                            if (ProgColorList.FILE_IS_ONLY_BG.isUse()) {
-                                setStyle(ProgColorList.FILE_IS_ONLY_BG.getCssBackground());
-                            }
-                            if (ProgColorList.FILE_IS_ONLY.isUse()) {
-                                for (int i = 0; i < getChildren().size(); i++) {
-                                    getChildren().get(i).setStyle(ProgColorList.FILE_IS_ONLY.getCssFont());
-                                }
-                            }
-
-                        }
-                    }
-                }
-                //===========================================
-            }
+        setRowFactory(tv -> {
+            TableFileListRow<FileData> row = new TableFileListRow<>(this);
+            return row;
         });
     }
 

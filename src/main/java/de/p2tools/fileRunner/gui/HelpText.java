@@ -28,8 +28,6 @@ public class HelpText {
             "1. Zeigt alle Dateien" + P2LibConst.LINE_SEPARATORx2 +
 
             "2. Zeigt gleiche Dateien die in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
-//            "3. Zeigt Dateien mit gleichem Hash, " +
-//            "auch wenn sie einen andern Namen oder Pfad haben" + P2LibConst.LINE_SEPARATORx2 +
 
             "3. Zeigt Dateien die sich unterscheiden oder nur in einer Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
             "4. Zeigt Dateien die sich unterscheiden und in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
@@ -68,6 +66,9 @@ public class HelpText {
     public static final String DARK_THEME = "Das Programm wird damit mit einer dunklen " +
             "Programmoberfläche angezeigt. Damit alle Elemente der Programmoberfläche " +
             "geändert werden, kann ein Programmneustart notwendig sein.";
+
+    public static final String EVEN_ODD = "Die Tabellenzeilen werden farblich etwas dunkler angezeigt wenn es " +
+            "eine \"ungerade\" Zeile ist. Die ausgewählte Farbe bekommt die \"gerade\" Zeile.";
 
     public static final String COLORS = "Hier könne die Farben in der Tabelle mit den Dateien geändert werden. " +
             "Es kann die Hintergrundfarbe der Tabellenzeilen und die Schriftfarbe vorgegeben werden." + P2LibConst.LINE_SEPARATORx2 +
