@@ -33,14 +33,32 @@ public class ProgColorList extends PColorList {
             Color.rgb(255, 255, 255),
             true, "Ist die momentan ausgewählte Tabellenzeile, Schriftfarbe", 1);
 
+    //gleich
+//    public static PColorData FILE_IS_ID1_BG = addNewKey("file-is-id1-bg",
+//            Color.rgb(179, 230, 179),
+//            Color.rgb(179, 230, 179),
+//            true, "Datei ist gleich, Tabellenzeile");
+//    public static PColorData FILE_IS_ID1 = addNewKey("file-is-id1",
+//            Color.rgb(0, 0, 0),
+//            Color.rgb(0, 0, 0),
+//            false, "Datei ist gleich, Schriftfarbe");
     public static PColorData FILE_IS_ID1_BG = addNewKey("file-is-id1-bg",
             Color.rgb(179, 230, 179),
             Color.rgb(179, 230, 179),
-            true, "Datei ist gleich, Tabellenzeile");
+            true, "Datei ist gleich, HashID ist gerade oder \"HashID ist ungerade\" ist ausgeschaltet, Tabellenzeile");
     public static PColorData FILE_IS_ID1 = addNewKey("file-is-id1",
             Color.rgb(0, 0, 0),
             Color.rgb(0, 0, 0),
-            false, "Datei ist gleich, Schriftfarbe");
+            false, "Datei ist gleich, HashID ist gerade, Schriftfarbe");
+
+    public static PColorData FILE_IS_ID2_BG = addNewKey("file-is-id2-bg",
+            Color.rgb(153, 204, 153),
+            Color.rgb(153, 204, 153),
+            false, "Datei ist gleich, HashID ist ungerade, Tabellenzeile");
+    public static PColorData FILE_IS_ID2 = addNewKey("file-is-id2",
+            Color.rgb(0, 0, 0),
+            Color.rgb(0, 0, 0),
+            false, "Datei ist gleich, HashID ist ungerade, Schriftfarbe");
 
     //diff
     public static PColorData FILE_IS_DIFF_BG = addNewKey("file-diff-bg",

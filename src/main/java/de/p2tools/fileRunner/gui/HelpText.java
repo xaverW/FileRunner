@@ -75,7 +75,10 @@ public class HelpText {
             "\"HashID ist gerade\\ungerade\" meint die Zeilen mit Dateien für die es eine gleiche Datei im " +
             "anderen abzusuchenden Verzeichnis gibt. Gleiche Dateien haben die gleiche HashID. Eine unterschiedliche Farbe " +
             "für gerade/ungerade HashIDs soll die Übersichtlichkeit erhöhen. Ist für gerade/ungerade HashIDs die gleiche " +
-            "Farbe vorgegeben, werden alle gleichen Dateien mit der selben Farbe markiert (oder mit keiner wenn ausgeschaltet).";
+            "Farbe vorgegeben, werden alle gleichen Dateien mit der selben Farbe markiert " +
+            "(oder mit keiner wenn ausgeschaltet)." + P2LibConst.LINE_SEPARATORx2 +
+            "Die Farben sollen die Übersichtlichkeit erhöhen. Ein zuviel an Farben kann aber auch das " +
+            "Gegenteil zur Folge haben.";
 
     public static final String FILEMANAGER =
             "In der Ansicht \"Downloads\" kann man über das Kontextmenü den Downloadordner " +

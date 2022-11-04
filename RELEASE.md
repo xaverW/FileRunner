@@ -2,6 +2,17 @@
 
 <br />
 
+**Release 7**
+
+* Farben in der Tabelle können für die unterschiedlichsten Ergebnisse (Datei gleich, ..) vorgegeben werden
+* Wann Dateien "gleich" sind (Name/Pfad/Hash, .., oder nur Hash) kann ausgewählt werden
+* Der Vergleich wurde nochmal überarbeitet
+* Es gibt einen Button um beide "Seiten" zum Einlesen zu Starten
+* ...
+
+<br />
+<br />
+
 **Release 6**
 
 * Update-Dialog: Suche nach einem Programmupdate

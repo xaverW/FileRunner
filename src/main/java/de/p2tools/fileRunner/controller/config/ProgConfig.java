@@ -19,6 +19,7 @@ package de.p2tools.fileRunner.controller.config;
 
 import de.p2tools.p2Lib.configFile.ConfigFile;
 import de.p2tools.p2Lib.configFile.config.Config;
+import de.p2tools.p2Lib.configFile.pConfData.PColorData;
 import de.p2tools.p2Lib.configFile.pData.PDataProgConfig;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.ProgramToolsFactory;
@@ -52,8 +53,8 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty SYSTEM_PROG_OPEN_URL = addStr("system-prog-open-uri", "");
     public static StringProperty SYSTEM_LOG_DIR = addStr("system-log-dir", "");
     public static BooleanProperty SYSTEM_DARK_THEME = addBool("system-dark-theme", false);
-    public static BooleanProperty SYSTEM_EVEN_ODD = addBool("system-even-odd", false);
-    public static IntegerProperty SYSTEM_EVEN_ODD_VALUE = addInt("system-even-odd-value", 25);
+    public static BooleanProperty SYSTEM_EVEN_ODD = addBool("system-even-odd", true);
+    public static IntegerProperty SYSTEM_EVEN_ODD_VALUE = addInt("system-even-odd-value", PColorData.ODD_DIV);
 
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_TAB = new SimpleIntegerProperty(0);
     public static BooleanProperty CONFIG_DIALOG_ACCORDION = addBool("config_dialog-accordion", Boolean.TRUE);
@@ -62,7 +63,7 @@ public class ProgConfig extends PDataProgConfig {
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_COLOR = new SimpleIntegerProperty(-1);
 
     // Fenstereinstellungen
-    public static StringProperty SYSTEM_GUI_SIZE = addStr("system-gui-size", "1000:900");
+    public static StringProperty SYSTEM_GUI_SIZE = addStr("system-gui-size", "1000:800");
     public static StringProperty SYSTEM_CONFIG_DIALOG_SIZE = addStr("system-config-dialog-size", "900:650");
     public static StringProperty SYSTEM_SELECT_HASH_DIALOG_SIZE = addStr("system-select-hash-dialog-size", "500:500");
     public static StringProperty SYSTEM_SUBDIR_SHOW_AGAIN_DIALOG_SIZE = addStr("system-subdir-show-again-dialog-size", "400:400");

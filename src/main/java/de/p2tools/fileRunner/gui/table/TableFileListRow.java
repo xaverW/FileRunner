@@ -33,6 +33,7 @@ public class TableFileListRow<T> extends javafx.scene.control.TableRow {
     public void updateItem(Object o, boolean empty) {
         super.updateItem(o, empty);
 
+        //erst mal einrichten/aufräumen
         FileData fileData;
         if (o != null && o.getClass().equals(FileData.class)) {
             fileData = (FileData) o;
@@ -52,6 +53,7 @@ public class TableFileListRow<T> extends javafx.scene.control.TableRow {
             getChildren().get(i).setStyle("");
         }
 
+        //und jetzt die Farben setzen
         if (isSelected()) {
             if (ProgColorList.TABLE_ROW_IS_SEL_BG.isUse()) {
                 setStyle(ProgColorList.TABLE_ROW_IS_SEL_BG.getCssBackgroundAndSel(odd));
@@ -72,17 +74,45 @@ public class TableFileListRow<T> extends javafx.scene.control.TableRow {
                     fileData.getFileNameId() + fileData.getHashId();
             if (id != 0) {
                 //Hintergrundfarbe wird nach HashID gefärbt
-                if (ProgColorList.FILE_IS_ID1_BG.isUse()) {
-                    setStyle(ProgColorList.FILE_IS_ID1_BG.getCssBackground(odd));
+                if (id % 2 == 0 || !ProgColorList.FILE_IS_ID2_BG.isUse()) {
+                    //gerade ID
+                    if (ProgColorList.FILE_IS_ID1_BG.isUse()) {
+                        setStyle(ProgColorList.FILE_IS_ID1_BG.getCssBackground(odd));
+                    }
+                } else if (ProgColorList.FILE_IS_ID2_BG.isUse()) {
+                    //ungerade ID
+                    setStyle(ProgColorList.FILE_IS_ID2_BG.getCssBackground(odd));
                 }
 
                 //die Schriftfarbe wird nach HashID gefärbt
-                if (ProgColorList.FILE_IS_ID1.isUse()) {
+                if (id % 2 == 0 || !ProgColorList.FILE_IS_ID2.isUse()) {
+                    //gerade ID
+                    if (ProgColorList.FILE_IS_ID1.isUse()) {
+                        for (int i = 0; i < getChildren().size(); i++) {
+                            getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID1.getCssFont(odd));
+                        }
+                    }
+                } else if (ProgColorList.FILE_IS_ID2.isUse()) {
+                    //ungerade ID
                     for (int i = 0; i < getChildren().size(); i++) {
-                        getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID1.getCssFont(odd));
+                        getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID2.getCssFont(odd));
                     }
                 }
             }
+
+//            if (id != 0) {
+//                //Hintergrundfarbe wird nach HashID gefärbt
+//                if (ProgColorList.FILE_IS_ID1_BG.isUse()) {
+//                    setStyle(ProgColorList.FILE_IS_ID1_BG.getCssBackground(odd));
+//                }
+//
+//                //die Schriftfarbe wird nach HashID gefärbt
+//                if (ProgColorList.FILE_IS_ID1.isUse()) {
+//                    for (int i = 0; i < getChildren().size(); i++) {
+//                        getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID1.getCssFont(odd));
+//                    }
+//                }
+//            }
 
             //so werden auch gleiche Dateien im selben Verzeichnisbaum als
             //only gekennzeichnet

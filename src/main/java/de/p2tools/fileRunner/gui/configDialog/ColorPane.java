@@ -96,16 +96,15 @@ public class ColorPane extends PAccordionPane {
 
 
         Label lblSlider = new Label();
-        slOdd.setMin(1);
-        slOdd.setMax(100);
+        slOdd.setMin(0);
+        slOdd.setMax(50);
         slOdd.setBlockIncrement(5.0);
-        slOdd.setSnapToTicks(true);
         slOdd.setShowTickMarks(true);
         slOdd.setMinWidth(300);
         slOdd.valueProperty().bindBidirectional(propEvenOddValue);
         slOdd.valueChangingProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                PColorData.ODD_DIV = slOdd.getValue() / 250;
+                PColorData.ODD_DIV = (int) slOdd.getValue();
                 ProgColorList.setColorTheme();
                 ProgData.getInstance().pEventHandler.notifyListener(new PEvent(Events.COLORS_CHANGED));
             }
