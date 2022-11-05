@@ -100,20 +100,6 @@ public class TableFileListRow<T> extends javafx.scene.control.TableRow {
                 }
             }
 
-//            if (id != 0) {
-//                //Hintergrundfarbe wird nach HashID gefärbt
-//                if (ProgColorList.FILE_IS_ID1_BG.isUse()) {
-//                    setStyle(ProgColorList.FILE_IS_ID1_BG.getCssBackground(odd));
-//                }
-//
-//                //die Schriftfarbe wird nach HashID gefärbt
-//                if (ProgColorList.FILE_IS_ID1.isUse()) {
-//                    for (int i = 0; i < getChildren().size(); i++) {
-//                        getChildren().get(i).setStyle(ProgColorList.FILE_IS_ID1.getCssFont(odd));
-//                    }
-//                }
-//            }
-
             //so werden auch gleiche Dateien im selben Verzeichnisbaum als
             //only gekennzeichnet
             if (fileData.isLink()) {
