@@ -11,7 +11,7 @@ Die Hauptintention des Programms ist es, Ordnerinhalte auf Veränderungen zu üb
 
 Das Programm bietet dazu die Möglichkeit, Listen mit Hashwerten aller Dateien eines Ordners anzulegen. Der Ordner kann dann immer wieder mit dieser Hashliste verglichen werden um so geänderte Dateien in dem Ordner zu finden. Mit den Hashlisten können die Ordner dann immer wieder auf Veränderungen kontrolliert werden.
 
-Es ist auch möglich, zwei Ordner direkt zu vergleichen. Es kann auch ein Ordner oder eine Hashliste mit dem Inhalt einer ZIP-Datei (bzw. dem darin enthaltenen Ordner) vergleichen werden.
+Es ist auch möglich, zwei Ordner direkt zu vergleichen. Es kann auch ein Ordner oder eine Hashliste mit dem Inhalt einer ZIP-Datei (bzw. dem darin enthaltenen Dateien) vergleichen werden.
 
 Weiter können auch zwei Dateien direkt oder eine Datei mit einem Hashwert verglichen werden.
 
@@ -63,14 +63,9 @@ Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version:
 
 ## Download
 
-Das Programm wird in drei Paketen angeboten. Diese unterscheiden sich nur im "Zubehör", das Programm selbst ist in allen Paketen identisch:
-
 - **FileRunner-XX.zip**  
-Das Programmpaket bringt nur das Programm aber kein Java mit. Auf dem Rechner muss eine Java-Laufzeitumgebung ab Java11 installiert sein. Dieses Programmpaket kann auf allen Betriebssystemen verwendet werden. Es bringt Startdateien für Linux und Windows mit.
+  Das Programmpaket bringt das Programm aber kein Java mit. Auf dem Rechner muss eine Java-Laufzeitumgebung ab Java11 installiert sein. Dieses Programmpaket kann auf allen Betriebssystemen verwendet werden. Es bringt Startdateien für Linux und Windows mit.
 
-- **FileRunner-XX__Linux+Java.zip**  
-  **FileRunner-XX__Windows+Java.zip**  
-Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das angegebene Betriebssystem: Linux oder Windows. Es muss kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung liegt im Ordner "Java" und kommt von jdk.java.net).
 
 zum Download: [github.com/xaverW/FileRunner/releases](https://github.com/xaverW/FileRunner/releases)  
 
