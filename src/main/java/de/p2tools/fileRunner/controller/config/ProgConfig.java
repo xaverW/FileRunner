@@ -19,8 +19,8 @@ package de.p2tools.fileRunner.controller.config;
 
 import de.p2tools.p2Lib.configFile.ConfigFile;
 import de.p2tools.p2Lib.configFile.config.Config;
-import de.p2tools.p2Lib.configFile.pConfData.PColorData;
-import de.p2tools.p2Lib.configFile.pData.PDataProgConfig;
+import de.p2tools.p2Lib.data.PColorData;
+import de.p2tools.p2Lib.data.PDataProgConfig;
 import de.p2tools.p2Lib.hash.HashConst;
 import de.p2tools.p2Lib.tools.ProgramToolsFactory;
 import javafx.beans.property.*;

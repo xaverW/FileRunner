@@ -17,8 +17,8 @@
 
 package de.p2tools.fileRunner.controller.config;
 
-import de.p2tools.p2Lib.configFile.pConfData.PColorData;
-import de.p2tools.p2Lib.configFile.pConfData.PColorList;
+import de.p2tools.p2Lib.data.PColorData;
+import de.p2tools.p2Lib.data.PColorList;
 import javafx.scene.paint.Color;
 
 public class ProgColorList extends PColorList {
@@ -74,21 +74,21 @@ public class ProgColorList extends PColorList {
     public static PColorData FILE_IS_ONLY_BG = addNewKey("file-only-bg",
             Color.rgb(255, 251, 233),
             Color.rgb(217, 211, 189),
-            true, "Gleiche Datei gibts nicht, Tabellenzeile");
+            true, "Gleiche Datei gibt's nicht, Tabellenzeile");
     public static PColorData FILE_IS_ONLY = addNewKey("file-only",
             Color.rgb(0, 0, 0),
             Color.rgb(0, 0, 0),
-            false, "Gleiche Datei gibts nicht, Schriftfarbe");
+            false, "Gleiche Datei gibt's nicht, Schriftfarbe");
 
     //only-hash
     public static PColorData FILE_IS_ONLY_HASH_BG = addNewKey("file-only-hash-bg",
             Color.rgb(255, 251, 233),
             Color.rgb(217, 211, 189),
-            true, "Gleiche Datei gibts nur mit anderem Namen/Verzeichnis, Tabellenzeile");
+            true, "Gleiche Datei gibt's nur mit anderem Namen/Verzeichnis, Tabellenzeile");
     public static PColorData FILE_IS_ONLY_HASH = addNewKey("file-only-hash",
             Color.rgb(0, 0, 0),
             Color.rgb(0, 0, 0),
-            false, "Gleiche Datei gibts nur mit anderem Namen/Verzeichnis, Schriftfarbe");
+            false, "Gleiche Datei gibt's nur mit anderem Namen/Verzeichnis, Schriftfarbe");
 
     //link
     public static PColorData FILE_LINK_BG = addNewKey("file-link-bg",
