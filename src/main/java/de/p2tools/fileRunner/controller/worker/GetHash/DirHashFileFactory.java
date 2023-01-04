@@ -209,7 +209,7 @@ public class DirHashFileFactory {
         l1 += HashFactory.sizeStart.length();
         size = line.substring(l1, l2);
         size = size.trim();
-        return new PFileSize(PFileSize.convertFromStr(size));
+        return new PFileSize(PFileSize.convertToLong(size));
     }
 
     public static boolean getFileIsLinkNew(String line) {
