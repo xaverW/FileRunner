@@ -90,7 +90,7 @@ public class GuiDirRunner extends AnchorPane {
 
     private void initCont() {
         //== Oben ==
-        vBoxBtn.getStyleClass().add("pane-border");
+        vBoxBtn.setStyle(" -fx-border-width: 1; -fx-border-color: -style-tab-border-color-1;");
         vBoxBtn.setAlignment(Pos.TOP_CENTER);
         vBoxBtn.setPadding(new Insets(10));
         vBoxBtn.setMaxWidth(Region.USE_PREF_SIZE);

@@ -54,15 +54,6 @@
     -fx-padding: 5 15 5 15;
   }
 
-/* farblich abgesetzter Bereich in vielen Panes/Dialogen*/
-.extra-pane {
-    -fx-background-color: -style-extra-pane-color;
-    -fx-background-radius: 3px;
-    -fx-border-color: #939a9f;
-}
-
-
-
 .btnFilter, .btnFilter-sel{
     -fx-background-color: #c3c4c4, -lin-grad-1, -rad-grad-1;
     -fx-background-insets: 0,1,1;

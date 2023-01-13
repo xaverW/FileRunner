@@ -112,7 +112,7 @@ public class GuiFileRunner extends AnchorPane {
         hBox.getChildren().addAll(lbl, rbMd5, rbSha1, rbSha256, rbSha512);
 
         gridPane.setPadding(new Insets(10));
-        gridPane.getStyleClass().add("pane-border-lightgray");
+        gridPane.setStyle("-fx-border-width: 5; -fx-border-color: #d6d6d6;");
         gridPane.setVgap(10);
         gridPane.setHgap(10);
         gridPane.add(hBox, 1, 2);

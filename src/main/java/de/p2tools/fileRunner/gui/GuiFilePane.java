@@ -218,7 +218,7 @@ public class GuiFilePane extends VBox {
     private void initPane() {
         int r = 0;
         GridPane gridPane = new GridPane();
-        gridPane.getStyleClass().add("pane-border");
+        gridPane.setStyle(" -fx-border-width: 1; -fx-border-color: -style-tab-border-color-1;");
         gridPane.setPadding(new Insets(10));
         gridPane.setVgap(10);
         gridPane.setHgap(10);
