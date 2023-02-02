@@ -63,7 +63,7 @@ public class SelectHashDialogController extends PDialogExtra {
         });
 
         VBox.setVgrow(tableView, Priority.ALWAYS);
-        getvBoxCont().getChildren().add(tableView);
+        getVBoxCont().getChildren().add(tableView);
         initTable();
     }
 

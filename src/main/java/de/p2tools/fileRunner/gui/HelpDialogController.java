@@ -47,7 +47,7 @@ public class HelpDialogController extends PDialogExtra {
     }
 
     private void initStack() {
-        getvBoxCont().getChildren().add(tabPane);
+        getVBoxCont().getChildren().add(tabPane);
         //startPane 1
         helpPage = new HelpPane(getStage());
         helpTab1 = helpPage.getTab1();
