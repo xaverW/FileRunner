@@ -43,7 +43,7 @@ public class ConfigDialogController extends PDialogExtra {
 
     public ConfigDialogController() {
         super(ProgData.getInstance().primaryStage, ProgConfig.SYSTEM_CONFIG_DIALOG_SIZE, "Einstellungen",
-                true, false, DECO.NONE);
+                true, false, DECO.NO_BORDER);
         this.progData = ProgData.getInstance();
 
         init(true);
