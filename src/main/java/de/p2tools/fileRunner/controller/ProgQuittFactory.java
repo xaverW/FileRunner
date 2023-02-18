@@ -17,12 +17,12 @@
 package de.p2tools.fileRunner.controller;
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.config.ProgInfos;
 import de.p2tools.p2Lib.configFile.ConfigFile;
-import de.p2tools.p2Lib.configFile.WriteConfigFile;
+import de.p2tools.p2Lib.configFile.ConfigWriteFile;
 import de.p2tools.p2Lib.tools.log.LogMessage;
+import de.p2tools.p2Lib.tools.log.PLog;
 import javafx.application.Platform;
 
 import java.nio.file.Path;
@@ -49,12 +49,11 @@ public class ProgQuittFactory {
     }
 
     private static void save() {
-        final Path xmlFilePath = new ProgInfos().getSettingsFile();
-        ConfigFile configFile = new ConfigFile(ProgConst.XML_START, xmlFilePath);
+        //sind die Programmeinstellungen
+        PLog.sysLog("Alle Programmeinstellungen sichern");
+        final Path xmlFilePath = ProgInfos.getSettingsFile();
+        ConfigFile configFile = new ConfigFile(xmlFilePath.toString(), true);
         ProgConfig.addConfigData(configFile);
-
-        WriteConfigFile readWriteConfigFile = new WriteConfigFile();
-        readWriteConfigFile.addConfigFile(configFile);
-        readWriteConfigFile.writeConfigFile();
+        ConfigWriteFile.writeConfigFile(configFile);
     }
 }

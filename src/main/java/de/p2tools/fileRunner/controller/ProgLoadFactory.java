@@ -18,14 +18,14 @@ package de.p2tools.fileRunner.controller;
 
 
 import de.p2tools.fileRunner.controller.config.ProgConfig;
-import de.p2tools.fileRunner.controller.config.ProgConst;
 import de.p2tools.fileRunner.controller.config.ProgInfos;
 import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.configFile.ConfigFile;
-import de.p2tools.p2Lib.configFile.ReadConfigFile;
+import de.p2tools.p2Lib.configFile.ConfigReadFile;
 import de.p2tools.p2Lib.tools.duration.PDuration;
 import de.p2tools.p2Lib.tools.log.PLog;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ProgLoadFactory {
@@ -39,17 +39,34 @@ public class ProgLoadFactory {
     }
 
     public static boolean loadProgConfigData() {
+        final Path xmlFilePath = new ProgInfos().getSettingsFile();
         PDuration.onlyPing("ProgStartFactory.loadProgConfigData");
-        Path path = new ProgInfos().getSettingsFile();
-        PLog.sysLog("Konfig lesen: " + path.toString());
+        try {
+            if (!Files.exists(xmlFilePath)) {
+                //dann gibts das Konfig-File gar nicht
+                PLog.sysLog("Konfig existiert nicht!");
+                return false;
+            }
 
-        ConfigFile configFile = new ConfigFile(ProgConst.XML_START, path);
-        ProgConfig.addConfigData(configFile);
-        ReadConfigFile readWriteConfigFile = new ReadConfigFile();
-        readWriteConfigFile.addConfigFile(configFile);
+            PLog.sysLog("Programmstart und ProgConfig laden von: " + xmlFilePath);
+            ConfigFile configFile = new ConfigFile(xmlFilePath.toString(), true);
+            ProgConfig.addConfigData(configFile);
+            if (ConfigReadFile.readConfig(configFile)) {
+                PLog.sysLog("Konfig wurde geladen!");
+                return true;
 
-        return readWriteConfigFile.readConfigFile(backupHeader, backupText);
+            } else {
+                // dann hat das Laden nicht geklappt
+                PLog.sysLog("Konfig konnte nicht geladen werden!");
+                return false;
+            }
+        } catch (final Exception ex) {
+            PLog.errorLog(915470101, ex);
+        }
+        return false;
     }
+
+
 }
 
 

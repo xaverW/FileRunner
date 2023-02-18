@@ -20,7 +20,7 @@ package de.p2tools.fileRunner.gui.table;
 import de.p2tools.fileRunner.controller.config.Events;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.controller.data.fileData.FileData;
-import de.p2tools.p2Lib.guiTools.PCheckBoxCell;
+import de.p2tools.p2Lib.guiTools.pTable.CellCheckBox;
 import de.p2tools.p2Lib.tools.date.PDate;
 import de.p2tools.p2Lib.tools.events.PEvent;
 import de.p2tools.p2Lib.tools.events.PListener;
@@ -100,7 +100,7 @@ public class TableFileList extends PTable<FileData> {
 
         final TableColumn<FileData, Boolean> diff = new TableColumn<>("Diff");
         diff.setCellValueFactory(new PropertyValueFactory<>("diff"));
-        diff.setCellFactory(new PCheckBoxCell().cellFactoryBool);
+        diff.setCellFactory(new CellCheckBox().cellFactoryBool);
 
         final TableColumn<FileData, Boolean> only = new TableColumn<>("Only");
         only.setCellValueFactory(new PropertyValueFactory<>("only"));
