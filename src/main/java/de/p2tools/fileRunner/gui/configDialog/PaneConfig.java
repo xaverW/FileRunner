@@ -19,7 +19,7 @@ package de.p2tools.fileRunner.gui.configDialog;
 import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.gui.HelpText;
-import de.p2tools.p2Lib.dialogs.accordion.PAccordionPane;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import javafx.geometry.HPos;
@@ -31,47 +31,34 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
-public class GeneralPane extends PAccordionPane {
+public class PaneConfig {
 
+    private final CheckBox chkFollowLink1 = new CheckBox("In Tabelle 1");
+    private final CheckBox chkFollowLink2 = new CheckBox("In Tabelle 2");
     private final ProgData progData;
     private final Stage stage;
-    private UpdatePane updatePane;
 
-    public GeneralPane(Stage stage) {
-        super(stage, ProgConfig.CONFIG_DIALOG_ACCORDION, ProgConfig.SYSTEM_CONFIG_DIALOG_GENERAL);
+    public PaneConfig(Stage stage) {
         this.stage = stage;
         progData = ProgData.getInstance();
-
-        init();
     }
 
     public void close() {
-        super.close();
-        updatePane.close();
+        chkFollowLink1.selectedProperty().unbindBidirectional(ProgConfig.followLink1);
+        chkFollowLink2.selectedProperty().unbindBidirectional(ProgConfig.followLink2);
     }
 
-    public Collection<TitledPane> createPanes() {
-        Collection<TitledPane> result = new ArrayList<>();
-        makeConfig(result);
-        updatePane = new UpdatePane(stage);
-        updatePane.makePane(result);
-        return result;
-    }
-
-    private void makeConfig(Collection<TitledPane> result) {
+    public void makeConfig(Collection<TitledPane> result) {
         final GridPane gridPane = new GridPane();
-        gridPane.setPadding(new Insets(20));
-        gridPane.setHgap(15);
-        gridPane.setVgap(15);
+        gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
+        gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
+        gridPane.setPadding(new Insets(P2LibConst.DIST_EDGE));
 
         TitledPane tpConfig = new TitledPane("Allgemein", gridPane);
         result.add(tpConfig);
 
-        final CheckBox chkFollowLink1 = new CheckBox("In Tabelle 1");
-        final CheckBox chkFollowLink2 = new CheckBox("In Tabelle 2");
         final Label lblFollow = new Label("Symbolische Verknüpfungen auflösen");
 
         final Button btnHelpFollowLink = PButton.helpButton(stage, "Verknüpfung folgen", HelpText.FOLLOW_SYMLINK);

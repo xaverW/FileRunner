@@ -18,15 +18,13 @@ package de.p2tools.fileRunner.gui.configDialog;
 
 import de.p2tools.fileRunner.controller.config.*;
 import de.p2tools.fileRunner.gui.HelpText;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.data.PColorData;
-import de.p2tools.p2Lib.dialogs.accordion.PAccordionPane;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
 import de.p2tools.p2Lib.guiTools.pToggleSwitch.PToggleSwitch;
 import de.p2tools.p2Lib.tools.PColorFactory;
 import de.p2tools.p2Lib.tools.events.PEvent;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -40,42 +38,29 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
-public class ColorPane extends PAccordionPane {
+public class PaneColor {
 
     private final Stage stage;
-    BooleanProperty propDarkTheme = ProgConfig.SYSTEM_DARK_THEME;
-    BooleanProperty propEvenOdd = ProgConfig.SYSTEM_EVEN_ODD;
-    IntegerProperty propEvenOddValue = ProgConfig.SYSTEM_EVEN_ODD_VALUE;
 
     private final PToggleSwitch tglDarkTheme = new PToggleSwitch("Dunkles Erscheinungsbild der Programmoberfläche");
-    private final PToggleSwitch tglEvenOdd = new PToggleSwitch("gerade/ungerade Zeilen farblich etwas absetzen");
+    private final PToggleSwitch tglEvenOdd = new PToggleSwitch("Gerade/ungerade Zeilen farblich etwas absetzen");
     private final Slider slOdd = new Slider();
 
-    public ColorPane(Stage stage) {
-        super(stage, ProgConfig.CONFIG_DIALOG_ACCORDION, ProgConfig.SYSTEM_CONFIG_DIALOG_COLOR);
+    public PaneColor(Stage stage) {
         this.stage = stage;
-
-        init();
     }
 
     public void close() {
-        super.close();
-        tglDarkTheme.selectedProperty().unbindBidirectional(propDarkTheme);
-        tglEvenOdd.selectedProperty().unbindBidirectional(propEvenOdd);
+        tglDarkTheme.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_DARK_THEME);
+        tglEvenOdd.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_EVEN_ODD);
+        slOdd.valueProperty().unbindBidirectional(ProgConfig.SYSTEM_EVEN_ODD_VALUE);
     }
 
-    public Collection<TitledPane> createPanes() {
-        Collection<TitledPane> result = new ArrayList<>();
-        makeColor(result);
-        return result;
-    }
-
-    private void makeColor(Collection<TitledPane> result) {
+    public void makeColor(Collection<TitledPane> result) {
         final VBox vBox = new VBox();
-        vBox.setPadding(new Insets(20));
+        vBox.setPadding(new Insets(P2LibConst.DIST_EDGE));
         vBox.setFillWidth(true);
         vBox.setSpacing(10);
 
@@ -84,12 +69,12 @@ public class ColorPane extends PAccordionPane {
         final Button btnHelpEvenOdd = PButton.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
                 HelpText.EVEN_ODD);
 
-        tglDarkTheme.selectedProperty().bindBidirectional(propDarkTheme);
+        tglDarkTheme.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_DARK_THEME);
         tglDarkTheme.selectedProperty().addListener((u, o, n) -> {
             ProgData.getInstance().pEventHandler.notifyListener(new PEvent(Events.COLORS_CHANGED));
         });
 
-        tglEvenOdd.selectedProperty().bindBidirectional(propEvenOdd);
+        tglEvenOdd.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_EVEN_ODD);
         tglEvenOdd.selectedProperty().addListener((v, o, n) -> ProgColorList.setColorTheme());
         tglEvenOdd.selectedProperty().addListener((u, o, n) ->
                 ProgData.getInstance().pEventHandler.notifyListener(new PEvent(Events.COLORS_CHANGED)));
@@ -101,7 +86,7 @@ public class ColorPane extends PAccordionPane {
         slOdd.setBlockIncrement(5.0);
         slOdd.setShowTickMarks(true);
         slOdd.setMinWidth(300);
-        slOdd.valueProperty().bindBidirectional(propEvenOddValue);
+        slOdd.valueProperty().bindBidirectional(ProgConfig.SYSTEM_EVEN_ODD_VALUE);
         slOdd.valueChangingProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
                 PColorData.ODD_DIV = (int) slOdd.getValue();
@@ -118,9 +103,10 @@ public class ColorPane extends PAccordionPane {
 
 
         final GridPane gridPane = new GridPane();
-        gridPane.setHgap(15);
-        gridPane.setVgap(15);
-        gridPane.setPadding(new Insets(0, 0, 10, 0));
+        gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
+        gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
+//        gridPane.setPadding(new Insets(P2LibConst.DIST_EDGE));
+        gridPane.setPadding(new Insets(0, 0, P2LibConst.DIST_EDGE, 0));
 
         gridPane.add(tglDarkTheme, 0, 0);
         gridPane.add(btnHelpTheme, 1, 0);
@@ -271,7 +257,6 @@ public class ColorPane extends PAccordionPane {
                 setGraphic(hbox);
             }
         };
-
         return cell;
     };
     private Callback<TableColumn<PColorData, String>, TableCell<PColorData, String>> cellFactoryText
@@ -379,8 +364,6 @@ public class ColorPane extends PAccordionPane {
                 setGraphic(hbox);
             }
         };
-
         return cell;
     };
-
 }

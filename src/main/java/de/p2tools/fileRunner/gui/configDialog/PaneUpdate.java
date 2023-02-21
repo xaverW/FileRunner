@@ -31,6 +31,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -41,11 +42,11 @@ import javafx.stage.Stage;
 
 import java.util.Collection;
 
-public class UpdatePane {
+public class PaneUpdate {
 
     private final ProgData progData;
-    private final PToggleSwitch tglSearch = new PToggleSwitch("einmal am Tag nach einer neuen Programmversion suchen");
-    private final PToggleSwitch tglSearchBeta = new PToggleSwitch("auch nach neuen Vorabversionen suchen");
+    private final PToggleSwitch tglSearch = new PToggleSwitch("Einmal am Tag nach einer neuen Programmversion suchen");
+    private final PToggleSwitch tglSearchBeta = new PToggleSwitch("Auch nach neuen Vorabversionen suchen");
     private final CheckBox chkDaily = new CheckBox("Zwischenschritte (Dailys) mit einbeziehen");
     private final Button btnNow = new Button("_Jetzt suchen");
     private Button btnHelpBeta;
@@ -56,7 +57,7 @@ public class UpdatePane {
 
     private final Stage stage;
 
-    public UpdatePane(Stage stage) {
+    public PaneUpdate(Stage stage) {
         this.stage = stage;
         progData = ProgData.getInstance();
     }
@@ -69,9 +70,9 @@ public class UpdatePane {
 
     public void makePane(Collection<TitledPane> result) {
         final GridPane gridPane = new GridPane();
-        gridPane.setPadding(new Insets(20));
-        gridPane.setHgap(15);
-        gridPane.setVgap(15);
+        gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
+        gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
+        gridPane.setPadding(new Insets(P2LibConst.DIST_EDGE));
 
         TitledPane tpConfig = new TitledPane("Programmupdate", gridPane);
         result.add(tpConfig);
@@ -120,15 +121,19 @@ public class UpdatePane {
         gridPane.add(chkDaily, 0, ++row, 2, 1);
         GridPane.setHalignment(chkDaily, HPos.RIGHT);
 
-        gridPane.add(btnNow, 0, ++row);
+        gridPane.add(new Label(), 0, ++row);
+        gridPane.add(btnNow, 0, ++row, 2, 1);
+        GridPane.setHalignment(btnNow, HPos.RIGHT);
 
         gridPane.add(new Label(" "), 0, ++row);
         gridPane.add(hBoxHyper, 0, ++row);
+        GridPane.setValignment(hBoxHyper, VPos.BOTTOM);
 
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow(),
                 PColumnConstraints.getCcPrefSize());
         gridPane.getRowConstraints().addAll(PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcPrefSize(),
-                PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcVgrow(), PColumnConstraints.getRcPrefSize());
+                PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcPrefSize(),
+                PColumnConstraints.getRcVgrow());
     }
 
     private void checkBeta() {

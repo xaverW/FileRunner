@@ -37,9 +37,9 @@ public class ConfigDialogController extends PDialogExtra {
     private final ProgData progData;
     IntegerProperty propSelectedTab = ProgConfig.SYSTEM_CONFIG_DIALOG_TAB;
 
-    private GeneralPane generalPane;
-    private ConfigPaneController configPaneController;
-    private ColorPane colorPane;
+    private ControllerConfig controllerConfig;
+    private ControllerProg controllerProg;
+    private ControllerColor controllerColor;
 
     public ConfigDialogController() {
         super(ProgData.getInstance().primaryStage, ProgConfig.SYSTEM_CONFIG_DIALOG_SIZE, "Einstellungen",
@@ -63,31 +63,31 @@ public class ConfigDialogController extends PDialogExtra {
     }
 
     public void close() {
-        generalPane.close();
-        configPaneController.close();
-        colorPane.close();
+        controllerConfig.close();
+        controllerProg.close();
+        controllerColor.close();
         super.close();
     }
 
 
     private void initPanel() {
         try {
-            generalPane = new GeneralPane(getStage());
+            controllerConfig = new ControllerConfig(getStage());
             Tab tab = new Tab("Allgemein");
             tab.setClosable(false);
-            tab.setContent(generalPane);
+            tab.setContent(controllerConfig);
             tabPane.getTabs().add(tab);
 
-            configPaneController = new ConfigPaneController(getStage());
+            controllerProg = new ControllerProg(getStage());
             tab = new Tab("Programme");
             tab.setClosable(false);
-            tab.setContent(configPaneController);
+            tab.setContent(controllerProg);
             tabPane.getTabs().add(tab);
 
-            colorPane = new ColorPane(getStage());
+            controllerColor = new ControllerColor(getStage());
             tab = new Tab("Farben");
             tab.setClosable(false);
-            tab.setContent(colorPane);
+            tab.setContent(controllerColor);
             tabPane.getTabs().add(tab);
 
             tabPane.getSelectionModel().select(propSelectedTab.get());

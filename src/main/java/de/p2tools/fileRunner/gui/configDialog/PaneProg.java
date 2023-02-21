@@ -20,11 +20,10 @@ import de.p2tools.fileRunner.controller.config.ProgConfig;
 import de.p2tools.fileRunner.controller.config.ProgData;
 import de.p2tools.fileRunner.gui.HelpText;
 import de.p2tools.fileRunner.icon.ProgIcons;
+import de.p2tools.p2Lib.P2LibConst;
 import de.p2tools.p2Lib.dialogs.PDirFileChooser;
-import de.p2tools.p2Lib.dialogs.accordion.PAccordionPane;
 import de.p2tools.p2Lib.guiTools.PButton;
 import de.p2tools.p2Lib.guiTools.PColumnConstraints;
-import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -33,60 +32,44 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
-public class ConfigPaneController extends PAccordionPane {
+public class PaneProg {
 
     private final ProgData progData;
     private final Stage stage;
 
-    StringProperty propDir = ProgConfig.SYSTEM_PROG_OPEN_DIR;
-    StringProperty propUrl = ProgConfig.SYSTEM_PROG_OPEN_URL;
-
     private TextField txtFileManager;
     private TextField txtFileManagerWeb;
 
-    public ConfigPaneController(Stage stage) {
-        super(stage, ProgConfig.CONFIG_DIALOG_ACCORDION, ProgConfig.SYSTEM_CONFIG_DIALOG_CONFIG);
+    public PaneProg(Stage stage) {
         this.stage = stage;
         progData = ProgData.getInstance();
-
-        init();
     }
 
-    @Override
     public void close() {
-        super.close();
-        txtFileManager.textProperty().unbindBidirectional(propDir);
-        txtFileManagerWeb.textProperty().unbindBidirectional(propUrl);
+        txtFileManager.textProperty().unbindBidirectional(ProgConfig.SYSTEM_PROG_OPEN_DIR);
+        txtFileManagerWeb.textProperty().unbindBidirectional(ProgConfig.SYSTEM_PROG_OPEN_URL);
     }
 
-    @Override
-    public Collection<TitledPane> createPanes() {
-        Collection<TitledPane> result = new ArrayList<>();
-        makeProg(result);
-        return result;
-    }
-
-    private void makeProg(Collection<TitledPane> result) {
+    public void makeProg(Collection<TitledPane> result) {
         final GridPane gridPane = new GridPane();
-        gridPane.setHgap(15);
-        gridPane.setVgap(15);
-        gridPane.setPadding(new Insets(20));
+        gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
+        gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
+        gridPane.setPadding(new Insets(P2LibConst.DIST_EDGE));
 
         TitledPane tpConfig = new TitledPane("Programme", gridPane);
         result.add(tpConfig);
 
         addFilemanager(gridPane, 0);
-        addWebbrowser(gridPane, 2);
+        addWebbrowser(gridPane, 1);
 
         gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow());
     }
 
     private void addFilemanager(GridPane gridPane, int row) {
         txtFileManager = new TextField();
-        txtFileManager.textProperty().bindBidirectional(propDir);
+        txtFileManager.textProperty().bindBidirectional(ProgConfig.SYSTEM_PROG_OPEN_DIR);
 
         final Button btnFile = new Button();
         btnFile.setOnAction(event -> {
@@ -107,7 +90,7 @@ public class ConfigPaneController extends PAccordionPane {
 
     private void addWebbrowser(GridPane gridPane, int row) {
         txtFileManagerWeb = new TextField();
-        txtFileManagerWeb.textProperty().bindBidirectional(propUrl);
+        txtFileManagerWeb.textProperty().bindBidirectional(ProgConfig.SYSTEM_PROG_OPEN_URL);
 
         final Button btnFile = new Button();
         btnFile.setOnAction(event -> {
