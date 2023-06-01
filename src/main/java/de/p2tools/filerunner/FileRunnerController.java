@@ -156,10 +156,10 @@ public class FileRunnerController extends StackPane {
                         if (!progData.worker.createHashIsRunning() ||
                                 CompareFileListFactory.isRunningProperty().get()) {
                             //sonst läuft nochmal
-                            maskerPane.setMaskerVisible(false);
+                            maskerPane.switchOffMasker();
                         }
                     } else {
-                        maskerPane.setMaskerVisible(true, true);
+                        maskerPane.setMaskerVisible();
                     }
 
                     int max = runE.getMax();

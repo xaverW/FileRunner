@@ -30,7 +30,7 @@ public class ControllerColor extends PAccordionPane {
     private final Stage stage;
 
     public ControllerColor(Stage stage) {
-        super(stage, ProgConfig.CONFIG_DIALOG_ACCORDION, ProgConfig.SYSTEM_CONFIG_DIALOG_COLOR);
+        super(ProgConfig.CONFIG_DIALOG_ACCORDION, ProgConfig.SYSTEM_CONFIG_DIALOG_COLOR);
         this.stage = stage;
 
         init();
