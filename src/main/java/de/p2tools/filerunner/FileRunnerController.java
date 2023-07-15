@@ -28,7 +28,7 @@ import de.p2tools.filerunner.gui.HelpDialogController;
 import de.p2tools.filerunner.gui.StatusBarController;
 import de.p2tools.filerunner.gui.configdialog.ConfigDialogController;
 import de.p2tools.filerunner.gui.dialog.AboutDialogController;
-import de.p2tools.filerunner.icon.ProgIcons;
+import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.guitools.pmask.PMaskerPane;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
@@ -109,13 +109,13 @@ public class FileRunnerController extends StackPane {
 
             menuButton.getStyleClass().addAll("btnFunction", "btnFunc-2");
             menuButton.setText("");
-            menuButton.setGraphic(ProgIcons.Icons.FX_ICON_TOOLBAR_MENUE_TOP.getImageView());
+            menuButton.setGraphic(ProgIconsFileRunner.FX_ICON_TOOLBAR_MENUE_TOP.getImageView());
             menuButton.getItems().addAll(miConfig, miHelp, miSearchUpdate, miAbout,
                     new SeparatorMenuItem(), miQuitt);
 
             menuButton2.getStyleClass().addAll("btnFunction", "btnFunc-2");//damit das tilePane mittig ist!!
             menuButton2.setText("");
-            menuButton2.setGraphic(ProgIcons.Icons.FX_ICON_TOOLBAR_MENUE_TOP.getImageView());
+            menuButton2.setGraphic(ProgIconsFileRunner.FX_ICON_TOOLBAR_MENUE_TOP.getImageView());
             menuButton2.setVisible(false);
 
             // Panes
@@ -143,7 +143,7 @@ public class FileRunnerController extends StackPane {
         maskerPane.toFront();
 
         Button btnStop = maskerPane.getButton();
-        btnStop.setGraphic(ProgIcons.Icons.ICON_BUTTON_STOP.getImageView());
+        btnStop.setGraphic(ProgIconsFileRunner.ICON_BUTTON_STOP.getImageView());
         btnStop.setOnAction(e -> progData.worker.setStop());
         maskerPane.setButtonText("");
         maskerPane.setButtonVisible(true);

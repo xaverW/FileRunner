@@ -22,7 +22,7 @@ import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.filerunner.controller.worker.gethash.*;
 import de.p2tools.p2lib.alert.PAlert;
-import de.p2tools.p2lib.dialogs.PDialogFileChosser;
+import de.p2tools.p2lib.dialogs.PDialogFileChooser;
 import de.p2tools.p2lib.dialogs.PDirFileChooser;
 import de.p2tools.p2lib.hash.WriteHashFile;
 import de.p2tools.p2lib.tools.net.PUrlTools;
@@ -86,7 +86,7 @@ public class Worker {
 
         File searchDir = new File(searchDirStr);
         if (!searchDir.exists()) {
-            PDialogFileChosser.showErrorAlert("Verzeichnis einlesen", "Verzeichnis existiert nicht!");
+            PDialogFileChooser.showErrorAlert("Verzeichnis einlesen", "Verzeichnis existiert nicht!");
         } else {
             ret = true;
             if (list1) {
@@ -110,7 +110,7 @@ public class Worker {
 
         File zipFile = new File(hashZip);
         if (!zipFile.exists()) {
-            PDialogFileChosser.showErrorAlert("Zipdatei einlesen", "Die Zipdatei existiert nicht!");
+            PDialogFileChooser.showErrorAlert("Zipdatei einlesen", "Die Zipdatei existiert nicht!");
         } else {
             ret = true;
             if (list1) {
@@ -134,7 +134,7 @@ public class Worker {
 
         File file = new File(hashFile);
         if (!file.exists() || !file.isFile()) {
-            PDialogFileChosser.showErrorAlert("Hashdatei einlesen", "Die Hashdatei existiert nicht!");
+            PDialogFileChooser.showErrorAlert("Hashdatei einlesen", "Die Hashdatei existiert nicht!");
         } else {
             ret = true;
             if (list1) {
@@ -155,7 +155,7 @@ public class Worker {
 
         file = new File(fileStr);
         if (file.exists()) {
-            PAlert.BUTTON btn = PDialogFileChosser.showAlert_yes_no("Datei existiert bereits!", "Überschreiben",
+            PAlert.BUTTON btn = PDialogFileChooser.showAlert_yes_no("Datei existiert bereits!", "Überschreiben",
                     "Hashdatei existiert bereits, überschreiben?");
             if (btn.equals(PAlert.BUTTON.NO)) {
                 return;

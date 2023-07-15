@@ -22,7 +22,7 @@ import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.config.RunPEvent;
 import de.p2tools.filerunner.controller.worker.gethash.HashFactory;
-import de.p2tools.filerunner.icon.ProgIcons;
+import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.alert.PAlert;
 import de.p2tools.p2lib.dialogs.PDirFileChooser;
 import de.p2tools.p2lib.guitools.PColumnConstraints;
@@ -107,9 +107,9 @@ public class GuiFilePane extends VBox {
 
     public void setTxtHashOk(boolean ok, boolean vis) {
         if (ok) {
-            lblHashOk.setGraphic(ProgIcons.Icons.ICON_LABEL_FILE_OK.getImageView());
+            lblHashOk.setGraphic(ProgIconsFileRunner.ICON_LABEL_FILE_OK.getImageView());
         } else {
-            lblHashOk.setGraphic(ProgIcons.Icons.ICON_LABEL_FILE_NOT_OK.getImageView());
+            lblHashOk.setGraphic(ProgIconsFileRunner.ICON_LABEL_FILE_NOT_OK.getImageView());
         }
         lblHashOk.setVisible(vis);
     }
@@ -143,12 +143,12 @@ public class GuiFilePane extends VBox {
         cboGenHashFromFile.disableProperty().bind(rbFileOrUrl.selectedProperty().not()
                 .or(isRunning));
 
-        btnSelectFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnSelectFile.setGraphic(ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
         btnSelectFile.setTooltip(new Tooltip("Datei zum Erstellen des Hash auswählen."));
         btnSelectFile.disableProperty().bind(rbFileOrUrl.selectedProperty().not()
                 .or(isRunning));
 
-        btnReadFileAndGenHash.setGraphic(ProgIcons.Icons.ICON_BUTTON_GEN_HASH.getImageView());
+        btnReadFileAndGenHash.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GEN_HASH.getImageView());
         btnReadFileAndGenHash.setTooltip(new Tooltip("Datei einlesen und Hash erstellen."));
         btnReadFileAndGenHash.disableProperty().bind(rbFileOrUrl.selectedProperty().not()
                 .or(cboGenHashFromFile.getEditor().textProperty().isNull())
@@ -169,12 +169,12 @@ public class GuiFilePane extends VBox {
         cboReadHashFile.disableProperty().bind(rbReadHashFile.selectedProperty().not()
                 .or(isRunning));
 
-        btnSelectHashFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnSelectHashFile.setGraphic(ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
         btnSelectHashFile.setTooltip(new Tooltip("Datei mit Hash-Werten auswählen."));
         btnSelectFile.disableProperty().bind(rbReadHashFile.selectedProperty().not()
                 .or(isRunning));
 
-        btnReadHashFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_GEN_HASH.getImageView());
+        btnReadHashFile.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GEN_HASH.getImageView());
         btnReadHashFile.setTooltip(new Tooltip("Hash aus Datei lesen."));
         btnReadHashFile.disableProperty().bind(rbReadHashFile.selectedProperty().not()
                 .or(cboReadHashFile.getEditor().textProperty().isNull())
@@ -205,12 +205,12 @@ public class GuiFilePane extends VBox {
                 .or(txtHash.textProperty().isEmpty())
                 .or(isRunning));
 
-        btnSelectHashFileForStoring.setGraphic(ProgIcons.Icons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnSelectHashFileForStoring.setGraphic(ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
         btnSelectHashFileForStoring.setTooltip(new Tooltip("Datei zum Speichern auswählen."));
         btnSelectHashFileForStoring.disableProperty().bind(cboWriteHash.disableProperty()
                 .or(isRunning));
 
-        btnProposeStoringHashFileName.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_GEN_NAME.getImageView());
+        btnProposeStoringHashFileName.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GUI_GEN_NAME.getImageView());
         btnProposeStoringHashFileName.setTooltip(new Tooltip("Einen Dateinamen vorschlagen."));
         btnProposeStoringHashFileName.disableProperty().bind(cboWriteHash.disableProperty());
     }

@@ -22,7 +22,7 @@ import de.p2tools.filerunner.controller.config.ProgConst;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.data.filedata.FileDataFilter;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
-import de.p2tools.filerunner.icon.ProgIcons;
+import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.guitools.PButton;
 import de.p2tools.p2lib.guitools.PGuiTools;
 import de.p2tools.p2lib.tools.events.PEvent;
@@ -233,16 +233,16 @@ public class GuiDirRunner extends AnchorPane {
             if (newVal == null)
                 oldVal.setSelected(true);
         });
-        btnRead.setGraphic(ProgIcons.Icons.ICON_BUTTON_START_READ_ALL.getImageView());
+        btnRead.setGraphic(ProgIconsFileRunner.ICON_BUTTON_START_READ_ALL.getImageView());
         btnRead.setTooltip(new Tooltip("Die beiden Suchordner (oder die Zipdatei/Hashdatei) werden eingelesen"));
         tg.getToggles().addAll(tglShowAll, tglShowSamePath, tglShowDiff_OR_ONLY, tglShowDiff_IN_BOTH, tglShowOnly1, tglShowOnly2);
         tglShowAll.setSelected(true);
-        tglShowAll.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ALL.getImageView());
-        tglShowSamePath.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_SAME_1.getImageView());
-        tglShowDiff_OR_ONLY.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_DIFF_OR_ONLY.getImageView());
-        tglShowDiff_IN_BOTH.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_DIFF_IN_BOTHE.getImageView());
-        tglShowOnly1.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ONLY_1.getImageView());
-        tglShowOnly2.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_ONLY_2.getImageView());
+        tglShowAll.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GUI_ALL.getImageView());
+        tglShowSamePath.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GUI_SAME_1.getImageView());
+        tglShowDiff_OR_ONLY.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GUI_DIFF_OR_ONLY.getImageView());
+        tglShowDiff_IN_BOTH.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GUI_DIFF_IN_BOTHE.getImageView());
+        tglShowOnly1.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GUI_ONLY_1.getImageView());
+        tglShowOnly2.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GUI_ONLY_2.getImageView());
 
         tglShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
         tglShowSamePath.setTooltip(new Tooltip("Gleiche Dateien (gleicher Pfad/Name/Hash oder nur gleicher Hash), anzeigen."));

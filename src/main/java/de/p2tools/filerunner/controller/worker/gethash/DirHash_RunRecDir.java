@@ -17,7 +17,7 @@
 
 package de.p2tools.filerunner.controller.worker.gethash;
 
-import de.p2tools.p2lib.dialogs.PDialogFileChosser;
+import de.p2tools.p2lib.dialogs.PDialogFileChooser;
 import de.p2tools.p2lib.tools.log.PLog;
 import javafx.application.Platform;
 
@@ -56,7 +56,7 @@ public class DirHash_RunRecDir {
                     if (!altert) {
                         altert = true;
                         Platform.runLater(() ->
-                                PDialogFileChosser.showErrorAlert("Dateien lesen", "Kann Dateien des Ordners \"" + path + "\" nicht lesen", "Fehler!"));
+                                PDialogFileChooser.showErrorAlert("Dateien lesen", "Kann Dateien des Ordners \"" + path + "\" nicht lesen", "Fehler!"));
                     }
                 } else {
                     for (int i = 0; i < list.length; i++) {

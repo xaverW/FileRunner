@@ -20,7 +20,7 @@ import de.p2tools.filerunner.controller.config.Events;
 import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.config.RunPEvent;
-import de.p2tools.filerunner.icon.ProgIcons;
+import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.guitools.PColumnConstraints;
 import de.p2tools.p2lib.guitools.PTextField;
 import de.p2tools.p2lib.hash.HashConst;
@@ -97,7 +97,7 @@ public class GuiFileRunner extends AnchorPane {
     }
 
     private void initCont() {
-        btnCheckFile.setGraphic(ProgIcons.Icons.ICON_BUTTON_GUI_START_ALL.getImageView());
+        btnCheckFile.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GUI_START_ALL.getImageView());
         btnCheckFile.setTooltip(new Tooltip("Es werden beide Dateien eingelesen, " +
                 "der Hash wird erstellt und die Dateien damit vergleichen."));
 

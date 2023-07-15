@@ -21,7 +21,9 @@ import de.p2tools.filerunner.controller.config.ProgColorList;
 import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgConst;
 import de.p2tools.filerunner.controller.config.ProgData;
+import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.P2LibInit;
+import de.p2tools.p2lib.ProgIconsP2Lib;
 import de.p2tools.p2lib.guitools.PGuiSize;
 import de.p2tools.p2lib.tools.duration.PDuration;
 import de.p2tools.p2lib.tools.log.PLog;
@@ -59,6 +61,8 @@ public class FileRunner extends Application {
     }
 
     private void initP2lib() {
+        ProgIconsFileRunner.initIcons();
+        ProgIconsP2Lib.initIcons();
         P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME, "", ProgConfig.SYSTEM_DARK_THEME,
                 ProgData.debug, ProgData.duration);
         P2LibInit.addCssFile(ProgConst.CSS_FILE);
