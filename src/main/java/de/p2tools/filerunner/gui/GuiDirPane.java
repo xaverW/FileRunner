@@ -273,7 +273,7 @@ public class GuiDirPane extends VBox {
         HBox hBox = new HBox(10);
         hBox.setPadding(new Insets(5, 0, 0, 0));
         hBox.setAlignment(Pos.CENTER_RIGHT);
-        hBox.getChildren().addAll(lblPath, PGuiTools.getHBoxGrower(), tglSubDir, btnHelpPathHash);
+        hBox.getChildren().addAll(lblPath, P2GuiTools.getHBoxGrower(), tglSubDir, btnHelpPathHash);
         vBoxDir.getChildren().addAll(hBox);
 
 

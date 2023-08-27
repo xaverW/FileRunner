@@ -100,7 +100,7 @@ public class TableFileList extends PTable<FileData> {
 
         final TableColumn<FileData, Boolean> diff = new TableColumn<>("Diff");
         diff.setCellValueFactory(new PropertyValueFactory<>("diff"));
-        diff.setCellFactory(new CellCheckBox().cellFactoryBool);
+        diff.setCellFactory(new CellCheckBox().cellFactory);
 
         final TableColumn<FileData, Boolean> only = new TableColumn<>("Only");
         only.setCellValueFactory(new PropertyValueFactory<>("only"));

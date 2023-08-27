@@ -23,8 +23,8 @@ import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.data.filedata.FileDataFilter;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
+import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.guitools.PButton;
-import de.p2tools.p2lib.guitools.PGuiTools;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
 import de.p2tools.p2lib.tools.log.PLog;
@@ -167,10 +167,10 @@ public class GuiDirRunner extends AnchorPane {
         hBoxHash.setAlignment(Pos.CENTER);
         hBoxHash.getChildren().addAll(/*new Label("Beide Suchordner einlesen"), btnRead,
                 PGuiTools.getHDistance(40),*/
-                lblHash, PGuiTools.getHDistance(20),
-                rbFilePath, PGuiTools.getHDistance(20),
-                rbFileName, PGuiTools.getHDistance(20),
-                rbFileAll, PGuiTools.getHBoxGrower(), btnHelpPathHash);
+                lblHash, P2GuiTools.getHDistance(20),
+                rbFilePath, P2GuiTools.getHDistance(20),
+                rbFileName, P2GuiTools.getHDistance(20),
+                rbFileAll, P2GuiTools.getHBoxGrower(), btnHelpPathHash);
 
         //== add all ==
         VBox vBoxAll = new VBox();
