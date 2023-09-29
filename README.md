@@ -57,14 +57,14 @@ Der Button unten *Dateien vergleichen* startet die Erstellung des Hash für beid
 
 Unterstützt wird Windows und Linux.
 
-Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version: Java 11. Für Linux-Benutzer wird OpenJDK11 empfohlen. (FX-Runtime bringt das Programm bereits mit und muss nicht installiert werden).
+Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version: Java 17. Für Linux-Benutzer wird OpenJDK17 empfohlen. (FX-Runtime bringt das Programm bereits mit und muss nicht installiert werden).
 
 <br />
 
 ## Download
 
 - **FileRunner-XX.zip**  
-  Das Programmpaket bringt das Programm aber kein Java mit. Auf dem Rechner muss eine Java-Laufzeitumgebung ab Java11 installiert sein. Dieses Programmpaket kann auf allen Betriebssystemen verwendet werden. Es bringt Startdateien für Linux und Windows mit.
+  Das Programmpaket bringt das Programm aber kein Java mit. Auf dem Rechner muss eine Java-Laufzeitumgebung ab Java17 installiert sein. Dieses Programmpaket kann auf allen Betriebssystemen verwendet werden. Es bringt Startdateien für Linux und Windows mit.
 
 
 zum Download: [github.com/xaverW/FileRunner/releases](https://github.com/xaverW/FileRunner/releases)  
