@@ -20,8 +20,8 @@ package de.p2tools.filerunner.gui.table;
 import de.p2tools.filerunner.controller.config.Events;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.data.filedata.FileData;
-import de.p2tools.p2lib.guitools.ptable.CellCheckBox;
-import de.p2tools.p2lib.tools.date.PDate;
+import de.p2tools.p2lib.guitools.ptable.P2CellCheckBox;
+import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
 import de.p2tools.p2lib.tools.file.PFileSize;
@@ -94,13 +94,13 @@ public class TableFileList extends PTable<FileData> {
         final TableColumn<FileData, PFileSize> fileSizeColumn = new TableColumn<>("Größe");
         fileSizeColumn.setCellValueFactory(new PropertyValueFactory<>("fileSize"));
 
-        final TableColumn<FileData, PDate> fileDateColumn = new TableColumn<>("Geändert");
+        final TableColumn<FileData, P2Date> fileDateColumn = new TableColumn<>("Geändert");
         fileDateColumn.setCellValueFactory(new PropertyValueFactory<>("fileDate"));
 
 
         final TableColumn<FileData, Boolean> diff = new TableColumn<>("Diff");
         diff.setCellValueFactory(new PropertyValueFactory<>("diff"));
-        diff.setCellFactory(new CellCheckBox().cellFactory);
+        diff.setCellFactory(new P2CellCheckBox().cellFactory);
 
         final TableColumn<FileData, Boolean> only = new TableColumn<>("Only");
         only.setCellValueFactory(new PropertyValueFactory<>("only"));

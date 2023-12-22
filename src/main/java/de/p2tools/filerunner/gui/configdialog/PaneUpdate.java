@@ -23,10 +23,10 @@ import de.p2tools.filerunner.controller.config.ProgConst;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.guitools.PButton;
-import de.p2tools.p2lib.guitools.PColumnConstraints;
-import de.p2tools.p2lib.guitools.PHyperlink;
-import de.p2tools.p2lib.guitools.ptoggleswitch.PToggleSwitch;
+import de.p2tools.p2lib.guitools.P2Button;
+import de.p2tools.p2lib.guitools.P2ColumnConstraints;
+import de.p2tools.p2lib.guitools.P2Hyperlink;
+import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import javafx.beans.property.BooleanProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -45,8 +45,8 @@ import java.util.Collection;
 public class PaneUpdate {
 
     private final ProgData progData;
-    private final PToggleSwitch tglSearch = new PToggleSwitch("Einmal am Tag nach einer neuen Programmversion suchen");
-    private final PToggleSwitch tglSearchBeta = new PToggleSwitch("Auch nach neuen Vorabversionen suchen");
+    private final P2ToggleSwitch tglSearch = new P2ToggleSwitch("Einmal am Tag nach einer neuen Programmversion suchen");
+    private final P2ToggleSwitch tglSearchBeta = new P2ToggleSwitch("Auch nach neuen Vorabversionen suchen");
     private final CheckBox chkDaily = new CheckBox("Zwischenschritte (Dailys) mit einbeziehen");
     private final Button btnNow = new Button("_Jetzt suchen");
     private Button btnHelpBeta;
@@ -72,14 +72,14 @@ public class PaneUpdate {
         final GridPane gridPane = new GridPane();
         gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
         gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
-        gridPane.setPadding(new Insets(P2LibConst.DIST_EDGE));
+        gridPane.setPadding(new Insets(P2LibConst.PADDING));
 
         TitledPane tpConfig = new TitledPane("Programmupdate", gridPane);
         result.add(tpConfig);
 
         //einmal am Tag Update suchen
         tglSearch.selectedProperty().bindBidirectional(propUpdateSearch);
-        final Button btnHelp = PButton.helpButton(stage, "Programmupdate suchen",
+        final Button btnHelp = P2Button.helpButton(stage, "Programmupdate suchen",
                 "Beim Programmstart wird geprüft, ob es eine neue Version des Programms gibt. " +
                         "Ist eine aktualisierte Version vorhanden, dann wird das gemeldet."
                         + P2LibConst.LINE_SEPARATOR +
@@ -87,7 +87,7 @@ public class PaneUpdate {
 
         tglSearchBeta.selectedProperty().bindBidirectional(propUpdateBetaSearch);
         chkDaily.selectedProperty().bindBidirectional(propUpdateDailySearch);
-        btnHelpBeta = PButton.helpButton(stage, "Vorabversionen suchen",
+        btnHelpBeta = P2Button.helpButton(stage, "Vorabversionen suchen",
                 "Beim Programmstart wird geprüft, ob es eine neue Vorabversion des Programms gibt. " +
                         P2LibConst.LINE_SEPARATORx2 +
                         "Das sind \"Zwischenschritte\" auf dem Weg zur nächsten Version. Hier ist die " +
@@ -104,7 +104,7 @@ public class PaneUpdate {
         tglSearch.selectedProperty().addListener((ob, ol, ne) -> checkBeta());
         tglSearchBeta.selectedProperty().addListener((ob, ol, ne) -> checkBeta());
 
-        PHyperlink hyperlink = new PHyperlink(ProgConst.URL_WEBSITE,
+        P2Hyperlink hyperlink = new P2Hyperlink(ProgConst.URL_WEBSITE,
                 ProgConfig.SYSTEM_PROG_OPEN_URL, ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
         HBox hBoxHyper = new HBox();
         hBoxHyper.setAlignment(Pos.CENTER_LEFT);
@@ -129,11 +129,11 @@ public class PaneUpdate {
         gridPane.add(hBoxHyper, 0, ++row);
         GridPane.setValignment(hBoxHyper, VPos.BOTTOM);
 
-        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow(),
-                PColumnConstraints.getCcPrefSize());
-        gridPane.getRowConstraints().addAll(PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcPrefSize(),
-                PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcPrefSize(), PColumnConstraints.getRcPrefSize(),
-                PColumnConstraints.getRcVgrow());
+        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcComputedSizeAndHgrow(),
+                P2ColumnConstraints.getCcPrefSize());
+        gridPane.getRowConstraints().addAll(P2ColumnConstraints.getRcPrefSize(), P2ColumnConstraints.getRcPrefSize(),
+                P2ColumnConstraints.getRcPrefSize(), P2ColumnConstraints.getRcPrefSize(), P2ColumnConstraints.getRcPrefSize(),
+                P2ColumnConstraints.getRcVgrow());
     }
 
     private void checkBeta() {

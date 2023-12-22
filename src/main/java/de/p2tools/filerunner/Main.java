@@ -15,7 +15,7 @@
  */
 package de.p2tools.filerunner;
 
-import de.p2tools.p2lib.guitools.LinuxJavaFx;
+import de.p2tools.p2lib.guitools.P2LinuxJavaFx;
 import javafx.application.Application;
 import javafx.application.Platform;
 
@@ -42,7 +42,7 @@ public class Main {
     }
 
     private void start(String... args) {
-        if (LinuxJavaFx.hasJavaFx()) {
+        if (P2LinuxJavaFx.hasJavaFx()) {
 
             new AppParameter().processArgs(args);
             startGui(args);

@@ -20,9 +20,9 @@ import de.p2tools.filerunner.controller.config.*;
 import de.p2tools.filerunner.gui.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.data.PColorData;
-import de.p2tools.p2lib.guitools.PButton;
-import de.p2tools.p2lib.guitools.PColumnConstraints;
-import de.p2tools.p2lib.guitools.ptoggleswitch.PToggleSwitch;
+import de.p2tools.p2lib.guitools.P2Button;
+import de.p2tools.p2lib.guitools.P2ColumnConstraints;
+import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import de.p2tools.p2lib.tools.PColorFactory;
 import de.p2tools.p2lib.tools.events.PEvent;
 import javafx.geometry.HPos;
@@ -44,8 +44,8 @@ public class PaneColor {
 
     private final Stage stage;
 
-    private final PToggleSwitch tglDarkTheme = new PToggleSwitch("Dunkles Erscheinungsbild der Programmoberfläche");
-    private final PToggleSwitch tglEvenOdd = new PToggleSwitch("Gerade/ungerade Zeilen farblich etwas absetzen");
+    private final P2ToggleSwitch tglDarkTheme = new P2ToggleSwitch("Dunkles Erscheinungsbild der Programmoberfläche");
+    private final P2ToggleSwitch tglEvenOdd = new P2ToggleSwitch("Gerade/ungerade Zeilen farblich etwas absetzen");
     private final Slider slOdd = new Slider();
 
     public PaneColor(Stage stage) {
@@ -60,13 +60,13 @@ public class PaneColor {
 
     public void makeColor(Collection<TitledPane> result) {
         final VBox vBox = new VBox();
-        vBox.setPadding(new Insets(P2LibConst.DIST_EDGE));
+        vBox.setPadding(new Insets(P2LibConst.PADDING));
         vBox.setFillWidth(true);
         vBox.setSpacing(10);
 
-        final Button btnHelpTheme = PButton.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
+        final Button btnHelpTheme = P2Button.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
                 HelpText.DARK_THEME);
-        final Button btnHelpEvenOdd = PButton.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
+        final Button btnHelpEvenOdd = P2Button.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
                 HelpText.EVEN_ODD);
 
         tglDarkTheme.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_DARK_THEME);
@@ -106,7 +106,7 @@ public class PaneColor {
         gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
         gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
 //        gridPane.setPadding(new Insets(P2LibConst.DIST_EDGE));
-        gridPane.setPadding(new Insets(0, 0, P2LibConst.DIST_EDGE, 0));
+        gridPane.setPadding(new Insets(0, 0, P2LibConst.PADDING, 0));
 
         gridPane.add(tglDarkTheme, 0, 0);
         gridPane.add(btnHelpTheme, 1, 0);
@@ -118,7 +118,7 @@ public class PaneColor {
         gridPane.add(h, 0, 2);
         GridPane.setHgrow(h, Priority.ALWAYS);
         GridPane.setHalignment(h, HPos.RIGHT);
-        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow(), PColumnConstraints.getCcPrefSize());
+        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcComputedSizeAndHgrow(), P2ColumnConstraints.getCcPrefSize());
 
 
         TableView<PColorData> tableView = new TableView<>();
@@ -134,7 +134,7 @@ public class PaneColor {
             ProgColorList.resetAllColor();
             ProgData.getInstance().pEventHandler.notifyListener(new PEvent(Events.COLORS_CHANGED));
         });
-        final Button btnHelpColor = PButton.helpButton(stage, "Farben",
+        final Button btnHelpColor = P2Button.helpButton(stage, "Farben",
                 HelpText.COLORS);
         HBox hBox = new HBox();
         hBox.getChildren().addAll(button, btnHelpColor);

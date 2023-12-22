@@ -29,7 +29,7 @@ import de.p2tools.filerunner.gui.StatusBarController;
 import de.p2tools.filerunner.gui.configdialog.ConfigDialogController;
 import de.p2tools.filerunner.gui.dialog.AboutDialogController;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
-import de.p2tools.p2lib.guitools.pmask.PMaskerPane;
+import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
 import de.p2tools.p2lib.tools.log.PLog;
@@ -43,7 +43,7 @@ import javafx.scene.layout.*;
 
 public class FileRunnerController extends StackPane {
 
-    private final PMaskerPane maskerPane = new PMaskerPane();
+    private final P2MaskerPane maskerPane = new P2MaskerPane();
     BorderPane borderPane = new BorderPane();
 
     Button btnDirRunner = new Button("Ordner " + "vergleichen");

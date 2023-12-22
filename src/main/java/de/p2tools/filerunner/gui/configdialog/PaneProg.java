@@ -22,8 +22,8 @@ import de.p2tools.filerunner.gui.HelpText;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.dialogs.PDirFileChooser;
-import de.p2tools.p2lib.guitools.PButton;
-import de.p2tools.p2lib.guitools.PColumnConstraints;
+import de.p2tools.p2lib.guitools.P2Button;
+import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -56,7 +56,7 @@ public class PaneProg {
         final GridPane gridPane = new GridPane();
         gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
         gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
-        gridPane.setPadding(new Insets(P2LibConst.DIST_EDGE));
+        gridPane.setPadding(new Insets(P2LibConst.PADDING));
 
         TitledPane tpConfig = new TitledPane("Programme", gridPane);
         result.add(tpConfig);
@@ -64,7 +64,7 @@ public class PaneProg {
         addFilemanager(gridPane, 0);
         addWebbrowser(gridPane, 1);
 
-        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcComputedSizeAndHgrow());
+        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcComputedSizeAndHgrow());
     }
 
     private void addFilemanager(GridPane gridPane, int row) {
@@ -78,7 +78,7 @@ public class PaneProg {
         btnFile.setGraphic(ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
         btnFile.setTooltip(new Tooltip("Einen Dateimanager manuell auswählen"));
 
-        final Button btnHelp = PButton.helpButton(stage, "Dateimanager", HelpText.FILEMANAGER);
+        final Button btnHelp = P2Button.helpButton(stage, "Dateimanager", HelpText.FILEMANAGER);
 
         VBox vBox = new VBox(2);
         HBox hBox = new HBox(5);
@@ -99,7 +99,7 @@ public class PaneProg {
         btnFile.setGraphic(ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
         btnFile.setTooltip(new Tooltip("Einen Webbrowser zum Öffnen von URLs auswählen"));
 
-        final Button btnHelp = PButton.helpButton(stage, "Webbrowser", HelpText.WEBBROWSER);
+        final Button btnHelp = P2Button.helpButton(stage, "Webbrowser", HelpText.WEBBROWSER);
 
         VBox vBox = new VBox(2);
         HBox hBox = new HBox(5);

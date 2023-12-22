@@ -33,7 +33,7 @@ import de.p2tools.p2lib.alert.PAlert;
 import de.p2tools.p2lib.dialogs.PDialogShowAgain;
 import de.p2tools.p2lib.dialogs.PDirFileChooser;
 import de.p2tools.p2lib.guitools.*;
-import de.p2tools.p2lib.guitools.ptoggleswitch.PToggleSwitchOnly;
+import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitchOnly;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
 import de.p2tools.p2lib.tools.file.PFileName;
@@ -60,11 +60,11 @@ public class GuiDirPane extends VBox {
     private final ScrollPane scrollPane = new ScrollPane();
     private final TableFileList tableView;
 
-    private final PComboBoxString pCboDir = new PComboBoxString();
-    private final PComboBoxString pCboZip = new PComboBoxString();
-    private final PComboBoxString pCboHash = new PComboBoxString();
-    private final PComboBoxString pCboWriteHash = new PComboBoxString();
-    private final PComboBoxString pCboFilter = new PComboBoxString();
+    private final P2ComboBoxString pCboDir = new P2ComboBoxString();
+    private final P2ComboBoxString pCboZip = new P2ComboBoxString();
+    private final P2ComboBoxString pCboHash = new P2ComboBoxString();
+    private final P2ComboBoxString pCboWriteHash = new P2ComboBoxString();
+    private final P2ComboBoxString pCboFilter = new P2ComboBoxString();
 
     private final Button btnSelectDir = new Button("");
     private final Button btnSelectZipfile = new Button("");
@@ -153,7 +153,7 @@ public class GuiDirPane extends VBox {
         if (path.isEmpty()) {
             return;
         }
-        POpen.openDir(path, ProgConfig.SYSTEM_PROG_OPEN_DIR, ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
+        P2Open.openDir(path, ProgConfig.SYSTEM_PROG_OPEN_DIR, ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
     }
 
     public void copySelFile() {
@@ -252,7 +252,7 @@ public class GuiDirPane extends VBox {
 
 
         Label lblPath = new Label("Auch Unterverzeichnisse durchsuchen:");
-        final PToggleSwitchOnly tglSubDir = new PToggleSwitchOnly();
+        final P2ToggleSwitchOnly tglSubDir = new P2ToggleSwitchOnly();
         tglSubDir.setTooltip(new Tooltip("Es werden auch Dateien in Unterverzeichnissen verglichen"));
         tglSubDir.selectedProperty().bindBidirectional(recursive);
         tglSubDir.selectedProperty().addListener((v, o, n) -> {
@@ -269,7 +269,7 @@ public class GuiDirPane extends VBox {
 
             CompareFileListFactory.compareList();
         });
-        Button btnHelpPathHash = PButton.helpButton(progData.primaryStage, "", HelpText.READ_DIR_RECURSIVE);
+        Button btnHelpPathHash = P2Button.helpButton(progData.primaryStage, "", HelpText.READ_DIR_RECURSIVE);
         HBox hBox = new HBox(10);
         hBox.setPadding(new Insets(5, 0, 0, 0));
         hBox.setAlignment(Pos.CENTER_RIGHT);
@@ -438,7 +438,7 @@ public class GuiDirPane extends VBox {
                 if (runEvent.getClass().equals(RunPEvent.class)) {
                     RunPEvent runE = (RunPEvent) runEvent;
                     if (runE.nixLos()) {
-                        PTableFactory.refreshTable(tableView);
+                        P2TableFactory.refreshTable(tableView);
                         tableView.sort();
                     }
                 }

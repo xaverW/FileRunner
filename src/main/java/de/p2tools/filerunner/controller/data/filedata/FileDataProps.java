@@ -18,7 +18,7 @@
 package de.p2tools.filerunner.controller.data.filedata;
 
 import de.p2tools.p2lib.configfile.pdata.PDataSample;
-import de.p2tools.p2lib.tools.date.PDate;
+import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.file.PFileSize;
 
 public class FileDataProps extends PDataSample<FileData> {
@@ -32,7 +32,7 @@ public class FileDataProps extends PDataSample<FileData> {
     private String path = "";
     private String pathFileName = "";
     private String fileName = "";
-    private PDate fileDate = null;
+    private P2Date fileDate = null;
     private PFileSize fileSize = null;
     private String hash = "";
     private boolean diff = false;
@@ -99,11 +99,11 @@ public class FileDataProps extends PDataSample<FileData> {
         this.fileName = fileName;
     }
 
-    public PDate getFileDate() {
+    public P2Date getFileDate() {
         return fileDate;
     }
 
-    public void setFileDate(PDate fileDate) {
+    public void setFileDate(P2Date fileDate) {
         this.fileDate = fileDate;
     }
 

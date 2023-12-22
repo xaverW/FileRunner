@@ -25,9 +25,9 @@ import de.p2tools.filerunner.controller.worker.gethash.HashFactory;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.alert.PAlert;
 import de.p2tools.p2lib.dialogs.PDirFileChooser;
-import de.p2tools.p2lib.guitools.PColumnConstraints;
-import de.p2tools.p2lib.guitools.PComboBoxString;
-import de.p2tools.p2lib.guitools.PTextField;
+import de.p2tools.p2lib.guitools.P2ColumnConstraints;
+import de.p2tools.p2lib.guitools.P2ComboBoxString;
+import de.p2tools.p2lib.guitools.P2TextField;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
 import de.p2tools.p2lib.tools.file.PFileName;
@@ -50,16 +50,16 @@ public class GuiFilePane extends VBox {
     private final RadioButton rbReadHashFile = new RadioButton("Hashdatei");
     private final RadioButton rbHash = new RadioButton("Hash");
     private final Button btnProposeStoringHashFileName = new Button("");
-    private final PComboBoxString cboWriteHash = new PComboBoxString();
+    private final P2ComboBoxString cboWriteHash = new P2ComboBoxString();
     private final Button btnSelectHashFileForStoring = new Button();
 
     private final Button btnReadFileAndGenHash = new Button("");
     private final Button btnReadHashFile = new Button("");
     private final Button btnSaveHash = new Button("Hash speichern");
 
-    private final PComboBoxString cboGenHashFromFile = new PComboBoxString();
-    private final PComboBoxString cboReadHashFile = new PComboBoxString();
-    private final PTextField txtHash = new PTextField();
+    private final P2ComboBoxString cboGenHashFromFile = new P2ComboBoxString();
+    private final P2ComboBoxString cboReadHashFile = new P2ComboBoxString();
+    private final P2TextField txtHash = new P2TextField();
     private final Label lblHashOk = new Label();
 
     private final IntegerProperty sel;
@@ -101,7 +101,7 @@ public class GuiFilePane extends VBox {
         }
     }
 
-    public PTextField getTxtHash() {
+    public P2TextField getTxtHash() {
         return txtHash;
     }
 
@@ -247,9 +247,9 @@ public class GuiFilePane extends VBox {
         GridPane.setHalignment(btnSaveHash, HPos.RIGHT);
         gridPane.add(btnSaveHash, 1, ++r, 3, 1);
 
-        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
-                PColumnConstraints.getCcComputedSizeAndHgrow(),
-                PColumnConstraints.getCcPrefSize());
+        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
+                P2ColumnConstraints.getCcComputedSizeAndHgrow(),
+                P2ColumnConstraints.getCcPrefSize());
 
         getChildren().addAll(gridPane);
     }

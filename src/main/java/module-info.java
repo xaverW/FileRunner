@@ -10,6 +10,7 @@ module filerunner {
     requires java.desktop;
 
     requires commons.cli;
-    
+    requires org.apache.commons.io;
+
 }
 

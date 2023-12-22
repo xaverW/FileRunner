@@ -20,8 +20,8 @@ import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.gui.HelpText;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.guitools.PButton;
-import de.p2tools.p2lib.guitools.PColumnConstraints;
+import de.p2tools.p2lib.guitools.P2Button;
+import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -54,14 +54,14 @@ public class PaneConfig {
         final GridPane gridPane = new GridPane();
         gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
         gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
-        gridPane.setPadding(new Insets(P2LibConst.DIST_EDGE));
+        gridPane.setPadding(new Insets(P2LibConst.PADDING));
 
         TitledPane tpConfig = new TitledPane("Allgemein", gridPane);
         result.add(tpConfig);
 
         final Label lblFollow = new Label("Symbolische Verknüpfungen auflösen");
 
-        final Button btnHelpFollowLink = PButton.helpButton(stage, "Verknüpfung folgen", HelpText.FOLLOW_SYMLINK);
+        final Button btnHelpFollowLink = P2Button.helpButton(stage, "Verknüpfung folgen", HelpText.FOLLOW_SYMLINK);
         GridPane.setHalignment(btnHelpFollowLink, HPos.RIGHT);
 
         chkFollowLink1.selectedProperty().bindBidirectional(ProgConfig.followLink1);
@@ -73,7 +73,7 @@ public class PaneConfig {
         gridPane.add(chkFollowLink1, 0, ++row);
         gridPane.add(chkFollowLink2, 0, ++row);
 
-        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
-                PColumnConstraints.getCcComputedSizeAndHgrow());
+        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
+                P2ColumnConstraints.getCcComputedSizeAndHgrow());
     }
 }

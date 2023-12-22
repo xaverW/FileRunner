@@ -21,8 +21,8 @@ import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.config.RunPEvent;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
-import de.p2tools.p2lib.guitools.PColumnConstraints;
-import de.p2tools.p2lib.guitools.PTextField;
+import de.p2tools.p2lib.guitools.P2ColumnConstraints;
+import de.p2tools.p2lib.guitools.P2TextField;
 import de.p2tools.p2lib.hash.HashConst;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
@@ -118,8 +118,8 @@ public class GuiFileRunner extends AnchorPane {
         gridPane.add(hBox, 1, 2);
         gridPane.add(btnCheckFile, 2, 2);
 
-        gridPane.getColumnConstraints().addAll(PColumnConstraints.getCcPrefSize(),
-                PColumnConstraints.getCcComputedSizeAndHgrow(), PColumnConstraints.getCcPrefSize());
+        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
+                P2ColumnConstraints.getCcComputedSizeAndHgrow(), P2ColumnConstraints.getCcPrefSize());
 
         vBoxCont.setPadding(new Insets(25));
         vBoxCont.getChildren().addAll(gridPane);
@@ -172,8 +172,8 @@ public class GuiFileRunner extends AnchorPane {
 
     private void initColor() {
         setColor();
-        PTextField pTextField1 = guiFilePane1.getTxtHash();
-        PTextField pTextField2 = guiFilePane2.getTxtHash();
+        P2TextField pTextField1 = guiFilePane1.getTxtHash();
+        P2TextField pTextField2 = guiFilePane2.getTxtHash();
         pTextField1.textProperty().addListener((observable, oldValue, newValue) -> {
             setColor();
         });
@@ -183,8 +183,8 @@ public class GuiFileRunner extends AnchorPane {
     }
 
     private void setColor() {
-        PTextField pTextField1 = guiFilePane1.getTxtHash();
-        PTextField pTextField2 = guiFilePane2.getTxtHash();
+        P2TextField pTextField1 = guiFilePane1.getTxtHash();
+        P2TextField pTextField2 = guiFilePane2.getTxtHash();
         String hash1 = pTextField1.getText().trim().toLowerCase();
         String hash2 = pTextField2.getText().trim().toLowerCase();
 

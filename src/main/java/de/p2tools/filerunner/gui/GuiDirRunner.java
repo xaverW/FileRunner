@@ -23,8 +23,8 @@ import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.data.filedata.FileDataFilter;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
+import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2GuiTools;
-import de.p2tools.p2lib.guitools.PButton;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
 import de.p2tools.p2lib.tools.log.PLog;
@@ -107,7 +107,7 @@ public class GuiDirRunner extends AnchorPane {
                 tglShowSamePath, /*tglShowSameHash, */spacer2, tglShowDiff_OR_ONLY, tglShowDiff_IN_BOTH, spacer3,
                 tglShowOnly1, tglShowOnly2);
 
-        Button btnHelp = PButton.helpButton(progData.primaryStage, "Vergleichen", HelpText.COMPARE_BUTTON);
+        Button btnHelp = P2Button.helpButton(progData.primaryStage, "Vergleichen", HelpText.COMPARE_BUTTON);
 
         VBox vBox = new VBox(10);
         VBox.setVgrow(vBox, Priority.ALWAYS);
@@ -122,7 +122,7 @@ public class GuiDirRunner extends AnchorPane {
         //==================================
         //== Unten ==
         Label lblHash = new Label("Gleiche Dateien haben gleichen");
-        Button btnHelpPathHash = PButton.helpButton(progData.primaryStage, "", HelpText.READ_DIR_HASH);
+        Button btnHelpPathHash = P2Button.helpButton(progData.primaryStage, "", HelpText.READ_DIR_HASH);
 
         RadioButton rbFilePath = new RadioButton("Pfad/Dateinamen und Hash");
         RadioButton rbFileName = new RadioButton("Dateinamen und Hash");

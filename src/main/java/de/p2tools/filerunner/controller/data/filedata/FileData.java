@@ -17,14 +17,14 @@
 
 package de.p2tools.filerunner.controller.data.filedata;
 
-import de.p2tools.p2lib.tools.date.PDate;
+import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.file.PFileSize;
 
 import java.io.File;
 
 public class FileData extends FileDataProps {
 
-    public FileData(String pathFileName, PDate date, PFileSize fileSize, String hash, boolean link) {
+    public FileData(String pathFileName, P2Date date, PFileSize fileSize, String hash, boolean link) {
         String path, fileName;
         if (pathFileName.contains(File.separator)) {
             path = pathFileName.substring(0, pathFileName.lastIndexOf(File.separator));

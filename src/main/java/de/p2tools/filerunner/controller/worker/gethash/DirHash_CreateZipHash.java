@@ -25,7 +25,7 @@ import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
 import de.p2tools.p2lib.alert.PAlert;
 import de.p2tools.p2lib.hash.HashConst;
-import de.p2tools.p2lib.tools.date.PDate;
+import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.file.PFileSize;
 import de.p2tools.p2lib.tools.log.PLog;
 import javafx.application.Platform;
@@ -166,7 +166,7 @@ public class DirHash_CreateZipHash {
                     strFile = strFile.substring(1);
                 }
 
-                PDate fileDate = new PDate(zipEntry.getLastModifiedTime().toMillis());
+                P2Date fileDate = new P2Date(zipEntry.getLastModifiedTime().toMillis());
                 PFileSize fileSize = new PFileSize(zipEntry.getSize());
                 fileDataList.addHashString(strFile, fileDate, fileSize, ret);
 
