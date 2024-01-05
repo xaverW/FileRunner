@@ -93,20 +93,20 @@ public class CompareFileListFactory {
             case ProgConst.COMPARE_PATH_NAME:
                 PLog.sysLog("ProgConst.COMPARE_PATH_NAME");
                 compareWithPathAndSetId(fileDataList1, fileDataList2);
-                fileDataList1.stream().forEach(fileData -> fileData.setId(fileData.getFilePathId()));
-                fileDataList2.stream().forEach(fileData -> fileData.setId(fileData.getFilePathId()));
+                fileDataList1.forEach(fileData -> fileData.setId(fileData.getFilePathId()));
+                fileDataList2.forEach(fileData -> fileData.setId(fileData.getFilePathId()));
                 break;
             case ProgConst.COMPARE_NAME:
                 compareWithNameAndSetId(fileDataList1, fileDataList2);
                 PLog.sysLog("CompareFileListFactory: fileDataList1.stream()");
-                fileDataList1.stream().forEach(fileData -> fileData.setId(fileData.getFileNameId()));
+                fileDataList1.forEach(fileData -> fileData.setId(fileData.getFileNameId()));
                 PLog.sysLog("CompareFileListFactory: fileDataList2.stream()");
-                fileDataList2.stream().forEach(fileData -> fileData.setId(fileData.getFileNameId()));
+                fileDataList2.forEach(fileData -> fileData.setId(fileData.getFileNameId()));
                 break;
             case ProgConst.COMPARE_ALL:
                 compareWithHashAndSetId(fileDataList1, fileDataList2);
-                fileDataList1.stream().forEach(fileData -> fileData.setId(fileData.getHashId()));
-                fileDataList2.stream().forEach(fileData -> fileData.setId(fileData.getHashId()));
+                fileDataList1.forEach(fileData -> fileData.setId(fileData.getHashId()));
+                fileDataList2.forEach(fileData -> fileData.setId(fileData.getHashId()));
                 break;
         }
 
@@ -120,7 +120,7 @@ public class CompareFileListFactory {
 
     private static void setOnlyDiff(FileDataList fileDataList1, FileDataList fileDataList2) {
         //only und diff setzen
-        fileDataList1.stream().forEach(fd1 -> {
+        fileDataList1.forEach(fd1 -> {
             if (stop) {
                 return;
             }
@@ -147,7 +147,7 @@ public class CompareFileListFactory {
         PLog.sysLog("Vergleichen von Dateien mit gleichem Verzeichnis/Namen:" + P2LibConst.LINE_SEPARATOR
                 + fileDataList1.getSourceDir() + P2LibConst.LINE_SEPARATOR + fileDataList2.getSourceDir());
 
-        fileDataList1.stream().forEach(fd1 -> {
+        fileDataList1.forEach(fd1 -> {
             if (stop) {
                 return;
             }

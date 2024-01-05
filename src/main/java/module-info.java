@@ -2,6 +2,8 @@ module filerunner {
     opens de.p2tools.filerunner;
     exports de.p2tools.filerunner;
 
+    opens de.p2tools.filerunner.controller.data.filedata;
+
     requires de.p2tools.p2lib;
     requires javafx.controls;
     requires org.controlsfx.controls;
