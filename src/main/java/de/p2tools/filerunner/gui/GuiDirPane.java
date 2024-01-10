@@ -506,14 +506,24 @@ public class GuiDirPane extends VBox {
             String onlyName = FilenameUtils.getName(file);
             onlyName = FilenameUtils.removeExtension(onlyName);
             String onlyPath = FilenameUtils.getFullPath(file);
+            String pathFile = Path.of(onlyPath, onlyName + ".md5").toString();
 
-            if (pCboWriteHash.getEditor().getText().isEmpty() ||
-                    !pCboWriteHash.getEditor().getText().startsWith(onlyPath) ||
-                    !pCboWriteHash.getEditor().getText().contains(onlyName)) {
-                pCboWriteHash.getEditor().setText(file);
+            if (pCboWriteHash.getEditor().getText().isEmpty()) {
+                if (!pCboWriteHash.getItems().contains(pathFile)) {
+                    pCboWriteHash.getItems().add(pathFile);
+                }
+                pCboWriteHash.selectElement(pathFile);
+            } else {
+                String pf = pCboWriteHash.getEditor().getText();
+                onlyPath = FilenameUtils.getFullPath(pf);
+                onlyName = FilenameUtils.getName(pf);
+                onlyName = FilenameUtils.removeExtension(onlyName);
             }
 
-            final String nextElement = PFileName.getNextFileNameWithDate(pCboWriteHash.getEditor().getText(), "md5");
+            final String nextElement = PFileName.getNextFileNameWithDate(onlyPath, onlyName + ".md5", "md5");
+            if (!pCboWriteHash.getItems().contains(nextElement)) {
+                pCboWriteHash.getItems().add(nextElement);
+            }
             pCboWriteHash.selectElement(nextElement);
         });
 
