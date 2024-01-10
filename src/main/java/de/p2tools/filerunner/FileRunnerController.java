@@ -19,6 +19,7 @@ package de.p2tools.filerunner;
 import de.p2tools.filerunner.controller.ProgQuittFactory;
 import de.p2tools.filerunner.controller.SearchProgramUpdate;
 import de.p2tools.filerunner.controller.config.Events;
+import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.config.RunPEvent;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
@@ -39,6 +40,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 
 public class FileRunnerController extends StackPane {
@@ -112,6 +114,11 @@ public class FileRunnerController extends StackPane {
             menuButton.setGraphic(ProgIconsFileRunner.FX_ICON_TOOLBAR_MENUE_TOP.getImageView());
             menuButton.getItems().addAll(miConfig, miHelp, miSearchUpdate, miAbout,
                     new SeparatorMenuItem(), miQuitt);
+            menuButton.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+                    ProgConfig.SYSTEM_DARK_THEME.setValue(!ProgConfig.SYSTEM_DARK_THEME.getValue());
+                }
+            });
 
             menuButton2.getStyleClass().addAll("btnFunction", "btnFunc-2");//damit das tilePane mittig ist!!
             menuButton2.setText("");
