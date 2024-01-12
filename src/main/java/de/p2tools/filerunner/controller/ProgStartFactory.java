@@ -97,19 +97,20 @@ public class ProgStartFactory {
         // Prüfen obs ein Programmupdate gibt
         PDuration.onlyPing("checkProgUpdate");
 
-        if (ProgData.debug) {
+        /* if (ProgData.debug) {
             // damits bei jedem Start gemacht wird
             PLog.sysLog("DEBUG: Update-Check");
             runUpdateCheck(progData, true);
 
-        } else if (ProgConfig.SYSTEM_UPDATE_SEARCH_ACT.get() &&
+        } else */
+        if (ProgConfig.SYSTEM_UPDATE_SEARCH_ACT.get() &&
                 !updateCheckTodayDone()) {
             // nach Updates suchen
             runUpdateCheck(progData, false);
 
         } else {
             // will der User nicht --oder-- wurde heute schon gemacht
-            List list = new ArrayList(5);
+            List<String> list = new ArrayList<>(5);
             list.add("Kein Update-Check:");
             if (!ProgConfig.SYSTEM_UPDATE_SEARCH_ACT.get()) {
                 list.add("  der User will nicht");

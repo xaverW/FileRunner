@@ -128,7 +128,8 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty writeHash2 = addStrProp("writeHash2");
     public static StringProperty writeFileHash1 = addStrProp("writeFileHash1");
     public static StringProperty writeFileHash2 = addStrProp("writeFileHash2");
-    public static ObservableList<String> writeHashList = addListProp("writeHashList");
+    public static ObservableList<String> writeHashList1 = addListProp("writeHashList1");
+    public static ObservableList<String> writeHashList2 = addListProp("writeHashList2");
     public static ObservableList<String> writeFileHashList = addListProp("writeFileHashList");
 
     public static IntegerProperty selTab1 = addIntProp("selTab1", 0);

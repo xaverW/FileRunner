@@ -288,7 +288,7 @@ public class GuiFilePane extends VBox {
                 cboWriteHash.getEditor().setText(file);
             }
             final String nextElement =
-                    PFileName.getNextFileNameWithDate(cboWriteHash.getEditor().getText(), ProgConfig.GUI_FILE_HASH_SUFF.getValue());
+                    PFileName.getNextFileNameWithDate(cboWriteHash.getEditor().getText(), ProgConfig.GUI_FILE_HASH_SUFF.getValue(), false);
             cboWriteHash.selectElement(nextElement);
         });
 

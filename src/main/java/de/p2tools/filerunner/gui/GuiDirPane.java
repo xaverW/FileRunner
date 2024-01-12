@@ -41,6 +41,7 @@ import de.p2tools.p2lib.tools.file.PFileUtils;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -97,6 +98,8 @@ public class GuiDirPane extends VBox {
     private final StringProperty srcHash;
     private final StringProperty filter;
     private final StringProperty writeHash;
+    private final ObservableList<String> writeHashList;
+
     private final int selTab;
     private final IntegerProperty selTabIndex;
     private final BooleanProperty recursive;
@@ -119,6 +122,7 @@ public class GuiDirPane extends VBox {
             srcHash = ProgConfig.searchHashFile1;
             filter = ProgConfig.filter1;
             writeHash = ProgConfig.writeHash1;
+            writeHashList = ProgConfig.writeHashList1;
 
             selTab = ProgConfig.selTab1.get();
             selTabIndex = ProgConfig.selTab1;
@@ -133,6 +137,7 @@ public class GuiDirPane extends VBox {
             srcHash = ProgConfig.searchHashFile2;
             filter = ProgConfig.filter2;
             writeHash = ProgConfig.writeHash2;
+            writeHashList = ProgConfig.writeHashList2;
 
             selTab = ProgConfig.selTab2.get();
             selTabIndex = ProgConfig.selTab2;
@@ -424,7 +429,7 @@ public class GuiDirPane extends VBox {
         pCboZip.init(ProgConfig.searchZipList, srcZip);
         pCboHash.init(ProgConfig.searchHashFileList, srcHash);
         pCboFilter.init(ProgConfig.filterList, filter);
-        pCboWriteHash.init(ProgConfig.writeHashList, writeHash);
+        pCboWriteHash.init(writeHashList, writeHash);
 
         tabPane.getSelectionModel().select(selTab);
         selTabIndex.bind(tabPane.getSelectionModel().selectedIndexProperty());
@@ -509,10 +514,10 @@ public class GuiDirPane extends VBox {
             String pathFile = Path.of(onlyPath, onlyName + ".md5").toString();
 
             if (pCboWriteHash.getEditor().getText().isEmpty()) {
-                if (!pCboWriteHash.getItems().contains(pathFile)) {
-                    pCboWriteHash.getItems().add(pathFile);
-                }
+                pCboWriteHash.getItems().remove(pathFile);
+                pCboWriteHash.getItems().add(0, pathFile);
                 pCboWriteHash.selectElement(pathFile);
+
             } else {
                 String pf = pCboWriteHash.getEditor().getText();
                 onlyPath = FilenameUtils.getFullPath(pf);
@@ -520,11 +525,15 @@ public class GuiDirPane extends VBox {
                 onlyName = FilenameUtils.removeExtension(onlyName);
             }
 
-            final String nextElement = PFileName.getNextFileNameWithDate(onlyPath, onlyName + ".md5", "md5");
-            if (!pCboWriteHash.getItems().contains(nextElement)) {
-                pCboWriteHash.getItems().add(nextElement);
-            }
+            final String nextElement = PFileName.getNextFileNameWithDate(onlyPath, onlyName + ".md5", "md5", false);
+            pCboWriteHash.getItems().remove(nextElement);
+            pCboWriteHash.getItems().add(0, nextElement);
             pCboWriteHash.selectElement(nextElement);
+
+            pCboWriteHash.getItems().remove("");
+            while (pCboWriteHash.getItems().size() > 15) {
+                pCboWriteHash.getItems().remove(pCboWriteHash.getItems().size() - 1);
+            }
         });
 
         pCboDir.getEditor().textProperty().addListener((c, o, n) -> {
