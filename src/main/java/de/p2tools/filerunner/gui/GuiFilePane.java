@@ -30,7 +30,7 @@ import de.p2tools.p2lib.guitools.P2ComboBoxString;
 import de.p2tools.p2lib.guitools.P2TextField;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
-import de.p2tools.p2lib.tools.file.PFileName;
+import de.p2tools.p2lib.tools.file.P2FileName;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -288,7 +288,7 @@ public class GuiFilePane extends VBox {
                 cboWriteHash.getEditor().setText(file);
             }
             final String nextElement =
-                    PFileName.getNextFileNameWithDate(cboWriteHash.getEditor().getText(), ProgConfig.GUI_FILE_HASH_SUFF.getValue(), false);
+                    P2FileName.getNextFileNameWithDate(cboWriteHash.getEditor().getText(), ProgConfig.GUI_FILE_HASH_SUFF.getValue(), false);
             cboWriteHash.selectElement(nextElement);
         });
 

@@ -22,7 +22,7 @@ import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.PAlert;
 import de.p2tools.p2lib.tools.date.P2Date;
-import de.p2tools.p2lib.tools.file.PFileSize;
+import de.p2tools.p2lib.tools.file.P2FileSize;
 import de.p2tools.p2lib.tools.log.PLog;
 import javafx.application.Platform;
 
@@ -124,7 +124,7 @@ public class DirHashFileFactory {
                     getHashNew(line), getFileIsLinkNew(line));
 
         } else {
-            fileData = new FileData(getFile(line), new P2Date(0), new PFileSize(""), getHash(line), false);
+            fileData = new FileData(getFile(line), new P2Date(0), new P2FileSize(""), getHash(line), false);
         }
         return fileData;
     }
@@ -195,21 +195,21 @@ public class DirHashFileFactory {
         return new P2Date(date);
     }
 
-    public static PFileSize getFileSizeNew(String line) {
+    public static P2FileSize getFileSizeNew(String line) {
         String size = "";
         int l1, l2;
         l1 = line.indexOf(HashFactory.sizeStart);
         if (l1 < 0) {
-            return new PFileSize("");
+            return new P2FileSize("");
         }
         l2 = line.indexOf(HashFactory.sizeEnd, l1);
         if (l2 < 0) {
-            return new PFileSize("");
+            return new P2FileSize("");
         }
         l1 += HashFactory.sizeStart.length();
         size = line.substring(l1, l2);
         size = size.trim();
-        return new PFileSize(PFileSize.convertToLong(size));
+        return new P2FileSize(P2FileSize.convertToLong(size));
     }
 
     public static boolean getFileIsLinkNew(String line) {

@@ -43,12 +43,10 @@ public class Main {
 
     private void start(String... args) {
         if (P2LinuxJavaFx.hasJavaFx()) {
-
             new AppParameter().processArgs(args);
             startGui(args);
         }
     }
-
 
     private void startGui(final String[] args) {
         Platform.setImplicitExit(false);

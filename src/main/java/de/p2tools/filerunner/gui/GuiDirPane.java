@@ -36,8 +36,8 @@ import de.p2tools.p2lib.guitools.*;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitchOnly;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
-import de.p2tools.p2lib.tools.file.PFileName;
-import de.p2tools.p2lib.tools.file.PFileUtils;
+import de.p2tools.p2lib.tools.file.P2FileName;
+import de.p2tools.p2lib.tools.file.P2FileUtils;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
@@ -172,7 +172,7 @@ public class GuiDirPane extends VBox {
         if (srcFile.isEmpty()) {
             return;
         }
-        srcFile = PFileUtils.addsPath(srcFile, fileName);
+        srcFile = P2FileUtils.addsPath(srcFile, fileName);
         String destDir;
         if (table_enum.equals(Table.TABLE_ENUM.FILELIST_1)) {
             destDir = ProgConfig.lastUsedDir2.getValueSafe();
@@ -180,11 +180,11 @@ public class GuiDirPane extends VBox {
             destDir = ProgConfig.lastUsedDir1.getValueSafe();
         }
         destDir = PDirFileChooser.DirChooser(progData.primaryStage, destDir);
-        String destFile = PFileUtils.addsPath(destDir, fileName);
+        String destFile = P2FileUtils.addsPath(destDir, fileName);
 
         Path srcPath = Path.of(srcFile);
         Path destPath = Path.of(destFile);
-        PFileUtils.copyFile(srcPath, destPath, true);
+        P2FileUtils.copyFile(srcPath, destPath, true);
     }
 
     public void copyAllSelFiles() {
@@ -204,15 +204,15 @@ public class GuiDirPane extends VBox {
         for (FileData selected : tableView.getSelectionModel().getSelectedItems()) {
             String fileName = selected.getFileName();
             String s = selected.getPath();
-            String srcFile = PFileUtils.addsPath(srcDir.getValueSafe(), s);
+            String srcFile = P2FileUtils.addsPath(srcDir.getValueSafe(), s);
             if (srcFile.isEmpty()) {
                 return;
             }
-            srcFile = PFileUtils.addsPath(srcFile, fileName);
-            String destFile = PFileUtils.addsPath(destDir, fileName);
+            srcFile = P2FileUtils.addsPath(srcFile, fileName);
+            String destFile = P2FileUtils.addsPath(destDir, fileName);
             Path srcPath = Path.of(srcFile);
             Path destPath = Path.of(destFile);
-            PFileUtils.copyFile(srcPath, destPath, true);
+            P2FileUtils.copyFile(srcPath, destPath, true);
         }
     }
 
@@ -235,7 +235,7 @@ public class GuiDirPane extends VBox {
         }
 
         String s = fileData.get().getPath();
-        String path = PFileUtils.addsPath(srcDir.getValueSafe(), s);
+        String path = P2FileUtils.addsPath(srcDir.getValueSafe(), s);
         return path;
     }
 
@@ -525,7 +525,7 @@ public class GuiDirPane extends VBox {
                 onlyName = FilenameUtils.removeExtension(onlyName);
             }
 
-            final String nextElement = PFileName.getNextFileNameWithDate(onlyPath, onlyName + ".md5", "md5", false);
+            final String nextElement = P2FileName.getNextFileNameWithDate(onlyPath, onlyName + ".md5", "md5", false);
             pCboWriteHash.getItems().remove(nextElement);
             pCboWriteHash.getItems().add(0, nextElement);
             pCboWriteHash.selectElement(nextElement);

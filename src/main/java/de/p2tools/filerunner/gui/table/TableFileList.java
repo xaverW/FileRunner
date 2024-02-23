@@ -24,7 +24,7 @@ import de.p2tools.p2lib.guitools.ptable.P2CellCheckBox;
 import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
-import de.p2tools.p2lib.tools.file.PFileSize;
+import de.p2tools.p2lib.tools.file.P2FileSize;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -91,7 +91,7 @@ public class TableFileList extends PTable<FileData> {
         final TableColumn<FileData, String> fileNameColumn = new TableColumn<>("Dateiname");
         fileNameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName"));
 
-        final TableColumn<FileData, PFileSize> fileSizeColumn = new TableColumn<>("Größe");
+        final TableColumn<FileData, P2FileSize> fileSizeColumn = new TableColumn<>("Größe");
         fileSizeColumn.setCellValueFactory(new PropertyValueFactory<>("fileSize"));
 
         final TableColumn<FileData, P2Date> fileDateColumn = new TableColumn<>("Geändert");
