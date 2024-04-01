@@ -21,7 +21,7 @@ import de.p2tools.filerunner.controller.config.Events;
 import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.config.RunPEvent;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import de.p2tools.p2lib.tools.net.PUrlTools;
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
@@ -130,7 +130,7 @@ public class FileHash_CreateFileHashFile {
                     fileHash = h.toString();
                 }
             } catch (Exception ex) {
-                PLog.errorLog(764512032, ex, "Hash konnte nicht erstellt werden.");
+                P2Log.errorLog(764512032, ex, "Hash konnte nicht erstellt werden.");
                 fileHash = "";
             } finally {
                 try {

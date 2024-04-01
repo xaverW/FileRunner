@@ -30,8 +30,8 @@ import de.p2tools.filerunner.gui.table.TableFileList;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.PAlert;
-import de.p2tools.p2lib.dialogs.PDialogShowAgain;
-import de.p2tools.p2lib.dialogs.PDirFileChooser;
+import de.p2tools.p2lib.dialogs.P2DialogShowAgain;
+import de.p2tools.p2lib.dialogs.P2DirFileChooser;
 import de.p2tools.p2lib.guitools.*;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitchOnly;
 import de.p2tools.p2lib.tools.events.PEvent;
@@ -179,7 +179,7 @@ public class GuiDirPane extends VBox {
         } else {
             destDir = ProgConfig.lastUsedDir1.getValueSafe();
         }
-        destDir = PDirFileChooser.DirChooser(progData.primaryStage, destDir);
+        destDir = P2DirFileChooser.DirChooser(progData.primaryStage, destDir);
         String destFile = P2FileUtils.addsPath(destDir, fileName);
 
         Path srcPath = Path.of(srcFile);
@@ -199,7 +199,7 @@ public class GuiDirPane extends VBox {
         } else {
             destDir = ProgConfig.lastUsedDir1.getValueSafe();
         }
-        destDir = PDirFileChooser.DirChooser(progData.primaryStage, destDir);
+        destDir = P2DirFileChooser.DirChooser(progData.primaryStage, destDir);
 
         for (FileData selected : tableView.getSelectionModel().getSelectedItems()) {
             String fileName = selected.getFileName();
@@ -261,7 +261,7 @@ public class GuiDirPane extends VBox {
         tglSubDir.setTooltip(new Tooltip("Es werden auch Dateien in Unterverzeichnissen verglichen"));
         tglSubDir.selectedProperty().bindBidirectional(recursive);
         tglSubDir.selectedProperty().addListener((v, o, n) -> {
-            new PDialogShowAgain(progData.primaryStage, ProgConfig.SYSTEM_SUBDIR_SHOW_AGAIN_DIALOG_SIZE,
+            new P2DialogShowAgain(progData.primaryStage, ProgConfig.SYSTEM_SUBDIR_SHOW_AGAIN_DIALOG_SIZE,
                     "Unterverzeichnisse durchsuchen",
                     "Wenn \"Auch Unterverzeichnisse durchsuchen\" ein- oder ausgeschaltet wird, " +
                             "wird die Tabelle mit den Dateien gelöscht. " + P2LibConst.LINE_SEPARATORx2 +
@@ -453,30 +453,30 @@ public class GuiDirPane extends VBox {
         btnSelectDir.setOnAction(event -> {
             String dir = "";
             if (pCboDir.getEditor().getText().isEmpty()) {
-                dir = PDirFileChooser.DirChooser(progData.primaryStage, pCboDir,
+                dir = P2DirFileChooser.DirChooser(progData.primaryStage, pCboDir,
                         panel1 ? ProgConfig.lastUsedDir1.getValueSafe() : ProgConfig.lastUsedDir2.getValueSafe());
             } else {
-                dir = PDirFileChooser.DirChooser(progData.primaryStage, pCboDir);
+                dir = P2DirFileChooser.DirChooser(progData.primaryStage, pCboDir);
             }
             GuiFactory.setLastUsedDir(dir, panel1);
         });
         btnSelectZipFile.setOnAction(event -> {
             String dir = "";
             if (pCboZip.getEditor().getText().isEmpty()) {
-                dir = PDirFileChooser.FileChooser(progData.primaryStage, pCboZip,
+                dir = P2DirFileChooser.FileChooser(progData.primaryStage, pCboZip,
                         panel1 ? ProgConfig.lastUsedDir1.getValueSafe() : ProgConfig.lastUsedDir2.getValueSafe());
             } else {
-                dir = PDirFileChooser.FileChooser(progData.primaryStage, pCboZip);
+                dir = P2DirFileChooser.FileChooser(progData.primaryStage, pCboZip);
             }
             GuiFactory.setLastUsedDir(dir, panel1);
         });
         btnSelectHashFile.setOnAction(event -> {
             String dir = "";
             if (pCboHash.getEditor().getText().isEmpty()) {
-                dir = PDirFileChooser.FileChooser(progData.primaryStage, pCboHash,
+                dir = P2DirFileChooser.FileChooser(progData.primaryStage, pCboHash,
                         panel1 ? ProgConfig.lastUsedDir1.getValueSafe() : ProgConfig.lastUsedDir2.getValueSafe());
             } else {
-                dir = PDirFileChooser.FileChooser(progData.primaryStage, pCboHash);
+                dir = P2DirFileChooser.FileChooser(progData.primaryStage, pCboHash);
             }
             GuiFactory.setLastUsedDir(dir, panel1);
         });
@@ -490,7 +490,7 @@ public class GuiDirPane extends VBox {
             } else if (file.isEmpty() && tabFile.isSelected()) {
                 file = (panel1 ? ProgConfig.searchHashFile1.getValueSafe() : ProgConfig.searchHashFile2.getValueSafe());
             }
-            PDirFileChooser.FileChooserSave(progData.primaryStage, pCboWriteHash, file, "datei.md5");
+            P2DirFileChooser.FileChooserSave(progData.primaryStage, pCboWriteHash, file, "datei.md5");
         });
 
         btnProposeHashName.setOnAction(event -> {

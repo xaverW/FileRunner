@@ -18,13 +18,13 @@ package de.p2tools.filerunner.gui;
 
 
 import de.p2tools.filerunner.controller.config.ProgData;
-import de.p2tools.p2lib.dialogs.dialog.PDialogExtra;
+import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
 
-public class HelpDialogController extends PDialogExtra {
+public class HelpDialogController extends P2DialogExtra {
 
     private final TabPane tabPane = new TabPane();
     private Button btnOk;

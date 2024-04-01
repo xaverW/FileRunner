@@ -21,8 +21,8 @@ import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.config.ProgInfos;
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.configfile.ConfigWriteFile;
-import de.p2tools.p2lib.tools.log.LogMessage;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2LogMessage;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 
 import java.nio.file.Path;
@@ -39,7 +39,7 @@ public class ProgQuittFactory {
         //Tabelleneinstellungen merken
         ProgData.getInstance().guiDirRunner.saveTable();
         save();
-        LogMessage.endMsg();
+        P2LogMessage.endMsg();
 
         //dann jetzt beenden -> Tschüss
         Platform.runLater(() -> {
@@ -50,7 +50,7 @@ public class ProgQuittFactory {
 
     private static void save() {
         //sind die Programmeinstellungen
-        PLog.sysLog("Alle Programmeinstellungen sichern");
+        P2Log.sysLog("Alle Programmeinstellungen sichern");
         final Path xmlFilePath = ProgInfos.getSettingsFile();
         ConfigFile configFile = new ConfigFile(xmlFilePath.toString(), true);
         ProgConfig.addConfigData(configFile);

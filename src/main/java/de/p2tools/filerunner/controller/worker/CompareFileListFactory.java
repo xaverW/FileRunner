@@ -21,7 +21,7 @@ import de.p2tools.filerunner.controller.config.*;
 import de.p2tools.filerunner.controller.data.filedata.FileData;
 import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -54,7 +54,7 @@ public class CompareFileListFactory {
     public static void compareList() {
         if (running.get()) {
             //dann läuft er schon
-            PLog.sysLog("===============> CompareFileListFactory isRunning");
+            P2Log.sysLog("===============> CompareFileListFactory isRunning");
             return;
         }
 
@@ -65,7 +65,7 @@ public class CompareFileListFactory {
 
     private static void compare() {
         running.set(true);
-        PLog.sysLog("CompareFileListFactory -> compareList");
+        P2Log.sysLog("CompareFileListFactory -> compareList");
         ProgData progData = ProgData.getInstance();
         FileDataList fileDataList1 = progData.fileDataList_1;
         FileDataList fileDataList2 = progData.fileDataList_2;
@@ -91,16 +91,16 @@ public class CompareFileListFactory {
         //jetzt die Dateien vergleichen
         switch (ProgConfig.CONFIG_COMPARE_FILE.getValue()) {
             case ProgConst.COMPARE_PATH_NAME:
-                PLog.sysLog("ProgConst.COMPARE_PATH_NAME");
+                P2Log.sysLog("ProgConst.COMPARE_PATH_NAME");
                 compareWithPathAndSetId(fileDataList1, fileDataList2);
                 fileDataList1.forEach(fileData -> fileData.setId(fileData.getFilePathId()));
                 fileDataList2.forEach(fileData -> fileData.setId(fileData.getFilePathId()));
                 break;
             case ProgConst.COMPARE_NAME:
                 compareWithNameAndSetId(fileDataList1, fileDataList2);
-                PLog.sysLog("CompareFileListFactory: fileDataList1.stream()");
+                P2Log.sysLog("CompareFileListFactory: fileDataList1.stream()");
                 fileDataList1.forEach(fileData -> fileData.setId(fileData.getFileNameId()));
-                PLog.sysLog("CompareFileListFactory: fileDataList2.stream()");
+                P2Log.sysLog("CompareFileListFactory: fileDataList2.stream()");
                 fileDataList2.forEach(fileData -> fileData.setId(fileData.getFileNameId()));
                 break;
             case ProgConst.COMPARE_ALL:
@@ -144,7 +144,7 @@ public class CompareFileListFactory {
 
     private static void compareWithPathAndSetId(FileDataList fileDataList1, FileDataList fileDataList2) {
         //und hier Dateien mit Pfad vergleichen und ID setzen
-        PLog.sysLog("Vergleichen von Dateien mit gleichem Verzeichnis/Namen:" + P2LibConst.LINE_SEPARATOR
+        P2Log.sysLog("Vergleichen von Dateien mit gleichem Verzeichnis/Namen:" + P2LibConst.LINE_SEPARATOR
                 + fileDataList1.getSourceDir() + P2LibConst.LINE_SEPARATOR + fileDataList2.getSourceDir());
 
         fileDataList1.forEach(fd1 -> {
@@ -177,7 +177,7 @@ public class CompareFileListFactory {
     private static void compareWithNameAndSetId(FileDataList fileDataList1, FileDataList fileDataList2) {
         //hier werden Dateien mit dem gleich Namen vergleichen und ID setzen
         //gleich sind sie, wenn ALLE Dateien mit dem gleichen Namen auch gleich sind!!!
-        PLog.sysLog("Vergleichen von Dateien mit gleichem Namen:" + P2LibConst.LINE_SEPARATOR
+        P2Log.sysLog("Vergleichen von Dateien mit gleichem Namen:" + P2LibConst.LINE_SEPARATOR
                 + fileDataList1.getSourceDir() + P2LibConst.LINE_SEPARATOR + fileDataList2.getSourceDir());
 
         //only
@@ -258,7 +258,7 @@ public class CompareFileListFactory {
 
     private static void compareWithHashAndSetId(FileDataList fileDataList1, FileDataList fileDataList2) {
         //und hier Dateien nur mit dem Hash vergleichen und ID setzen
-        PLog.sysLog("Vergleichen mit Hash:" + P2LibConst.LINE_SEPARATOR
+        P2Log.sysLog("Vergleichen mit Hash:" + P2LibConst.LINE_SEPARATOR
                 + fileDataList1.getSourceDir() + P2LibConst.LINE_SEPARATOR + fileDataList2.getSourceDir());
         HashSet<String> hashset = new HashSet<>(fileDataList1.getSize());
 

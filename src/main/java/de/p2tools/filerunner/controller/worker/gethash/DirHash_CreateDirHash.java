@@ -27,7 +27,7 @@ import de.p2tools.p2lib.hash.HashConst;
 import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.duration.PDuration;
 import de.p2tools.p2lib.tools.file.P2FileSize;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 
@@ -76,8 +76,8 @@ public class DirHash_CreateDirHash {
 
     public void createHash(int anzThread) {
         ii = i++;
-        PLog.sysLog("Start createHash, List1: " + list1);
-        PLog.sysLog("Start createHash: " + ii);
+        P2Log.sysLog("Start createHash, List1: " + list1);
+        P2Log.sysLog("Start createHash: " + ii);
 
         max = 1;
         progress = 0;
@@ -142,10 +142,10 @@ public class DirHash_CreateDirHash {
                     fileDataList.clear();
                 }
             } catch (Exception ex) {
-                PLog.errorLog(952145036, ex.getMessage());
+                P2Log.errorLog(952145036, ex.getMessage());
             }
 
-            PLog.sysLog("Stop createHash: " + ii);
+            P2Log.sysLog("Stop createHash: " + ii);
             CompareFileListFactory.compareList();
             max = 0;
             progress = 0;
@@ -169,7 +169,7 @@ public class DirHash_CreateDirHash {
 
                 }.recDir(searchDir, recursive);
             } catch (Exception ex) {
-                PLog.errorLog(975102364, ex, "CreateHash.run - " + searchDir.getAbsolutePath());
+                P2Log.errorLog(975102364, ex, "CreateHash.run - " + searchDir.getAbsolutePath());
             }
         }
 
@@ -221,7 +221,7 @@ public class DirHash_CreateDirHash {
                         fileDataList.addHashString(strFile, fileDate, fileSize, hashString, link);
                     }
                 } catch (Exception ex) {
-                    PLog.errorLog(963210472, ex, "Fehler! " + file.getAbsolutePath());
+                    P2Log.errorLog(963210472, ex, "Fehler! " + file.getAbsolutePath());
                 } finally {
                     try {
                         srcStream.close();

@@ -27,7 +27,7 @@ import de.p2tools.p2lib.alert.PAlert;
 import de.p2tools.p2lib.hash.HashConst;
 import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.file.P2FileSize;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 
@@ -69,7 +69,7 @@ public class DirHash_CreateZipHash {
     }
 
     public void createHash(File file) {
-        PLog.sysLog("createHash: " + file.getAbsolutePath());
+        P2Log.sysLog("createHash: " + file.getAbsolutePath());
         max = 1;
         progress = 0;
         stop = false;
@@ -171,7 +171,7 @@ public class DirHash_CreateZipHash {
                 fileDataList.addHashString(strFile, fileDate, fileSize, ret);
 
             } catch (Exception ex) {
-                PLog.errorLog(978450202, ex, "Fehler! " + zipEntry.getName());
+                P2Log.errorLog(978450202, ex, "Fehler! " + zipEntry.getName());
             } finally {
                 try {
                     if (srcStream != null) {

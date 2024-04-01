@@ -24,7 +24,7 @@ import de.p2tools.filerunner.controller.config.RunPEvent;
 import de.p2tools.filerunner.controller.worker.gethash.HashFactory;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.alert.PAlert;
-import de.p2tools.p2lib.dialogs.PDirFileChooser;
+import de.p2tools.p2lib.dialogs.P2DirFileChooser;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2ComboBoxString;
 import de.p2tools.p2lib.guitools.P2TextField;
@@ -269,14 +269,14 @@ public class GuiFilePane extends VBox {
                     }
                 });
 
-        btnSelectFile.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, cboGenHashFromFile));
+        btnSelectFile.setOnAction(event -> P2DirFileChooser.FileChooser(progData.primaryStage, cboGenHashFromFile));
         btnSelectFile.disableProperty().bind(isRunning);
-        btnSelectHashFile.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, cboReadHashFile));
+        btnSelectHashFile.setOnAction(event -> P2DirFileChooser.FileChooser(progData.primaryStage, cboReadHashFile));
         btnSelectHashFile.disableProperty().bind(isRunning);
         btnSaveHash.setOnAction(event -> saveHash());
         btnReadHashFile.setOnAction(event -> genLoadHash());
         btnReadFileAndGenHash.setOnAction(event -> genLoadHash());
-        btnSelectHashFileForStoring.setOnAction(event -> PDirFileChooser.FileChooser(progData.primaryStage, cboWriteHash));
+        btnSelectHashFileForStoring.setOnAction(event -> P2DirFileChooser.FileChooser(progData.primaryStage, cboWriteHash));
         btnProposeStoringHashFileName.setOnAction(event -> {
             String file;
             file = cboGenHashFromFile.getSelValue();

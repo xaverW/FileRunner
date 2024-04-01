@@ -33,7 +33,7 @@ import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -140,7 +140,7 @@ public class FileRunnerController extends StackPane {
             borderPane.setPadding(new Insets(0));
             selPanelDirRunner();
         } catch (Exception ex) {
-            PLog.errorLog(645120321, ex);
+            P2Log.errorLog(645120321, ex);
         }
     }
 

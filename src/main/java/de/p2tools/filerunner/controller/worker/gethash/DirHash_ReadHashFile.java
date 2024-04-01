@@ -25,7 +25,7 @@ import de.p2tools.filerunner.controller.data.filedata.FileData;
 import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.StringProperty;
 
 import java.io.File;
@@ -95,7 +95,7 @@ public class DirHash_ReadHashFile {
                 fileDataList.clear();
             }
 
-            PLog.sysLog("DirHash_ReadHashFile, max: " + list1 + " - " + max);
+            P2Log.sysLog("DirHash_ReadHashFile, max: " + list1 + " - " + max);
             CompareFileListFactory.compareList();
             max = 0;
             notifyEvent(0, hashFile.getAbsolutePath());
@@ -130,12 +130,12 @@ public class DirHash_ReadHashFile {
                         }
                         tmp.add(fileData);
                     } catch (Exception ex) {
-                        PLog.errorLog(704125890, ex, new String[]{"Kann die Zeile in der Hashdatei nicht verarbeiten:", line});
+                        P2Log.errorLog(704125890, ex, new String[]{"Kann die Zeile in der Hashdatei nicht verarbeiten:", line});
                     }
                 }
                 in.close();
             } catch (Exception ex) {
-                PLog.errorLog(954102023, ex);
+                P2Log.errorLog(954102023, ex);
                 tmp.clear();
             } finally {
                 try {

@@ -23,7 +23,7 @@ import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.configfile.ConfigReadFile;
 import de.p2tools.p2lib.tools.duration.PDuration;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,24 +44,24 @@ public class ProgLoadFactory {
         try {
             if (!Files.exists(xmlFilePath)) {
                 //dann gibts das Konfig-File gar nicht
-                PLog.sysLog("Konfig existiert nicht!");
+                P2Log.sysLog("Konfig existiert nicht!");
                 return false;
             }
 
-            PLog.sysLog("Programmstart und ProgConfig laden von: " + xmlFilePath);
+            P2Log.sysLog("Programmstart und ProgConfig laden von: " + xmlFilePath);
             ConfigFile configFile = new ConfigFile(xmlFilePath.toString(), true);
             ProgConfig.addConfigData(configFile);
             if (ConfigReadFile.readConfig(configFile)) {
-                PLog.sysLog("Konfig wurde geladen!");
+                P2Log.sysLog("Konfig wurde geladen!");
                 return true;
 
             } else {
                 // dann hat das Laden nicht geklappt
-                PLog.sysLog("Konfig konnte nicht geladen werden!");
+                P2Log.sysLog("Konfig konnte nicht geladen werden!");
                 return false;
             }
         } catch (final Exception ex) {
-            PLog.errorLog(915470101, ex);
+            P2Log.errorLog(915470101, ex);
         }
         return false;
     }

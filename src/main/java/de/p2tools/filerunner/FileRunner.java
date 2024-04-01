@@ -26,7 +26,7 @@ import de.p2tools.p2lib.P2LibInit;
 import de.p2tools.p2lib.ProgIconsP2Lib;
 import de.p2tools.p2lib.guitools.P2GuiSize;
 import de.p2tools.p2lib.tools.duration.PDuration;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -90,7 +90,7 @@ public class FileRunner extends Application {
 
             P2GuiSize.setOnlyPos(ProgConfig.SYSTEM_GUI_SIZE, primaryStage);
 
-            PLog.sysLog("Programmgröße: " + ProgConfig.SYSTEM_GUI_SIZE);
+            P2Log.sysLog("Programmgröße: " + ProgConfig.SYSTEM_GUI_SIZE);
             scene.heightProperty().addListener((v, o, n) -> P2GuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, primaryStage, scene));
             scene.widthProperty().addListener((v, o, n) -> P2GuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, primaryStage, scene));
             primaryStage.xProperty().addListener((v, o, n) -> P2GuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, primaryStage, scene));

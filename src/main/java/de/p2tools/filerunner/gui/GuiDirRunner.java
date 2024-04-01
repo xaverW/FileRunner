@@ -27,7 +27,7 @@ import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.tools.events.PEvent;
 import de.p2tools.p2lib.tools.events.PListener;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -286,7 +286,7 @@ public class GuiDirRunner extends AnchorPane {
                     guiDirPane2.read();
                 });
             } catch (Exception ex) {
-                PLog.errorLog(102540879, ex.getMessage());
+                P2Log.errorLog(102540879, ex.getMessage());
             }
         }
     }

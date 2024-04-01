@@ -18,8 +18,8 @@ package de.p2tools.filerunner.gui.configdialog;
 
 import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
-import de.p2tools.p2lib.dialogs.dialog.PDialogExtra;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.IntegerProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -29,7 +29,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 
-public class ConfigDialogController extends PDialogExtra {
+public class ConfigDialogController extends P2DialogExtra {
 
     private TabPane tabPane = new TabPane();
     private Button btnOk = new Button("Ok");
@@ -96,7 +96,7 @@ public class ConfigDialogController extends PDialogExtra {
                 propSelectedTab.setValue(newValue);
             });
         } catch (final Exception ex) {
-            PLog.errorLog(874102058, ex);
+            P2Log.errorLog(874102058, ex);
         }
     }
 }

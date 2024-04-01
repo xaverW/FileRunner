@@ -17,8 +17,8 @@
 
 package de.p2tools.filerunner.controller.worker.gethash;
 
-import de.p2tools.p2lib.dialogs.PDialogFileChooser;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.dialogs.P2DialogFileChooser;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 
 import java.io.File;
@@ -56,7 +56,7 @@ public class DirHash_RunRecDir {
                     if (!altert) {
                         altert = true;
                         Platform.runLater(() ->
-                                PDialogFileChooser.showErrorAlert("Dateien lesen", "Kann Dateien des Ordners \"" + path + "\" nicht lesen", "Fehler!"));
+                                P2DialogFileChooser.showErrorAlert("Dateien lesen", "Kann Dateien des Ordners \"" + path + "\" nicht lesen", "Fehler!"));
                     }
                 } else {
                     for (int i = 0; i < list.length; i++) {
@@ -74,7 +74,7 @@ public class DirHash_RunRecDir {
                 work(dir);
             }
         } catch (Exception ex) {
-            PLog.errorLog(945123697, ex, "Fehler beim Schreiben der Hashdatei!");
+            P2Log.errorLog(945123697, ex, "Fehler beim Schreiben der Hashdatei!");
         }
         return r;
     }

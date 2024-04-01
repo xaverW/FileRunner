@@ -25,9 +25,9 @@ import de.p2tools.p2lib.guitools.P2WindowIcon;
 import de.p2tools.p2lib.tools.ProgramToolsFactory;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.duration.PDuration;
-import de.p2tools.p2lib.tools.log.LogMessage;
-import de.p2tools.p2lib.tools.log.PLog;
-import de.p2tools.p2lib.tools.log.PLogger;
+import de.p2tools.p2lib.tools.log.P2LogMessage;
+import de.p2tools.p2lib.tools.log.P2Log;
+import de.p2tools.p2lib.tools.log.P2Logger;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,7 +46,7 @@ public class ProgStartFactory {
 
     public static void startMsg() {
         if (ProgData.debug) {
-            PLogger.setFileHandler(ProgInfos.getLogDirectory_String());
+            P2Logger.setFileHandler(ProgInfos.getLogDirectory_String());
         }
 
         ArrayList<String> list = new ArrayList<>();
@@ -54,7 +54,7 @@ public class ProgStartFactory {
         list.add("Programmpfad: " + ProgInfos.getPathJar());
         list.add("Verzeichnis Einstellungen: " + ProgInfos.getSettingsDirectory_String());
 
-        LogMessage.startMsg(ProgConst.PROGRAM_NAME, list);
+        P2LogMessage.startMsg(ProgConst.PROGRAM_NAME, list);
     }
 
     public static boolean workBeforeGui(ProgData progData) {
@@ -99,7 +99,7 @@ public class ProgStartFactory {
 
         /* if (ProgData.debug) {
             // damits bei jedem Start gemacht wird
-            PLog.sysLog("DEBUG: Update-Check");
+            P2Log.sysLog("DEBUG: Update-Check");
             runUpdateCheck(progData, true);
 
         } else */
@@ -118,7 +118,7 @@ public class ProgStartFactory {
             if (updateCheckTodayDone()) {
                 list.add("  heute schon gemacht");
             }
-            PLog.sysLog(list);
+            P2Log.sysLog(list);
         }
     }
 

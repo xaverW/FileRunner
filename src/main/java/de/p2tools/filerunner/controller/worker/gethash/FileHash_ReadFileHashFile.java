@@ -21,7 +21,7 @@ import de.p2tools.filerunner.controller.config.Events;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.config.RunPEvent;
 import de.p2tools.filerunner.gui.dialog.SelectHashDialogController;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -81,9 +81,9 @@ public class FileHash_ReadFileHashFile {
 
                 });
             } catch (UncheckedIOException ex) {
-                PLog.errorLog(102359731, ex, "load hashfile: " + fileStr);
+                P2Log.errorLog(102359731, ex, "load hashfile: " + fileStr);
             } catch (IOException ex) {
-                PLog.errorLog(620301973, ex, "load hashfile: " + fileStr);
+                P2Log.errorLog(620301973, ex, "load hashfile: " + fileStr);
             }
 
             if (hashList.size() == 1) {

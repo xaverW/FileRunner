@@ -19,14 +19,14 @@ package de.p2tools.filerunner.gui.dialog;
 import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.worker.gethash.HashFileEntry;
-import de.p2tools.p2lib.dialogs.dialog.PDialogExtra;
+import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class SelectHashDialogController extends PDialogExtra {
+public class SelectHashDialogController extends P2DialogExtra {
 
     private final ProgData progData;
     private HashFileEntry hashFileEntry = null;
