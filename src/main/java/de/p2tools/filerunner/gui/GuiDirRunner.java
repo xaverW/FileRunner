@@ -25,8 +25,8 @@ import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2GuiTools;
-import de.p2tools.p2lib.tools.events.PEvent;
-import de.p2tools.p2lib.tools.events.PListener;
+import de.p2tools.p2lib.tools.events.P2Event;
+import de.p2tools.p2lib.tools.events.P2Listener;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -180,8 +180,8 @@ public class GuiDirRunner extends AnchorPane {
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
 
-        progData.pEventHandler.addListener(new PListener(Events.COMPARE_OF_FILE_LISTS_FINISHED) {
-            public <T extends PEvent> void pingGui(T runEvent) {
+        progData.pEventHandler.addListener(new P2Listener(Events.COMPARE_OF_FILE_LISTS_FINISHED) {
+            public <T extends P2Event> void pingGui(T runEvent) {
                 setTglButton();
             }
         });

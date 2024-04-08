@@ -25,7 +25,7 @@ import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
 import de.p2tools.p2lib.hash.HashConst;
 import de.p2tools.p2lib.tools.date.P2Date;
-import de.p2tools.p2lib.tools.duration.PDuration;
+import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.file.P2FileSize;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.BooleanProperty;
@@ -151,8 +151,8 @@ public class DirHash_CreateDirHash {
             progress = 0;
             notifyEvent(searchDir.toString());
 
-            PDuration.counterStop("runThread");
-            PDuration.getCounter();
+            P2Duration.counterStop("runThread");
+            P2Duration.getCounter();
         }
 
         private void runDirFindFiles() {

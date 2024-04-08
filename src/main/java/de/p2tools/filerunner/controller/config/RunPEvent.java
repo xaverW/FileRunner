@@ -17,9 +17,9 @@
 
 package de.p2tools.filerunner.controller.config;
 
-import de.p2tools.p2lib.tools.events.PEvent;
+import de.p2tools.p2lib.tools.events.P2Event;
 
-public class RunPEvent extends PEvent {
+public class RunPEvent extends P2Event {
     // meldet eine Änderung
     private int progress;
     private int max;

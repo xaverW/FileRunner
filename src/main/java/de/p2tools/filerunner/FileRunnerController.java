@@ -31,8 +31,8 @@ import de.p2tools.filerunner.gui.configdialog.ConfigDialogController;
 import de.p2tools.filerunner.gui.dialog.AboutDialogController;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
-import de.p2tools.p2lib.tools.events.PEvent;
-import de.p2tools.p2lib.tools.events.PListener;
+import de.p2tools.p2lib.tools.events.P2Event;
+import de.p2tools.p2lib.tools.events.P2Listener;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -155,8 +155,8 @@ public class FileRunnerController extends StackPane {
         maskerPane.setButtonText("");
         maskerPane.setButtonVisible(true);
 
-        ProgData.getInstance().pEventHandler.addListener(new PListener(Events.GENERATE_COMPARE_FILE_LIST) {
-            public <T extends PEvent> void pingGui(T runEvent) {
+        ProgData.getInstance().pEventHandler.addListener(new P2Listener(Events.GENERATE_COMPARE_FILE_LIST) {
+            public <T extends P2Event> void pingGui(T runEvent) {
                 if (runEvent.getClass().equals(RunPEvent.class)) {
                     RunPEvent runE = (RunPEvent) runEvent;
                     if (runE.nixLos()) {

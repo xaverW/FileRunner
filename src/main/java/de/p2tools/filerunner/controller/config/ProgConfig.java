@@ -19,10 +19,10 @@ package de.p2tools.filerunner.controller.config;
 
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.configfile.config.Config;
-import de.p2tools.p2lib.data.PColorData;
-import de.p2tools.p2lib.data.PDataProgConfig;
+import de.p2tools.p2lib.data.P2ColorData;
+import de.p2tools.p2lib.data.P2DataProgConfig;
 import de.p2tools.p2lib.hash.HashConst;
-import de.p2tools.p2lib.tools.ProgramToolsFactory;
+import de.p2tools.p2lib.tools.P2ToolsFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -31,7 +31,7 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
-public class ProgConfig extends PDataProgConfig {
+public class ProgConfig extends P2DataProgConfig {
 
     private static final ArrayList<Config> arrayList = new ArrayList<>();
 
@@ -57,7 +57,7 @@ public class ProgConfig extends PDataProgConfig {
     public static StringProperty SYSTEM_LOG_DIR = addStrProp("system-log-dir", "");
     public static BooleanProperty SYSTEM_DARK_THEME = addBoolProp("system-dark-theme", false);
     public static BooleanProperty SYSTEM_EVEN_ODD = addBoolProp("system-even-odd", true);
-    public static IntegerProperty SYSTEM_EVEN_ODD_VALUE = addIntProp("system-even-odd-value", PColorData.ODD_DIV);
+    public static IntegerProperty SYSTEM_EVEN_ODD_VALUE = addIntProp("system-even-odd-value", P2ColorData.ODD_DIV);
 
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_TAB = new SimpleIntegerProperty(0);
     public static BooleanProperty CONFIG_DIALOG_ACCORDION = addBoolProp("config_dialog-accordion", Boolean.TRUE);
@@ -149,9 +149,9 @@ public class ProgConfig extends PDataProgConfig {
 
     public static void addConfigData(ConfigFile configFile) {
         // Configs der Programmversion, nur damit sie (zur Update-Suche) im Config-File stehen
-        ProgConfig.SYSTEM_PROG_VERSION.set(ProgramToolsFactory.getProgVersion());
-        ProgConfig.SYSTEM_PROG_BUILD_NO.set(ProgramToolsFactory.getBuild());
-        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(ProgramToolsFactory.getCompileDate());
+        ProgConfig.SYSTEM_PROG_VERSION.set(P2ToolsFactory.getProgVersion());
+        ProgConfig.SYSTEM_PROG_BUILD_NO.set(P2ToolsFactory.getBuild());
+        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(P2ToolsFactory.getCompileDate());
 
         configFile.addConfigs(ProgConfig.getInstance());
         configFile.addConfigs(ProgColorList.getInstance());

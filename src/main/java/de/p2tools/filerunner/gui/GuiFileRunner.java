@@ -24,8 +24,8 @@ import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2TextField;
 import de.p2tools.p2lib.hash.HashConst;
-import de.p2tools.p2lib.tools.events.PEvent;
-import de.p2tools.p2lib.tools.events.PListener;
+import de.p2tools.p2lib.tools.events.P2Event;
+import de.p2tools.p2lib.tools.events.P2Listener;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
@@ -226,8 +226,8 @@ public class GuiFileRunner extends AnchorPane {
     }
 
     private void addListener() {
-        progData.pEventHandler.addListener(new PListener(Events.COMPARE_OF_FILE_LISTS_FINISHED) {
-            public <T extends PEvent> void ping(T runEvent) {
+        progData.pEventHandler.addListener(new P2Listener(Events.COMPARE_OF_FILE_LISTS_FINISHED) {
+            public <T extends P2Event> void ping(T runEvent) {
                 if (runEvent.getClass().equals(RunPEvent.class)) {
                     RunPEvent runE = (RunPEvent) runEvent;
                     if (runE.nixLos()) {

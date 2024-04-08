@@ -22,8 +22,8 @@ import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.data.filedata.FileData;
 import de.p2tools.p2lib.guitools.ptable.P2CellCheckBox;
 import de.p2tools.p2lib.tools.date.P2Date;
-import de.p2tools.p2lib.tools.events.PEvent;
-import de.p2tools.p2lib.tools.events.PListener;
+import de.p2tools.p2lib.tools.events.P2Event;
+import de.p2tools.p2lib.tools.events.P2Listener;
 import de.p2tools.p2lib.tools.file.P2FileSize;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -52,8 +52,8 @@ public class TableFileList extends PTable<FileData> {
     }
 
     private void initFileRunnerColumn() {
-        ProgData.getInstance().pEventHandler.addListener(new PListener(Events.COLORS_CHANGED) {
-            public void pingGui(PEvent PEvent) {
+        ProgData.getInstance().pEventHandler.addListener(new P2Listener(Events.COLORS_CHANGED) {
+            public void pingGui(P2Event PEvent) {
                 refresh();
             }
         });

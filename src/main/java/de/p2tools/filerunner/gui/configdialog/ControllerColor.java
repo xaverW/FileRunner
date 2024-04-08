@@ -17,14 +17,14 @@
 package de.p2tools.filerunner.gui.configdialog;
 
 import de.p2tools.filerunner.controller.config.ProgConfig;
-import de.p2tools.p2lib.dialogs.accordion.PAccordionPane;
+import de.p2tools.p2lib.dialogs.accordion.P2AccordionPane;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ControllerColor extends PAccordionPane {
+public class ControllerColor extends P2AccordionPane {
 
     private PaneColor paneColor;
     private final Stage stage;

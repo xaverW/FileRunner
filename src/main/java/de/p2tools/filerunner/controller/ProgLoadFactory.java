@@ -22,7 +22,8 @@ import de.p2tools.filerunner.controller.config.ProgInfos;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.configfile.ConfigReadFile;
-import de.p2tools.p2lib.tools.duration.PDuration;
+import de.p2tools.p2lib.tools.duration.P2Duration;
+import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
 
 import java.nio.file.Files;
@@ -40,7 +41,7 @@ public class ProgLoadFactory {
 
     public static boolean loadProgConfigData() {
         final Path xmlFilePath = new ProgInfos().getSettingsFile();
-        PDuration.onlyPing("ProgStartFactory.loadProgConfigData");
+        P2Duration.onlyPing("ProgStartFactory.loadProgConfigData");
         try {
             if (!Files.exists(xmlFilePath)) {
                 //dann gibts das Konfig-File gar nicht

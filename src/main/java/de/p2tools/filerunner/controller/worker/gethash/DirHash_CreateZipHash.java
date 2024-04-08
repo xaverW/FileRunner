@@ -23,7 +23,7 @@ import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.config.RunPEvent;
 import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
-import de.p2tools.p2lib.alert.PAlert;
+import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.hash.HashConst;
 import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.file.P2FileSize;
@@ -128,7 +128,7 @@ public class DirHash_CreateZipHash {
                 zipInputStream.close();
 
             } catch (Exception ex) {
-                Platform.runLater(() -> PAlert.showErrorAlert("Zipdatei lesen",
+                Platform.runLater(() -> P2Alert.showErrorAlert("Zipdatei lesen",
                         "Die Zipdatei konnte nicht gelesen werden."));
             }
 

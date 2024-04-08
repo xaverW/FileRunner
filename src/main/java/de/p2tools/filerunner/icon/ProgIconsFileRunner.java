@@ -86,11 +86,11 @@ public class ProgIconsFileRunner {
         public boolean searchUrl(String p, Class<?>... clazzAr) {
             URL url;
             url = FileRunnerController.class.getResource(p);
-            if (set(url, p, "P2InfoController.class.getResource")) return true;
+            if (set(url, p, "FileRunnerController.class.getResource")) return true;
             url = ProgConst.class.getResource(p);
             if (set(url, p, "ProgConst.class.getResource")) return true;
             url = ProgIconsFileRunner.class.getResource(p);
-            if (set(url, p, "ProgIconsInfo.class.getResource")) return true;
+            if (set(url, p, "ProgIconsFileRunner.class.getResource")) return true;
             url = this.getClass().getResource(p);
             if (set(url, p, "this.getClass().getResource")) return true;
 

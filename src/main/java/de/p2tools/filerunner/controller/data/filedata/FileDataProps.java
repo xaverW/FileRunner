@@ -17,11 +17,11 @@
 
 package de.p2tools.filerunner.controller.data.filedata;
 
-import de.p2tools.p2lib.configfile.pdata.PDataSample;
+import de.p2tools.p2lib.configfile.pdata.P2DataSample;
 import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.file.P2FileSize;
 
-public class FileDataProps extends PDataSample<FileData> {
+public class FileDataProps extends P2DataSample<FileData> {
 
     public static final String TAG = "FileData";
 

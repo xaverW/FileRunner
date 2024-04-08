@@ -17,7 +17,7 @@
 
 package de.p2tools.filerunner.controller.worker.gethash;
 
-import de.p2tools.p2lib.alert.PAlert;
+import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.tools.net.PUrlTools;
 
 import java.io.File;
@@ -43,9 +43,9 @@ public class HashFactory {
             return true;
         }
         if (PUrlTools.isUrl(file)) {
-            PAlert.showErrorAlert("Hash erstellen", "Die angegebene URL existiert nicht!");
+            P2Alert.showErrorAlert("Hash erstellen", "Die angegebene URL existiert nicht!");
         } else {
-            PAlert.showErrorAlert("Hash erstellen", "Die angegebene Datei existiert nicht!");
+            P2Alert.showErrorAlert("Hash erstellen", "Die angegebene Datei existiert nicht!");
         }
         return false;
     }

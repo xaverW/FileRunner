@@ -20,7 +20,7 @@ package de.p2tools.filerunner.controller.worker.gethash;
 import de.p2tools.filerunner.controller.data.filedata.FileData;
 import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.alert.PAlert;
+import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.file.P2FileSize;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -63,7 +63,7 @@ public class DirHashFileFactory {
         } catch (Exception ex) {
             ret = false;
             P2Log.errorLog(986532014, ex, "Fehler beim Schreiben der Hashdatei!");
-            Platform.runLater(() -> PAlert.showErrorAlert("Hashfile schreiben", hashOutFile.toString() + P2LibConst.LINE_SEPARATOR +
+            Platform.runLater(() -> P2Alert.showErrorAlert("Hashfile schreiben", hashOutFile.toString() + P2LibConst.LINE_SEPARATOR +
                     "Die Datei konnte nicht gespeichert werden." + P2LibConst.LINE_SEPARATOR +
                     ex.getLocalizedMessage()));
         } finally {

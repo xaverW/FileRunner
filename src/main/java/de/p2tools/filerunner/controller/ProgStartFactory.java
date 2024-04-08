@@ -22,9 +22,9 @@ import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.config.ProgInfos;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2WindowIcon;
-import de.p2tools.p2lib.tools.ProgramToolsFactory;
+import de.p2tools.p2lib.tools.P2ToolsFactory;
 import de.p2tools.p2lib.tools.date.P2DateConst;
-import de.p2tools.p2lib.tools.duration.PDuration;
+import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2LogMessage;
 import de.p2tools.p2lib.tools.log.P2Log;
 import de.p2tools.p2lib.tools.log.P2Logger;
@@ -78,9 +78,9 @@ public class ProgStartFactory {
 
     public static void setTitle() {
         if (ProgData.debug) {
-            ProgData.getInstance().primaryStage.setTitle(ProgConst.PROGRAM_NAME + " " + ProgramToolsFactory.getProgVersion() + " / DEBUG");
+            ProgData.getInstance().primaryStage.setTitle(ProgConst.PROGRAM_NAME + " " + P2ToolsFactory.getProgVersion() + " / DEBUG");
         } else {
-            ProgData.getInstance().primaryStage.setTitle(ProgConst.PROGRAM_NAME + " " + ProgramToolsFactory.getProgVersion());
+            ProgData.getInstance().primaryStage.setTitle(ProgConst.PROGRAM_NAME + " " + P2ToolsFactory.getProgVersion());
         }
     }
 
@@ -95,7 +95,7 @@ public class ProgStartFactory {
 
     private static void checkProgUpdate(ProgData progData) {
         // Prüfen obs ein Programmupdate gibt
-        PDuration.onlyPing("checkProgUpdate");
+        P2Duration.onlyPing("checkProgUpdate");
 
         /* if (ProgData.debug) {
             // damits bei jedem Start gemacht wird
