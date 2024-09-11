@@ -23,7 +23,6 @@ import de.p2tools.filerunner.controller.config.ProgConst;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.P2LibInit;
-import de.p2tools.p2lib.P2ProgIcons;
 import de.p2tools.p2lib.guitools.P2GuiSize;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -62,8 +61,8 @@ public class FileRunner extends Application {
 
     private void initP2lib() {
         ProgIconsFileRunner.initIcons();
-        P2ProgIcons.initIcons();
-        P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME, "", ProgConfig.SYSTEM_DARK_THEME,
+        P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME, "",
+                ProgConfig.SYSTEM_DARK_THEME, null,
                 ProgData.debug, ProgData.duration);
         P2LibInit.addCssFile(ProgConst.CSS_FILE);
     }

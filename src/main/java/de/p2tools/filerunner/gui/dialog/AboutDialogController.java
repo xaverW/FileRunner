@@ -26,8 +26,8 @@ import de.p2tools.p2lib.dialogs.AboutDialog;
 public class AboutDialogController extends AboutDialog {
 
     public AboutDialogController(ProgData progData) {
-        super(progData.primaryStage, ProgConst.PROGRAM_NAME, ProgConst.URL_WEBSITE, ProgConst.URL_WEBSITE_HELP,
-                ProgConst.PATH_PROGRAM_ICON,
+        super(progData.primaryStage,
+                ProgConst.PROGRAM_NAME, ProgConst.URL_WEBSITE, ProgConst.URL_WEBSITE_HELP,
                 ProgConfig.SYSTEM_PROG_OPEN_URL,
                 ProgConfig.SYSTEM_DARK_THEME.getValue(),
                 new String[]{"Einstellungen:"},
