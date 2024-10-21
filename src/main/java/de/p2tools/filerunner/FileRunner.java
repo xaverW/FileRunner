@@ -61,10 +61,10 @@ public class FileRunner extends Application {
 
     private void initP2lib() {
         ProgIconsFileRunner.initIcons();
-        P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME, "",
-                ProgConfig.SYSTEM_DARK_THEME, null,
+        P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME,
+                "", ProgConfig.SYSTEM_DARK_THEME, null, null,
+                ProgConst.CSS_FILE, ProgConst.CSS_FILE_DARK_THEME, null,
                 ProgData.debug, ProgData.duration);
-        P2LibInit.addCssFile(ProgConst.CSS_FILE);
     }
 
     private void initRootLayout() {
@@ -74,13 +74,7 @@ public class FileRunner extends Application {
                     P2GuiSize.getWidth(ProgConfig.SYSTEM_GUI_SIZE),
                     P2GuiSize.getHeight(ProgConfig.SYSTEM_GUI_SIZE));
 
-            ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
-                ProgColorList.setColorTheme();
-                addThemeCss();
-            });
             ProgColorList.setColorTheme();
-            addThemeCss();
-
             primaryStage.setScene(scene);
             primaryStage.setOnCloseRequest(e -> {
                 e.consume();
@@ -88,24 +82,20 @@ public class FileRunner extends Application {
             });
 
             P2GuiSize.setOnlyPos(ProgConfig.SYSTEM_GUI_SIZE, primaryStage);
-
             P2Log.sysLog("Programmgröße: " + ProgConfig.SYSTEM_GUI_SIZE);
             scene.heightProperty().addListener((v, o, n) -> P2GuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, primaryStage, scene));
             scene.widthProperty().addListener((v, o, n) -> P2GuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, primaryStage, scene));
             primaryStage.xProperty().addListener((v, o, n) -> P2GuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, primaryStage, scene));
             primaryStage.yProperty().addListener((v, o, n) -> P2GuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, primaryStage, scene));
+
+            P2LibInit.addP2CssToScene(scene); // und jetzt noch CSS einstellen
+            ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
+                ProgColorList.setColorTheme();
+            });
+
             primaryStage.show();
         } catch (final Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void addThemeCss() {
-        if (ProgConfig.SYSTEM_DARK_THEME.get()) {
-            P2LibInit.addCssFile(ProgConst.CSS_FILE_DARK_THEME);
-        } else {
-            P2LibInit.removeCssFile(ProgConst.CSS_FILE_DARK_THEME);
-        }
-        P2LibInit.addP2CssToScene(scene);
     }
 }
