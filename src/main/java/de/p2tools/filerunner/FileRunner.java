@@ -51,8 +51,8 @@ public class FileRunner extends Application {
         progData = ProgData.getInstance();
         progData.primaryStage = primaryStage;
 
-        initP2lib();
         firstProgramStart = ProgStartFactory.workBeforeGui(progData);
+        initP2lib();
         initRootLayout();
         ProgStartFactory.workAfterGui(progData, firstProgramStart);
         P2Duration.onlyPing("Gui steht!");
@@ -64,6 +64,7 @@ public class FileRunner extends Application {
         P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME,
                 "", ProgConfig.SYSTEM_DARK_THEME, null, null,
                 ProgConst.CSS_FILE, ProgConst.CSS_FILE_DARK_THEME, null,
+                "", "",
                 ProgData.debug, ProgData.duration);
     }
 
@@ -71,8 +72,8 @@ public class FileRunner extends Application {
         try {
             progData.fileRunnerController = new FileRunnerController();
             scene = new Scene(progData.fileRunnerController,
-                    P2GuiSize.getWidth(ProgConfig.SYSTEM_GUI_SIZE),
-                    P2GuiSize.getHeight(ProgConfig.SYSTEM_GUI_SIZE));
+                    P2GuiSize.getSceneSize(ProgConfig.SYSTEM_GUI_SIZE, true),
+                    P2GuiSize.getSceneSize(ProgConfig.SYSTEM_GUI_SIZE, false));
 
             ProgColorList.setColorTheme();
             primaryStage.setScene(scene);
@@ -81,12 +82,12 @@ public class FileRunner extends Application {
                 ProgQuittFactory.quit();
             });
 
-            P2GuiSize.setOnlyPos(ProgConfig.SYSTEM_GUI_SIZE, primaryStage);
+            P2GuiSize.setPos(ProgConfig.SYSTEM_GUI_SIZE, primaryStage);
             P2Log.sysLog("Programmgröße: " + ProgConfig.SYSTEM_GUI_SIZE);
-            scene.heightProperty().addListener((v, o, n) -> P2GuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, primaryStage, scene));
-            scene.widthProperty().addListener((v, o, n) -> P2GuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, primaryStage, scene));
-            primaryStage.xProperty().addListener((v, o, n) -> P2GuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, primaryStage, scene));
-            primaryStage.yProperty().addListener((v, o, n) -> P2GuiSize.getSizeScene(ProgConfig.SYSTEM_GUI_SIZE, primaryStage, scene));
+            scene.heightProperty().addListener((v, o, n) -> P2GuiSize.getSize(ProgConfig.SYSTEM_GUI_SIZE, primaryStage));
+            scene.widthProperty().addListener((v, o, n) -> P2GuiSize.getSize(ProgConfig.SYSTEM_GUI_SIZE, primaryStage));
+            primaryStage.xProperty().addListener((v, o, n) -> P2GuiSize.getSize(ProgConfig.SYSTEM_GUI_SIZE, primaryStage));
+            primaryStage.yProperty().addListener((v, o, n) -> P2GuiSize.getSize(ProgConfig.SYSTEM_GUI_SIZE, primaryStage));
 
             P2LibInit.addP2CssToScene(scene); // und jetzt noch CSS einstellen
             ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {

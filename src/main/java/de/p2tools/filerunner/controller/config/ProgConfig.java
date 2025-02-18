@@ -17,10 +17,11 @@
 
 package de.p2tools.filerunner.controller.config;
 
+import de.p2tools.p2lib.colordata.P2ColorData;
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.configfile.config.Config;
-import de.p2tools.p2lib.data.P2ColorData;
-import de.p2tools.p2lib.data.P2DataProgConfig;
+import de.p2tools.p2lib.configfile.pdata.P2Data;
+import de.p2tools.p2lib.configfile.pdata.P2DataProgConfig;
 import de.p2tools.p2lib.hash.HashConst;
 import de.p2tools.p2lib.tools.P2ToolsFactory;
 import javafx.beans.property.BooleanProperty;
@@ -45,6 +46,8 @@ public class ProgConfig extends P2DataProgConfig {
     //Programmupdate
     public static StringProperty SYSTEM_UPDATE_DATE = addStrProp("system-update-date"); // Datum der letzten Prüfung
     public static BooleanProperty SYSTEM_UPDATE_SEARCH_ACT = addBoolProp("system-update-search-act", true); //Infos und Programm
+    public static StringProperty SYSTEM_SEARCH_UPDATE_LAST_DATE = addStrProp("system-search-update-last-date"); // Datum der letzten Prüfung
+    public static BooleanProperty SYSTEM_SEARCH_UPDATE = addBoolProp("system-search-update" + P2Data.TAGGER + "system-update-search-act", Boolean.TRUE); // nach einem Update suchen
     public static BooleanProperty SYSTEM_UPDATE_SEARCH_BETA = addBoolProp("system-update-search-beta", false); //beta suchen
     public static BooleanProperty SYSTEM_UPDATE_SEARCH_DAILY = addBoolProp("system-update-search-daily", false); //daily suchen
 
@@ -150,8 +153,8 @@ public class ProgConfig extends P2DataProgConfig {
     public static void addConfigData(ConfigFile configFile) {
         // Configs der Programmversion, nur damit sie (zur Update-Suche) im Config-File stehen
         ProgConfig.SYSTEM_PROG_VERSION.set(P2ToolsFactory.getProgVersion());
-        ProgConfig.SYSTEM_PROG_BUILD_NO.set(P2ToolsFactory.getBuild());
-        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(P2ToolsFactory.getCompileDate());
+        ProgConfig.SYSTEM_PROG_BUILD_NO.set(P2ToolsFactory.getBuildNo());
+        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(P2ToolsFactory.getBuildDateR());
 
         configFile.addConfigs(ProgConfig.getInstance());
         configFile.addConfigs(ProgColorList.getInstance());

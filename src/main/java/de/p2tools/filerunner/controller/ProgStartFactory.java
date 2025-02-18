@@ -21,12 +21,11 @@ import de.p2tools.filerunner.controller.config.ProgConst;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.config.ProgInfos;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.guitools.P2WindowIcon;
 import de.p2tools.p2lib.tools.P2ToolsFactory;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.duration.P2Duration;
-import de.p2tools.p2lib.tools.log.P2LogMessage;
 import de.p2tools.p2lib.tools.log.P2Log;
+import de.p2tools.p2lib.tools.log.P2LogMessage;
 import de.p2tools.p2lib.tools.log.P2Logger;
 
 import java.util.ArrayList;
@@ -70,7 +69,6 @@ public class ProgStartFactory {
      * @param firstProgramStart
      */
     public static void workAfterGui(ProgData progData, boolean firstProgramStart) {
-        P2WindowIcon.addWindowP2Icon(progData.primaryStage);
         startMsg();
         setTitle();
         checkProgUpdate(progData);

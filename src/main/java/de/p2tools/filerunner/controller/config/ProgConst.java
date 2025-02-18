@@ -34,7 +34,7 @@ public class ProgConst {
     public static final String URL_WEBSITE_DONATE = "https://www.p2tools.de/donate.html";
 
 //    public static final String PATH_PROGRAM_ICONS = "/de/p2tools/filerunner/icon/program/";
-    public static final String PATH_PROGRAM_ICON = "/de/p2tools/filerunner/icon/P2.png";
+//    public static final String PATH_PROGRAM_ICON = "/de/p2tools/filerunner/icon/P2.png";
 
     public static final String URL_WEBSITE = "https://www.p2tools.de/";
     public static final String URL_WEBSITE_HELP = "https://www.p2tools.de/filerunner/manual.html";
