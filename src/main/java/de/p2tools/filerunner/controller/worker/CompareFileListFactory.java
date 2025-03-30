@@ -17,10 +17,14 @@
 
 package de.p2tools.filerunner.controller.worker;
 
-import de.p2tools.filerunner.controller.config.*;
+import de.p2tools.filerunner.controller.config.Events;
+import de.p2tools.filerunner.controller.config.ProgConfig;
+import de.p2tools.filerunner.controller.config.ProgConst;
+import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.data.filedata.FileData;
 import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.p2lib.P2LibConst;
+import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -111,7 +115,7 @@ public class CompareFileListFactory {
         }
 
         running.set(false);
-        progData.pEventHandler.notifyListener(new RunPEvent(Events.COMPARE_OF_FILE_LISTS_FINISHED));
+        progData.pEventHandler.notifyListener(new P2Event(Events.COMPARE_OF_FILE_LISTS_FINISHED));
     }
 
     private static synchronized int getNextId() {

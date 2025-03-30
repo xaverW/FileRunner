@@ -20,10 +20,10 @@ package de.p2tools.filerunner.controller.worker.gethash;
 import de.p2tools.filerunner.controller.config.Events;
 import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
-import de.p2tools.filerunner.controller.config.RunPEvent;
 import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
 import de.p2tools.p2lib.hash.HashConst;
+import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.file.P2FileSize;
@@ -95,8 +95,8 @@ public class DirHash_CreateDirHash {
     }
 
     private void notifyEvent(String text) {
-        progData.pEventHandler.notifyListener(new RunPEvent(Events.GENERATE_COMPARE_FILE_LIST,
-                progress, max, text));
+        progData.pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                text, progress, max));
     }
 
     private class CreateHash implements Runnable {

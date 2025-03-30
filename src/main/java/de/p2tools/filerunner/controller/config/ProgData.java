@@ -22,13 +22,8 @@ import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.filerunner.controller.worker.Worker;
 import de.p2tools.filerunner.gui.GuiDirRunner;
 import de.p2tools.filerunner.gui.GuiFileRunner;
-import de.p2tools.p2lib.tools.events.P2Event;
-import de.p2tools.p2lib.tools.events.P2EventHandler;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import de.p2tools.p2lib.p2event.P2EventHandler;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class ProgData {
 
@@ -62,15 +57,6 @@ public class ProgData {
         fileDataList_1 = new FileDataList();
         fileDataList_2 = new FileDataList();
         worker = new Worker(this);
-
-        Timeline timeline = new Timeline(new KeyFrame(
-                Duration.millis(1000), ae -> {
-            pEventHandler.notifyListener(new P2Event(Events.TIMER));
-        }));
-
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.setDelay(Duration.seconds(5));
-        timeline.play();
     }
 
 

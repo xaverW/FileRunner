@@ -23,7 +23,7 @@ import de.p2tools.p2lib.configfile.config.Config;
 import de.p2tools.p2lib.configfile.pdata.P2Data;
 import de.p2tools.p2lib.configfile.pdata.P2DataProgConfig;
 import de.p2tools.p2lib.hash.HashConst;
-import de.p2tools.p2lib.tools.P2ToolsFactory;
+import de.p2tools.p2lib.tools.P2InfoFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -152,9 +152,9 @@ public class ProgConfig extends P2DataProgConfig {
 
     public static void addConfigData(ConfigFile configFile) {
         // Configs der Programmversion, nur damit sie (zur Update-Suche) im Config-File stehen
-        ProgConfig.SYSTEM_PROG_VERSION.set(P2ToolsFactory.getProgVersion());
-        ProgConfig.SYSTEM_PROG_BUILD_NO.set(P2ToolsFactory.getBuildNo());
-        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(P2ToolsFactory.getBuildDateR());
+        ProgConfig.SYSTEM_PROG_VERSION.set(P2InfoFactory.getProgVersion());
+        ProgConfig.SYSTEM_PROG_BUILD_NO.set(P2InfoFactory.getBuildNo());
+        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(P2InfoFactory.getBuildDateR());
 
         configFile.addConfigs(ProgConfig.getInstance());
         configFile.addConfigs(ProgColorList.getInstance());

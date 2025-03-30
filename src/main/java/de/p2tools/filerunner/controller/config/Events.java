@@ -17,17 +17,12 @@
 
 package de.p2tools.filerunner.controller.config;
 
-import de.p2tools.p2lib.tools.events.P2Event;
+import de.p2tools.p2lib.p2event.P2Events;
 
-public class Events {
+public class Events extends P2Events {
     private static int count = 0;
 
     public static int COMPARE_OF_FILE_LISTS_FINISHED = count;
     public static int GENERATE_COMPARE_FILE_LIST = ++count;
     public static int COLORS_CHANGED = ++count;
-    public static int TIMER = ++count;
-
-    public static P2Event event(int i) {
-        return new P2Event(i, "");
-    }
 }

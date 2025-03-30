@@ -18,9 +18,8 @@ package de.p2tools.filerunner.gui;
 
 import de.p2tools.filerunner.controller.config.Events;
 import de.p2tools.filerunner.controller.config.ProgData;
-import de.p2tools.filerunner.controller.config.RunPEvent;
-import de.p2tools.p2lib.tools.events.P2Event;
-import de.p2tools.p2lib.tools.events.P2Listener;
+import de.p2tools.p2lib.p2event.P2Event;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -91,22 +90,19 @@ public class StatusBarController extends AnchorPane {
         textPane.toFront();
 
         progData.pEventHandler.addListener(new P2Listener(Events.GENERATE_COMPARE_FILE_LIST) {
-            public <T extends P2Event> void pingGui(T runEvent) {
-                if (runEvent.getClass().equals(RunPEvent.class)) {
-                    RunPEvent runE = (RunPEvent) runEvent;
-                    if (runE.nixLos()) {
-                        if (!progData.worker.createHashIsRunning()) {
-                            //sonst läuft noch was
-                            running = false;
-                        }
-                    } else {
-                        running = true;
+            public void pingGui(P2Event event) {
+                if (event.getMax() == 0) {
+                    if (!progData.worker.createHashIsRunning()) {
+                        //sonst läuft noch was
+                        running = false;
                     }
-                    setStatusbarIndex(statusbarIndex);
+                } else {
+                    running = true;
                 }
+                setStatusbarIndex(statusbarIndex);
             }
         });
-        progData.pEventHandler.addListener(new P2Listener(Events.TIMER) {
+        progData.pEventHandler.addListener(new P2Listener(Events.EVENT_TIMER_SECOND) {
             public void pingGui(P2Event PEvent) {
                 try {
                     if (!running) {

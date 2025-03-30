@@ -21,7 +21,7 @@ import de.p2tools.filerunner.controller.config.ProgConst;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.config.ProgInfos;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.tools.P2ToolsFactory;
+import de.p2tools.p2lib.tools.P2InfoFactory;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -76,9 +76,9 @@ public class ProgStartFactory {
 
     public static void setTitle() {
         if (ProgData.debug) {
-            ProgData.getInstance().primaryStage.setTitle(ProgConst.PROGRAM_NAME + " " + P2ToolsFactory.getProgVersion() + " / DEBUG");
+            ProgData.getInstance().primaryStage.setTitle(ProgConst.PROGRAM_NAME + " " + P2InfoFactory.getProgVersion() + " / DEBUG");
         } else {
-            ProgData.getInstance().primaryStage.setTitle(ProgConst.PROGRAM_NAME + " " + P2ToolsFactory.getProgVersion());
+            ProgData.getInstance().primaryStage.setTitle(ProgConst.PROGRAM_NAME + " " + P2InfoFactory.getProgVersion());
         }
     }
 

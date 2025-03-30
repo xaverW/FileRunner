@@ -20,11 +20,11 @@ package de.p2tools.filerunner.controller.worker.gethash;
 import de.p2tools.filerunner.controller.config.Events;
 import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
-import de.p2tools.filerunner.controller.config.RunPEvent;
 import de.p2tools.filerunner.controller.data.filedata.FileData;
 import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
 import de.p2tools.p2lib.P2LibConst;
+import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.StringProperty;
 
@@ -69,8 +69,8 @@ public class DirHash_ReadHashFile {
     }
 
     private void notifyEvent(int progress, String text) {
-        progData.pEventHandler.notifyListener(new RunPEvent(Events.GENERATE_COMPARE_FILE_LIST,
-                progress, max, text));
+        progData.pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                text, progress, max));
     }
 
     private class HashFileRead implements Runnable {

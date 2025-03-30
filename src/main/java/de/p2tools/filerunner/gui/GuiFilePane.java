@@ -20,7 +20,6 @@ package de.p2tools.filerunner.gui;
 import de.p2tools.filerunner.controller.config.Events;
 import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
-import de.p2tools.filerunner.controller.config.RunPEvent;
 import de.p2tools.filerunner.controller.worker.gethash.HashFactory;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.alert.P2Alert;
@@ -28,8 +27,8 @@ import de.p2tools.p2lib.dialogs.P2DirFileChooser;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2ComboBoxString;
 import de.p2tools.p2lib.guitools.P2TextField;
-import de.p2tools.p2lib.tools.events.P2Event;
-import de.p2tools.p2lib.tools.events.P2Listener;
+import de.p2tools.p2lib.p2event.P2Event;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.file.P2FileName;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -257,14 +256,11 @@ public class GuiFilePane extends VBox {
     private void addListener() {
         progData.pEventHandler.addListener(
                 new P2Listener(Events.COMPARE_OF_FILE_LISTS_FINISHED) {
-                    public <T extends P2Event> void ping(T runEvent) {
-                        if (runEvent.getClass().equals(RunPEvent.class)) {
-                            RunPEvent runE = (RunPEvent) runEvent;
-                            if (runE.nixLos()) {
-                                isRunning.setValue(false);
-                            } else {
-                                isRunning.setValue(true);
-                            }
+                    public void ping(P2Event event) {
+                        if (event.getMax() == 0) {
+                            isRunning.setValue(false);
+                        } else {
+                            isRunning.setValue(true);
                         }
                     }
                 });

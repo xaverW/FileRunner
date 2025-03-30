@@ -21,7 +21,6 @@ import de.p2tools.filerunner.controller.SearchProgramUpdate;
 import de.p2tools.filerunner.controller.config.Events;
 import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
-import de.p2tools.filerunner.controller.config.RunPEvent;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
 import de.p2tools.filerunner.gui.GuiDirRunner;
 import de.p2tools.filerunner.gui.GuiFileRunner;
@@ -31,8 +30,8 @@ import de.p2tools.filerunner.gui.configdialog.ConfigDialogController;
 import de.p2tools.filerunner.gui.dialog.AboutDialogController;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
-import de.p2tools.p2lib.tools.events.P2Event;
-import de.p2tools.p2lib.tools.events.P2Listener;
+import de.p2tools.p2lib.p2event.P2Event;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -156,27 +155,24 @@ public class FileRunnerController extends StackPane {
         maskerPane.setButtonVisible(true);
 
         ProgData.getInstance().pEventHandler.addListener(new P2Listener(Events.GENERATE_COMPARE_FILE_LIST) {
-            public <T extends P2Event> void pingGui(T runEvent) {
-                if (runEvent.getClass().equals(RunPEvent.class)) {
-                    RunPEvent runE = (RunPEvent) runEvent;
-                    if (runE.nixLos()) {
-                        if (!progData.worker.createHashIsRunning() ||
-                                CompareFileListFactory.isRunningProperty().get()) {
-                            //sonst läuft nochmal
-                            maskerPane.switchOffMasker();
-                        }
-                    } else {
-                        maskerPane.setMaskerVisible();
+            public void pingGui(P2Event event) {
+                if (event.getMax() == 0) {
+                    if (!progData.worker.createHashIsRunning() ||
+                            CompareFileListFactory.isRunningProperty().get()) {
+                        //sonst läuft nochmal
+                        maskerPane.switchOffMasker();
                     }
-
-                    int max = runE.getMax();
-                    int progress = runE.getProgress();
-                    double prog = 1.0;
-                    if (max > 0) {
-                        prog = 1.0 * progress / max;
-                    }
-                    maskerPane.setMaskerProgress(prog, runE.getText());
+                } else {
+                    maskerPane.setMaskerVisible();
                 }
+
+                int max = (int) event.getMax();
+                int progress = (int) event.getAct();
+                double prog = 1.0;
+                if (max > 0) {
+                    prog = 1.0 * progress / max;
+                }
+                maskerPane.setMaskerProgress(prog, event.getText());
             }
         });
     }

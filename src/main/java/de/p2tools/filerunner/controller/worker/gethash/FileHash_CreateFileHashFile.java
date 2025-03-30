@@ -20,7 +20,7 @@ package de.p2tools.filerunner.controller.worker.gethash;
 import de.p2tools.filerunner.controller.config.Events;
 import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
-import de.p2tools.filerunner.controller.config.RunPEvent;
+import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.tools.log.P2Log;
 import de.p2tools.p2lib.tools.net.PUrlTools;
 import javafx.application.Platform;
@@ -47,8 +47,8 @@ public class FileHash_CreateFileHashFile {
     }
 
     private void notifyEvent() {
-        ProgData.getInstance().pEventHandler.notifyListener(new RunPEvent(Events.GENERATE_COMPARE_FILE_LIST,
-                progress, max, ""));
+        ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                "", progress, max));
     }
 
     public void genHash(String file, StringProperty stringProperty) {
