@@ -521,7 +521,7 @@ public class GuiDirPane extends VBox {
                 onlyName = FilenameUtils.removeExtension(onlyName);
             }
 
-            final String nextElement = P2FileName.getNextFileNameWithDate(onlyPath, onlyName + ".md5", "md5", false);
+            final String nextElement = P2FileName.getNextFileNameWithDate(onlyPath, onlyName + ".md5", "md5");
             pCboWriteHash.getItems().remove(nextElement);
             pCboWriteHash.getItems().add(0, nextElement);
             pCboWriteHash.selectElement(nextElement);
