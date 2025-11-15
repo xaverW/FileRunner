@@ -23,6 +23,7 @@ import de.p2tools.filerunner.controller.config.ProgConst;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.P2LibInit;
+import de.p2tools.p2lib.css.P2CssFactory;
 import de.p2tools.p2lib.guitools.P2GuiSize;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -61,9 +62,16 @@ public class FileRunner extends Application {
 
     private void initP2lib() {
         ProgIconsFileRunner.initIcons();
-        P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME,
-                "", ProgConfig.SYSTEM_DARK_THEME, null, null,
-                ProgConst.CSS_FILE, ProgConst.CSS_FILE_DARK_THEME, null,
+        P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME, "",
+                null,
+                ProgConfig.SYSTEM_DARK_THEME,
+                null,
+
+                "de/p2tools/filerunner/css/",
+                ProgData.getInstance().cssProp,
+                null,
+
+                null,
                 "", "",
                 ProgData.debug, ProgData.duration);
     }
@@ -89,7 +97,7 @@ public class FileRunner extends Application {
             primaryStage.xProperty().addListener((v, o, n) -> P2GuiSize.getSize(ProgConfig.SYSTEM_GUI_SIZE, primaryStage));
             primaryStage.yProperty().addListener((v, o, n) -> P2GuiSize.getSize(ProgConfig.SYSTEM_GUI_SIZE, primaryStage));
 
-            P2LibInit.addP2CssToScene(scene); // und jetzt noch CSS einstellen
+            P2CssFactory.addP2CssToScene(scene); // und jetzt noch CSS einstellen
             ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
                 ProgColorList.setColorTheme();
             });

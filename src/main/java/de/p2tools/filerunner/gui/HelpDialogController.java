@@ -35,7 +35,7 @@ public class HelpDialogController extends P2DialogExtra {
 
     public HelpDialogController() {
         super(ProgData.getInstance().primaryStage, null, "Programmoberfläche",
-                true, false, DECO.NO_BORDER);
+                true, true, true, DECO.NO_BORDER);
         this.progData = ProgData.getInstance();
         init(true);
     }
