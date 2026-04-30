@@ -28,6 +28,7 @@ import de.p2tools.p2lib.guitools.P2GuiSize;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Application;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -63,14 +64,29 @@ public class FileRunner extends Application {
     private void initP2lib() {
         ProgIconsFileRunner.initIcons();
         P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME, "",
-                null,
+                ProgConfig.SYSTEM_THEME_CHANGED,
                 ProgConfig.SYSTEM_DARK_THEME,
-                null,
+                ProgConfig.SYSTEM_GUI_THEME_1,
+                ProgConfig.SYSTEM_ICON_COLOR,
+                ProgConfig.SYSTEM_CSS_ADDER,
 
-                "de/p2tools/filerunner/css/",
-                ProgData.getInstance().cssProp,
-                null,
+                new String[]{
+                        "de/p2tools/filerunner/css/mtfx.css",
+                        "de/p2tools/filerunner/css/pFuncBtn.css",
+                        "de/p2tools/filerunner/css/pFuncMenu.css",
+                        "de/p2tools/filerunner/css/pFuncTitleBar.css",
+                        "de/p2tools/filerunner/css/pFuncTable.css",
+                        "de/p2tools/filerunner/css/pFuncToolBar.css",
+                        "de/p2tools/filerunner/css/pFuncTips.css",
+                        "de/p2tools/filerunner/css/pFuncStartDialog.css"
+                },
 
+                new String[]{
+                        "de/p2tools/filerunner/css/mtfx-dark.css"
+                },
+
+                new SimpleObjectProperty<>(P2CssFactory.CSS.CSS_1),
+                ProgConfig.SYSTEM_FONT_SIZE,
                 null,
                 "", "",
                 ProgData.debug, ProgData.duration);

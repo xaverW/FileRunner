@@ -63,10 +63,26 @@ public class HelpText {
             "In der Tabelle wird der Speicherort des Links angezeigt. " +
             "Wenn der Link aufgelöst werden soll, wird der Pfad auf den der Link zeigt, angezeigt.";
 
-    public static final String DARK_THEME = "Das Programm wird damit mit einer dunklen " +
-            "Programmoberfläche angezeigt. Damit alle Elemente der Programmoberfläche " +
-            "geändert werden, kann ein Programmneustart notwendig sein.";
+    public static final String DARK_THEME =
+            "Das Programm kann damit mit einer dunklen oder hellen Programmoberfläche " +
+                    "angezeigt werden.\n" +
+                    "Umschalten kann man das hier in dem " +
+                    "Dialog, mit einem Mausklick mit der RECHTEN Maustaste " +
+                    "auf den Programm-Einstellungs-Button oder im Programm-Menü.\n" +
+                    "Für einige Elemente kann ein " +
+                    "Programmneustart notwendig sein." +
+                    "\n";
 
+    public static final String THEME_ICON =
+            "Die Programmicons können in verschiedenen Farben angezeigt werden.\n" +
+                    "Es können 2 Icon-Themes für das Dark-Theme und 2 für das " +
+                    "Light-Theme vorgegeben werden.\n" +
+                    "Umschalten kann man das hier in dem " +
+                    "Dialog, mit einem DOPPEL-KLICK " +
+                    "auf den Programm-Einstellungs-Button oder im Programm-Menü.\n" +
+                    "Für einige Elemente kann ein " +
+                    "Programmneustart notwendig sein." +
+                    "\n";
     public static final String EVEN_ODD = "Die Tabellenzeilen werden farblich etwas dunkler angezeigt wenn es " +
             "eine \"ungerade\" Zeile ist. Die ausgewählte Farbe bekommt die \"gerade\" Zeile.";
 

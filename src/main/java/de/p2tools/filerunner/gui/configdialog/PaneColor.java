@@ -21,7 +21,7 @@ import de.p2tools.filerunner.gui.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.colordata.P2ColorData;
 import de.p2tools.p2lib.guitools.P2Button;
-import de.p2tools.p2lib.guitools.P2ColumnConstraints;
+import de.p2tools.p2lib.guitools.grid.P2GridConstraints;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.tools.P2ColorFactory;
@@ -118,7 +118,7 @@ public class PaneColor {
         gridPane.add(h, 0, 2);
         GridPane.setHgrow(h, Priority.ALWAYS);
         GridPane.setHalignment(h, HPos.RIGHT);
-        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcComputedSizeAndHgrow(), P2ColumnConstraints.getCcPrefSize());
+        gridPane.getColumnConstraints().addAll(P2GridConstraints.getCcComputedSizeAndHgrow(), P2GridConstraints.getCcPrefSize());
 
 
         TableView<P2ColorData> tableView = new TableView<>();

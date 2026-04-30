@@ -21,7 +21,7 @@ import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.gui.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
-import de.p2tools.p2lib.guitools.P2ColumnConstraints;
+import de.p2tools.p2lib.guitools.grid.P2GridConstraints;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -73,7 +73,7 @@ public class PaneConfig {
         gridPane.add(chkFollowLink1, 0, ++row);
         gridPane.add(chkFollowLink2, 0, ++row);
 
-        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
-                P2ColumnConstraints.getCcComputedSizeAndHgrow());
+        gridPane.getColumnConstraints().addAll(P2GridConstraints.getCcPrefSize(),
+                P2GridConstraints.getCcComputedSizeAndHgrow());
     }
 }

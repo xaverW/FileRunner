@@ -19,13 +19,11 @@ package de.p2tools.filerunner.controller.config;
 
 import de.p2tools.filerunner.FileRunnerController;
 import de.p2tools.filerunner.controller.data.filedata.FileDataList;
+import de.p2tools.filerunner.controller.worker.ColorWorker;
 import de.p2tools.filerunner.controller.worker.Worker;
 import de.p2tools.filerunner.gui.GuiDirRunner;
 import de.p2tools.filerunner.gui.GuiFileRunner;
-import de.p2tools.p2lib.css.P2CssFactory;
 import de.p2tools.p2lib.p2event.P2EventHandler;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.stage.Stage;
 
 public class ProgData {
@@ -44,12 +42,12 @@ public class ProgData {
 
     // zentrale Klassen
     public Worker worker;
+    public ColorWorker colorWorker = null;
 
     // Gui
     public Stage primaryStage = null;
     //    public PMaskerPane maskerPane = null;
     public FileRunnerController fileRunnerController = null;
-    public ObjectProperty<P2CssFactory.CSS> cssProp = new SimpleObjectProperty<>(P2CssFactory.CSS.CSS_0);
 
     public GuiDirRunner guiDirRunner = null; // DirTab
     public GuiFileRunner guiFileRunner = null; // FileTab
@@ -61,6 +59,7 @@ public class ProgData {
         fileDataList_1 = new FileDataList();
         fileDataList_2 = new FileDataList();
         worker = new Worker(this);
+        colorWorker = new ColorWorker(this);
     }
 
 

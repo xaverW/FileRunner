@@ -58,7 +58,6 @@ public class ProgConfig extends P2DataProgConfig {
 
     public static StringProperty SYSTEM_PROG_OPEN_URL = addStrProp("system-prog-open-uri", "");
     public static StringProperty SYSTEM_LOG_DIR = addStrProp("system-log-dir", "");
-    public static BooleanProperty SYSTEM_DARK_THEME = addBoolProp("system-dark-theme", false);
     public static BooleanProperty SYSTEM_EVEN_ODD = addBoolProp("system-even-odd", true);
     public static IntegerProperty SYSTEM_EVEN_ODD_VALUE = addIntProp("system-even-odd-value", P2ColorData.ODD_DIV);
 
@@ -67,6 +66,64 @@ public class ProgConfig extends P2DataProgConfig {
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_GENERAL = new SimpleIntegerProperty(-1);
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_CONFIG = new SimpleIntegerProperty(-1);
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_COLOR = new SimpleIntegerProperty(-1);
+
+    public static BooleanProperty SYSTEM_DARK_THEME = addBoolProp("system-dark-theme", Boolean.FALSE); // DARK oder LIGHT
+    public static BooleanProperty SYSTEM_GUI_THEME_1 = addBoolProp("system-gui-theme-1", Boolean.FALSE); // Theme 1 oder 2
+    public static StringProperty SYSTEM_CSS_ADDER = addStrProp("system-css-adder");
+
+    public static BooleanProperty SYSTEM_DARK_START = addBoolProp("system-dark-theme-start", Boolean.FALSE);
+    public static BooleanProperty SYSTEM_GUI_THEME_1_START = addBoolProp("system-gui-theme-1-start", Boolean.FALSE);
+
+    public static IntegerProperty SYSTEM_FONT_SIZE = addIntProp("system-font-size", 0);
+    public static BooleanProperty SYSTEM_FONT_SIZE_CHANGE = addBoolProp("system-font-size-change", Boolean.FALSE); // für die Schriftgröße
+
+    public static BooleanProperty SYSTEM_THEME_CHANGED = addBoolProp("system-theme-changed"); // hat sich geändert
+    public static StringProperty SYSTEM_ICON_COLOR = addStrProp("system-icon-color", ProgConst.ICON_COLOR_LIGHT_1); // die aktuelle Icon-Farbe
+    public static StringProperty SYSTEM_GUI_COLOR = addStrProp("system-gui-color", ProgConst.GUI_COLOR_LIGHT_1); // die aktuelle GUI-Farbe
+    public static StringProperty SYSTEM_BACKGROUND_COLOR = addStrProp("system-backup-color", ProgConst.GUI_BACKGROUND_LIGHT_1); // die aktuelle Hintergrund-Farbe
+    public static StringProperty SYSTEM_TITLE_BAR_COLOR = addStrProp("system-backup-color", ProgConst.GUI_TITLE_BAR_LIGHT_1); // die aktuelle Hintergrund-Farbe
+    public static StringProperty SYSTEM_TITLE_BAR_SEL_COLOR = addStrProp("system-backup-color", ProgConst.GUI_TITLE_BAR_SEL_LIGHT_1); // die aktuelle Hintergrund-Farbe
+
+    public static StringProperty SYSTEM_ICON_THEME_DARK_1 = addStrProp("system-icon-theme-dark-1", ProgConst.ICON_COLOR_DARK_1);
+    public static StringProperty SYSTEM_ICON_THEME_DARK_2 = addStrProp("system-icon-theme-dark-2", ProgConst.ICON_COLOR_DARK_2);
+    public static StringProperty SYSTEM_ICON_THEME_LIGHT_1 = addStrProp("system-icon-theme-light-1", ProgConst.ICON_COLOR_LIGHT_1);
+    public static StringProperty SYSTEM_ICON_THEME_LIGHT_2 = addStrProp("system-icon-theme-light2", ProgConst.ICON_COLOR_LIGHT_2);
+
+    public static StringProperty SYSTEM_GUI_THEME_DARK_1 = addStrProp("system-gui-theme-dark-1", ProgConst.GUI_COLOR_DARK_1);
+    public static StringProperty SYSTEM_GUI_THEME_DARK_2 = addStrProp("system-gui-theme-dark-2", ProgConst.GUI_COLOR_DARK_2);
+    public static StringProperty SYSTEM_GUI_THEME_LIGHT_1 = addStrProp("system-gui-theme-light-1", ProgConst.GUI_COLOR_LIGHT_1);
+    public static StringProperty SYSTEM_GUI_THEME_LIGHT_2 = addStrProp("system-gui-theme-light2", ProgConst.GUI_COLOR_LIGHT_2);
+
+    public static BooleanProperty SYSTEM_GUI_BACKGROUND_TRANSPARENT_DARK_1 = addBoolProp("system-gui-background-transparent-dark-1", ProgConst.GUI_BACKGROUND_TRANSPARENT_DARK_1);
+    public static BooleanProperty SYSTEM_GUI_BACKGROUND_TRANSPARENT_DARK_2 = addBoolProp("system-gui-background-transparent-dark-2", ProgConst.GUI_BACKGROUND_TRANSPARENT_DARK_2);
+    public static BooleanProperty SYSTEM_GUI_BACKGROUND_TRANSPARENT_LIGHT_1 = addBoolProp("system-gui-background-transparent-light-1", ProgConst.GUI_BACKGROUND_TRANSPARENT_LIGHT_1);
+    public static BooleanProperty SYSTEM_GUI_BACKGROUND_TRANSPARENT_LIGHT_2 = addBoolProp("system-gui-background-transparent-light-2", ProgConst.GUI_BACKGROUND_TRANSPARENT_LIGHT_2);
+
+    public static StringProperty SYSTEM_GUI_BACKGROUND_DARK_1 = addStrProp("system-gui-background-dark-1", ProgConst.GUI_BACKGROUND_DARK_1);
+    public static StringProperty SYSTEM_GUI_BACKGROUND_DARK_2 = addStrProp("system-gui-background-dark-2", ProgConst.GUI_BACKGROUND_DARK_2);
+    public static StringProperty SYSTEM_GUI_BACKGROUND_LIGHT_1 = addStrProp("system-gui-background-light-1", ProgConst.GUI_BACKGROUND_LIGHT_1);
+    public static StringProperty SYSTEM_GUI_BACKGROUND_LIGHT_2 = addStrProp("system-gui-background-light2", ProgConst.GUI_BACKGROUND_LIGHT_2);
+
+    public static BooleanProperty SYSTEM_GUI_TITLE_BAR_TRANSPARENT_DARK_1 = addBoolProp("system-gui-title-bar-transparent-dark-1", ProgConst.GUI_TITLE_BAR_TRANSPARENT_DARK_1);
+    public static BooleanProperty SYSTEM_GUI_TITLE_BAR_TRANSPARENT_DARK_2 = addBoolProp("system-gui-title-bar-transparent-dark-2", ProgConst.GUI_TITLE_BAR_TRANSPARENT_DARK_2);
+    public static BooleanProperty SYSTEM_GUI_TITLE_BAR_TRANSPARENT_LIGHT_1 = addBoolProp("system-gui-title-bar-transparent-light-1", ProgConst.GUI_TITLE_BAR_TRANSPARENT_LIGHT_1);
+    public static BooleanProperty SYSTEM_GUI_TITLE_BAR_TRANSPARENT_LIGHT_2 = addBoolProp("system-gui-title-bar-transparent-light-2", ProgConst.GUI_TITLE_BAR_TRANSPARENT_LIGHT_2);
+
+    public static StringProperty SYSTEM_GUI_TITLE_BAR_DARK_1 = addStrProp("system-gui-title-bar-dark-1", ProgConst.GUI_TITLE_BAR_DARK_1);
+    public static StringProperty SYSTEM_GUI_TITLE_BAR_DARK_2 = addStrProp("system-gui-title-bar-dark-2", ProgConst.GUI_TITLE_BAR_DARK_2);
+    public static StringProperty SYSTEM_GUI_TITLE_BAR_LIGHT_1 = addStrProp("system-gui-title-bar-light-1", ProgConst.GUI_TITLE_BAR_LIGHT_1);
+    public static StringProperty SYSTEM_GUI_TITLE_BAR_LIGHT_2 = addStrProp("system-gui-title-bar-light2", ProgConst.GUI_TITLE_BAR_LIGHT_2);
+
+    public static BooleanProperty SYSTEM_GUI_TITLE_BAR_SEL_TRANSPARENT_DARK_1 = addBoolProp("system-gui-title-bar-sel-transparent-dark-1", ProgConst.GUI_TITLE_BAR_SEL_TRANSPARENT_DARK_1);
+    public static BooleanProperty SYSTEM_GUI_TITLE_BAR_SEL_TRANSPARENT_DARK_2 = addBoolProp("system-gui-title-bar-sel-transparent-dark-2", ProgConst.GUI_TITLE_BAR_SEL_TRANSPARENT_DARK_2);
+    public static BooleanProperty SYSTEM_GUI_TITLE_BAR_SEL_TRANSPARENT_LIGHT_1 = addBoolProp("system-gui-title-bar-sel-transparent-light-1", ProgConst.GUI_TITLE_BAR_SEL_TRANSPARENT_LIGHT_1);
+    public static BooleanProperty SYSTEM_GUI_TITLE_BAR_SEL_TRANSPARENT_LIGHT_2 = addBoolProp("system-gui-title-bar-sel-transparent-light-2", ProgConst.GUI_TITLE_BAR_SEL_TRANSPARENT_LIGHT_2);
+
+    public static StringProperty SYSTEM_GUI_TITLE_BAR_SEL_DARK_1 = addStrProp("system-gui-title-bar-sel-dark-1", ProgConst.GUI_TITLE_BAR_SEL_DARK_1);
+    public static StringProperty SYSTEM_GUI_TITLE_BAR_SEL_DARK_2 = addStrProp("system-gui-title-bar-sel-dark-2", ProgConst.GUI_TITLE_BAR_SEL_DARK_2);
+    public static StringProperty SYSTEM_GUI_TITLE_BAR_SEL_LIGHT_1 = addStrProp("system-gui-title-bar-sel-light-1", ProgConst.GUI_TITLE_BAR_SEL_LIGHT_1);
+    public static StringProperty SYSTEM_GUI_TITLE_BAR_SEL_LIGHT_2 = addStrProp("system-gui-title-bar-sel-light2", ProgConst.GUI_TITLE_BAR_SEL_LIGHT_2);
+
 
     // Fenstereinstellungen
     public static StringProperty SYSTEM_GUI_SIZE = addStrProp("system-gui-size", "1000:800");
