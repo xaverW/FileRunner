@@ -30,15 +30,18 @@ import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 
 public class FileRunnerController extends StackPane {
 
     private final P2MaskerPane maskerPane = new P2MaskerPane();
     BorderPane borderPane = new BorderPane();
 
-    Button btnDirRunner = new Button("Ordner " + "vergleichen");
-    Button btnFileRunner = new Button("Dateien " + "vergleichen");
+    Button btnDirRunner = new Button("Ordner vergleichen");
+    Button btnFileRunner = new Button("Dateien vergleichen");
 
     StackPane stackPaneCont = new StackPane();
     private StatusBarController statusBarController;
@@ -57,22 +60,20 @@ public class FileRunnerController extends StackPane {
             this.getChildren().addAll(borderPane, maskerPane);
             initMaskerPane();
 
-            // Top-Menü
-            HBox hBoxMenueButton = new HBox();
-            hBoxMenueButton.setPadding(new Insets(10));
-            hBoxMenueButton.setSpacing(20);
-            hBoxMenueButton.setAlignment(Pos.CENTER);
-            HBox.setHgrow(hBoxMenueButton, Priority.ALWAYS);
 
-            TilePane tilePane = new TilePane();
-            tilePane.setHgap(20);
-            tilePane.setAlignment(Pos.CENTER);
-            HBox.setHgrow(tilePane, Priority.ALWAYS);
+            HBox hBox = new HBox(20);
+            hBox.setPadding(new Insets(10, 10, 0, 10));
+            hBox.setAlignment(Pos.BOTTOM_CENTER);
+            HBox.setHgrow(hBox, Priority.ALWAYS);
+            hBox.getChildren().addAll(btnDirRunner, btnFileRunner);
 
-            tilePane.getChildren().addAll(btnDirRunner, btnFileRunner);
+
+            HBox hBoxMenuButton = new HBox();
+            hBoxMenuButton.setAlignment(Pos.CENTER);
             FileRunnerMenu m = new FileRunnerMenu();
             m.setVisible(false);
-            hBoxMenueButton.getChildren().addAll(m, tilePane, new FileRunnerMenu());
+            hBoxMenuButton.getChildren().addAll(m, hBox, new FileRunnerMenu());
+
 
             btnDirRunner.setOnAction(e -> selPanelDirRunner());
             btnDirRunner.setMaxWidth(Double.MAX_VALUE);
@@ -89,8 +90,10 @@ public class FileRunnerController extends StackPane {
             statusBarController = new StatusBarController(progData);
 
             // ProgGUI
-            borderPane.setTop(hBoxMenueButton);
+            borderPane.setTop(hBoxMenuButton);
             borderPane.setCenter(stackPaneCont);
+            stackPaneCont.getStyleClass().add("splitPaneTab");
+
             borderPane.setBottom(statusBarController);
             borderPane.setPadding(new Insets(0));
             selPanelDirRunner();
@@ -137,8 +140,8 @@ public class FileRunnerController extends StackPane {
         btnDirRunner.getStyleClass().clear();
         btnFileRunner.getStyleClass().clear();
 
-        btnDirRunner.getStyleClass().add("btnTabTop-sel");
-        btnFileRunner.getStyleClass().add("btnTabTop");
+        btnDirRunner.getStyleClass().setAll("pFuncBtn", "pFuncBtnTitleBar", "pFuncBtnTitleBarSel");
+        btnFileRunner.getStyleClass().setAll("pFuncBtn", "pFuncBtnTitleBar");
 
         progData.guiDirRunner.toFront();
         progData.guiDirRunner.isShown();
@@ -149,8 +152,8 @@ public class FileRunnerController extends StackPane {
         btnDirRunner.getStyleClass().clear();
         btnFileRunner.getStyleClass().clear();
 
-        btnDirRunner.getStyleClass().add("btnTabTop");
-        btnFileRunner.getStyleClass().add("btnTabTop-sel");
+        btnDirRunner.getStyleClass().setAll("pFuncBtn", "pFuncBtnTitleBar");
+        btnFileRunner.getStyleClass().setAll("pFuncBtn", "pFuncBtnTitleBar", "pFuncBtnTitleBarSel");
 
         progData.guiFileRunner.toFront();
         progData.guiFileRunner.isShown();

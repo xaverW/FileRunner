@@ -76,7 +76,8 @@ public class ProgStartBeforeGui {
                         "de/p2tools/filerunner/css/pFuncTable.css",
                         "de/p2tools/filerunner/css/pFuncToolBar.css",
                         "de/p2tools/filerunner/css/pFuncTips.css",
-                        "de/p2tools/filerunner/css/pFuncStartDialog.css"
+                        "de/p2tools/filerunner/css/pFuncStartDialog.css",
+                        "de/p2tools/filerunner/css/filerunner.css"
                 },
 
                 new String[]{

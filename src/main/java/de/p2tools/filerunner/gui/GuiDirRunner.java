@@ -40,6 +40,7 @@ public class GuiDirRunner extends AnchorPane {
     private final VBox vBoxBtn = new VBox(10);
     private final ScrollPane scrollPane = new ScrollPane();
     private final Button btnRead = new Button("");
+
     private final ToggleButton tglShowAll = new ToggleButton("");
     private final ToggleButton tglShowSamePath = new ToggleButton("");
     private final ToggleButton tglShowDiff_IN_BOTH = new ToggleButton("");
@@ -220,21 +221,30 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void addToggleGroup() {
-        ToggleGroup tg = new ToggleGroup();
-        tg.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
-            if (newVal == null)
-                oldVal.setSelected(true);
-        });
         btnRead.setGraphic(PIconFactory.PICON.BTN_START_ALL.getFontIcon());
         btnRead.setTooltip(new Tooltip("Die beiden Suchordner (oder die Zipdatei/Hashdatei) werden eingelesen"));
+
+        ToggleGroup tg = new ToggleGroup();
+        tg.selectedToggleProperty().addListener((obsVal, oldVal, newVal) -> {
+            if (newVal == null) {
+                oldVal.setSelected(true);
+            }
+        });
         tg.getToggles().addAll(tglShowAll, tglShowSamePath, tglShowDiff_OR_ONLY, tglShowDiff_IN_BOTH, tglShowOnlyLeft, tglShowOnlyRight);
-        tglShowAll.setSelected(true);
+
         tglShowAll.setGraphic(PIconFactory.PICON.BTN_FILTER_ALL.getFontIcon());
         tglShowSamePath.setGraphic(PIconFactory.PICON.BTN_FILTER_EQUAL.getFontIcon());
         tglShowDiff_OR_ONLY.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_ONLY.getFontIcon());
         tglShowDiff_IN_BOTH.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_ALL.getFontIcon());
-        tglShowOnlyLeft.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_RIGHT.getFontIcon());
-        tglShowOnlyRight.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_LEFT.getFontIcon());
+        tglShowOnlyLeft.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_LEFT.getFontIcon());
+        tglShowOnlyRight.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_RIGHT.getFontIcon());
+
+        tglShowAll.getStyleClass().add("btnFilter");
+        tglShowSamePath.getStyleClass().add("btnFilter");
+        tglShowDiff_OR_ONLY.getStyleClass().add("btnFilter");
+        tglShowDiff_IN_BOTH.getStyleClass().add("btnFilter");
+        tglShowOnlyLeft.getStyleClass().add("btnFilter");
+        tglShowOnlyRight.getStyleClass().add("btnFilter");
 
         tglShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
         tglShowSamePath.setTooltip(new Tooltip("Gleiche Dateien (gleicher Pfad/Name/Hash oder nur gleicher Hash), anzeigen."));
@@ -254,13 +264,15 @@ public class GuiDirRunner extends AnchorPane {
             new Thread(createHash).start();
         });
 
-        setTglButton();
+
         tglShowAll.setOnAction(e -> setTglButton());
         tglShowSamePath.setOnAction(e -> setTglButton());
         tglShowDiff_OR_ONLY.setOnAction(e -> setTglButton());
         tglShowDiff_IN_BOTH.setOnAction(e -> setTglButton());
         tglShowOnlyLeft.setOnAction(e -> setTglButton());
         tglShowOnlyRight.setOnAction(e -> setTglButton());
+        tglShowAll.setSelected(true);
+        setTglButton();
     }
 
     private class CreateHash implements Runnable {
@@ -284,67 +296,63 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void setTglButton() {
-        clear();
+//        clear();
         if (tglShowAll.isSelected()) {
-//            tglShowAll.getStyleClass().clear();
-//            tglShowAll.getStyleClass().add("btnFilter-sel");
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
 
         } else if (tglShowSamePath.isSelected()) {
-//            tglShowAll.getStyleClass().clear();
-//            tglShowAll.getStyleClass().add("btnFilter-sel");
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.SAME_NAME);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.SAME_NAME);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
 
         } else if (tglShowDiff_OR_ONLY.isSelected()) {
-//            tglShowAll.getStyleClass().clear();
-//            tglShowAll.getStyleClass().add("btnFilter-sel");
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_OR_ONLY);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_OR_ONLY);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
 
         } else if (tglShowDiff_IN_BOTH.isSelected()) {
-//            tglShowAll.getStyleClass().clear();
-//            tglShowAll.getStyleClass().add("btnFilter-sel");
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_IN_BOTHE);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_IN_BOTHE);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
 
         } else if (tglShowOnlyLeft.isSelected()) {
-//            tglShowAll.getStyleClass().clear();
-//            tglShowAll.getStyleClass().add("btnFilter-sel");
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(false);
 
         } else if (tglShowOnlyRight.isSelected()) {
-//            tglShowAll.getStyleClass().clear();
-//            tglShowAll.getStyleClass().add("btnFilter-sel");
             progData.fileDataList_1.setPred(false);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
             progData.fileDataList_2.setPred(fileDataFilter2);
         }
     }
 
-    private void clear() {
-//        tglShowAll.getStyleClass().clear();
-//        tglShowSamePath.getStyleClass().clear();
-//        tglShowDiff_IN_BOTH.getStyleClass().clear();
-//        tglShowDiff_OR_ONLY.getStyleClass().clear();
-//        tglShowOnly1.getStyleClass().clear();
-//        tglShowOnly2.getStyleClass().clear();
-//        tglShowAll.getStyleClass().add("btnFilter");
-//        tglShowSamePath.getStyleClass().add("btnFilter");
-//        tglShowDiff_IN_BOTH.getStyleClass().add("btnFilter");
-//        tglShowDiff_OR_ONLY.getStyleClass().add("btnFilter");
-//        tglShowOnly1.getStyleClass().add("btnFilter");
-//        tglShowOnly2.getStyleClass().add("btnFilter");
-    }
+//    private void clear() {
+//        tglShowAll.getStyleClass().removeAll("btnFilterSel");
+//        tglShowSamePath.getStyleClass().removeAll("btnFilterSel");
+//        tglShowDiff_OR_ONLY.getStyleClass().removeAll("btnFilterSel");
+//        tglShowDiff_IN_BOTH.getStyleClass().removeAll("btnFilterSel");
+//        tglShowOnlyLeft.getStyleClass().removeAll("btnFilterSel");
+//        tglShowOnlyRight.getStyleClass().removeAll("btnFilterSel");
+//
+//        if (tglShowAll.isSelected()) {
+//            tglShowAll.getStyleClass().add("btnFilterSel");
+//        } else if (tglShowSamePath.isSelected()) {
+//            tglShowSamePath.getStyleClass().add("btnFilterSel");
+//        } else if (tglShowDiff_OR_ONLY.isSelected()) {
+//            tglShowDiff_OR_ONLY.getStyleClass().add("btnFilterSel");
+//        } else if (tglShowDiff_IN_BOTH.isSelected()) {
+//            tglShowDiff_IN_BOTH.getStyleClass().add("btnFilterSel");
+//        } else if (tglShowOnlyLeft.isSelected()) {
+//            tglShowOnlyLeft.getStyleClass().add("btnFilterSel");
+//        } else if (tglShowOnlyRight.isSelected()) {
+//            tglShowOnlyRight.getStyleClass().add("btnFilterSel");
+//        }
+//    }
 }
