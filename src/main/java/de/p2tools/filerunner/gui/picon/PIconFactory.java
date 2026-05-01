@@ -15,8 +15,21 @@ import org.kordamp.ikonli.javafx.FontIcon;
 public class PIconFactory {
 
     public enum PICON implements P2IconFactory.P2Icon {
+        BTN_FILTER_ALL("mdi2a-arrow-left-right-bold", 18),
+        BTN_FILTER_EQUAL("mdoal-equals", 18),
+        BTN_FILTER_DIFF_ONLY("mdi2a-approximately-equal", 18),
+        BTN_FILTER_DIFF_ALL("mdomz-not_equal", 18),
+        BTN_FILTER_DIFF_RIGHT("mdi2t-transfer-right", 18),
+        BTN_FILTER_DIFF_LEFT("mdi2t-transfer-left", 18),
+
+        BTN_START_ALL("gmi-save-alt", 18),
+        BTN_FILTER("gmi-flip-camera-android", 18),
+        BTN_GEN_HASH("gmi-double-arrow", 18),
+
         BTN_HELP("mdi-help"),
         BTN_DIR_OPEN("mdi2f-folder-open-outline", 18),
+        BTN_START("mdal-double_arrow", 18),
+
         BTN_PLUS_OUTLINE("mdi-plus-circle-outline", 18),
         BTN_MINUS_OUTLINE("mdi-minus-circle-outline", 18),
         BTN_NEXT("mdi-chevron-double-right", 18),
@@ -55,6 +68,7 @@ public class PIconFactory {
         BTN_ALERT_DOWNLOAD_OPEN_DIR("mdi2f-folder-open-outline", 14),
 
         ICON_BOOLEAN_ON("mdral-done_outline", 20),
+        ICON_BOOLEAN_OFF("gmi-close", 20),
 
         TABLE_ABO_ON("gmi-play-arrow", 18),
         TABLE_ABO_OFF("gmi-pause", 18),

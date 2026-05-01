@@ -22,6 +22,35 @@
 }
 
 
+
+.toggle-button {
+    -fx-padding: 5 15 5 15;
+      -fx-border-width: 1;
+      -fx-border-color: -pGuiColor;
+      -fx-border-radius: 50;
+      -fx-background-radius: 50;
+      -fx-background-color: -pBackgroundColor;
+
+      -fx-alignment: center;
+      -fx-font-weight: bold;
+      -fx-font-size: 1em;
+}
+
+.toggle-button:selected {
+    -fx-padding: 5 15 5 15;
+      -fx-border-width: 1;
+      -fx-border-color: -pGuiColor;
+      -fx-border-radius: 50;
+      -fx-background-radius: 50;
+      -fx-background-color: -pBackgroundColor;
+
+      -fx-alignment: center;
+      -fx-font-weight: bold;
+      -fx-font-size: 1em;
+}
+
+
+
 .headerLabelVertikal {
     -fx-rotate: -90;
     -fx-text-fill: black;
@@ -66,38 +95,13 @@
     -fx-padding: 5 15 5 15;
   }
 
-.btnFilter, .btnFilter-sel{
-    -fx-background-color: #c3c4c4, -lin-grad-1, -rad-grad-1;
-    -fx-background-insets: 0,1,1;
-    -fx-text-fill: black;
-    -fx-background-radius: 30;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
-    -fx-padding: 5 15 5 15;
-}
-.btnFilter:focused{
-    -fx-background-color: #355c8c, -lin-grad-1, -rad-grad-1;
-    -fx-background-insets: -0.5,1,1;
-}
-.btnFilter:hover{
-    -fx-background-insets: -1.0,1,1;
-}
-.btnFilter:focused:hover{
-    -fx-background-insets: -1.5,1,1;
-}
-.btnFilter-sel{
-    -fx-background-color: -text-color-blue, -lin-grad-1, -rad-grad-1;
-    -fx-background-insets: -2,1,1;
-}
-.btnFilter-sel:focused{
-    -fx-background-insets: -2,1,1;
-}
-.btnFilter-sel:hover{
-    -fx-background-insets: -2.5,1,10;
-}
-.btnFilter-sel:focused:hover{
-    -fx-background-insets: -2.5,1,1;
-}
 
+
+
+
+
+
+/*  */
 
 
 

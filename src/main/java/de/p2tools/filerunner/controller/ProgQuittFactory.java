@@ -21,8 +21,9 @@ import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.config.ProgInfos;
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.configfile.ConfigWriteFile;
-import de.p2tools.p2lib.tools.log.P2LogMessage;
+import de.p2tools.p2lib.guitools.P2GuiSize;
 import de.p2tools.p2lib.tools.log.P2Log;
+import de.p2tools.p2lib.tools.log.P2LogMessage;
 import javafx.application.Platform;
 
 import java.nio.file.Path;
@@ -49,6 +50,10 @@ public class ProgQuittFactory {
     }
 
     private static void save() {
+        if (ProgData.getInstance().primaryStage.isShowing()) {
+            P2GuiSize.getSize(ProgConfig.SYSTEM_GUI_SIZE, ProgData.getInstance().primaryStage);
+        }
+
         //sind die Programmeinstellungen
         P2Log.sysLog("Alle Programmeinstellungen sichern");
         final Path xmlFilePath = ProgInfos.getSettingsFile();

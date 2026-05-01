@@ -24,9 +24,9 @@ import de.p2tools.filerunner.controller.data.filedata.FileData;
 import de.p2tools.filerunner.controller.data.filedata.FileDataFilter;
 import de.p2tools.filerunner.controller.data.filedata.FileDataList;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
+import de.p2tools.filerunner.gui.picon.PIconFactory;
 import de.p2tools.filerunner.gui.table.Table;
 import de.p2tools.filerunner.gui.table.TableFileList;
-import de.p2tools.filerunner.icon.ProgIconsFileRunner;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.dialogs.P2DialogShowAgain;
@@ -161,7 +161,7 @@ public class GuiDirPane extends VBox {
         if (path.isEmpty()) {
             return;
         }
-        P2Open.openDir(path, ProgConfig.SYSTEM_PROG_OPEN_DIR, ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
+        P2Open.openDir(path, ProgConfig.SYSTEM_PROG_OPEN_DIR, PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
     }
 
     public void copySelFile() {
@@ -354,17 +354,17 @@ public class GuiDirPane extends VBox {
         btnReadZip.setMinWidth(btnReadZip.getPrefWidth());
         btnReadHash.setMinWidth(btnReadHash.getPrefWidth());
 
-        btnSelectDir.setGraphic(ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
-        btnSelectZipFile.setGraphic(ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
-        btnSelectHashFile.setGraphic(ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
-        btnSelectHashListFileForSaving.setGraphic(ProgIconsFileRunner.ICON_BUTTON_FILE_OPEN.getImageView());
-        btnProposeHashName.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GUI_GEN_NAME.getImageView());
-        btnWriteHash.setGraphic(ProgIconsFileRunner.ICON_BUTTON_FILE_SAVE.getImageView());
+        btnSelectDir.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
+        btnSelectZipFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
+        btnSelectHashFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
+        btnSelectHashListFileForSaving.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
+        btnProposeHashName.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
+        btnWriteHash.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
 
-        btnReadDir.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GEN_HASH.getImageView());
-        btnReadZip.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GEN_HASH.getImageView());
-        btnReadHash.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GEN_HASH.getImageView());
-        btnClearFilter.setGraphic(ProgIconsFileRunner.ICON_BUTTON_GUI_CLEAR.getImageView());
+        btnReadDir.setGraphic(PIconFactory.PICON.BTN_GEN_HASH.getFontIcon());
+        btnReadZip.setGraphic(PIconFactory.PICON.BTN_GEN_HASH.getFontIcon());
+        btnReadHash.setGraphic(PIconFactory.PICON.BTN_GEN_HASH.getFontIcon());
+        btnClearFilter.setGraphic(PIconFactory.PICON.BTN_CLEAR.getFontIcon());
 
         btnReadDir.setTooltip(new Tooltip("Verzeichnis einlesen."));
         btnReadZip.setTooltip(new Tooltip("Zipdatei einlesen."));
@@ -627,19 +627,19 @@ public class GuiDirPane extends VBox {
     private void setTabDirFile(DIR_ZIP_HASH dir_zip_hash) {
         switch (dir_zip_hash) {
             case DIR:
-                tabDir.setGraphic(ProgIconsFileRunner.ICON_TAB_DIR_FILE.getImageView());
+                tabDir.setGraphic(PIconFactory.PICON.BTN_START_ALL.getFontIcon());
                 tabZip.setGraphic(null);
                 tabFile.setGraphic(null);
                 break;
             case ZIP:
                 tabDir.setGraphic(null);
-                tabZip.setGraphic(ProgIconsFileRunner.ICON_TAB_DIR_FILE.getImageView());
+                tabZip.setGraphic(PIconFactory.PICON.BTN_START_ALL.getFontIcon());
                 tabFile.setGraphic(null);
                 break;
             case HASH:
                 tabDir.setGraphic(null);
                 tabZip.setGraphic(null);
-                tabFile.setGraphic(ProgIconsFileRunner.ICON_TAB_DIR_FILE.getImageView());
+                tabFile.setGraphic(PIconFactory.PICON.BTN_START_ALL.getFontIcon());
                 break;
         }
     }
@@ -649,7 +649,7 @@ public class GuiDirPane extends VBox {
             tabFilter.setGraphic(null);
             tabFilter.setStyle("-fx-font-weight: normal;");
         } else {
-            tabFilter.setGraphic(ProgIconsFileRunner.ICON_TAB_SEARCH.getImageView());
+            tabFilter.setGraphic(PIconFactory.PICON.BTN_START_ALL.getFontIcon());
             tabFilter.setStyle("-fx-font-weight: bold; -fx-underline: true;");
         }
     }
