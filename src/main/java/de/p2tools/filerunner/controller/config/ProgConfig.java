@@ -56,6 +56,7 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty SYSTEM_UPDATE_LAST_BETA = addStrProp("system-update-last-beta");
     public static StringProperty SYSTEM_UPDATE_LAST_DAILY = addStrProp("system-update-last-daily");
 
+    public static BooleanProperty SYSTEM_LOG_ON = addBoolProp("system-log-on", Boolean.TRUE);
     public static StringProperty SYSTEM_PROG_OPEN_URL = addStrProp("system-prog-open-uri", "");
     public static StringProperty SYSTEM_LOG_DIR = addStrProp("system-log-dir", "");
     public static BooleanProperty SYSTEM_EVEN_ODD = addBoolProp("system-even-odd", true);

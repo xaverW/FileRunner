@@ -36,6 +36,7 @@ public class ProgData {
 
     // Infos
     public static String configDir; // Verzeichnis zum Speichern der Programmeinstellungen
+    public static boolean raspberry = false; // läuft auf einem Raspberry
 
     public FileDataList fileDataList_1;
     public FileDataList fileDataList_2;

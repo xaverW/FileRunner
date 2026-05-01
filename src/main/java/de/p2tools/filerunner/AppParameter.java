@@ -17,11 +17,11 @@
 
 package de.p2tools.filerunner;
 
-import de.p2tools.filerunner.controller.ProgStartFactory;
+import de.p2tools.filerunner.controller.ProgStartAfterGui;
 import de.p2tools.filerunner.controller.config.ProgConst;
 import de.p2tools.filerunner.controller.config.ProgData;
-import de.p2tools.p2lib.tools.log.P2LogMessage;
 import de.p2tools.p2lib.tools.log.P2Log;
+import de.p2tools.p2lib.tools.log.P2LogMessage;
 import org.apache.commons.cli.*;
 
 import java.awt.*;
@@ -56,7 +56,7 @@ public class AppParameter {
 
             if (hasOption(line, ProgParameter.VERSION)) {
                 EventQueue.invokeLater(() -> {
-                    ProgStartFactory.startMsg();
+                    ProgStartAfterGui.startMsg();
                     P2LogMessage.endMsg();
                     System.exit(0);
                 });

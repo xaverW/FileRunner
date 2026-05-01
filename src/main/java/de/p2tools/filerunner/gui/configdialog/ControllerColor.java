@@ -26,6 +26,7 @@ import java.util.Collection;
 
 public class ControllerColor extends P2AccordionPane {
 
+    private PaneColorGui paneColorGui;
     private PaneColor paneColor;
     private final Stage stage;
 
@@ -37,14 +38,20 @@ public class ControllerColor extends P2AccordionPane {
     }
 
     public void close() {
+        paneColorGui.close();
         paneColor.close();
         super.close();
     }
 
     public Collection<TitledPane> createPanes() {
         Collection<TitledPane> result = new ArrayList<>();
+
+        paneColorGui = new PaneColorGui(stage);
+        paneColorGui.make(result);
+
         paneColor = new PaneColor(stage);
         paneColor.makeColor(result);
+        
         return result;
     }
 }
