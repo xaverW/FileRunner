@@ -33,7 +33,6 @@ import javafx.beans.property.StringProperty;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.security.DigestInputStream;
@@ -221,11 +220,14 @@ public class DirHash_CreateDirHash {
                         fileDataList.addHashString(strFile, fileDate, fileSize, hashString, link);
                     }
                 } catch (Exception ex) {
+                    fileDataList.addHashString(file.getAbsolutePath(),
+                            new P2Date(file.lastModified()),
+                            new P2FileSize(file.length()), hashString, false);
                     P2Log.errorLog(963210472, ex, "Fehler! " + file.getAbsolutePath());
                 } finally {
                     try {
                         srcStream.close();
-                    } catch (IOException ex) {
+                    } catch (Exception ex) {
                     }
                 }
                 return hashString;
