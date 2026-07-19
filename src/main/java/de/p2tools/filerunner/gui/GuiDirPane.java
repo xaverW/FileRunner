@@ -37,6 +37,7 @@ import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.guitools.P2Open;
 import de.p2tools.p2lib.guitools.ptable.P2TableFactory;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitchOnly;
+import de.p2tools.p2lib.ikonli.P2IconFactory;
 import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.file.P2FileName;
@@ -359,7 +360,7 @@ public class GuiDirPane extends VBox {
         btnSelectHashFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
         btnSelectHashListFileForSaving.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
         btnProposeHashName.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
-        btnWriteHash.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
+        btnWriteHash.setGraphic(P2IconFactory.P2ICON.BTN_SAVE.getFontIcon());
 
         btnReadDir.setGraphic(PIconFactory.PICON.BTN_GEN_HASH.getFontIcon());
         btnReadZip.setGraphic(PIconFactory.PICON.BTN_GEN_HASH.getFontIcon());

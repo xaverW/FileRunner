@@ -41,12 +41,12 @@ public class GuiDirRunner extends AnchorPane {
     private final ScrollPane scrollPane = new ScrollPane();
     private final Button btnRead = new Button("");
 
-    private final ToggleButton tglShowAll = new ToggleButton("");
-    private final ToggleButton tglShowSamePath = new ToggleButton("");
-    private final ToggleButton tglShowDiff_IN_BOTH = new ToggleButton("");
-    private final ToggleButton tglShowDiff_OR_ONLY = new ToggleButton("");
-    private final ToggleButton tglShowOnlyLeft = new ToggleButton("");
-    private final ToggleButton tglShowOnlyRight = new ToggleButton("");
+    private final ToggleButton tglShow_All = new ToggleButton("");
+    private final ToggleButton tglShow_Same = new ToggleButton("");
+    private final ToggleButton tglShow_Diff = new ToggleButton("");
+    private final ToggleButton tglShow_DiffOrOnly = new ToggleButton("");
+    private final ToggleButton tglShow_OnlyLeft = new ToggleButton("");
+    private final ToggleButton tglShow_OnlyRight = new ToggleButton("");
 
     private final ProgData progData;
     private final FileDataFilter fileDataFilter1 = new FileDataFilter();
@@ -77,7 +77,7 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     public void resetFilter() {
-        tglShowAll.setSelected(true);
+        tglShow_All.setSelected(true);
         fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
         fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
         progData.fileDataList_1.setPred(fileDataFilter1);
@@ -95,10 +95,10 @@ public class GuiDirRunner extends AnchorPane {
         vBoxBtn.setAlignment(Pos.TOP_CENTER);
         vBoxBtn.setPadding(new Insets(10));
         vBoxBtn.setMaxWidth(Region.USE_PREF_SIZE);
-        vBoxBtn.getChildren().addAll(P2GuiTools.getHDistance(150), tglShowAll,
-                P2GuiTools.getHDistance(10), tglShowSamePath,
-                P2GuiTools.getHDistance(10), tglShowDiff_OR_ONLY, tglShowDiff_IN_BOTH,
-                P2GuiTools.getHDistance(10), tglShowOnlyLeft, tglShowOnlyRight);
+        vBoxBtn.getChildren().addAll(P2GuiTools.getHDistance(150), tglShow_All,
+                P2GuiTools.getHDistance(10), tglShow_Same,
+                P2GuiTools.getHDistance(10), tglShow_Diff, tglShow_DiffOrOnly,
+                P2GuiTools.getHDistance(10), tglShow_OnlyLeft, tglShow_OnlyRight);
 
         Button btnHelp = P2Button.helpButton(progData.primaryStage, "Vergleichen", HelpText.COMPARE_BUTTON);
 
@@ -230,28 +230,29 @@ public class GuiDirRunner extends AnchorPane {
                 oldVal.setSelected(true);
             }
         });
-        tg.getToggles().addAll(tglShowAll, tglShowSamePath, tglShowDiff_OR_ONLY, tglShowDiff_IN_BOTH, tglShowOnlyLeft, tglShowOnlyRight);
+        tg.getToggles().addAll(tglShow_All, tglShow_Same, tglShow_Diff,
+                tglShow_DiffOrOnly, tglShow_OnlyLeft, tglShow_OnlyRight);
 
-        tglShowAll.setGraphic(PIconFactory.PICON.BTN_FILTER_ALL.getFontIcon());
-        tglShowSamePath.setGraphic(PIconFactory.PICON.BTN_FILTER_EQUAL.getFontIcon());
-        tglShowDiff_OR_ONLY.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_ONLY.getFontIcon());
-        tglShowDiff_IN_BOTH.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_ALL.getFontIcon());
-        tglShowOnlyLeft.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_LEFT.getFontIcon());
-        tglShowOnlyRight.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_RIGHT.getFontIcon());
+        tglShow_All.setGraphic(PIconFactory.PICON.BTN_FILTER_ALL.getFontIcon());
+        tglShow_Same.setGraphic(PIconFactory.PICON.BTN_FILTER_EQUAL.getFontIcon());
+        tglShow_DiffOrOnly.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_ONLY.getFontIcon());
+        tglShow_Diff.setGraphic(PIconFactory.PICON.BTN_FILTER_NOT_EQUAL.getFontIcon());
+        tglShow_OnlyLeft.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_LEFT.getFontIcon());
+        tglShow_OnlyRight.setGraphic(PIconFactory.PICON.BTN_FILTER_DIFF_RIGHT.getFontIcon());
 
-        tglShowAll.getStyleClass().add("btnFilter");
-        tglShowSamePath.getStyleClass().add("btnFilter");
-        tglShowDiff_OR_ONLY.getStyleClass().add("btnFilter");
-        tglShowDiff_IN_BOTH.getStyleClass().add("btnFilter");
-        tglShowOnlyLeft.getStyleClass().add("btnFilter");
-        tglShowOnlyRight.getStyleClass().add("btnFilter");
+        tglShow_All.getStyleClass().add("btnFilter");
+        tglShow_Same.getStyleClass().add("btnFilter");
+        tglShow_Diff.getStyleClass().add("btnFilter");
+        tglShow_DiffOrOnly.getStyleClass().add("btnFilter");
+        tglShow_OnlyLeft.getStyleClass().add("btnFilter");
+        tglShow_OnlyRight.getStyleClass().add("btnFilter");
 
-        tglShowAll.setTooltip(new Tooltip("Alle Dateien anzeigen."));
-        tglShowSamePath.setTooltip(new Tooltip("Gleiche Dateien (gleicher Pfad/Name/Hash oder nur gleicher Hash), anzeigen."));
-        tglShowDiff_OR_ONLY.setTooltip(new Tooltip("Dateien suchen, die sich unterscheiden oder nur in einer Liste enthalten sind."));
-        tglShowDiff_IN_BOTH.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind, sich aber unterscheiden."));
-        tglShowOnlyLeft.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 enthalten sind."));
-        tglShowOnlyRight.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 enthalten sind."));
+        tglShow_All.setTooltip(new Tooltip("Alle Dateien anzeigen."));
+        tglShow_Same.setTooltip(new Tooltip("Gleiche Dateien (gleicher Pfad/Name/Hash oder nur gleicher Hash), anzeigen."));
+        tglShow_Diff.setTooltip(new Tooltip("Dateien suchen, die in beiden Listen enthalten sind, sich aber unterscheiden."));
+        tglShow_DiffOrOnly.setTooltip(new Tooltip("Dateien suchen, die sich unterscheiden oder nur in einer Liste enthalten sind."));
+        tglShow_OnlyLeft.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 1 enthalten sind."));
+        tglShow_OnlyRight.setTooltip(new Tooltip("Dateien suchen, die nur in Liste 2 enthalten sind."));
     }
 
     private void addListener() {
@@ -265,13 +266,13 @@ public class GuiDirRunner extends AnchorPane {
         });
 
 
-        tglShowAll.setOnAction(e -> setTglButton());
-        tglShowSamePath.setOnAction(e -> setTglButton());
-        tglShowDiff_OR_ONLY.setOnAction(e -> setTglButton());
-        tglShowDiff_IN_BOTH.setOnAction(e -> setTglButton());
-        tglShowOnlyLeft.setOnAction(e -> setTglButton());
-        tglShowOnlyRight.setOnAction(e -> setTglButton());
-        tglShowAll.setSelected(true);
+        tglShow_All.setOnAction(e -> setTglButton());
+        tglShow_Same.setOnAction(e -> setTglButton());
+        tglShow_DiffOrOnly.setOnAction(e -> setTglButton());
+        tglShow_Diff.setOnAction(e -> setTglButton());
+        tglShow_OnlyLeft.setOnAction(e -> setTglButton());
+        tglShow_OnlyRight.setOnAction(e -> setTglButton());
+        tglShow_All.setSelected(true);
         setTglButton();
     }
 
@@ -297,36 +298,36 @@ public class GuiDirRunner extends AnchorPane {
 
     private void setTglButton() {
 //        clear();
-        if (tglShowAll.isSelected()) {
+        if (tglShow_All.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
 
-        } else if (tglShowSamePath.isSelected()) {
+        } else if (tglShow_Same.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.SAME_NAME);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.SAME_NAME);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
 
-        } else if (tglShowDiff_OR_ONLY.isSelected()) {
+        } else if (tglShow_DiffOrOnly.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_OR_ONLY);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_OR_ONLY);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
 
-        } else if (tglShowDiff_IN_BOTH.isSelected()) {
+        } else if (tglShow_Diff.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_IN_BOTHE);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.DIFF_IN_BOTHE);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(fileDataFilter2);
 
-        } else if (tglShowOnlyLeft.isSelected()) {
+        } else if (tglShow_OnlyLeft.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
             progData.fileDataList_1.setPred(fileDataFilter1);
             progData.fileDataList_2.setPred(false);
 
-        } else if (tglShowOnlyRight.isSelected()) {
+        } else if (tglShow_OnlyRight.isSelected()) {
             progData.fileDataList_1.setPred(false);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ONLY);
             progData.fileDataList_2.setPred(fileDataFilter2);

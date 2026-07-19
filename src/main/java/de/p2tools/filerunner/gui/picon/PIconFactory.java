@@ -17,6 +17,7 @@ public class PIconFactory {
     public enum PICON implements P2IconFactory.P2Icon {
         BTN_FILTER_ALL("mdi2a-arrow-left-right-bold", 18),
         BTN_FILTER_EQUAL("mdoal-equals", 18),
+        BTN_FILTER_NOT_EQUAL("mdrmz-not_equal", 18),
         BTN_FILTER_DIFF_ONLY("gmi-zoom-out-map", 18),
         BTN_FILTER_DIFF_ALL("mdi2a-arrow-left-right-bold-outline", 18),
         BTN_FILTER_DIFF_RIGHT("mdi2t-transfer-right", 18),
