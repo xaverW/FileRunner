@@ -67,13 +67,12 @@ public class FileRunnerController extends StackPane {
             HBox.setHgrow(hBox, Priority.ALWAYS);
             hBox.getChildren().addAll(btnDirRunner, btnFileRunner);
 
-
             HBox hBoxMenuButton = new HBox();
+            hBoxMenuButton.setPadding(new Insets(0, 10, 0, 10));
             hBoxMenuButton.setAlignment(Pos.CENTER);
             FileRunnerMenu m = new FileRunnerMenu();
             m.setVisible(false);
             hBoxMenuButton.getChildren().addAll(m, hBox, new FileRunnerMenu());
-
 
             btnDirRunner.setOnAction(e -> selPanelDirRunner());
             btnDirRunner.setMaxWidth(Double.MAX_VALUE);

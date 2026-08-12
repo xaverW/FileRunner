@@ -65,7 +65,7 @@ public class TableFileList extends PTable<FileData> {
         getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-        final TableColumn<FileData, Integer> idColumn = new TableColumn<>("HashID");
+        final TableColumn<FileData, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         idColumn.setCellFactory(cellFileId);
         idColumn.getStyleClass().add("alignCenterRight");
