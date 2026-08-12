@@ -1,12 +1,12 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
-# FileRunner
 
+# FileRunner
 Die Hauptintention des Programms ist es, Ordnerinhalte auf Veränderungen zu überprüfen.
 <br />
 
-## Infos
 
+## Infos
 Das Programm bietet dazu die Möglichkeit, Listen mit Hashwerten aller Dateien eines Ordners anzulegen. Der Ordner kann
 dann immer wieder mit dieser Hashliste verglichen werden um so geänderte Dateien in dem Ordner zu finden. Mit den
 Hashlisten können die Ordner dann immer wieder auf Veränderungen kontrolliert werden.
@@ -16,8 +16,8 @@ ZIP-Datei (bzw. dem darin enthaltenen Dateien) vergleichen werden.
 
 Weiter können auch zwei Dateien direkt oder eine Datei mit einem Hashwert verglichen werden.
 
-### Dateilisten vergleichen
 
+### Dateilisten vergleichen
 Eine Dateiliste
 
 - kann eine mit dem Programm erstellte Liste mit Hashwerten von den Dateien eines Ordners sein.
@@ -51,8 +51,8 @@ Mögliche Szenarien zum Finden von gleichen und unterschiedlichen Dateien:
   was sich inzwischen geändert hat.
 - Ich kann zwei gespeicherte Dateilisten vergleichen und sehe welche Dateien sich unterscheiden.
 
-### Dateien vergleichen
 
+### Dateien vergleichen
 Es können auch zwei Dateien direkt verglichen werden (oder eine Datei direkt gegen einen Hash kontrolliert werden).
 Dabei sind lokale Dateien und auch URLs möglich. Als Hash kann man ein Hashfile (z.B. datei.txt.md5) oder den Hash
 direkt angeben.
@@ -72,28 +72,27 @@ Der Button unten *Dateien vergleichen* startet die Erstellung des Hash für beid
 je einem Klick auf "Hash erstellen" für jede Datei einzeln.
 <br />
 
-## Systemvoraussetzungen
 
+## Systemvoraussetzungen
 Unterstützt wird Windows und Linux.
 
 Das Programm benötigt unter Windows und Linux eine aktuelle Java-VM ab Version: Java 17. Für Linux-Benutzer wird
 OpenJDK17 empfohlen. (FX-Runtime bringt das Programm bereits mit und muss nicht installiert werden).
 <br />
 
+  
 ## Download
+Das Programm wird in verschiedenen Paketen angeboten. Diese unterscheiden sich nur im “Zubehör”, das Programm selbst ist in allen Paketen identisch: 
 
-- **FileRunner-XX.zip**  
-  Das Programmpaket bringt das Programm aber kein Java mit. Auf dem Rechner muss eine Java-Laufzeitumgebung ab Java17
-  installiert sein. Dieses Programmpaket kann auf allen Betriebssystemen verwendet werden. Es bringt Startdateien für
-  Linux und Windows mit.
-  <br />
-  <br />
+* **FileRunner-XX__Windows==SETUP__DATUM.exe**  
+Mit diesem Programmpaket kann das Programm auf Windows installiert werden: Doppelklick und alles wird eingerichtet, auch ein Startbutton auf dem Desktop. Es muss auch kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung ist enthalten).
 
-- **FileRunner-XX__Linux+Java.zip**
-- **FileRunner-XX__Windows+Java.zip**  
-  Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das angegebene Betriebssystem: Linux
-  oder Windows. Es muss kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung liegt im Ordner “Java”
-  und kommt von jdk.java.net).
+* **FileRunner-XX__DATUM.zip**  
+Das Programmpaket bringt nur das Programm und die benötigten Hilfsprogramme aber kein Java mit. Auf dem Rechner muss eine Java-Laufzeitumgebung ab Java17 installiert sein. Dieses Programmpaket kann auf allen Betriebssystemen verwendet werden. Es bringt Startdateien für Linux und Windows mit. Zip entpacken und Programm Starten.
+
+* **FileRunner-XX__Linux+Java__DATUM.zip**  
+**FileRunner-XX__Win+Java__DATUM.zip**  
+Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das angegebene Betriebssystem: Linux oder Windows. Es muss kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung liegt im Ordner: "Java" und kommt von jdk.java.net). Zip entpacken und Programm starten.
 
 zum Download: [github.com/xaverW/FileRunner/releases](https://github.com/xaverW/FileRunner/releases)
 
