@@ -33,7 +33,6 @@ public class SearchProgramUpdate {
     private static final String TITLE_TEXT_PROGRAMMUPDATE_EXISTS = "Ein Programmupdate ist verfügbar";
     private final ProgData progData;
     private Stage stage;
-    private String title = "";
 
     public SearchProgramUpdate(ProgData progData) {
         this.progData = progData;
@@ -91,17 +90,16 @@ public class SearchProgramUpdate {
     }
 
     private void setTitleInfo(boolean newVersion) {
-        title = progData.primaryStage.getTitle();
         if (newVersion) {
-            Platform.runLater(() -> setUpdateTitle());
+            Platform.runLater(this::setUpdateTitle);
         } else {
-            Platform.runLater(() -> setNoUpdateTitle());
+            Platform.runLater(this::setNoUpdateTitle);
         }
         try {
             sleep(10_000);
         } catch (Exception ignore) {
         }
-        Platform.runLater(() -> setOrgTitle());
+        Platform.runLater(ProgStartAfterGui::setTitle);
     }
 
     private void setUpdateTitle() {
@@ -110,9 +108,5 @@ public class SearchProgramUpdate {
 
     private void setNoUpdateTitle() {
         progData.primaryStage.setTitle(TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE);
-    }
-
-    private void setOrgTitle() {
-        progData.primaryStage.setTitle(title);
     }
 }
