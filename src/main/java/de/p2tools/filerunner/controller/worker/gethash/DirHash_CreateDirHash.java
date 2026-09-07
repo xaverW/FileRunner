@@ -195,12 +195,14 @@ public class DirHash_CreateDirHash {
             private String hash(File file, File searchDir, boolean followLink) {
                 String hashString = "";
                 try {
-                    MessageDigest messageDigest = MessageDigest.getInstance(HashConst.HASH_MD5);
-                    srcStream = new DigestInputStream(new FileInputStream(file), messageDigest);
+                    if (!ProgConfig.CONFIG_RUN_SPEED.get()) {
+                        MessageDigest messageDigest = MessageDigest.getInstance(HashConst.HASH_MD5);
+                        srcStream = new DigestInputStream(new FileInputStream(file), messageDigest);
 
-                    while (!stop && srcStream.read(buffer) > -1) {
+                        while (!stop && srcStream.read(buffer) > -1) {
+                        }
+                        hashString = DirHashFileFactory.getHashString(messageDigest.digest());
                     }
-                    hashString = DirHashFileFactory.getHashString(messageDigest.digest());
 
                     if (searchDir != null) {
                         String strFile = file.getAbsolutePath();
@@ -217,6 +219,10 @@ public class DirHash_CreateDirHash {
 
                         P2Date fileDate = new P2Date(file.lastModified());
                         P2FileSize fileSize = new P2FileSize(file.length());
+                        if (ProgConfig.CONFIG_RUN_SPEED.get()) {
+                            // dann nur schnell
+                            hashString = fileSize.getSizeL() + "";
+                        }
                         fileDataList.addHashString(strFile, fileDate, fileSize, hashString, link);
                     }
                 } catch (Exception ex) {

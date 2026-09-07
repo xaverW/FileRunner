@@ -20,11 +20,11 @@ import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgConst;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.gui.HelpText;
-import de.p2tools.filerunner.gui.picon.PIconFactory;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.guitools.P2Text;
 import de.p2tools.p2lib.guitools.grid.P2GridConstraints;
+import de.p2tools.p2lib.ikonli.P2IconFactory;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -106,7 +106,7 @@ public class PaneColorGui {
     }
 
     public void make(Collection<TitledPane> result) {
-        btnHelp = PIconFactory.getHelpButton(stage, "Zurücksetzen", "\"Zurücksetzen\" setzt die " +
+        btnHelp = P2IconFactory.getHelpButton(stage, "Zurücksetzen", "\"Zurücksetzen\" setzt die " +
                 "aktuellen Einstellungen zurück.\n\n" +
                 "\"Alles zurücksetzen\" löscht alle Einstellungen (Dark/Light, Gui-Farben 1/Gui-Farben 2." +
                 "\n\n\n" +
@@ -184,10 +184,10 @@ public class PaneColorGui {
             rbIcon2.setSelected(!ProgConfig.SYSTEM_GUI_THEME_1.get());
         });
 
-        final Button btnHelpTheme = PIconFactory.getHelpButton(stage, "Erscheinungsbild der Programmoberfläche",
+        final Button btnHelpTheme = P2IconFactory.getHelpButton(stage, "Erscheinungsbild der Programmoberfläche",
                 HelpText.DARK_THEME);
 
-        final Button btnHelpIcon = PIconFactory.getHelpButton(stage, "Erscheinungsbild der Icons",
+        final Button btnHelpIcon = P2IconFactory.getHelpButton(stage, "Erscheinungsbild der Icons",
                 HelpText.THEME_ICON);
 
         // ====================

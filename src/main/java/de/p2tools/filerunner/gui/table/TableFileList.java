@@ -65,6 +65,10 @@ public class TableFileList extends PTable<FileData> {
         getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
+        final TableColumn<FileData, String> hashColumn = new TableColumn<>("Hash");
+        hashColumn.setCellValueFactory(new PropertyValueFactory<>("hash"));
+//        hashColumn.getStyleClass().add("alignCenterRight");
+
         final TableColumn<FileData, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         idColumn.setCellFactory(cellFileId);
@@ -115,7 +119,7 @@ public class TableFileList extends PTable<FileData> {
 
         addRowFact();
         if (ProgData.debug) {
-            getColumns().addAll(idColumn, filePathIdColumn, fileNameIdColumn, hashIdColumn,
+            getColumns().addAll(hashColumn, idColumn, filePathIdColumn, fileNameIdColumn, hashIdColumn,
                     filePathColumn, fileNameColumn,
                     diff, only, fileSizeColumn, fileDateColumn);
         } else {

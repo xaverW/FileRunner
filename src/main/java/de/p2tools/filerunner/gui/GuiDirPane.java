@@ -192,7 +192,7 @@ public class GuiDirPane extends VBox {
     }
 
     public void copyAllSelFiles() {
-        if (tableView.getSelectionModel().getSelectedItems().size() < 1) {
+        if (tableView.getSelectionModel().getSelectedItems().isEmpty()) {
             //dann ist nichts markiert
             return;
         }

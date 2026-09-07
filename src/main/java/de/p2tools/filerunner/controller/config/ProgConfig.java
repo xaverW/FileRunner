@@ -19,7 +19,6 @@ package de.p2tools.filerunner.controller.config;
 
 import de.p2tools.p2lib.colordata.P2ColorData;
 import de.p2tools.p2lib.configfile.ConfigFile;
-import de.p2tools.p2lib.configfile.config.Config;
 import de.p2tools.p2lib.configfile.pdata.P2Data;
 import de.p2tools.p2lib.configfile.pdata.P2DataProgConfig;
 import de.p2tools.p2lib.hash.HashConst;
@@ -30,11 +29,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-
 public class ProgConfig extends P2DataProgConfig {
-
-    private static final ArrayList<Config> arrayList = new ArrayList<>();
 
     //Configs der Programmversion, nur damit sie (zur Update-Suche) im Config-File stehen
     public static StringProperty SYSTEM_PROG_VERSION = addStrProp("system-prog-version");
@@ -50,11 +45,6 @@ public class ProgConfig extends P2DataProgConfig {
     public static BooleanProperty SYSTEM_SEARCH_UPDATE = addBoolProp("system-search-update" + P2Data.TAGGER + "system-update-search-act", Boolean.TRUE); // nach einem Update suchen
     public static BooleanProperty SYSTEM_UPDATE_SEARCH_BETA = addBoolProp("system-update-search-beta", false); //beta suchen
     public static BooleanProperty SYSTEM_UPDATE_SEARCH_DAILY = addBoolProp("system-update-search-daily", false); //daily suchen
-
-    public static StringProperty SYSTEM_UPDATE_LAST_INFO = addStrProp("system-update-last-info");
-    public static StringProperty SYSTEM_UPDATE_LAST_ACT = addStrProp("system-update-last-act");
-    public static StringProperty SYSTEM_UPDATE_LAST_BETA = addStrProp("system-update-last-beta");
-    public static StringProperty SYSTEM_UPDATE_LAST_DAILY = addStrProp("system-update-last-daily");
 
     public static BooleanProperty SYSTEM_LOG_ON = addBoolProp("system-log-on", Boolean.TRUE);
     public static StringProperty SYSTEM_PROG_OPEN_URL = addStrProp("system-prog-open-uri", "");
@@ -72,11 +62,7 @@ public class ProgConfig extends P2DataProgConfig {
     public static BooleanProperty SYSTEM_GUI_THEME_1 = addBoolProp("system-gui-theme-1", Boolean.FALSE); // Theme 1 oder 2
     public static StringProperty SYSTEM_CSS_ADDER = addStrProp("system-css-adder");
 
-    public static BooleanProperty SYSTEM_DARK_START = addBoolProp("system-dark-theme-start", Boolean.FALSE);
-    public static BooleanProperty SYSTEM_GUI_THEME_1_START = addBoolProp("system-gui-theme-1-start", Boolean.FALSE);
-
     public static IntegerProperty SYSTEM_FONT_SIZE = addIntProp("system-font-size", 0);
-    public static BooleanProperty SYSTEM_FONT_SIZE_CHANGE = addBoolProp("system-font-size-change", Boolean.FALSE); // für die Schriftgröße
 
     public static BooleanProperty SYSTEM_THEME_CHANGED = addBoolProp("system-theme-changed"); // hat sich geändert
     public static StringProperty SYSTEM_ICON_COLOR = addStrProp("system-icon-color", ProgConst.ICON_COLOR_LIGHT_1); // die aktuelle Icon-Farbe
@@ -151,6 +137,7 @@ public class ProgConfig extends P2DataProgConfig {
     public static BooleanProperty CONFIG_COMPARE_WITH_PATH_1 = addBoolProp("config-compare-with-path-1", Boolean.TRUE);
     public static BooleanProperty CONFIG_COMPARE_WITH_PATH_2 = addBoolProp("config-compare-with-path-2", Boolean.TRUE);
     public static IntegerProperty CONFIG_COMPARE_FILE = addIntProp("config-compare-file", ProgConst.COMPARE_PATH_NAME);
+    public static BooleanProperty CONFIG_RUN_SPEED = addBoolProp("config-run-speed", Boolean.FALSE);
 
     //ProjectData
     public static IntegerProperty compFileSel1 = addIntProp("comp-file-sel-1", 0);

@@ -25,6 +25,7 @@ import de.p2tools.filerunner.gui.HelpDialogController;
 import de.p2tools.filerunner.gui.configdialog.ConfigDialogController;
 import de.p2tools.filerunner.gui.dialog.AboutDialogController;
 import de.p2tools.filerunner.gui.picon.PIconFactory;
+import de.p2tools.p2lib.ikonli.P2IconShow;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
@@ -32,6 +33,8 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Region;
 import org.kordamp.ikonli.javafx.FontIcon;
+
+import java.util.Arrays;
 
 public class FileRunnerMenu extends MenuButton {
     public FileRunnerMenu() {
@@ -75,5 +78,11 @@ public class FileRunnerMenu extends MenuButton {
         setGraphic(node);
         getItems().addAll(miConfig, miHelp, miSearchUpdate, miAbout,
                 new SeparatorMenuItem(), miQuitt);
+
+        if (ProgData.debug) {
+            final MenuItem miIcon = new MenuItem("Icon");
+            miIcon.setOnAction(e -> new P2IconShow(Arrays.asList(PIconFactory.PICON.values())));
+            getItems().addAll(new SeparatorMenuItem(), miIcon);
+        }
     }
 }

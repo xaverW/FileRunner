@@ -23,6 +23,7 @@ import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.controller.data.filedata.FileDataFilter;
 import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
 import de.p2tools.filerunner.gui.picon.PIconFactory;
+import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.p2event.P2Event;
@@ -38,8 +39,8 @@ public class GuiDirRunner extends AnchorPane {
     private final SplitPane splitPane = new SplitPane();
 
     private final VBox vBoxBtn = new VBox(10);
-    private final ScrollPane scrollPane = new ScrollPane();
     private final Button btnRead = new Button("");
+    private final Button btnSpeed = new Button("");
 
     private final ToggleButton tglShow_All = new ToggleButton("");
     private final ToggleButton tglShow_Same = new ToggleButton("");
@@ -54,20 +55,22 @@ public class GuiDirRunner extends AnchorPane {
     private final GuiDirPane guiDirPane1;
     private final GuiDirPane guiDirPane2;
     private double orgX, orgDiv0, orgDiv1, orgSize;
+    private final VBox vBoxAll = new VBox(P2LibConst.PADDING_VBOX);
 
     public GuiDirRunner() {
         progData = ProgData.getInstance();
 
-        AnchorPane.setLeftAnchor(scrollPane, 0.0);
-        AnchorPane.setBottomAnchor(scrollPane, 0.0);
-        AnchorPane.setRightAnchor(scrollPane, 0.0);
-        AnchorPane.setTopAnchor(scrollPane, 0.0);
-        getChildren().addAll(scrollPane);
+        AnchorPane.setLeftAnchor(vBoxAll, 0.0);
+        AnchorPane.setBottomAnchor(vBoxAll, 0.0);
+        AnchorPane.setRightAnchor(vBoxAll, 0.0);
+        AnchorPane.setTopAnchor(vBoxAll, 0.0);
+        getChildren().addAll(vBoxAll);
 
         guiDirPane1 = new GuiDirPane(progData, fileDataFilter1, true);
         guiDirPane2 = new GuiDirPane(progData, fileDataFilter2, false);
 
         initCont();
+        setSpeed();
         initSplit();
         addToggleGroup();
         addListener();
@@ -89,13 +92,31 @@ public class GuiDirRunner extends AnchorPane {
         guiDirPane2.saveTable();
     }
 
+    private void setSpeed() {
+        btnSpeed.getStyleClass().add("btnSpeed");
+        btnSpeed.setTooltip(new Tooltip("Damit kann der Speed-Mode ein-/ausgeschaltet werden"));
+        if (ProgConfig.CONFIG_RUN_SPEED.get()) {
+            btnSpeed.setGraphic(PIconFactory.PICON.BTN_SPEED.getFontIcon());
+        } else {
+            btnSpeed.setGraphic(PIconFactory.PICON.BTN_SPEED_LOW.getFontIcon());
+        }
+        ProgConfig.CONFIG_RUN_SPEED.addListener((u, o, n) -> {
+            if (ProgConfig.CONFIG_RUN_SPEED.get()) {
+                btnSpeed.setGraphic(PIconFactory.PICON.BTN_SPEED.getFontIcon());
+            } else {
+                btnSpeed.setGraphic(PIconFactory.PICON.BTN_SPEED_LOW.getFontIcon());
+            }
+        });
+        btnSpeed.setOnAction(a -> ProgConfig.CONFIG_RUN_SPEED.set(!ProgConfig.CONFIG_RUN_SPEED.get()));
+    }
+
     private void initCont() {
         //== Oben ==
         vBoxBtn.setStyle(" -fx-border-width: 1; -fx-border-color: -style-tab-border-color-1;");
         vBoxBtn.setAlignment(Pos.TOP_CENTER);
         vBoxBtn.setPadding(new Insets(10));
         vBoxBtn.setMaxWidth(Region.USE_PREF_SIZE);
-        vBoxBtn.getChildren().addAll(P2GuiTools.getHDistance(150), tglShow_All,
+        vBoxBtn.getChildren().addAll(btnSpeed, P2GuiTools.getHDistance(50), tglShow_All,
                 P2GuiTools.getHDistance(10), tglShow_Same,
                 P2GuiTools.getHDistance(10), tglShow_Diff, tglShow_DiffOrOnly,
                 P2GuiTools.getHDistance(10), tglShow_OnlyLeft, tglShow_OnlyRight);
@@ -158,21 +179,15 @@ public class GuiDirRunner extends AnchorPane {
         hBoxHash.getStyleClass().add("extra-pane");
         hBoxHash.setPadding(new Insets(10));
         hBoxHash.setAlignment(Pos.CENTER);
-        hBoxHash.getChildren().addAll(/*new Label("Beide Suchordner einlesen"), btnRead,
-                PGuiTools.getHDistance(40),*/
+        hBoxHash.getChildren().addAll(
                 lblHash, P2GuiTools.getHDistance(20),
                 rbFilePath, P2GuiTools.getHDistance(20),
                 rbFileName, P2GuiTools.getHDistance(20),
                 rbFileAll, P2GuiTools.getHBoxGrower(), btnHelpPathHash);
 
         //== add all ==
-        VBox vBoxAll = new VBox();
-        VBox.setVgrow(splitPane, Priority.ALWAYS);
         vBoxAll.getChildren().addAll(splitPane, hBoxHash);
-        scrollPane.setContent(vBoxAll);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setFitToWidth(true);
-
+        VBox.setVgrow(splitPane, Priority.ALWAYS);
         progData.pEventHandler.addListener(new P2Listener(Events.COMPARE_OF_FILE_LISTS_FINISHED) {
             public <T extends P2Event> void pingGui(T runEvent) {
                 setTglButton();
@@ -297,7 +312,6 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void setTglButton() {
-//        clear();
         if (tglShow_All.isSelected()) {
             fileDataFilter1.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
             fileDataFilter2.setFilter_types(FileDataFilter.FILTER_TYPES.ALL);
@@ -333,27 +347,4 @@ public class GuiDirRunner extends AnchorPane {
             progData.fileDataList_2.setPred(fileDataFilter2);
         }
     }
-
-//    private void clear() {
-//        tglShowAll.getStyleClass().removeAll("btnFilterSel");
-//        tglShowSamePath.getStyleClass().removeAll("btnFilterSel");
-//        tglShowDiff_OR_ONLY.getStyleClass().removeAll("btnFilterSel");
-//        tglShowDiff_IN_BOTH.getStyleClass().removeAll("btnFilterSel");
-//        tglShowOnlyLeft.getStyleClass().removeAll("btnFilterSel");
-//        tglShowOnlyRight.getStyleClass().removeAll("btnFilterSel");
-//
-//        if (tglShowAll.isSelected()) {
-//            tglShowAll.getStyleClass().add("btnFilterSel");
-//        } else if (tglShowSamePath.isSelected()) {
-//            tglShowSamePath.getStyleClass().add("btnFilterSel");
-//        } else if (tglShowDiff_OR_ONLY.isSelected()) {
-//            tglShowDiff_OR_ONLY.getStyleClass().add("btnFilterSel");
-//        } else if (tglShowDiff_IN_BOTH.isSelected()) {
-//            tglShowDiff_IN_BOTH.getStyleClass().add("btnFilterSel");
-//        } else if (tglShowOnlyLeft.isSelected()) {
-//            tglShowOnlyLeft.getStyleClass().add("btnFilterSel");
-//        } else if (tglShowOnlyRight.isSelected()) {
-//            tglShowOnlyRight.getStyleClass().add("btnFilterSel");
-//        }
-//    }
 }
