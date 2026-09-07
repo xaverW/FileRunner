@@ -36,19 +36,14 @@ import java.util.Optional;
 public class CompareFileListFactory {
     private static boolean stop = false;
     private static int id = 0;
-    private static BooleanProperty running = new SimpleBooleanProperty(false);
-    private static Object obj1 = new Object();
-    private static Object obj2 = new Object();
+    private static final BooleanProperty running = new SimpleBooleanProperty(false);
+    private static final Object obj = new Object();
 
     private CompareFileListFactory() {
     }
 
     public static void setStop() {
         stop = true;
-    }
-
-    public static boolean getRunning() {
-        return running.get();
     }
 
     public static BooleanProperty isRunningProperty() {
@@ -62,7 +57,7 @@ public class CompareFileListFactory {
             return;
         }
 
-        synchronized (obj2) {
+        synchronized (obj) {
             compare();
         }
     }
@@ -77,14 +72,18 @@ public class CompareFileListFactory {
         id = 0;
 
         // erst mal alle auf diff/only setzen
-        fileDataList1.stream().forEach(fd -> {
+        ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                "Dateien vergleichen", 1, 5));
+        fileDataList1.forEach(fd -> {
             fd.setOnly(true);
             fd.setDiff(false);
             fd.setFilePathId(0);
             fd.setFileNameId(0);
             fd.setHashId(0);
         });
-        fileDataList2.stream().forEach(fd -> {
+        ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                "Dateien vergleichen", 2, 5));
+        fileDataList2.forEach(fd -> {
             fd.setOnly(true);
             fd.setDiff(false);
             fd.setFilePathId(0);
@@ -95,26 +94,53 @@ public class CompareFileListFactory {
         //jetzt die Dateien vergleichen
         switch (ProgConfig.CONFIG_COMPARE_FILE.getValue()) {
             case ProgConst.COMPARE_PATH_NAME:
+                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                        "Dateien vergleichen", 3, 5));
                 P2Log.sysLog("ProgConst.COMPARE_PATH_NAME");
                 compareWithPathAndSetId(fileDataList1, fileDataList2);
+
+                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                        "Dateien vergleichen", 4, 5));
                 fileDataList1.forEach(fileData -> fileData.setId(fileData.getFilePathId()));
+
+                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                        "Dateien vergleichen", 5, 5));
                 fileDataList2.forEach(fileData -> fileData.setId(fileData.getFilePathId()));
                 break;
             case ProgConst.COMPARE_NAME:
+                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                        "Dateien vergleichen", 3, 5));
                 compareWithNameAndSetId(fileDataList1, fileDataList2);
+
+                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                        "Dateien vergleichen", 4, 5));
                 P2Log.sysLog("CompareFileListFactory: fileDataList1.stream()");
                 fileDataList1.forEach(fileData -> fileData.setId(fileData.getFileNameId()));
+
+                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                        "Dateien vergleichen", 5, 5));
                 P2Log.sysLog("CompareFileListFactory: fileDataList2.stream()");
                 fileDataList2.forEach(fileData -> fileData.setId(fileData.getFileNameId()));
                 break;
+
             case ProgConst.COMPARE_ALL:
+                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                        "Dateien vergleichen", 3, 5));
                 compareWithHashAndSetId(fileDataList1, fileDataList2);
+
+                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                        "Dateien vergleichen", 4, 5));
                 fileDataList1.forEach(fileData -> fileData.setId(fileData.getHashId()));
+
+                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                        "Dateien vergleichen", 5, 5));
                 fileDataList2.forEach(fileData -> fileData.setId(fileData.getHashId()));
                 break;
         }
 
         running.set(false);
+        ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                "Dateien vergleichen", 0, 0));
         progData.pEventHandler.notifyListener(new P2Event(Events.COMPARE_OF_FILE_LISTS_FINISHED));
     }
 

@@ -93,7 +93,6 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void setSpeed() {
-        btnSpeed.getStyleClass().add("btnSpeed");
         btnSpeed.setTooltip(new Tooltip("Damit kann der Speed-Mode ein-/ausgeschaltet werden"));
         if (ProgConfig.CONFIG_RUN_SPEED.get()) {
             btnSpeed.setGraphic(PIconFactory.PICON.BTN_SPEED.getFontIcon());
@@ -116,7 +115,7 @@ public class GuiDirRunner extends AnchorPane {
         vBoxBtn.setAlignment(Pos.TOP_CENTER);
         vBoxBtn.setPadding(new Insets(10));
         vBoxBtn.setMaxWidth(Region.USE_PREF_SIZE);
-        vBoxBtn.getChildren().addAll(btnSpeed, P2GuiTools.getHDistance(50), tglShow_All,
+        vBoxBtn.getChildren().addAll(P2GuiTools.getHDistance(50), tglShow_All,
                 P2GuiTools.getHDistance(10), tglShow_Same,
                 P2GuiTools.getHDistance(10), tglShow_Diff, tglShow_DiffOrOnly,
                 P2GuiTools.getHDistance(10), tglShow_OnlyLeft, tglShow_OnlyRight);
@@ -127,7 +126,7 @@ public class GuiDirRunner extends AnchorPane {
         VBox.setVgrow(vBox, Priority.ALWAYS);
         vBox.setMaxHeight(Double.MAX_VALUE);
         vBox.setAlignment(Pos.BOTTOM_CENTER);
-        vBox.getChildren().addAll(btnRead, btnHelp);
+        vBox.getChildren().addAll(btnSpeed, btnRead, btnHelp);
         vBoxBtn.getChildren().add(vBox);
 
         SplitPane.setResizableWithParent(vBoxBtn, Boolean.FALSE);

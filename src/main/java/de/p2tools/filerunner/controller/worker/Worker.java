@@ -68,6 +68,7 @@ public class Worker {
         dirHashReadDirHashFile_1.setStop();
         fileHashCreateFileHashFile.setStop();
         fileHashReadFileHashFile.setStop();
+        CompareFileListFactory.setStop();
     }
 
     public boolean createHashIsRunning() {

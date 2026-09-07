@@ -22,8 +22,8 @@ public class PIconFactory {
 
         BTN_CLEAR("gmi-clear", 18),
         BTN_RESET("mdi-rotate-3d", 18),
-        BTN_SPEED("mdi2s-speedometer", 24),
-        BTN_SPEED_LOW("mdi2s-speedometer-slow", 24),
+        BTN_SPEED("mdi2s-speedometer", 18),
+        BTN_SPEED_LOW("mdi2s-speedometer-slow", 18),
 
         ICON_BOOLEAN_ON("mdral-done_outline", 20),
         ICON_BOOLEAN_OFF("gmi-close", 20),
