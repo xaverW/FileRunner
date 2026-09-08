@@ -162,7 +162,7 @@ public class GuiDirPane extends VBox {
         if (path.isEmpty()) {
             return;
         }
-        P2Open.openDir(path, ProgConfig.SYSTEM_PROG_OPEN_DIR, PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
+        P2Open.openDir(path, ProgConfig.SYSTEM_PROG_OPEN_DIR, P2IconFactory.P2ICON.P2_BTN_OPEN_DIR.getFontIcon());
     }
 
     public void copySelFile() {
@@ -355,17 +355,17 @@ public class GuiDirPane extends VBox {
         btnReadZip.setMinWidth(btnReadZip.getPrefWidth());
         btnReadHash.setMinWidth(btnReadHash.getPrefWidth());
 
-        btnSelectDir.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
-        btnSelectZipFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
-        btnSelectHashFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
-        btnSelectHashListFileForSaving.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
-        btnProposeHashName.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
-        btnWriteHash.setGraphic(P2IconFactory.P2ICON.BTN_SAVE.getFontIcon());
+        btnSelectDir.setGraphic(P2IconFactory.P2ICON.P2_BTN_OPEN_DIR.getFontIcon());
+        btnSelectZipFile.setGraphic(P2IconFactory.P2ICON.P2_BTN_OPEN_DIR.getFontIcon());
+        btnSelectHashFile.setGraphic(P2IconFactory.P2ICON.P2_BTN_OPEN_DIR.getFontIcon());
+        btnSelectHashListFileForSaving.setGraphic(P2IconFactory.P2ICON.P2_BTN_OPEN_DIR.getFontIcon());
+        btnProposeHashName.setGraphic(P2IconFactory.P2ICON.BTN_ROTATE_3D.getFontIcon());
+        btnWriteHash.setGraphic(P2IconFactory.P2ICON.P2_BTN_SAVE.getFontIcon());
 
         btnReadDir.setGraphic(PIconFactory.PICON.BTN_GEN_HASH.getFontIcon());
         btnReadZip.setGraphic(PIconFactory.PICON.BTN_GEN_HASH.getFontIcon());
         btnReadHash.setGraphic(PIconFactory.PICON.BTN_GEN_HASH.getFontIcon());
-        btnClearFilter.setGraphic(PIconFactory.PICON.BTN_CLEAR.getFontIcon());
+        btnClearFilter.setGraphic(P2IconFactory.P2ICON.BTN_CLEAR.getFontIcon());
 
         btnReadDir.setTooltip(new Tooltip("Verzeichnis einlesen."));
         btnReadZip.setTooltip(new Tooltip("Zipdatei einlesen."));
@@ -628,19 +628,19 @@ public class GuiDirPane extends VBox {
     private void setTabDirFile(DIR_ZIP_HASH dir_zip_hash) {
         switch (dir_zip_hash) {
             case DIR:
-                tabDir.setGraphic(PIconFactory.PICON.BTN_START_ALL.getFontIcon());
+                tabDir.setGraphic(P2IconFactory.P2ICON.P2_BTN_PLAY.getFontIcon());
                 tabZip.setGraphic(null);
                 tabFile.setGraphic(null);
                 break;
             case ZIP:
                 tabDir.setGraphic(null);
-                tabZip.setGraphic(PIconFactory.PICON.BTN_START_ALL.getFontIcon());
+                tabZip.setGraphic(P2IconFactory.P2ICON.P2_BTN_PLAY.getFontIcon());
                 tabFile.setGraphic(null);
                 break;
             case HASH:
                 tabDir.setGraphic(null);
                 tabZip.setGraphic(null);
-                tabFile.setGraphic(PIconFactory.PICON.BTN_START_ALL.getFontIcon());
+                tabFile.setGraphic(P2IconFactory.P2ICON.P2_BTN_PLAY.getFontIcon());
                 break;
         }
     }
@@ -650,7 +650,7 @@ public class GuiDirPane extends VBox {
             tabFilter.setGraphic(null);
             tabFilter.setStyle("-fx-font-weight: normal;");
         } else {
-            tabFilter.setGraphic(PIconFactory.PICON.BTN_START_ALL.getFontIcon());
+            tabFilter.setGraphic(P2IconFactory.P2ICON.P2_BTN_DOWNLOAD_ALL.getFontIcon());
             tabFilter.setStyle("-fx-font-weight: bold; -fx-underline: true;");
         }
     }

@@ -13,21 +13,10 @@ public class PIconFactory {
         BTN_FILTER_DIFF_RIGHT("mdi2t-transfer-right", 18),
         BTN_FILTER_DIFF_LEFT("mdi2t-transfer-left", 18),
 
-        BTN_START_ALL("gmi-save-alt", 18),
         BTN_GEN_HASH("gmi-double-arrow", 18),
 
-        BTN_HELP("mdi-help"),
-        BTN_DIR_OPEN("mdi2f-folder-open-outline", 18),
-        BTN_START("mdal-double_arrow", 18),
-
-        BTN_CLEAR("gmi-clear", 18),
-        BTN_RESET("mdi-rotate-3d", 18),
         BTN_SPEED("mdi2s-speedometer", 18),
-        BTN_SPEED_LOW("mdi2s-speedometer-slow", 18),
-
-        ICON_BOOLEAN_ON("mdral-done_outline", 20),
-        ICON_BOOLEAN_OFF("gmi-close", 20),
-        PROG_MENU("gmi-menu", 25);
+        BTN_SPEED_LOW("mdi2s-speedometer-slow", 18);
 
         private final String literal;
         private int size = 18;

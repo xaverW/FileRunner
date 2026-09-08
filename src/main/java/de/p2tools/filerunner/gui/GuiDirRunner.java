@@ -26,6 +26,7 @@ import de.p2tools.filerunner.gui.picon.PIconFactory;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2GuiTools;
+import de.p2tools.p2lib.ikonli.P2IconFactory;
 import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -241,7 +242,7 @@ public class GuiDirRunner extends AnchorPane {
     }
 
     private void addToggleGroup() {
-        btnRead.setGraphic(PIconFactory.PICON.BTN_START_ALL.getFontIcon());
+        btnRead.setGraphic(P2IconFactory.P2ICON.P2_BTN_DOWNLOAD_ALL.getFontIcon());
         btnRead.setTooltip(new Tooltip("Die beiden Suchordner (oder die Zipdatei/Hashdatei) werden eingelesen"));
 
         ToggleGroup tg = new ToggleGroup();

@@ -25,6 +25,7 @@ import de.p2tools.filerunner.gui.HelpDialogController;
 import de.p2tools.filerunner.gui.configdialog.ConfigDialogController;
 import de.p2tools.filerunner.gui.dialog.AboutDialogController;
 import de.p2tools.filerunner.gui.picon.PIconFactory;
+import de.p2tools.p2lib.ikonli.P2IconFactory;
 import de.p2tools.p2lib.ikonli.P2IconShow;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -73,7 +74,7 @@ public class FileRunnerMenu extends MenuButton {
         setMinWidth(Region.USE_PREF_SIZE);
         getStyleClass().addAll("pFuncBtn", "btnProgMenu");
         setText("");
-        FontIcon node = PIconFactory.PICON.PROG_MENU.getFontIcon();
+        FontIcon node = P2IconFactory.P2ICON.P2__PROG_MENU.getFontIcon();
         node.setScaleX(1.5);
         setGraphic(node);
         getItems().addAll(miConfig, miHelp, miSearchUpdate, miAbout,

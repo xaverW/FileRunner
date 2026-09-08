@@ -19,11 +19,11 @@ package de.p2tools.filerunner.gui.configdialog;
 import de.p2tools.filerunner.controller.config.ProgConfig;
 import de.p2tools.filerunner.controller.config.ProgData;
 import de.p2tools.filerunner.gui.HelpText;
-import de.p2tools.filerunner.gui.picon.PIconFactory;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.dialogs.P2DirFileChooser;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.grid.P2GridConstraints;
+import de.p2tools.p2lib.ikonli.P2IconFactory;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -75,7 +75,7 @@ public class PaneProg {
         btnFile.setOnAction(event -> {
             P2DirFileChooser.FileChooserOpenFile(ProgData.getInstance().primaryStage, txtFileManager);
         });
-        btnFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
+        btnFile.setGraphic(P2IconFactory.P2ICON.P2_BTN_OPEN_DIR.getFontIcon());
         btnFile.setTooltip(new Tooltip("Einen Dateimanager manuell auswählen"));
 
         final Button btnHelp = P2Button.helpButton(stage, "Dateimanager", HelpText.FILEMANAGER);
@@ -96,7 +96,7 @@ public class PaneProg {
         btnFile.setOnAction(event -> {
             P2DirFileChooser.FileChooserOpenFile(ProgData.getInstance().primaryStage, txtFileManagerWeb);
         });
-        btnFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
+        btnFile.setGraphic(P2IconFactory.P2ICON.P2_BTN_OPEN_DIR.getFontIcon());
         btnFile.setTooltip(new Tooltip("Einen Webbrowser zum Öffnen von URLs auswählen"));
 
         final Button btnHelp = P2Button.helpButton(stage, "Webbrowser", HelpText.WEBBROWSER);

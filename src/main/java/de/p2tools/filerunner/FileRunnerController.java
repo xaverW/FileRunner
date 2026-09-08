@@ -22,8 +22,8 @@ import de.p2tools.filerunner.controller.worker.CompareFileListFactory;
 import de.p2tools.filerunner.gui.GuiDirRunner;
 import de.p2tools.filerunner.gui.GuiFileRunner;
 import de.p2tools.filerunner.gui.StatusBarController;
-import de.p2tools.filerunner.gui.picon.PIconFactory;
 import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
+import de.p2tools.p2lib.ikonli.P2IconFactory;
 import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -107,7 +107,7 @@ public class FileRunnerController extends StackPane {
         maskerPane.toFront();
 
         Button btnStop = maskerPane.getButton();
-        btnStop.setGraphic(PIconFactory.PICON.BTN_CLEAR.getFontIcon());
+        btnStop.setGraphic(P2IconFactory.P2ICON.BTN_CLEAR.getFontIcon());
         btnStop.setOnAction(e -> progData.worker.setStop());
         maskerPane.setButtonText("");
         maskerPane.setButtonVisible(true);

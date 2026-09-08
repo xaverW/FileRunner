@@ -27,6 +27,7 @@ import de.p2tools.p2lib.dialogs.P2DirFileChooser;
 import de.p2tools.p2lib.guitools.P2ComboBoxString;
 import de.p2tools.p2lib.guitools.P2TextField;
 import de.p2tools.p2lib.guitools.grid.P2GridConstraints;
+import de.p2tools.p2lib.ikonli.P2IconFactory;
 import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.file.P2FileName;
@@ -106,9 +107,9 @@ public class GuiFilePane extends VBox {
 
     public void setTxtHashOk(boolean ok, boolean vis) {
         if (ok) {
-            lblHashOk.setGraphic(PIconFactory.PICON.ICON_BOOLEAN_ON.getFontIcon());
+            lblHashOk.setGraphic(P2IconFactory.P2ICON.P2_BTN_BOOLEAN_ON.getFontIcon());
         } else {
-            lblHashOk.setGraphic(PIconFactory.PICON.ICON_BOOLEAN_OFF.getFontIcon());
+            lblHashOk.setGraphic(P2IconFactory.P2ICON.P2_BTN_BOOLEAN_OFF.getFontIcon());
         }
         lblHashOk.setVisible(vis);
     }
@@ -142,7 +143,7 @@ public class GuiFilePane extends VBox {
         cboGenHashFromFile.disableProperty().bind(rbFileOrUrl.selectedProperty().not()
                 .or(isRunning));
 
-        btnSelectFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
+        btnSelectFile.setGraphic(P2IconFactory.P2ICON.P2_BTN_OPEN_DIR.getFontIcon());
         btnSelectFile.setTooltip(new Tooltip("Datei zum Erstellen des Hash auswählen."));
         btnSelectFile.disableProperty().bind(rbFileOrUrl.selectedProperty().not()
                 .or(isRunning));
@@ -168,7 +169,7 @@ public class GuiFilePane extends VBox {
         cboReadHashFile.disableProperty().bind(rbReadHashFile.selectedProperty().not()
                 .or(isRunning));
 
-        btnSelectHashFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
+        btnSelectHashFile.setGraphic(P2IconFactory.P2ICON.P2_BTN_OPEN_DIR.getFontIcon());
         btnSelectHashFile.setTooltip(new Tooltip("Datei mit Hash-Werten auswählen."));
         btnSelectFile.disableProperty().bind(rbReadHashFile.selectedProperty().not()
                 .or(isRunning));
@@ -204,12 +205,12 @@ public class GuiFilePane extends VBox {
                 .or(txtHash.textProperty().isEmpty())
                 .or(isRunning));
 
-        btnSelectHashFileForStoring.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
+        btnSelectHashFileForStoring.setGraphic(P2IconFactory.P2ICON.P2_BTN_OPEN_DIR.getFontIcon());
         btnSelectHashFileForStoring.setTooltip(new Tooltip("Datei zum Speichern auswählen."));
         btnSelectHashFileForStoring.disableProperty().bind(cboWriteHash.disableProperty()
                 .or(isRunning));
 
-        btnProposeStoringHashFileName.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
+        btnProposeStoringHashFileName.setGraphic(P2IconFactory.P2ICON.BTN_ROTATE_3D.getFontIcon());
         btnProposeStoringHashFileName.setTooltip(new Tooltip("Einen Dateinamen vorschlagen."));
         btnProposeStoringHashFileName.disableProperty().bind(cboWriteHash.disableProperty());
     }
