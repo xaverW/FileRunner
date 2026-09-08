@@ -44,7 +44,7 @@ public class ProgConst {
 
     public static final int COMPARE_PATH_NAME = 0;
     public static final int COMPARE_NAME = 1;
-    public static final int COMPARE_ALL = 2;
+    public static final int COMPARE_HASH = 2;
 
     public static final int MIN_TABLE_HEIGHT = 200;
 

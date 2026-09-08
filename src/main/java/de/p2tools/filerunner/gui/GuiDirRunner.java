@@ -139,12 +139,12 @@ public class GuiDirRunner extends AnchorPane {
 
         RadioButton rbFilePath = new RadioButton("Pfad/Dateinamen und Hash");
         RadioButton rbFileName = new RadioButton("Dateinamen und Hash");
-        RadioButton rbFileAll = new RadioButton("Hash");
+        RadioButton rbFileHash = new RadioButton("Hash");
         rbFilePath.setTooltip(new Tooltip("Dateien sind gleich, wenn der \"Pfad/Name/Hash\" gleich ist"));
         rbFileName.setTooltip(new Tooltip("Dateien sind gleich, wenn der \"Name/Hash\" gleich ist"));
-        rbFileAll.setTooltip(new Tooltip("Dateien sind gleich, wenn der \"Hash\" gleich ist, Name und Pfad sind egal"));
+        rbFileHash.setTooltip(new Tooltip("Dateien sind gleich, wenn der \"Hash\" gleich ist, Name und Pfad sind egal"));
         ToggleGroup tg = new ToggleGroup();
-        tg.getToggles().addAll(rbFilePath, rbFileName, rbFileAll);
+        tg.getToggles().addAll(rbFilePath, rbFileName, rbFileHash);
         switch (ProgConfig.CONFIG_COMPARE_FILE.getValue()) {
             case ProgConst.COMPARE_PATH_NAME:
                 rbFilePath.setSelected(true);
@@ -152,26 +152,32 @@ public class GuiDirRunner extends AnchorPane {
             case ProgConst.COMPARE_NAME:
                 rbFileName.setSelected(true);
                 break;
-            case ProgConst.COMPARE_ALL:
-                rbFileAll.setSelected(true);
+            case ProgConst.COMPARE_HASH:
+                rbFileHash.setSelected(true);
                 break;
         }
 
-        markRadio(rbFilePath, rbFileName, rbFileAll);
+        markRadio(rbFilePath, rbFileName, rbFileHash);
         rbFilePath.selectedProperty().addListener((v, o, n) -> {
-            markRadio(rbFilePath, rbFileName, rbFileAll);
-            ProgConfig.CONFIG_COMPARE_FILE.setValue(ProgConst.COMPARE_PATH_NAME);
-            CompareFileListFactory.compareList();
+            if (n) {
+                markRadio(rbFilePath, rbFileName, rbFileHash);
+                ProgConfig.CONFIG_COMPARE_FILE.setValue(ProgConst.COMPARE_PATH_NAME);
+                CompareFileListFactory.compareList();
+            }
         });
         rbFileName.selectedProperty().addListener((v, o, n) -> {
-            markRadio(rbFilePath, rbFileName, rbFileAll);
-            ProgConfig.CONFIG_COMPARE_FILE.setValue(ProgConst.COMPARE_NAME);
-            CompareFileListFactory.compareList();
+            if (n) {
+                markRadio(rbFilePath, rbFileName, rbFileHash);
+                ProgConfig.CONFIG_COMPARE_FILE.setValue(ProgConst.COMPARE_NAME);
+                CompareFileListFactory.compareList();
+            }
         });
-        rbFileAll.selectedProperty().addListener((v, o, n) -> {
-            markRadio(rbFilePath, rbFileName, rbFileAll);
-            ProgConfig.CONFIG_COMPARE_FILE.setValue(ProgConst.COMPARE_ALL);
-            CompareFileListFactory.compareList();
+        rbFileHash.selectedProperty().addListener((v, o, n) -> {
+            if (n) {
+                markRadio(rbFilePath, rbFileName, rbFileHash);
+                ProgConfig.CONFIG_COMPARE_FILE.setValue(ProgConst.COMPARE_HASH);
+                CompareFileListFactory.compareList();
+            }
         });
 
         HBox hBoxHash = new HBox(10);
@@ -182,7 +188,7 @@ public class GuiDirRunner extends AnchorPane {
                 lblHash, P2GuiTools.getHDistance(20),
                 rbFilePath, P2GuiTools.getHDistance(20),
                 rbFileName, P2GuiTools.getHDistance(20),
-                rbFileAll, P2GuiTools.getHBoxGrower(), btnHelpPathHash);
+                rbFileHash, P2GuiTools.getHBoxGrower(), btnHelpPathHash);
 
         //== add all ==
         vBoxAll.getChildren().addAll(splitPane, hBoxHash);

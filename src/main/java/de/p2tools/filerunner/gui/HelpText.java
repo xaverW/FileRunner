@@ -26,12 +26,9 @@ public class HelpText {
 
     public static final String COMPARE_BUTTON = "" +
             "1. Zeigt alle Dateien" + P2LibConst.LINE_SEPARATORx2 +
-
             "2. Zeigt Dateien die gleich und in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
-
             "3. Zeigt Dateien die sich unterscheiden UND in beiden Listen enthalten sind" + P2LibConst.LINE_SEPARATOR +
             "4. Zeigt Dateien die sich unterscheiden ODER nur in einer Liste enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
-
             "5. Zeigt Dateien die nur in der linken Liste enthalten sind" + P2LibConst.LINE_SEPARATOR +
             "6. Zeigt Dateien die nur in der rechten Liste enthalten sind" + P2LibConst.LINE_SEPARATORx2 +
             "Der Button unten startet das Einlesen der beiden Testordner (oder Zipdatei/Hashdatei)";

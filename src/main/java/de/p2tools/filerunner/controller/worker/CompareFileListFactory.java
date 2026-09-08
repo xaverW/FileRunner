@@ -28,14 +28,16 @@ import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.Collection;
+import java.util.HashMap;
 
 public class CompareFileListFactory {
     private static boolean stop = false;
     private static int id = 0;
+    private static int count = 0;
     private static final BooleanProperty running = new SimpleBooleanProperty(false);
     private static final Object obj = new Object();
 
@@ -81,8 +83,6 @@ public class CompareFileListFactory {
             fd.setFileNameId(0);
             fd.setHashId(0);
         });
-        ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
-                "Dateien vergleichen", 2, 5));
         fileDataList2.forEach(fd -> {
             fd.setOnly(true);
             fd.setDiff(false);
@@ -94,46 +94,22 @@ public class CompareFileListFactory {
         //jetzt die Dateien vergleichen
         switch (ProgConfig.CONFIG_COMPARE_FILE.getValue()) {
             case ProgConst.COMPARE_PATH_NAME:
-                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
-                        "Dateien vergleichen", 3, 5));
                 P2Log.sysLog("ProgConst.COMPARE_PATH_NAME");
-                compareWithPathAndSetId(fileDataList1, fileDataList2);
-
-                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
-                        "Dateien vergleichen", 4, 5));
+                compareWithPathName(fileDataList1, fileDataList2);
                 fileDataList1.forEach(fileData -> fileData.setId(fileData.getFilePathId()));
-
-                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
-                        "Dateien vergleichen", 5, 5));
                 fileDataList2.forEach(fileData -> fileData.setId(fileData.getFilePathId()));
                 break;
             case ProgConst.COMPARE_NAME:
-                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
-                        "Dateien vergleichen", 3, 5));
-                compareWithNameAndSetId(fileDataList1, fileDataList2);
-
-                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
-                        "Dateien vergleichen", 4, 5));
-                P2Log.sysLog("CompareFileListFactory: fileDataList1.stream()");
+                P2Log.sysLog("ProgConst.COMPARE_NAME");
+                compareWithName(fileDataList1, fileDataList2);
                 fileDataList1.forEach(fileData -> fileData.setId(fileData.getFileNameId()));
-
-                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
-                        "Dateien vergleichen", 5, 5));
-                P2Log.sysLog("CompareFileListFactory: fileDataList2.stream()");
                 fileDataList2.forEach(fileData -> fileData.setId(fileData.getFileNameId()));
                 break;
 
-            case ProgConst.COMPARE_ALL:
-                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
-                        "Dateien vergleichen", 3, 5));
-                compareWithHashAndSetId(fileDataList1, fileDataList2);
-
-                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
-                        "Dateien vergleichen", 4, 5));
+            case ProgConst.COMPARE_HASH:
+                P2Log.sysLog("ProgConst.COMPARE_PATH_HASH");
+                compareWithHash(fileDataList1, fileDataList2);
                 fileDataList1.forEach(fileData -> fileData.setId(fileData.getHashId()));
-
-                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
-                        "Dateien vergleichen", 5, 5));
                 fileDataList2.forEach(fileData -> fileData.setId(fileData.getHashId()));
                 break;
         }
@@ -148,46 +124,30 @@ public class CompareFileListFactory {
         return ++id;
     }
 
-    private static void setOnlyDiff(FileDataList fileDataList1, FileDataList fileDataList2) {
-        //only und diff setzen
-        fileDataList1.forEach(fd1 -> {
-            if (stop) {
-                return;
-            }
-
-            Optional<FileData> opt = fileDataList2.stream()
-                    .filter(data -> data.getPathFileName().equals(fd1.getPathFileName()))
-                    .findAny();
-            if (opt.isPresent()) {
-                FileData fd2 = opt.get();
-                //dann gibts schon mal eine mit gleichem Pfad/Namen
-                fd1.setOnly(false);
-                fd2.setOnly(false);
-                if (!fd1.getHash().equals(fd2.getHash())) {
-                    //dann sind sie nicht gleich
-                    fd1.setDiff(true);
-                    fd2.setDiff(true);
-                }
-            }
-        });
-    }
-
-    private static void compareWithPathAndSetId(FileDataList fileDataList1, FileDataList fileDataList2) {
-        //und hier Dateien mit Pfad vergleichen und ID setzen
+    private static void compareWithPathName(FileDataList fileDataList1, FileDataList fileDataList2) {
+        // Dateien mit Pfad/Name vergleichen und ID setzen
         P2Log.sysLog("Vergleichen von Dateien mit gleichem Verzeichnis/Namen:" + P2LibConst.LINE_SEPARATOR
                 + fileDataList1.getSourceDir() + P2LibConst.LINE_SEPARATOR + fileDataList2.getSourceDir());
+        ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                "Dateien vergleichen", 0, fileDataList1.size()));
+
+        HashMap<String, FileData> map2 = new HashMap<>();
+        fileDataList2.forEach(f -> map2.put(f.getPathFileName(), f));
 
         fileDataList1.forEach(fd1 -> {
             if (stop) {
                 return;
             }
 
-            FileData fd2;
-            fd2 = fileDataList2.stream().filter(data -> data.getPathFileName().equals(fd1.getPathFileName()))
-                    .findFirst().orElse(null);
+            ++count;
+            if (count % 1000 == 0) {
+                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                        "Dateien vergleichen", count, fileDataList1.size()));
+            }
 
+            FileData fd2 = map2.get(fd1.getPathFileName());
             if (fd2 != null) {
-                //dann gibts schon mal eine mit gleichem Namen
+                //dann gibts schon mal eine mit gleichem Pfad/Namen
                 fd1.setOnly(false);
                 fd2.setOnly(false);
 
@@ -204,168 +164,114 @@ public class CompareFileListFactory {
         });
     }
 
-    private static void compareWithNameAndSetId(FileDataList fileDataList1, FileDataList fileDataList2) {
-        //hier werden Dateien mit dem gleich Namen vergleichen und ID setzen
-        //gleich sind sie, wenn ALLE Dateien mit dem gleichen Namen auch gleich sind!!!
+    private static void compareWithName(FileDataList fileDataList1, FileDataList fileDataList2) {
+        // Dateien mit dem gleich Namen vergleichen und ID setzen
+        // gleich sind sie, wenn ALLE Dateien mit dem gleichen Namen auch gleich sind!!!
         P2Log.sysLog("Vergleichen von Dateien mit gleichem Namen:" + P2LibConst.LINE_SEPARATOR
                 + fileDataList1.getSourceDir() + P2LibConst.LINE_SEPARATOR + fileDataList2.getSourceDir());
+        ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                "Dateien vergleichen", 0, fileDataList1.size()));
 
-        //only
-        fileDataList1.stream().filter(fileData -> fileData.isOnly())
-                //sonst hammers schon
-                .forEach(fd1 -> {
-                    if (stop) {
-                        return;
-                    }
+        MultiValuedMap<String, FileData> multiMap1 = new ArrayListValuedHashMap<>();
+        fileDataList1.forEach(f -> multiMap1.put(f.getFileName(), f));
 
-                    Optional<FileData> optional;
-                    optional = fileDataList2.stream()
-                            //nur noch die noch nicht erwischten prüfen
-                            .filter(fd2 -> fd2.getFileName().equals(fd1.getFileName())).findAny();
-                    if (optional.isPresent()) {
-                        fileDataList1.stream()
-                                //dann wird auch fd1 mit erwischt
-                                .filter(fileData -> fileData.getFileName().equals(fd1.getFileName()))
-                                .forEach(fileData -> fileData.setOnly(false));
-                        fileDataList2.stream()
-                                //dann wird auch fd1 mit erwischt
-                                .filter(fileData -> fileData.getFileName().equals(fd1.getFileName()))
-                                .forEach(fileData -> fileData.setOnly(false));
-                    }
-                });
+        MultiValuedMap<String, FileData> multiMap2 = new ArrayListValuedHashMap<>();
+        fileDataList2.forEach(f -> multiMap2.put(f.getFileName(), f));
 
-        //und jetzt werden nur Dateien mit "not ONLY" verglichen
-        ArrayList<FileData> listFound = new ArrayList<>();
-        ArrayList<FileData> listNotFound = new ArrayList<>();
+        fileDataList1.forEach(fd1 -> {
+            if (stop) {
+                return;
+            }
 
-        fileDataList1.stream().filter(fileData -> !fileData.isOnly())
-                .forEach(fd1 -> {
+            ++count;
+            if (count % 1000 == 0) {
+                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                        "Dateien vergleichen", count, fileDataList1.size()));
+            }
 
-                    Optional<FileData> optional;
-                    boolean found = false;
-                    optional = fileDataList1.stream()
-                            .filter(fileData -> !fileData.equals(fd1) &&
-                                    fileData.getFileName().equals(fd1.getFileName()) &&
-                                    !fileData.getHash().equals(fd1.getHash())).findAny();
+            boolean found = false;
+            Collection<FileData> coll1 = multiMap1.get(fd1.getFileName());
+            Collection<FileData> coll2 = multiMap2.get(fd1.getFileName());
 
-                    if (optional.isPresent()) {
+            if (!coll2.isEmpty()) {
+                // nur wenn auch in coll2 was ist, sonst gibts keine
+                for (FileData fd2 : coll2) {
+                    fd2.setOnly(false);
+                    if (!fd2.getHash().equals(fd1.getHash())) {
+                        // und dann sind sie aber nicht gleich
                         found = true;
                     }
+                }
 
-                    if (!found) {
-                        //dann versuchen wirs noch in der 2. Liste
-                        optional = fileDataList2.stream()
-                                .filter(fd -> fd.getFileName().equals(fd1.getFileName()) &&
-                                        !fd.getHash().equals(fd1.getHash())).findAny();
-                        if (optional.isPresent()) {
-                            found = true;
-                        }
+                // dann auch noch im 1er schauen, muss auf jeden Fall um die doppelten zu erwischen
+                for (FileData fd11 : coll1) {
+                    fd11.setOnly(false);
+                    if (!fd11.getHash().equals(fd1.getHash())) {
+                        found = true;
                     }
+                }
+            }
 
-                    if (!found) {
-                        //dann sind alle gleich :)
-                        final int i;
-                        if (fd1.getFileNameId() > 0) {
-                            i = fd1.getFileNameId();
-                        } else {
-                            getNextId();
-                            i = id;
-                        }
-                        fileDataList1.stream().filter(fd -> fd.getFileName().equals(fd1.getFileName()))
-                                .forEach(fd -> fd.setFileNameId(i));
-                        fileDataList2.stream().filter(fd -> fd.getFileName().equals(fd1.getFileName()))
-                                .forEach(fd -> fd.setFileNameId(i));
+            if (!found) {
+                //dann sind alle gleich :)
+                final int i = fd1.getFileNameId() > 0 ? fd1.getFileNameId() : getNextId();
+                coll1.forEach(f -> f.setFileNameId(i));
+                coll2.forEach(f -> f.setFileNameId(i));
 
-                    } else {
-                        //dann gibts unterschiedliche Hashes bei diesem
-                        fileDataList1.stream().filter(fd -> fd.getFileName().equals(fd1.getFileName()))
-                                .forEach(fd -> fd.setDiff(true));
-                        fileDataList2.stream().filter(fd -> fd.getFileName().equals(fd1.getFileName()))
-                                .forEach(fd -> fd.setDiff(true));
-                    }
-                });
+            } else {
+                //dann gibts unterschiedliche Hashes bei diesem
+                coll1.forEach(f -> f.setDiff(true));
+                coll2.forEach(f -> f.setDiff(true));
+            }
+        });
     }
 
-    private static void compareWithHashAndSetId(FileDataList fileDataList1, FileDataList fileDataList2) {
-        //und hier Dateien nur mit dem Hash vergleichen und ID setzen
+    private static void compareWithHash(FileDataList fileDataList1, FileDataList fileDataList2) {
+        // Dateien nur mit dem Hash vergleichen und ID setzen
+        int max = 4;
         P2Log.sysLog("Vergleichen mit Hash:" + P2LibConst.LINE_SEPARATOR
                 + fileDataList1.getSourceDir() + P2LibConst.LINE_SEPARATOR + fileDataList2.getSourceDir());
-        HashSet<String> hashset = new HashSet<>(fileDataList1.getSize());
+        ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                "Dateien vergleichen", 0, max));
 
-        //mit der anderen Liste vergleichen
-        //erst mal das HashSet füllen
-        fileDataList1.stream().forEach(fd1 -> {
-            fileDataList2.stream().filter(fd2 -> fd2.getHash().equals(fd1.getHash()))
-                    .forEach(fd2 -> {
-                        if (stop) {
-                            return;
-                        }
-                        hashset.add(fd1.getHash());
-                    });
-        });
+        MultiValuedMap<String, FileData> multiMap1 = new ArrayListValuedHashMap<>();
+        fileDataList1.forEach(f -> multiMap1.put(f.getHash(), f));
 
-        //und jetzt die ID setzen
-        fileDataList1.stream().forEach(fd1 -> {
-            fileDataList2.stream().filter(fd2 -> fd2.getHash().equals(fd1.getHash()))
-                    .forEach(fd2 -> {
-                        if (stop) {
-                            return;
-                        }
+        MultiValuedMap<String, FileData> multiMap2 = new ArrayListValuedHashMap<>();
+        fileDataList2.forEach(f -> multiMap2.put(f.getHash(), f));
 
-                        fd1.setOnly(false);
-                        fd2.setOnly(false);
-                        //und dann sind sie auch noch gleich
-                        if (fd1.getHashId() == 0) {
-                            int no = getFromHashSet(hashset, fd1.getHash());
-                            fd1.setHashId(no);
-                            fd2.setHashId(no);
 
-                        } else {
-                            fd2.setHashId(fd1.getHashId());
-                        }
-                    });
-        });
-
-        //in den eigenen Listen doppelte suchen
-        searchInList(fileDataList1);
-        searchInList(fileDataList2);
-    }
-
-    private static int getFromHashSet(HashSet<String> hashSet, String search) {
-        int ret = 0;
-        for (String h : hashSet) {
-            ++ret;
-            if (h.equals(search)) {
-                break;
+        // ======================================
+        // die ID setzen
+        P2Log.sysLog("Vergleichen mit Hash, ==== 2 ====:");
+        fileDataList1.forEach(fd1 -> {
+            ++count;
+            if (count % 1000 == 0) {
+                ProgData.getInstance().pEventHandler.notifyListener(new P2Event(Events.GENERATE_COMPARE_FILE_LIST,
+                        "Dateien vergleichen", count, fileDataList1.size()));
             }
-        }
-        return ret;
-    }
 
-    private static void searchInList(FileDataList fileDataList) {
-        //und jetzt noch doppelte in der eigenen Liste suchen
-        fileDataList.stream()
-                .filter(fileData -> {
-                    //und nur markieren, wenn es auch welche in der anderen Liste gibt und die
-                    //HashId damit >0 ist!!
-                    if (fileData.getHashId() > 0) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                })
-                .forEach(fd1 -> {
-                    if (stop) {
-                        return;
-                    }
-                    fileDataList.stream()
-                            .filter(fd2 -> !fd2.equals(fd1) && fd2.getHashId() == 0 &&
-                                    fd2.getHash().equals(fd1.getHash()))
-                            .forEach(fd3 -> {
-                                fd1.setOnly(false);
-                                fd3.setOnly(false);
-                                fd3.setHashId(fd1.getHashId());
-                            });
+            Collection<FileData> col2 = multiMap2.get(fd1.getHash());
+            if (!col2.isEmpty()) {
+                // den 1er setzen
+                fd1.setOnly(false);
+                if (fd1.getHashId() == 0) {
+                    fd1.setHashId(getNextId());
+                }
+
+                // alle 2er setzen
+                col2.forEach(fd2 -> {
+                    fd2.setOnly(false);
+                    fd2.setHashId(fd1.getHashId());
                 });
+
+                // und alle gleichen 1er auch setzen
+                Collection<FileData> col1 = multiMap1.get(fd1.getHash());
+                col1.forEach(f -> {
+                    f.setOnly(false);
+                    f.setHashId(fd1.getHashId());
+                });
+            }
+        });
     }
 }
