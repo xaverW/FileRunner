@@ -1,0 +1,103 @@
+/*
+ * P2Tools Copyright (C) 2023 W. Xaver W.Xaver[at]googlemail.com
+ * https://www.p2tools.de/
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation, either version 3 of the
+ * License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program. If
+ * not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+.root{
+    -style-tab-border-color-1: #4169E1; /*royalblue*/
+}
+
+.headerLabelVertikal {
+    -fx-rotate: -90;
+    -fx-text-fill: black;
+    -fx-padding: 5 10 5 10;
+    -fx-border-width: 1;
+    -fx-border-radius: 15;
+    -fx-border-insets: 0;
+    -fx-border-color: -style-tab-border-color-1;
+    -fx-background-radius: 15;
+    -fx-background-insets: 0;
+      -fx-background-color: #5d5e8c,
+             linear-gradient(from 0% 0% to 100% 100%, #d6d6d6 70%, white 100%),
+             radial-gradient(center 80% -70%, radius 200%, #e6e6e6 35%, rgba(230,230,230,0) 40%);
+}
+
+.txtHashOk {
+    -fx-border-width: 3;
+    -fx-border-color: green;
+}
+.txtHashNotOk {
+    -fx-border-width: 3;
+    -fx-border-color: red;
+}
+.txtHash {
+    -fx-border-width: 3;
+    -fx-border-color: lightgray;
+}
+.txtHash:focused {
+    -fx-border-width: 3;
+    -fx-border-color: transparent;
+}
+
+.lblSize {
+    -fx-font-weight: bold;
+}
+
+.lblTable {
+    -fx-font-weight: bold;
+    -fx-border-width: 3;
+    -fx-border-radius: 15;
+    -fx-border-color: lightgray;
+    -fx-padding: 5 15 5 15;
+  }
+
+.btnFilter {
+    -fx-padding: 5 15 5 15;
+      -fx-border-width: 1;
+      -fx-border-color: -pGuiColor;
+      -fx-border-radius: 50;
+      -fx-background-radius: 50;
+      -fx-background-color: -pBackgroundColor;
+}
+
+.btnFilter:selected {
+    -fx-padding: 5 15 5 15;
+    -fx-border-width: 3;
+    -fx-border-color: -pGuiColor;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-background-color: -pBackgroundColor;
+}
+
+.pFuncBtnSpeed{
+    -fx-padding: 2 12 2 12;
+    -fx-border-width: 4;
+}
+.pFuncBtnSpeed:focused{
+    -fx-padding: 2 12 2 12;
+    -fx-border-width: 4;
+}
+.pFuncBtnSpeed:hover{
+    -fx-padding: 2 12 2 12;
+    -fx-border-width: 4;
+}
+.pFuncBtnSpeed:focused:hover{
+    -fx-padding: 2 12 2 12;
+    -fx-border-width: 4;
+ }
+.pFuncBtnSpeed:pressed:focused:hover{
+    -fx-padding: 2 12 2 12;
+    -fx-border-width: 4;
+}

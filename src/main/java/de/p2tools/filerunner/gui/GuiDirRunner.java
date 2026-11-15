@@ -71,7 +71,7 @@ public class GuiDirRunner extends AnchorPane {
         guiDirPane2 = new GuiDirPane(progData, fileDataFilter2, false);
 
         initCont();
-        setSpeed();
+        initSpeed();
         initSplit();
         addToggleGroup();
         addListener();
@@ -93,21 +93,23 @@ public class GuiDirRunner extends AnchorPane {
         guiDirPane2.saveTable();
     }
 
-    private void setSpeed() {
+    private void initSpeed() {
         btnSpeed.setTooltip(new Tooltip("Damit kann der Speed-Mode ein-/ausgeschaltet werden"));
-        if (ProgConfig.CONFIG_RUN_SPEED.get()) {
-            btnSpeed.setGraphic(PIconFactory.PICON.BTN_SPEED.getFontIcon());
-        } else {
-            btnSpeed.setGraphic(PIconFactory.PICON.BTN_SPEED_LOW.getFontIcon());
-        }
+        setSpeed();
         ProgConfig.CONFIG_RUN_SPEED.addListener((u, o, n) -> {
-            if (ProgConfig.CONFIG_RUN_SPEED.get()) {
-                btnSpeed.setGraphic(PIconFactory.PICON.BTN_SPEED.getFontIcon());
-            } else {
-                btnSpeed.setGraphic(PIconFactory.PICON.BTN_SPEED_LOW.getFontIcon());
-            }
+            setSpeed();
         });
         btnSpeed.setOnAction(a -> ProgConfig.CONFIG_RUN_SPEED.set(!ProgConfig.CONFIG_RUN_SPEED.get()));
+    }
+
+    private void setSpeed() {
+        if (ProgConfig.CONFIG_RUN_SPEED.get()) {
+            btnSpeed.setGraphic(PIconFactory.PICON.BTN_SPEED.getFontIcon());
+            btnSpeed.getStyleClass().add("pFuncBtnSpeed");
+        } else {
+            btnSpeed.setGraphic(PIconFactory.PICON.BTN_SPEED_LOW.getFontIcon());
+            btnSpeed.getStyleClass().remove("pFuncBtnSpeed");
+        }
     }
 
     private void initCont() {

@@ -38,12 +38,10 @@ import javafx.scene.layout.StackPane;
 public class FileRunnerController extends StackPane {
 
     private final P2MaskerPane maskerPane = new P2MaskerPane();
-    BorderPane borderPane = new BorderPane();
-
-    Button btnDirRunner = new Button("Ordner vergleichen");
-    Button btnFileRunner = new Button("Dateien vergleichen");
-
-    StackPane stackPaneCont = new StackPane();
+    private final BorderPane borderPane = new BorderPane();
+    private final Button btnDirRunner = new Button("Ordner vergleichen");
+    private final Button btnFileRunner = new Button("Dateien vergleichen");
+    private final StackPane stackPaneCont = new StackPane();
     private StatusBarController statusBarController;
 
     private final ProgData progData;
