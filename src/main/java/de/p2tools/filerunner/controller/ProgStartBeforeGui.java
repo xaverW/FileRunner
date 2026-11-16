@@ -69,16 +69,12 @@ public class ProgStartBeforeGui {
                 ProgConfig.SYSTEM_CSS_ADDER,
 
                 new String[]{
-                        "de/p2tools/filerunner/css/p2.css",
-                        "de/p2tools/filerunner/css/pFuncBtn.css",
-                        "de/p2tools/filerunner/css/pFuncMenu.css",
-                        "de/p2tools/filerunner/css/pFuncTitleBar.css",
-                        "de/p2tools/filerunner/css/pFuncTips.css",
-                        "de/p2tools/filerunner/css/pFuncStartDialog.css"
+                        "de/p2tools/filerunner/css/filerunner.css",
+                        "de/p2tools/filerunner/css/pFuncTitleBar.css"
                 },
 
                 new String[]{
-                        "de/p2tools/filerunner/css/p2-dark.css"
+                        "de/p2tools/filerunner/css/filerunner-dark.css"
                 },
 
                 new SimpleObjectProperty<>(P2CssFactory.CSS.CSS_1),
